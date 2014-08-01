@@ -1,0 +1,15 @@
+   PSEC Library
+   Copyright 2014 Pedro A. Hortas
+
+   This product includes software developed by
+   Pedro A. Hortas on behalf of uCodev (http://www.ucodev.org)
+
+   Portions of this software were developed by the authors of
+   the following RFCs:
+        - RFC1321
+        - RFC4634
+
+   This software contains code derived from the RSA Data Security
+   Inc. (MD5 Message-Digest Algorithm), and code derived by The
+   Internet Society (US Secure Hash Algorithms).
+
