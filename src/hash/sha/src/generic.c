@@ -35,12 +35,16 @@
 #include "sha.h"
 
 /* SHA1 Generic Interface */
-char *sha1_generic_create(const char *in, size_t len) {
+char *sha1_generic_create(char *out, const char *in, size_t len) {
 	SHA1Context sha1;
 	uint8_t *digest = NULL;
 
-	if (!(digest = malloc(SHA1HashSize)))
-		return NULL;
+	if (!out) {
+		if (!(digest = malloc(SHA1HashSize)))
+			return NULL;
+	} else {
+		digest = (uint8_t *) out;
+	}
 
 	SHA1Reset(&sha1);
 	SHA1Input(&sha1, (const uint8_t *) in, len);
@@ -59,12 +63,16 @@ void sha1_generic_destroy(char *digest) {
 }
 
 /* SHA224 Generic Interface */
-char *sha224_generic_create(const char *in, size_t len) {
+char *sha224_generic_create(char *out, const char *in, size_t len) {
 	SHA224Context sha224;
 	uint8_t *digest = NULL;
 
-	if (!(digest = malloc(SHA224HashSize)))
-		return NULL;
+	if (!out) {
+		if (!(digest = malloc(SHA224HashSize)))
+			return NULL;
+	} else {
+		digest = (uint8_t *) out;
+	}
 
 	SHA224Reset(&sha224);
 	SHA224Input(&sha224, (const uint8_t *) in, len);
@@ -83,12 +91,16 @@ void sha224_generic_destroy(char *digest) {
 }
 
 /* SHA256 Generic Interface */
-char *sha256_generic_create(const char *in, size_t len) {
+char *sha256_generic_create(char *out, const char *in, size_t len) {
 	SHA256Context sha256;
 	uint8_t *digest = NULL;
 
-	if (!(digest = malloc(SHA256HashSize)))
-		return NULL;
+	if (!out) {
+		if (!(digest = malloc(SHA256HashSize)))
+			return NULL;
+	} else {
+		digest = (uint8_t *) out;
+	}
 
 	SHA256Reset(&sha256);
 	SHA256Input(&sha256, (const uint8_t *) in, len);
@@ -107,12 +119,16 @@ void sha256_generic_destroy(char *digest) {
 }
 
 /* SHA384 Generic Interface */
-char *sha384_generic_create(const char *in, size_t len) {
+char *sha384_generic_create(char *out, const char *in, size_t len) {
 	SHA384Context sha384;
 	uint8_t *digest = NULL;
 
-	if (!(digest = malloc(SHA384HashSize)))
-		return NULL;
+	if (!out) {
+		if (!(digest = malloc(SHA384HashSize)))
+			return NULL;
+	} else {
+		digest = (uint8_t *) out;
+	}
 
 	SHA384Reset(&sha384);
 	SHA384Input(&sha384, (const uint8_t *) in, len);
@@ -131,12 +147,16 @@ void sha384_generic_destroy(char *digest) {
 }
 
 /* SHA512 Generic Interface */
-char *sha512_generic_create(const char *in, size_t len) {
+char *sha512_generic_create(char *out, const char *in, size_t len) {
 	SHA512Context sha512;
 	uint8_t *digest = NULL;
 
-	if (!(digest = malloc(SHA512HashSize)))
-		return NULL;
+	if (!out) {
+		if (!(digest = malloc(SHA512HashSize)))
+			return NULL;
+	} else {
+		digest = (uint8_t *) out;
+	}
 
 	SHA512Reset(&sha512);
 	SHA512Input(&sha512, (const uint8_t *) in, len);

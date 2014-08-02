@@ -27,6 +27,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -37,12 +38,16 @@ static char _nibble_to_hex_char(uint8_t nibble) {
 	return (char) nibble + (nibble < 10 ? 48 : 87);
 }
 
-char *hash_format_create_hex(const char *digest, size_t len) {
+char *hash_format_create_hex(char *out, const char *digest, size_t len) {
 	int i = 0;
 	char *fmt_digest = NULL;
 
-	if (!(fmt_digest = malloc((len * 2) + 1)))
-		return NULL;
+	if (!out) {
+		if (!(fmt_digest = malloc((len * 2) + 1)))
+			return NULL;
+	} else {
+		fmt_digest = out;
+	}
 
 	memset(fmt_digest, 0, (len * 2) + 1);
 

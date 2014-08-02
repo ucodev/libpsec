@@ -32,24 +32,24 @@
 #include "md5/include/generic.h"
 
 /* SHA Interface */
-char *hash_sha1_create(const char *in, size_t len) {
-	return sha1_generic_create(in, len);
+char *hash_sha1_create(char *out, const char *in, size_t len) {
+	return sha1_generic_create(out, in, len);
 }
 
-char *hash_sha224_create(const char *in, size_t len) {
-	return sha224_generic_create(in, len);
+char *hash_sha224_create(char *out, const char *in, size_t len) {
+	return sha224_generic_create(out, in, len);
 }
 
-char *hash_sha256_create(const char *in, size_t len) {
-	return sha256_generic_create(in, len);
+char *hash_sha256_create(char *out, const char *in, size_t len) {
+	return sha256_generic_create(out, in, len);
 }
 
-char *hash_sha384_create(const char *in, size_t len) {
-	return sha384_generic_create(in, len);
+char *hash_sha384_create(char *out, const char *in, size_t len) {
+	return sha384_generic_create(out, in, len);
 }
 
-char *hash_sha512_create(const char *in, size_t len) {
-	return sha512_generic_create(in, len);
+char *hash_sha512_create(char *out, const char *in, size_t len) {
+	return sha512_generic_create(out, in, len);
 }
 
 void hash_sha1_destroy(char *digest) {
@@ -74,8 +74,8 @@ void hash_sha512_destroy(char *digest) {
 
 
 /* MD Interface */
-char *hash_md5_create(const char *in, size_t len) {
-	return md5_generic_create(in, len);
+char *hash_md5_create(char *out, const char *in, size_t len) {
+	return md5_generic_create(out, in, len);
 }
 
 void hash_md5_destroy(char *digest) {

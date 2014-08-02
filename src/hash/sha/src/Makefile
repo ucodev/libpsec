@@ -1,5 +1,5 @@
 CC=`cat ../../../../.compiler`
-CCFLAGS=-O2 -Wall -Werror -fPIC
+CCFLAGS=-g -O2 -Wall -Werror -fPIC
 OBJS=generic.o hmac.o sha1.o sha224-256.o sha384-512.o usha.o
 INCLUDEDIRS=-I../include
 

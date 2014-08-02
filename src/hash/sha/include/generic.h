@@ -40,19 +40,19 @@
 /* Prototypes */
 
 /* SHA1 Generic Interface */
-char *sha1_generic_create(const char *in, size_t len);
+char *sha1_generic_create(char *out, const char *in, size_t len);
 void sha1_generic_destroy(char *digest);
 /* SHA224 Generic Interface */
-char *sha224_generic_create(const char *in, size_t len);
+char *sha224_generic_create(char *out, const char *in, size_t len);
 void sha224_generic_destroy(char *digest);
 /* SHA256 Generic Interface */
-char *sha256_generic_create(const char *in, size_t len);
+char *sha256_generic_create(char *out, const char *in, size_t len);
 void sha256_generic_destroy(char *digest);
 /* SHA384 Generic Interface */
-char *sha384_generic_create(const char *in, size_t len);
+char *sha384_generic_create(char *out, const char *in, size_t len);
 void sha384_generic_destroy(char *digest);
 /* SHA512 Generic Interface */
-char *sha512_generic_create(const char *in, size_t len);
+char *sha512_generic_create(char *out, const char *in, size_t len);
 void sha512_generic_destroy(char *digest);
 
 #endif

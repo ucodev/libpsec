@@ -5,15 +5,12 @@
 
 int main(void) {
 	char msg[] = "test";
-	char *digest = NULL, *fmt_digest = NULL;
+	char digest[HASH_DIGEST_SIZE_MD5], fmt_digest[(HASH_DIGEST_SIZE_MD5 * 2) + 1];
 
-	digest = hash_md5_create(msg, strlen(msg));
-	fmt_digest = hash_format_create_hex(digest, HASH_DIGEST_SIZE_MD5);
+	hash_md5_create(digest, msg, strlen(msg));
+	hash_format_create_hex(fmt_digest, digest, HASH_DIGEST_SIZE_MD5);
 
 	puts(fmt_digest);
-
-	hash_md5_destroy(digest);
-	hash_format_destroy(fmt_digest);
 
 	return 0;
 }

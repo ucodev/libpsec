@@ -33,12 +33,16 @@
 #include "md5.h"
 
 /* MD5 Generic Interface */
-char *md5_generic_create(const char *in, size_t len) {
+char *md5_generic_create(char *out, const char *in, size_t len) {
 	MD5_CTX md5;
 	char *digest = NULL;
 
-	if (!(digest = malloc(MD5_HASH_DIGEST_SIZE)))
-		return NULL;
+	if (!out) {
+		if (!(digest = malloc(MD5_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
 
 	MD5Init(&md5);
 	MD5Update(&md5, in, len);

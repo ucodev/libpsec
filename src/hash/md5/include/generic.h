@@ -35,7 +35,7 @@
 /* Prototypes */
 
 /* MD5 Generic Interface */
-char *md5_generic_create(const char *in, size_t len);
+char *md5_generic_create(char *out, const char *in, size_t len);
 void md5_generic_destroy(char *digest);
 
 #endif

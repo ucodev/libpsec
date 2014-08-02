@@ -1,6 +1,6 @@
 CC=`cat ../../.compiler`
 LD=/usr/bin/ld
-CCFLAGS=-O2 -Wall -Werror -fPIC
+CCFLAGS=-g -O2 -Wall -Werror -fPIC
 OBJS_COMMON=./md5/src/*.o ./sha/src/*.o
 OBJS=format.o generic.o
 TARGET=hash.o

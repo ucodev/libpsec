@@ -39,11 +39,11 @@
 #define HASH_DIGEST_SIZE_SHA384		48
 #define HASH_DIGEST_SIZE_SHA512		64
 /* Prototypes */
-char *hash_sha1_create(const char *in, size_t len);
-char *hash_sha224_create(const char *in, size_t len);
-char *hash_sha256_create(const char *in, size_t len);
-char *hash_sha384_create(const char *in, size_t len);
-char *hash_sha512_create(const char *in, size_t len);
+char *hash_sha1_create(char *out, const char *in, size_t len);
+char *hash_sha224_create(char *out, const char *in, size_t len);
+char *hash_sha256_create(char *out, const char *in, size_t len);
+char *hash_sha384_create(char *out, const char *in, size_t len);
+char *hash_sha512_create(char *out, const char *in, size_t len);
 void hash_sha1_destroy(char *digest);
 void hash_sha224_destroy(char *digest);
 void hash_sha256_destroy(char *digest);
@@ -55,12 +55,12 @@ void hash_sha512_destroy(char *digest);
 /* Digest sizes */
 #define HASH_DIGEST_SIZE_MD5		16
 /* Prototypes */
-char *hash_md5_create(const char *in, size_t len);
+char *hash_md5_create(char *out, const char *in, size_t len);
 void hash_md5_destroy(char *digest);
 /************************/
 /* Formatting Interface */
 /************************/
-char *hash_format_create_hex(const char *digest, size_t len);
+char *hash_format_create_hex(char *out, const char *digest, size_t len);
 void hash_format_destroy(char *fmt_digest);
 
 #endif
