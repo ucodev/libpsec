@@ -57,6 +57,11 @@ void hash_sha512_destroy(char *digest);
 /* Prototypes */
 char *hash_md5_create(const char *in, size_t len);
 void hash_md5_destroy(char *digest);
+/************************/
+/* Formatting Interface */
+/************************/
+char *hash_format_create_hex(const char *digest, size_t len);
+void hash_format_destroy(char *fmt_digest);
 
 #endif
 
