@@ -44,6 +44,8 @@ char *hash_format_create_hex(const char *digest, size_t len) {
 	if (!(fmt_digest = malloc((len * 2) + 1)))
 		return NULL;
 
+	memset(fmt_digest, 0, (len * 2) + 1);
+
 	for (i = 0; i < len; i ++) {
 		fmt_digest[(i * 2)] = _nibble_to_hex_char((digest[i] & 0xf0) >> 4);
 		fmt_digest[(i * 2) + 1] = _nibble_to_hex_char(digest[i] & 0x0f);
