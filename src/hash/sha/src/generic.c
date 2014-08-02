@@ -59,8 +59,39 @@ char *sha1_buffer(char *out, const char *in, size_t len) {
 }
 
 char *sha1_file(char *out, FILE *fp) {
-	/* TODO */
-	return NULL;
+	SHA1Context sha1;
+	size_t ret = 0;
+	int errsv = 0;
+	char buf[8192];
+	uint8_t *digest = NULL;
+
+	SHA1Reset(&sha1);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		SHA1Input(&sha1, (const uint8_t *) buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(SHA1HashSize)))
+			return NULL;
+	} else {
+		digest = (uint8_t *) out;
+	}
+
+	SHA1Result(&sha1, digest);
+
+	return (char *) digest;
 }
 
 /* SHA224 Generic Interface */
@@ -88,8 +119,39 @@ char *sha224_buffer(char *out, const char *in, size_t len) {
 }
 
 char *sha224_file(char *out, FILE *fp) {
-	/* TODO */
-	return NULL;
+	SHA224Context sha224;
+	size_t ret = 0;
+	int errsv = 0;
+	char buf[8192];
+	uint8_t *digest = NULL;
+
+	SHA224Reset(&sha224);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		SHA224Input(&sha224, (const uint8_t *) buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(SHA224HashSize)))
+			return NULL;
+	} else {
+		digest = (uint8_t *) out;
+	}
+
+	SHA224Result(&sha224, digest);
+
+	return (char *) digest;
 }
 
 /* SHA256 Generic Interface */
@@ -117,8 +179,39 @@ char *sha256_buffer(char *out, const char *in, size_t len) {
 }
 
 char *sha256_file(char *out, FILE *fp) {
-	/* TODO */
-	return NULL;
+	SHA256Context sha256;
+	size_t ret = 0;
+	int errsv = 0;
+	char buf[8192];
+	uint8_t *digest = NULL;
+
+	SHA256Reset(&sha256);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		SHA256Input(&sha256, (const uint8_t *) buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(SHA256HashSize)))
+			return NULL;
+	} else {
+		digest = (uint8_t *) out;
+	}
+
+	SHA256Result(&sha256, digest);
+
+	return (char *) digest;
 }
 
 /* SHA384 Generic Interface */
@@ -146,8 +239,39 @@ char *sha384_buffer(char *out, const char *in, size_t len) {
 }
 
 char *sha384_file(char *out, FILE *fp) {
-	/* TODO */
-	return NULL;
+	SHA384Context sha384;
+	size_t ret = 0;
+	int errsv = 0;
+	char buf[8192];
+	uint8_t *digest = NULL;
+
+	SHA384Reset(&sha384);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		SHA384Input(&sha384, (const uint8_t *) buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(SHA384HashSize)))
+			return NULL;
+	} else {
+		digest = (uint8_t *) out;
+	}
+
+	SHA384Result(&sha384, digest);
+
+	return (char *) digest;
 }
 
 /* SHA512 Generic Interface */
@@ -175,7 +299,38 @@ char *sha512_buffer(char *out, const char *in, size_t len) {
 }
 
 char *sha512_file(char *out, FILE *fp) {
-	/* TODO */
-	return NULL;
+	SHA512Context sha512;
+	size_t ret = 0;
+	int errsv = 0;
+	char buf[8192];
+	uint8_t *digest = NULL;
+
+	SHA512Reset(&sha512);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		SHA512Input(&sha512, (const uint8_t *) buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(SHA512HashSize)))
+			return NULL;
+	} else {
+		digest = (uint8_t *) out;
+	}
+
+	SHA512Result(&sha512, digest);
+
+	return (char *) digest;
 }
 

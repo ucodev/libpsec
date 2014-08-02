@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include "generic.h"
 #include "global.h"
@@ -53,7 +54,37 @@ char *md5_buffer(char *out, const char *in, size_t len) {
 }
 
 char *md5_file(char *out, FILE *fp) {
-	/* TODO */
-	return NULL;
+	MD5_CTX md5;
+	size_t ret = 0;
+	int errsv = 0;
+	char buf[8192], *digest = NULL;
+
+	MD5Init(&md5);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		MD5Update(&md5, buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(MD5_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	MD5Final(digest, &md5);
+
+	return digest;
 }
 
