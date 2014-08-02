@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Password-Based Key Derivation Function 2 interface 
  *
- * Date: 02-08-2014
+ * Date: 03-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -119,7 +119,7 @@ char *pbkdf2_hash(
 		out_alloc = 1;
 	}
 
-	for (i = 0, len = hash_len; len == hash_len; i ++) {
+	for (i = 0, len = hash_len; (i * hash_len) < out_size; i ++) {
 		if (!_f_hash(hash_tmp, hash, hash_len, pw, pw_len, salt, salt_len, iterations, i)) {
 			errsv = errno;
 			free(hash_tmp);
@@ -132,6 +132,8 @@ char *pbkdf2_hash(
 
 		memcpy(&out[i * hash_len], hash_tmp, len);
 	}
+
+	free(hash_tmp);
 
 	return out;
 }
