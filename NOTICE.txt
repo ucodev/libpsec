@@ -21,3 +21,6 @@
    by the authors of PSEC Library are described on the top of
    each modified file.
 
+   The file CONTRIBUTORS contain the name of direct contributors
+   to this project.
+
