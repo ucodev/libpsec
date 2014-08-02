@@ -29,6 +29,9 @@
 #ifndef LIBPSEC_GENERIC_SHA_H
 #define LIBPSEC_GENERIC_SHA_H
 
+#include <stdio.h>
+
+
 /* Definitions */
 #define SHA1_HASH_DIGEST_SIZE		20
 #define SHA224_HASH_DIGEST_SIZE		28
@@ -40,20 +43,20 @@
 /* Prototypes */
 
 /* SHA1 Generic Interface */
-char *sha1_generic_create(char *out, const char *in, size_t len);
-void sha1_generic_destroy(char *digest);
+char *sha1_buffer(char *out, const char *in, size_t len);
+char *sha1_file(char *out, FILE *fp);
 /* SHA224 Generic Interface */
-char *sha224_generic_create(char *out, const char *in, size_t len);
-void sha224_generic_destroy(char *digest);
+char *sha224_buffer(char *out, const char *in, size_t len);
+char *sha224_file(char *out, FILE *fp);
 /* SHA256 Generic Interface */
-char *sha256_generic_create(char *out, const char *in, size_t len);
-void sha256_generic_destroy(char *digest);
+char *sha256_buffer(char *out, const char *in, size_t len);
+char *sha256_file(char *out, FILE *fp);
 /* SHA384 Generic Interface */
-char *sha384_generic_create(char *out, const char *in, size_t len);
-void sha384_generic_destroy(char *digest);
+char *sha384_buffer(char *out, const char *in, size_t len);
+char *sha384_file(char *out, FILE *fp);
 /* SHA512 Generic Interface */
-char *sha512_generic_create(char *out, const char *in, size_t len);
-void sha512_generic_destroy(char *digest);
+char *sha512_buffer(char *out, const char *in, size_t len);
+char *sha512_file(char *out, FILE *fp);
 
 #endif
 

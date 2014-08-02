@@ -39,29 +39,33 @@
 #define HASH_DIGEST_SIZE_SHA384		48
 #define HASH_DIGEST_SIZE_SHA512		64
 /* Prototypes */
-char *hash_sha1_create(char *out, const char *in, size_t len);
-char *hash_sha224_create(char *out, const char *in, size_t len);
-char *hash_sha256_create(char *out, const char *in, size_t len);
-char *hash_sha384_create(char *out, const char *in, size_t len);
-char *hash_sha512_create(char *out, const char *in, size_t len);
-void hash_sha1_destroy(char *digest);
-void hash_sha224_destroy(char *digest);
-void hash_sha256_destroy(char *digest);
-void hash_sha384_destroy(char *digest);
-void hash_sha512_destroy(char *digest);
+char *hash_buffer_sha1(char *out, const char *in, size_t len);
+char *hash_buffer_sha224(char *out, const char *in, size_t len);
+char *hash_buffer_sha256(char *out, const char *in, size_t len);
+char *hash_buffer_sha384(char *out, const char *in, size_t len);
+char *hash_buffer_sha512(char *out, const char *in, size_t len);
+char *hash_file_sha1(char *out, FILE *fp);
+char *hash_file_sha224(char *out, FILE *fp);
+char *hash_file_sha256(char *out, FILE *fp);
+char *hash_file_sha384(char *out, FILE *fp);
+char *hash_file_sha512(char *out, FILE *fp);
 /****************/
 /* MD Interface */
 /****************/
 /* Digest sizes */
 #define HASH_DIGEST_SIZE_MD5		16
 /* Prototypes */
-char *hash_md5_create(char *out, const char *in, size_t len);
-void hash_md5_destroy(char *digest);
+char *hash_buffer_md5(char *out, const char *in, size_t len);
+char *hash_file_md5(char *out, FILE *fp);
 /************************/
 /* Formatting Interface */
 /************************/
-char *hash_format_create_hex(char *out, const char *digest, size_t len);
+char *hash_format_hex(char *out, const char *digest, size_t len);
 void hash_format_destroy(char *fmt_digest);
+/*********************/
+/* Generic Interface */
+/*********************/
+void hash_destroy(char *digest);
 
 #endif
 

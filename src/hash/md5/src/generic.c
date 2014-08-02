@@ -26,6 +26,7 @@
  *
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "generic.h"
@@ -33,7 +34,7 @@
 #include "md5.h"
 
 /* MD5 Generic Interface */
-char *md5_generic_create(char *out, const char *in, size_t len) {
+char *md5_buffer(char *out, const char *in, size_t len) {
 	MD5_CTX md5;
 	char *digest = NULL;
 
@@ -51,7 +52,8 @@ char *md5_generic_create(char *out, const char *in, size_t len) {
 	return digest;
 }
 
-void md5_generic_destroy(char *digest) {
-	free(digest);
+char *md5_file(char *out, FILE *fp) {
+	/* TODO */
+	return NULL;
 }
 

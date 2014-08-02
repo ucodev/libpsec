@@ -35,7 +35,7 @@
 #include "sha.h"
 
 /* SHA1 Generic Interface */
-char *sha1_generic_create(char *out, const char *in, size_t len) {
+char *sha1_buffer(char *out, const char *in, size_t len) {
 	SHA1Context sha1;
 	uint8_t *digest = NULL;
 
@@ -58,12 +58,13 @@ char *sha1_generic_create(char *out, const char *in, size_t len) {
 	return (char *) digest;
 }
 
-void sha1_generic_destroy(char *digest) {
-	free(digest);
+char *sha1_file(char *out, FILE *fp) {
+	/* TODO */
+	return NULL;
 }
 
 /* SHA224 Generic Interface */
-char *sha224_generic_create(char *out, const char *in, size_t len) {
+char *sha224_buffer(char *out, const char *in, size_t len) {
 	SHA224Context sha224;
 	uint8_t *digest = NULL;
 
@@ -86,12 +87,13 @@ char *sha224_generic_create(char *out, const char *in, size_t len) {
 	return (char *) digest;
 }
 
-void sha224_generic_destroy(char *digest) {
-	free(digest);
+char *sha224_file(char *out, FILE *fp) {
+	/* TODO */
+	return NULL;
 }
 
 /* SHA256 Generic Interface */
-char *sha256_generic_create(char *out, const char *in, size_t len) {
+char *sha256_buffer(char *out, const char *in, size_t len) {
 	SHA256Context sha256;
 	uint8_t *digest = NULL;
 
@@ -114,12 +116,13 @@ char *sha256_generic_create(char *out, const char *in, size_t len) {
 	return (char *) digest;
 }
 
-void sha256_generic_destroy(char *digest) {
-	free(digest);
+char *sha256_file(char *out, FILE *fp) {
+	/* TODO */
+	return NULL;
 }
 
 /* SHA384 Generic Interface */
-char *sha384_generic_create(char *out, const char *in, size_t len) {
+char *sha384_buffer(char *out, const char *in, size_t len) {
 	SHA384Context sha384;
 	uint8_t *digest = NULL;
 
@@ -142,12 +145,13 @@ char *sha384_generic_create(char *out, const char *in, size_t len) {
 	return (char *) digest;
 }
 
-void sha384_generic_destroy(char *digest) {
-	free(digest);
+char *sha384_file(char *out, FILE *fp) {
+	/* TODO */
+	return NULL;
 }
 
 /* SHA512 Generic Interface */
-char *sha512_generic_create(char *out, const char *in, size_t len) {
+char *sha512_buffer(char *out, const char *in, size_t len) {
 	SHA512Context sha512;
 	uint8_t *digest = NULL;
 
@@ -170,7 +174,8 @@ char *sha512_generic_create(char *out, const char *in, size_t len) {
 	return (char *) digest;
 }
 
-void sha512_generic_destroy(char *digest) {
-	free(digest);
+char *sha512_file(char *out, FILE *fp) {
+	/* TODO */
+	return NULL;
 }
 

@@ -38,7 +38,7 @@ static char _nibble_to_hex_char(uint8_t nibble) {
 	return (char) nibble + (nibble < 10 ? 48 : 87);
 }
 
-char *hash_format_create_hex(char *out, const char *digest, size_t len) {
+char *hash_format_hex(char *out, const char *digest, size_t len) {
 	int i = 0;
 	char *fmt_digest = NULL;
 

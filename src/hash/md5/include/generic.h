@@ -29,14 +29,17 @@
 #ifndef LIBPSEC_GENERIC_MD5_H
 #define LIBPSEC_GENERIC_MD5_H
 
+#include <stdio.h>
+
+
 /* Definitions */
 #define MD5_HASH_DIGEST_SIZE		16
 
 /* Prototypes */
 
 /* MD5 Generic Interface */
-char *md5_generic_create(char *out, const char *in, size_t len);
-void md5_generic_destroy(char *digest);
+char *md5_buffer(char *out, const char *in, size_t len);
+char *md5_file(char *out, FILE *fp);
 
 #endif
 
