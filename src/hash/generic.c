@@ -29,8 +29,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "sha/include/generic.h"
+#include "md4/include/generic.h"
 #include "md5/include/generic.h"
+#include "sha/include/generic.h"
+
+/* MD Interface */
+char *hash_buffer_md4(char *out, const char *in, size_t len) {
+	return md4_buffer(out, in, len);
+}
+
+char *hash_file_md4(char *out, FILE *fp) {
+	return md4_file(out, fp);
+}
+
+char *hash_buffer_md5(char *out, const char *in, size_t len) {
+	return md5_buffer(out, in, len);
+}
+
+char *hash_file_md5(char *out, FILE *fp) {
+	return md5_file(out, fp);
+}
 
 /* SHA Interface */
 char *hash_buffer_sha1(char *out, const char *in, size_t len) {
@@ -71,15 +89,6 @@ char *hash_buffer_sha512(char *out, const char *in, size_t len) {
 
 char *hash_file_sha512(char *out, FILE *fp) {
 	return sha512_file(out, fp);
-}
-
-/* MD Interface */
-char *hash_buffer_md5(char *out, const char *in, size_t len) {
-	return md5_buffer(out, in, len);
-}
-
-char *hash_file_md5(char *out, FILE *fp) {
-	return md5_file(out, fp);
 }
 
 /* Generic */

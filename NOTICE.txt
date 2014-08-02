@@ -6,12 +6,14 @@
 
    Portions of this software were developed by the authors of
    the following RFCs:
+	- RFC1320
         - RFC1321
         - RFC4634
 
    This software contains code derived from:
-        - RSA Data Security Inc. (MD5 Message-Digest Algorithm)
-        - The Internet Society (US Secure Hash Algorithms).
+        - RSA Data Security Inc. MD4 Message-Digest Algorithm
+        - RSA Data Security Inc. MD5 Message-Digest Algorithm
+        - The Internet Society, US Secure Hash Algorithms.
 
    Only the files containing original contents are covered by
    the LICENSE. The content of any other file not covered by
@@ -21,6 +23,6 @@
    by the authors of PSEC Library are described on the top of
    each modified file.
 
-   The file CONTRIBUTORS contain the name of direct contributors
+   The file CONTRIBUTORS contain the names of direct contributors
    to this project.
 

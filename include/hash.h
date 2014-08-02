@@ -58,9 +58,13 @@ char *hash_file_sha512(char *out, FILE *fp);
 /* MD Interface */
 /****************/
 /* Digest sizes */
+#define HASH_DIGEST_SIZE_MD4		16
 #define HASH_DIGEST_SIZE_MD5		16
+#define HASH_FMT_DIGEST_SIZE_MD4	((HASH_DIGEST_SIZE_MD4 * 2) + 1)
 #define HASH_FMT_DIGEST_SIZE_MD5	((HASH_DIGEST_SIZE_MD5 * 2) + 1)
 /* Prototypes */
+char *hash_buffer_md4(char *out, const char *in, size_t len);
+char *hash_file_md4(char *out, FILE *fp);
 char *hash_buffer_md5(char *out, const char *in, size_t len);
 char *hash_file_md5(char *out, FILE *fp);
 /************************/
