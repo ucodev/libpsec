@@ -38,6 +38,11 @@
 #define HASH_DIGEST_SIZE_SHA256		32
 #define HASH_DIGEST_SIZE_SHA384		48
 #define HASH_DIGEST_SIZE_SHA512		64
+#define HASH_FMT_DIGEST_SIZE_SHA1	((HASH_DIGEST_SIZE_SHA1 * 2) + 1)
+#define HASH_FMT_DIGEST_SIZE_SHA224	((HASH_DIGEST_SIZE_SHA224 * 2) + 1)
+#define HASH_FMT_DIGEST_SIZE_SHA256	((HASH_DIGEST_SIZE_SHA256 * 2) + 1)
+#define HASH_FMT_DIGEST_SIZE_SHA384	((HASH_DIGEST_SIZE_SHA384 * 2) + 1)
+#define HASH_FMT_DIGEST_SIZE_SHA512	((HASH_DIGEST_SIZE_SHA512 * 2) + 1)
 /* Prototypes */
 char *hash_buffer_sha1(char *out, const char *in, size_t len);
 char *hash_buffer_sha224(char *out, const char *in, size_t len);
@@ -54,6 +59,7 @@ char *hash_file_sha512(char *out, FILE *fp);
 /****************/
 /* Digest sizes */
 #define HASH_DIGEST_SIZE_MD5		16
+#define HASH_FMT_DIGEST_SIZE_MD5	((HASH_DIGEST_SIZE_MD5 * 2) + 1)
 /* Prototypes */
 char *hash_buffer_md5(char *out, const char *in, size_t len);
 char *hash_file_md5(char *out, FILE *fp);
