@@ -41,6 +41,7 @@ static char *_f_hash(
 	char *out,
 	char *(hash) (char *out, const char *in, size_t len),
 	size_t hash_len,
+	size_t hash_block_size,
 	const char *pw,
 	size_t pw_len,
 	const char *salt,
@@ -48,16 +49,16 @@ static char *_f_hash(
 	unsigned int iterations,
 	uint32_t iteration)
 {
-	int i = 0, errsv = 0;
-	char *u1 = NULL;
+	int i = 0, j = 0, errsv = 0;
+	char *u = NULL;
 	char *out_tmp = NULL;
 
-	if (!(u1 = malloc(salt_len + 4)))
+	if (!(u = malloc(hash_len + salt_len + 4)))
 		return NULL;
 	
 	if (!(out_tmp = malloc(hash_len))) {
 		errsv = errno;
-		free(u1);
+		free(u);
 		errno = errsv;
 		return NULL;
 	}
@@ -65,28 +66,32 @@ static char *_f_hash(
 	if (!out) {
 		if (!(out = malloc(hash_len))) {
 			errsv = errno;
-			free(u1);
+			free(u);
 			free(out_tmp);
 			errno = errsv;
 			return NULL;
 		}
 	}
 
-	memcpy(u1, salt, salt_len);
-	memcpy(&u1[salt_len], (uint32_t [1]) { ntohl(iteration) }, 4);
+	memcpy(u, salt, salt_len);
+	memcpy(&u[salt_len], (uint32_t [1]) { htonl(iteration) }, 4);
 
-	hmac_hash(out_tmp, hash, hash_len, pw, pw_len, u1, salt_len + 4);
+	hmac_hash(out_tmp, hash, hash_len, hash_block_size, pw, pw_len, u, salt_len + 4);
 
-	free(u1);
-
-	memcpy(out, out_tmp, hash_len);
+	memcpy(u, out_tmp, hash_len);
+	memcpy(out, u, hash_len);
 
 	for (i = 1; i < iterations; i ++) {
-		hmac_hash(out_tmp, hash, hash_len, pw, pw_len, out, hash_len);
-		memcpy(out, out_tmp, hash_len);
+		hmac_hash(out_tmp, hash, hash_len, hash_block_size, pw, pw_len, u, hash_len);
+
+		memcpy(u, out_tmp, hash_len);
+
+		for (j = 0; j < hash_len; j ++)
+			out[j] ^= u[j];
 	}
 
 	free(out_tmp);
+	free(u);
 
 	return out;
 }
@@ -95,6 +100,7 @@ char *pbkdf2_hash(
 	char *out,
 	char *(hash) (char *out, const char *in, size_t len),
 	size_t hash_len,
+	size_t hash_block_size,
 	const char *pw,
 	size_t pw_len,
 	const char *salt,
@@ -119,8 +125,8 @@ char *pbkdf2_hash(
 		out_alloc = 1;
 	}
 
-	for (i = 0, len = hash_len; (i * hash_len) < out_size; i ++) {
-		if (!_f_hash(hash_tmp, hash, hash_len, pw, pw_len, salt, salt_len, iterations, i)) {
+	for (i = 0, len = 0; (i * hash_len) < out_size; i ++) {
+		if (!_f_hash(hash_tmp, hash, hash_len, hash_block_size, pw, pw_len, salt, salt_len, iterations, i + 1)) {
 			errsv = errno;
 			free(hash_tmp);
 			if (out_alloc) free(out);

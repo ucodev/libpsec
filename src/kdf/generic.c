@@ -36,6 +36,7 @@ char *kdf_pbkdf2_hash(
 	char *out,
 	char *(hash) (char *out, const char *in, size_t len),
 	size_t hash_len,
+	size_t hash_block_size,
 	const char *pw,
 	size_t pw_len,
 	const char *salt,
@@ -43,7 +44,7 @@ char *kdf_pbkdf2_hash(
 	int iterations,
 	size_t out_size)
 {
-	return pbkdf2_hash(out, hash, hash_len, pw, pw_len, salt, salt_len, iterations, out_size);
+	return pbkdf2_hash(out, hash, hash_len, hash_block_size, pw, pw_len, salt, salt_len, iterations, out_size);
 }
 
 void kdf_destroy(char *digest) {

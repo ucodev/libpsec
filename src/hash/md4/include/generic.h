@@ -34,6 +34,7 @@
 
 /* Definitions */
 #define MD4_HASH_DIGEST_SIZE		16
+#define MD4_HASH_BLOCK_SIZE		64
 
 /* Prototypes */
 

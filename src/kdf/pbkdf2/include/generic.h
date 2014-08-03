@@ -37,6 +37,7 @@ char *pbkdf2_hash(
 	char *out,
 	char *(hash) (char *out, const char *in, size_t len),
 	size_t hash_len,
+	size_t hash_block_size,
 	const char *pw,
 	size_t pw_len,
 	const char *salt,

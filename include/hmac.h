@@ -34,6 +34,7 @@ char *hmac_hash(
 	char *out,
 	char *(*hash) (char *out, const char *in, size_t len),
 	size_t hash_len,
+	size_t hash_block_size,
 	const char *key,
 	size_t key_len,
 	const char *msg,

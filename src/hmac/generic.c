@@ -35,6 +35,7 @@ char *hmac_hash(
 	char *out,
 	char *(*hash) (char *out, const char *in, size_t len),
 	size_t hash_len,
+	size_t hash_block_size,
 	const char *key,
 	size_t key_len,
 	const char *msg,
@@ -46,17 +47,17 @@ char *hmac_hash(
 	char *i_key_pad = NULL;
 
 	/* Allocate temporary memory */
-	if (!(key_local = malloc(hash_len)))
+	if (!(key_local = malloc(hash_block_size)))
 		return NULL;
 
-	if (!(o_key_pad = malloc(hash_len * 2))) {
+	if (!(o_key_pad = malloc(hash_block_size + hash_len))) {
 		errsv = errno;
 		free(key_local);
 		errno = errsv;
 		return NULL;
 	}
 
-	if (!(i_key_pad = malloc(hash_len + msg_len))) {
+	if (!(i_key_pad = malloc(hash_block_size + msg_len))) {
 		errsv = errno;
 		free(key_local);
 		free(o_key_pad);
@@ -65,33 +66,33 @@ char *hmac_hash(
 	}
 
 	/* Reset memory */
-	memset(key_local, 0, hash_len);
-	memset(o_key_pad, 0, hash_len * 2);
-	memset(i_key_pad, 0, hash_len + msg_len);
+	memset(key_local, 0, hash_block_size);
+	memset(o_key_pad, 0, hash_block_size + hash_len);
+	memset(i_key_pad, 0, hash_block_size + msg_len);
 
 	/* Process key based on its size */
-	if (key_len > hash_len) {
+	if (key_len > hash_block_size) {
 		hash(key_local, key, key_len);
-	} else if (key_len < hash_len) {
+	} else {
 		memcpy(key_local, key, key_len);
 	}
 
 	/* Initialize o_key_pad */
-	for (i = 0; i < hash_len; i ++)
-		o_key_pad[i] = (0x5c * hash_len) ^ key_local[i];
+	for (i = 0; i < hash_block_size; i ++)
+		o_key_pad[i] = key_local[i] ^ 0x5c;
 
 	/* Initialize i_key_pad */
-	for (i = 0; i < hash_len; i ++)
-		i_key_pad[i] = (0x36 * hash_len) ^ key_local[i];
+	for (i = 0; i < hash_block_size; i ++)
+		i_key_pad[i] = key_local[i] ^ 0x36;
 
 	/* i_key_pad || msg */
-	memcpy(&i_key_pad[hash_len], msg, msg_len);
+	memcpy(&i_key_pad[hash_block_size], msg, msg_len);
 
 	/* o_key_pad || hash(i_key_pad || msg) */
-	hash(&o_key_pad[hash_len], i_key_pad, hash_len + msg_len);
+	hash(&o_key_pad[hash_block_size], i_key_pad, hash_block_size + msg_len);
 
 	/* Final hash */
-	out = hash(out, o_key_pad, hash_len * 2);
+	out = hash(out, o_key_pad, hash_block_size + hash_len);
 
 	/* Free temporary memory */
 	free(key_local);
