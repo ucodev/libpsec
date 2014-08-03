@@ -29,6 +29,8 @@
 #ifndef LIBPSEC_KDF_H
 #define LIBPSEC_KDF_H
 
+#include <stdio.h>
+
 /* Prototypes */
 char *kdf_pbkdf2_hash(
 	char *out,

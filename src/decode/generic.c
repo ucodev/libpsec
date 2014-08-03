@@ -37,7 +37,7 @@ char *decode_buffer_base64(char *out, const char *in, size_t len) {
 }
 
 /* Generic */
-void decode_destroy(char *encode) {
-	free(encode);
+void decode_destroy(char *decode) {
+	free(decode);
 }
 

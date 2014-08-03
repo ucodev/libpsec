@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH interface header
  *
- * Date: 02-08-2014
+ * Date: 03-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -28,6 +28,8 @@
 
 #ifndef LIBPSEC_HASH_H
 #define LIBPSEC_HASH_H
+
+#include <stdio.h>
 
 /*****************/
 /* SHA Interface */

@@ -1,7 +1,7 @@
 /*
- * @file mac.h
+ * @file decode.h
  * @brief PSEC Library
- *        MAC interface header
+ *        Decoding interface header
  *
  * Date: 03-08-2014
  *
@@ -26,24 +26,17 @@
  *
  */
 
-#ifndef LIBPSEC_MAC_H
-#define LIBPSEC_MAC_H
+#ifndef LIBPSEC_DECODE_H
+#define LIBPSEC_DECODE_H
 
 #include <stdio.h>
 
 /* Prototypes */
-/******************/
-/* HMAC Interface */
-/******************/
-char *mac_hmac_hash(
-	char *out,
-	char *(*hash) (char *out, const char *in, size_t len),
-	size_t hash_len,
-	size_t hash_block_size,
-	const char *key,
-	size_t key_len,
-	const char *msg,
-	size_t msg_len);
+/********************/
+/* Base64 Interface */
+/********************/
+char *decode_buffer_base64(char *out, const char *in, size_t in_len);
+void decode_destroy(char *decode);
 
 #endif
 
