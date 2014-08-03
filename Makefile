@@ -3,3 +3,5 @@ all:
 
 clean:
 	make -C src/ clean
+	make -C example/ clean
+
