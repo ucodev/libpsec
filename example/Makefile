@@ -1,0 +1,21 @@
+CC=`cat ../.compiler`
+LDFLAGS=-lpsec
+
+all:
+	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
+	${CC} -o md5_buffer_alloc md5_buffer_alloc.c ${LDFLAGS}
+	${CC} -o md5_buffer md5_buffer.c ${LDFLAGS}
+	${CC} -o md5_file_alloc md5_file_alloc.c ${LDFLAGS}
+	${CC} -o md5_file md5_file.c ${LDFLAGS}
+	${CC} -o pbkdf2_alloc pbkdf2_alloc.c ${LDFLAGS}
+	${CC} -o pbkdf2 pbkdf2.c ${LDFLAGS}
+
+clean:
+	rm -f hmac_md5
+	rm -f md5_buffer_alloc
+	rm -f md5_buffer
+	rm -f md5_file_alloc
+	rm -f md5_file
+	rm -f pbkdf2_alloc
+	rm -f pbkdf2
+

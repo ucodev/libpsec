@@ -31,7 +31,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-char *hmac_hash(
+char *hmac_generic(
 	char *out,
 	char *(*hash) (char *out, const char *in, size_t len),
 	size_t hash_len,

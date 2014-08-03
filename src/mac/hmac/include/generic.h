@@ -1,9 +1,9 @@
 /*
- * @file hmac.h
+ * @file generic.h
  * @brief PSEC Library
- *        HMAC interface header
+ *        Hash-based Message Authentication Code interface header
  *
- * Date: 02-08-2014
+ * Date: 03-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -26,11 +26,14 @@
  *
  */
 
-#ifndef LIBPSEC_HMAC_H
-#define LIBPSEC_HMAC_H
+#ifndef LIBPSEC_GENERIC_HMAC_H
+#define LIBPSEC_GENERIC_HMAC_H
+
+#include <stdio.h>
+
 
 /* Prototypes */
-char *hmac_hash(
+char *hmac_generic(
 	char *out,
 	char *(*hash) (char *out, const char *in, size_t len),
 	size_t hash_len,
@@ -41,3 +44,4 @@ char *hmac_hash(
 	size_t msg_len);
 
 #endif
+

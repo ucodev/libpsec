@@ -35,7 +35,7 @@
 
 #include <arpa/inet.h>
 
-#include "hmac.h"
+#include "mac.h"
 
 static char *_f_hash(
 	char *out,
@@ -76,13 +76,13 @@ static char *_f_hash(
 	memcpy(u, salt, salt_len);
 	memcpy(&u[salt_len], (uint32_t [1]) { htonl(iteration) }, 4);
 
-	hmac_hash(out_tmp, hash, hash_len, hash_block_size, pw, pw_len, u, salt_len + 4);
+	mac_hmac_hash(out_tmp, hash, hash_len, hash_block_size, pw, pw_len, u, salt_len + 4);
 
 	memcpy(u, out_tmp, hash_len);
 	memcpy(out, u, hash_len);
 
 	for (i = 1; i < iterations; i ++) {
-		hmac_hash(out_tmp, hash, hash_len, hash_block_size, pw, pw_len, u, hash_len);
+		mac_hmac_hash(out_tmp, hash, hash_len, hash_block_size, pw, pw_len, u, hash_len);
 
 		memcpy(u, out_tmp, hash_len);
 
