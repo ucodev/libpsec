@@ -1,14 +1,16 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <psec/encode.h>
 #include <psec/hash.h>
 
 int main(void) {
 	char msg[] = "test";
 	char digest[HASH_DIGEST_SIZE_MD5], fmt_digest[HASH_FMT_DIGEST_SIZE_MD5];
+	size_t out_len = 0;
 
 	hash_buffer_md5(digest, msg, strlen(msg));
-	hash_format_hex(fmt_digest, digest, HASH_DIGEST_SIZE_MD5);
+	encode_buffer_base16(fmt_digest, &out_len, digest, HASH_DIGEST_SIZE_MD5);
 
 	puts(fmt_digest);
 

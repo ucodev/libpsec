@@ -1,15 +1,15 @@
 /*
- * @file format.c
+ * @file generic.c
  * @brief PSEC Library
- *        HASH formatting interface 
+ *        Base64 Encoding interface 
  *
- * Date: 02-08-2014
+ * Date: 04-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
+ * distributed with this context for additional information
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
@@ -28,38 +28,32 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <stdint.h>
-#include <stdlib.h>
 
-static char _nibble_to_hex_char(uint8_t nibble) {
+#include "encode/base16/generic.h"
+
+static char _nibble_to_hex_char(char nibble) {
 	if (nibble > 15)
 		return (char) 0;
 
 	return (char) nibble + (nibble < 10 ? 48 : 87);
 }
 
-char *hash_format_hex(char *out, const char *digest, size_t len) {
+char *base16_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	int i = 0;
-	char *fmt_digest = NULL;
 
 	if (!out) {
-		if (!(fmt_digest = malloc((len * 2) + 1)))
+		if (!(out = malloc((in_len * 2) + 1)))
 			return NULL;
-	} else {
-		fmt_digest = out;
 	}
 
-	memset(fmt_digest, 0, (len * 2) + 1);
-
-	for (i = 0; i < len; i ++) {
-		fmt_digest[(i * 2)] = _nibble_to_hex_char((digest[i] & 0xf0) >> 4);
-		fmt_digest[(i * 2) + 1] = _nibble_to_hex_char(digest[i] & 0x0f);
+	for (i = 0; i < in_len; i ++) {
+		out[(i * 2)] = _nibble_to_hex_char((in[i] & 0xf0) >> 4);
+		out[(i * 2) + 1] = _nibble_to_hex_char(in[i] & 0x0f);
 	}
 
-	return fmt_digest;
-}
+	*out_len = i * 2;
+	out[(i * 2)] = 0;
 
-void hash_format_destroy(char *fmt_digest) {
-	free(fmt_digest);
+	return out;
 }
 

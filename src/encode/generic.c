@@ -29,13 +29,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "encode/base16/generic.h"
 #include "encode/base64/generic.h"
 
 #include "encode.h"
 
-/* MD Interface */
-char *encode_buffer_base64(char *out, size_t *out_len, const char *in, size_t len) {
-	return base64_encode(out, out_len, in, len);
+/* Base16 Interface */
+char *encode_buffer_base16(char *out, size_t *out_len, const char *in, size_t in_len) {
+	return base16_encode(out, out_len, in, in_len);
+}
+
+/* Base64 Interface */
+char *encode_buffer_base64(char *out, size_t *out_len, const char *in, size_t in_len) {
+	return base64_encode(out, out_len, in, in_len);
 }
 
 /* Generic */

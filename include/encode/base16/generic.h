@@ -1,7 +1,7 @@
 /*
- * @file encode.h
+ * @file generic.h
  * @brief PSEC Library
- *        Encoding interface header
+ *        Base16 interface header
  *
  * Date: 04-08-2014
  *
@@ -26,21 +26,12 @@
  *
  */
 
-#ifndef LIBPSEC_ENCODE_H
-#define LIBPSEC_ENCODE_H
+#ifndef LIBPSEC_GENERIC_BASE16_H
+#define LIBPSEC_GENERIC_BASE16_H
 
 #include <stdio.h>
 
 /* Prototypes */
-/********************/
-/* Base16 Interface */
-/********************/
-char *encode_buffer_base16(char *out, size_t *out_len, const char *in, size_t in_len);
-/********************/
-/* Base64 Interface */
-/********************/
-char *encode_buffer_base64(char *out, size_t *out_len, const char *in, size_t in_len);
-void encode_destroy(char *encode);
+char *base16_encode(char *out, size_t *out_len, const char *in, size_t in_len);
 
 #endif
-

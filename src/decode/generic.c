@@ -33,7 +33,7 @@
 
 #include "decode.h"
 
-/* MD Interface */
+/* Base64 Interface */
 char *decode_buffer_base64(char *out, size_t *out_len, const char *in, size_t len) {
 	return base64_decode(out, out_len, in, len);
 }
