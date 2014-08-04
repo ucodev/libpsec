@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "base64/include/generic.h"
+#include "encode/base64/generic.h"
 
 /* MD Interface */
 char *encode_buffer_base64(char *out, const char *in, size_t len) {

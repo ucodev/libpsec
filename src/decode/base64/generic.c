@@ -1,7 +1,7 @@
 /*
  * @file generic.c
  * @brief PSEC Library
- *        Decoding interface 
+ *        Base64 Decoding interface 
  *
  * Date: 03-08-2014
  *
@@ -27,17 +27,51 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 #include "decode/base64/generic.h"
 
-/* MD Interface */
-char *decode_buffer_base64(char *out, const char *in, size_t len) {
-	return base64_decode(out, in, len);
+int _get_index(char code) {
+	int i = 0;
+
+	if (code == '=')
+		return 0;
+
+	for (i = 0; i < sizeof(_base64_index) - 1; i ++) {
+		if (code == _base64_index[i])
+			break;
+	}
+
+	return i;
 }
 
-/* Generic */
-void decode_destroy(char *decode) {
-	free(decode);
+char *base64_decode(char *out, const char *in, size_t in_len) {
+	int i = 0, j = 0, left = 0;
+	char align[4] = { '=', '=', '=', '=' };
+	const char *context = in;
+
+	if (!out) {
+		if (!(out = malloc((in_len + 4) * 0.8)))
+			return NULL;
+	}
+
+	for (i = 0, j = 0; (i + 4) <= in_len; i += 4, j += 3) {
+		out[j] = (_get_index(context[i]) << 2) | (_get_index(context[i + 1]) >> 4);
+		out[j + 1] = ((_get_index(context[i + 1]) & 0x0f) << 4) | (_get_index(context[i + 2]) >> 2);
+		out[j + 2] = ((_get_index(context[i + 2]) & 0x03) << 6) | _get_index(context[i + 3]);
+	}
+
+	if (!(left = in_len - i)) {
+		out[j] = 0;
+		return out;
+	}
+
+	memcpy(align, &context[i], left);
+	context = align;
+
+	base64_decode(&out[j], context, 4);
+
+	return out;
 }
 

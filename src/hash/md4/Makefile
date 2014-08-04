@@ -1,5 +1,12 @@
+CC=`cat ../../../.compiler`
+CCFLAGS=-g -O2 -Wall -Werror -fPIC
+OBJS=generic.o low.o md4c.o
+INCLUDEDIRS=-I../../../include
+
 all:
-	make -C src/
+	${CC} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${CCFLAGS} ${INCLUDEDIRS} -c low.c
+	${CC} ${CCFLAGS} ${INCLUDEDIRS} -c md4c.c
 
 clean:
-	make -C src/ clean
+	rm -f ${OBJS}

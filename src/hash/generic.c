@@ -29,9 +29,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "md4/include/generic.h"
-#include "md5/include/generic.h"
-#include "sha/include/generic.h"
+#include "hash/md4/generic.h"
+#include "hash/md5/generic.h"
+#include "hash/sha/generic.h"
 
 /* MD Interface */
 char *hash_buffer_md4(char *out, const char *in, size_t len) {

@@ -1,5 +1,10 @@
+CC=`cat ../../../.compiler`
+CCFLAGS=-g -O2 -Wall -Werror -fPIC
+OBJS=generic.o
+INCLUDEDIRS=-I../../../include
+
 all:
-	make -C src/
+	${CC} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
 
 clean:
-	make -C src/ clean
+	rm -f ${OBJS}

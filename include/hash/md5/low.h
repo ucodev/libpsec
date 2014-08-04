@@ -1,9 +1,9 @@
 /*
- * @file generic.c
+ * @file low.h
  * @brief PSEC Library
- *        Message Authentication Code interface 
+ *        HASH [MD5] low level interface header
  *
- * Date: 03-08-2014
+ * Date: 04-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -26,26 +26,18 @@
  *
  */
 
+#ifndef LIBPSEC_MD5_LOW_H
+#define LIBPSEC_MD5_LOW_H
+
 #include <stdio.h>
-#include <stdlib.h>
 
-#include "mac/hmac/generic.h"
+#include "global.h"
+#include "md5.h"
 
-/* HMAC Interface */
-char *mac_hmac_hash(
-	char *out,
-	char *(*hash) (char *out, const char *in, size_t len),
-	size_t hash_len,
-	size_t hash_block_size,
-	const char *key,
-	size_t key_len,
-	const char *msg,
-	size_t msg_len)
-{
-	return hmac_generic(out, hash, hash_len, hash_block_size, key, key_len, msg, msg_len);
-}
+/* MD4 Low Level Interface */
+int md5_low_init(MD5_CTX *context);
+int md5_low_compress(MD5_CTX *context, const char *in, size_t len);
+int md5_low_final(MD5_CTX *context, char *out);
 
-void mac_destroy(char *digest) {
-	free(digest);
-}
+#endif
 

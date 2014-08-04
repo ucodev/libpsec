@@ -1,9 +1,9 @@
 /*
- * @file generic.c
+ * @file low.c
  * @brief PSEC Library
- *        Message Authentication Code interface 
+ *        HASH [MD4] low level interface
  *
- * Date: 03-08-2014
+ * Date: 04-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -26,26 +26,24 @@
  *
  */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "hash/md4/low.h"
 
-#include "mac/hmac/generic.h"
+/* MD4 Low Level Interface */
+int md4_low_init(MD4_CTX *context) {
+	MD4Init(context);
 
-/* HMAC Interface */
-char *mac_hmac_hash(
-	char *out,
-	char *(*hash) (char *out, const char *in, size_t len),
-	size_t hash_len,
-	size_t hash_block_size,
-	const char *key,
-	size_t key_len,
-	const char *msg,
-	size_t msg_len)
-{
-	return hmac_generic(out, hash, hash_len, hash_block_size, key, key_len, msg, msg_len);
+	return 0;
 }
 
-void mac_destroy(char *digest) {
-	free(digest);
+int md4_low_compress(MD4_CTX *context, const char *in, size_t len) {
+	MD4Update(context, in, len);
+
+	return 0;
+}
+
+int md4_low_final(MD4_CTX *context, char *out) {
+	MD4Final(out, context);
+
+	return 0;
 }
 
