@@ -1,7 +1,7 @@
 /*
  * @file generic.h
  * @brief PSEC Library
- *        Base64 interface header
+ *        Base64 Encoding interface header
  *
  * Date: 04-08-2014
  *
@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef LIBPSEC_GENERIC_BASE64_H
-#define LIBPSEC_GENERIC_BASE64_H
+#ifndef LIBPSEC_GENERIC_ENCODE_BASE64_H
+#define LIBPSEC_GENERIC_ENCODE_BASE64_H
 
 #include <stdio.h>
 

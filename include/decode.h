@@ -35,7 +35,14 @@
 /********************/
 /* Base64 Interface */
 /********************/
+char *decode_buffer_base16(char *out, size_t *out_len, const char *in, size_t in_len);
+/********************/
+/* Base64 Interface */
+/********************/
 char *decode_buffer_base64(char *out, size_t *out_len, const char *in, size_t in_len);
+/********************/
+/* Common Interface */
+/********************/
 void decode_destroy(char *decode);
 
 #endif

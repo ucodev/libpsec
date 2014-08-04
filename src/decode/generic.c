@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Decoding interface 
  *
- * Date: 03-08-2014
+ * Date: 04-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -29,9 +29,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "decode/base16/generic.h"
 #include "decode/base64/generic.h"
 
 #include "decode.h"
+
+/* Base16 Interface */
+char *decode_buffer_base16(char *out, size_t *out_len, const char *in, size_t len) {
+	return base16_decode(out, out_len, in, len);
+}
 
 /* Base64 Interface */
 char *decode_buffer_base64(char *out, size_t *out_len, const char *in, size_t len) {

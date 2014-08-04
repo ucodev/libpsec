@@ -1,7 +1,7 @@
 /*
  * @file generic.h
  * @brief PSEC Library
- *        Base16 interface header
+ *        Base16 Encoding interface header
  *
  * Date: 04-08-2014
  *
@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef LIBPSEC_GENERIC_BASE16_H
-#define LIBPSEC_GENERIC_BASE16_H
+#ifndef LIBPSEC_GENERIC_ENCODE_BASE16_H
+#define LIBPSEC_GENERIC_ENCODE_BASE16_H
 
 #include <stdio.h>
 

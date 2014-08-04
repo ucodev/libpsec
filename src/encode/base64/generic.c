@@ -28,9 +28,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "encode/base64/generic.h"
-
 
 char *base64_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	int i = 0, j = 0, left = 0;

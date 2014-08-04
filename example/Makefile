@@ -2,6 +2,8 @@ CC=`cat ../.compiler`
 LDFLAGS=-lpsec
 
 all:
+	${CC} -o base16_decode base16_decode.c ${LDFLAGS}
+	${CC} -o base16_encode base16_encode.c ${LDFLAGS}
 	${CC} -o base64_decode base64_decode.c ${LDFLAGS}
 	${CC} -o base64_encode base64_encode.c ${LDFLAGS}
 	${CC} -o blake2b_buffer blake2b_buffer.c ${LDFLAGS}
@@ -15,6 +17,8 @@ all:
 	${CC} -o pbkdf2 pbkdf2.c ${LDFLAGS}
 
 clean:
+	rm -f base16_decode
+	rm -f base16_encode
 	rm -f base64_decode
 	rm -f base64_encode
 	rm -f blake2b_buffer

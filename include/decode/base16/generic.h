@@ -1,7 +1,7 @@
 /*
- * @file generic.c
+ * @file generic.h
  * @brief PSEC Library
- *        Base64 Encoding interface 
+ *        Base16 decoding interface header
  *
  * Date: 04-08-2014
  *
@@ -9,7 +9,7 @@
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
- * distributed with this context for additional information
+ * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
@@ -26,34 +26,12 @@
  *
  */
 
+#ifndef LIBPSEC_GENERIC_DECODE_BASE16_H
+#define LIBPSEC_GENERIC_DECODE_BASE16_H
+
 #include <stdio.h>
-#include <stdlib.h>
 
-#include "encode/base16/generic.h"
+/* Prototypes */
+char *base16_decode(char *out, size_t *out_len, const char *in, size_t in_len);
 
-static char _nibble_to_hex_char(char nibble) {
-	if (nibble > 15)
-		return (char) 0;
-
-	return (char) nibble + (nibble < 10 ? 48 : 87);
-}
-
-char *base16_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
-	int i = 0;
-
-	if (!out) {
-		if (!(out = malloc((in_len * 2) + 1)))
-			return NULL;
-	}
-
-	for (i = 0; i < in_len; i ++) {
-		out[(i * 2)] = _nibble_to_hex_char((in[i] & 0xf0) >> 4);
-		out[(i * 2) + 1] = _nibble_to_hex_char(in[i] & 0x0f);
-	}
-
-	*out_len = i * 2;
-	out[(i * 2)] = 0;
-
-	return out;
-}
-
+#endif

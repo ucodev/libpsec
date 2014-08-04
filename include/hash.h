@@ -82,14 +82,9 @@ char *hash_buffer_md4(char *out, const char *in, size_t len);
 char *hash_file_md4(char *out, FILE *fp);
 char *hash_buffer_md5(char *out, const char *in, size_t len);
 char *hash_file_md5(char *out, FILE *fp);
-/************************/
-/* Formatting Interface */
-/************************/
-char *hash_format_hex(char *out, const char *digest, size_t len);
-void hash_format_destroy(char *fmt_digest);
-/*********************/
-/* Generic Interface */
-/*********************/
+/********************/
+/* Common Interface */
+/********************/
 void hash_destroy(char *digest);
 
 #endif

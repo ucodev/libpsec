@@ -1,7 +1,7 @@
 /*
  * @file generic.c
  * @brief PSEC Library
- *        Base64 Encoding interface 
+ *        Base16 Encoding interface 
  *
  * Date: 04-08-2014
  *
@@ -29,16 +29,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "encode/base16/generic.h"
+#include "decode/base16/generic.h"
 
-static char _nibble_to_hex_char(char nibble) {
-	if (nibble > 15)
-		return (char) 0;
+static char _hex_char_to_nibble(char hex) {
+	hex |= 0x20;
 
-	return (char) nibble + (nibble < 10 ? 48 : 87);
+	return hex - (hex >= 97 ? 87 : 48);
 }
 
-char *base16_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
+char *base16_decode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	int i = 0;
 
 	if (!out) {
@@ -46,13 +45,11 @@ char *base16_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
 			return NULL;
 	}
 
-	for (i = 0; i < in_len; i ++) {
-		out[(i * 2)] = _nibble_to_hex_char((in[i] & 0xf0) >> 4);
-		out[(i * 2) + 1] = _nibble_to_hex_char(in[i] & 0x0f);
-	}
+	for (i = 0; (i * 2) < in_len; i ++)
+		out[i] = (_hex_char_to_nibble(in[i * 2]) << 4) | _hex_char_to_nibble(in[(i * 2) + 1]);
 
-	*out_len = i * 2;
-	out[(i * 2)] = 0;
+	*out_len = i;
+	out[i] = 0;
 
 	return out;
 }
