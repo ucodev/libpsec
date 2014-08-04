@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Base64 Encoding interface 
  *
- * Date: 03-08-2014
+ * Date: 04-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -27,10 +27,38 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "generic.h"
 
+
 char *base64_encode(char *out, const char *in, size_t in_len) {
-	return NULL;
+	int i = 0, j = 0, left = 0;
+	char align[3] = { 0, 0, 0 };
+	const char *work = in;
+
+	for (i = 0, j = 0; (i + 3) <= in_len; i += 3, j += 4) {
+		out[j]     = _base64_index[work[i] >> 2];
+		out[j + 1] = _base64_index[((work[i] & 0x03) << 4) | (work[i + 1] >> 4)];
+		out[j + 2] = _base64_index[((work[i + 1] & 0x0f) << 2) | (work[i + 2] >> 6)];
+		out[j + 3] = _base64_index[work[i + 2] & 0x3f];
+	}
+
+	if (!(left = in_len - i))
+		return out;
+
+	memcpy(align, &in[i], left);
+	work = align;
+	i = 0;
+
+	switch (left) {
+		case 2: out[j + 2] = _base64_index[((work[i + 1] & 0x0f) << 2) | (work[i + 2] >> 6)];
+		case 1: out[j] = _base64_index[work[i] >> 2];
+			out[j + 1] = _base64_index[((work[i] & 0x03) << 4) | (work[i + 1] >> 4)];
+			out[j + 3] = '=';
+			if (left == 1) out[j + 2] = '=';
+	}
+
+	return out;
 }
 
