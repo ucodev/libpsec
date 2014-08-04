@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "hash/blake2/generic.h"
 #include "hash/md4/generic.h"
 #include "hash/md5/generic.h"
 #include "hash/sha/generic.h"
@@ -91,6 +92,23 @@ char *hash_buffer_sha512(char *out, const char *in, size_t len) {
 
 char *hash_file_sha512(char *out, FILE *fp) {
 	return sha512_file(out, fp);
+}
+
+/* Blake2 Interface */
+char *hash_buffer_blake2b(char *out, const char *in, size_t len) {
+	return blake2b_buffer(out, in, len);
+}
+
+char *hash_file_blake2b(char *out, FILE *fp) {
+	return blake2b_file(out, fp);
+}
+
+char *hash_buffer_blake2s(char *out, const char *in, size_t len) {
+	return blake2s_buffer(out, in, len);
+}
+
+char *hash_file_blake2s(char *out, FILE *fp) {
+	return blake2s_file(out, fp);
 }
 
 /* Generic */

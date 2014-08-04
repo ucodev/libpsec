@@ -30,12 +30,15 @@
 #ifndef LIBPSEC_HASH_LOW_H
 #define LIBPSEC_HASH_LOW_H
 
+#include "blake2/low.h"
 #include "md4/low.h"
 #include "md5/low.h"
 #include "sha/low.h"
 
 /* Type definitions */
 typedef union {
+	blake2b_state blake2b;
+	blake2s_state blake2s;
 	MD4_CTX md4;
 	MD5_CTX md5;
 	SHA1Context sha1;
@@ -46,6 +49,14 @@ typedef union {
 } psec_low_hash_t;
 
 /* Prototypes */
+/* Blake2b Interface */
+int hash_low_blake2b_init(psec_low_hash_t *context);
+int hash_low_blake2b_update(psec_low_hash_t *context, const char *in, size_t len);
+int hash_low_blake2b_final(psec_low_hash_t *context, char *out);
+/* Blake2s Interface */
+int hash_low_blake2s_init(psec_low_hash_t *context);
+int hash_low_blake2s_update(psec_low_hash_t *context, const char *in, size_t len);
+int hash_low_blake2s_final(psec_low_hash_t *context, char *out);
 /* MD4 Interface */
 int hash_low_md4_init(psec_low_hash_t *context);
 int hash_low_md4_update(psec_low_hash_t *context, const char *in, size_t len);

@@ -6,7 +6,7 @@
 
 int main(void) {
 	FILE *fp = NULL;
-	char digest[HASH_DIGEST_SIZE_MD5], fmt_digest[HASH_FMT_DIGEST_SIZE_MD5];
+	char digest[HASH_DIGEST_SIZE_MD5], fmt_digest[(HASH_DIGEST_SIZE_MD5 * 2) + 1];
 	size_t out_len = 0;
 
 	fp = fopen("/etc/passwd", "r");

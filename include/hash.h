@@ -31,6 +31,19 @@
 
 #include <stdio.h>
 
+/********************/
+/* Blake2 Interface */
+/********************/
+/* DIgest sizes */
+#define HASH_DIGEST_SIZE_BLAKE2B	64
+#define HASH_DIGEST_SIZE_BLAKE2S	32
+#define HASH_BLOCK_SIZE_BLAKE2B		128
+#define HASH_BLOCK_SIZE_BLAKE2S		64
+/* Prototypes */
+char *hash_buffer_blake2b(char *out, const char *in, size_t len);
+char *hash_buffer_blake2s(char *out, const char *in, size_t len);
+char *hash_file_blake2b(char *out, FILE *fp);
+char *hash_file_blake2s(char *out, FILE *fp);
 /*****************/
 /* SHA Interface */
 /*****************/
@@ -45,11 +58,6 @@
 #define HASH_BLOCK_SIZE_SHA256		64
 #define HASH_BLOCK_SIZE_SHA384		128
 #define HASH_BLOCK_SIZE_SHA512		128
-#define HASH_FMT_DIGEST_SIZE_SHA1	((HASH_DIGEST_SIZE_SHA1 * 2) + 1)
-#define HASH_FMT_DIGEST_SIZE_SHA224	((HASH_DIGEST_SIZE_SHA224 * 2) + 1)
-#define HASH_FMT_DIGEST_SIZE_SHA256	((HASH_DIGEST_SIZE_SHA256 * 2) + 1)
-#define HASH_FMT_DIGEST_SIZE_SHA384	((HASH_DIGEST_SIZE_SHA384 * 2) + 1)
-#define HASH_FMT_DIGEST_SIZE_SHA512	((HASH_DIGEST_SIZE_SHA512 * 2) + 1)
 /* Prototypes */
 char *hash_buffer_sha1(char *out, const char *in, size_t len);
 char *hash_buffer_sha224(char *out, const char *in, size_t len);
@@ -69,8 +77,6 @@ char *hash_file_sha512(char *out, FILE *fp);
 #define HASH_DIGEST_SIZE_MD5		16
 #define HASH_BLOCK_SIZE_MD4		64
 #define HASH_BLOCK_SIZE_MD5		64
-#define HASH_FMT_DIGEST_SIZE_MD4	((HASH_DIGEST_SIZE_MD4 * 2) + 1)
-#define HASH_FMT_DIGEST_SIZE_MD5	((HASH_DIGEST_SIZE_MD5 * 2) + 1)
 /* Prototypes */
 char *hash_buffer_md4(char *out, const char *in, size_t len);
 char *hash_file_md4(char *out, FILE *fp);

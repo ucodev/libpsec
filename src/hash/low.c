@@ -30,6 +30,32 @@
 
 #include "hash/low.h"
 
+/* Blake2b Interface */
+int hash_low_blake2b_init(psec_low_hash_t *context) {
+	return blake2b_low_init(&context->blake2b);
+}
+
+int hash_low_blake2b_update(psec_low_hash_t *context, const char *in, size_t len) {
+	return blake2b_low_update(&context->blake2b, in, len);
+}
+
+int hash_low_blake2b_final(psec_low_hash_t *context, char *out) {
+	return blake2b_low_final(&context->blake2b, out);
+}
+
+/* Blake2s Interface */
+int hash_low_blake2s_init(psec_low_hash_t *context) {
+	return blake2s_low_init(&context->blake2s);
+}
+
+int hash_low_blake2s_update(psec_low_hash_t *context, const char *in, size_t len) {
+	return blake2s_low_update(&context->blake2s, in, len);
+}
+
+int hash_low_blake2s_final(psec_low_hash_t *context, char *out) {
+	return blake2s_low_final(&context->blake2s, out);
+}
+
 /* MD4 Interface */
 int hash_low_md4_init(psec_low_hash_t *context) {
 	return md4_low_init(&context->md4);
