@@ -31,9 +31,11 @@
 
 #include "decode/base64/generic.h"
 
+#include "decode.h"
+
 /* MD Interface */
-char *decode_buffer_base64(char *out, const char *in, size_t len) {
-	return base64_decode(out, in, len);
+char *decode_buffer_base64(char *out, size_t *out_len, const char *in, size_t len) {
+	return base64_decode(out, out_len, in, len);
 }
 
 /* Generic */

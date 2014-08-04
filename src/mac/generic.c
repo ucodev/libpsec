@@ -31,6 +31,8 @@
 
 #include "mac/hmac/generic.h"
 
+#include "mac.h"
+
 /* HMAC Interface */
 char *mac_hmac_hash(
 	char *out,

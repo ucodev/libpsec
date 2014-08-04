@@ -36,27 +36,27 @@
 
 /* SHA1 Low Level Interface */
 int sha1_low_init(SHA1Context *context);
-int sha1_low_compress(SHA1Context *context, const char *in, size_t len);
+int sha1_low_update(SHA1Context *context, const char *in, size_t len);
 int sha1_low_final(SHA1Context *context, char *out);
 
 /* SHA224 Low Level Interface */
 int sha224_low_init(SHA224Context *context);
-int sha224_low_compress(SHA224Context *context, const char *in, size_t len);
+int sha224_low_update(SHA224Context *context, const char *in, size_t len);
 int sha224_low_final(SHA224Context *context, char *out);
 
 /* SHA256 Low Level Interface */
 int sha256_low_init(SHA256Context *context);
-int sha256_low_compress(SHA256Context *context, const char *in, size_t len);
+int sha256_low_update(SHA256Context *context, const char *in, size_t len);
 int sha256_low_final(SHA256Context *context, char *out);
 
 /* SHA384 Low Level Interface */
 int sha384_low_init(SHA384Context *context);
-int sha384_low_compress(SHA384Context *context, const char *in, size_t len);
+int sha384_low_update(SHA384Context *context, const char *in, size_t len);
 int sha384_low_final(SHA384Context *context, char *out);
 
 /* SHA512 Low Level Interface */
 int sha512_low_init(SHA512Context *context);
-int sha512_low_compress(SHA512Context *context, const char *in, size_t len);
+int sha512_low_update(SHA512Context *context, const char *in, size_t len);
 int sha512_low_final(SHA512Context *context, char *out);
 
 #endif

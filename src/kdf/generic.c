@@ -31,6 +31,8 @@
 
 #include "kdf/pbkdf2/generic.h"
 
+#include "kdf.h"
+
 /* PBKDF2 Interface */
 char *kdf_pbkdf2_hash(
 	char *out,

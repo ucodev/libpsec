@@ -32,7 +32,7 @@
 #include "encode/base64/generic.h"
 
 
-char *base64_encode(char *out, const char *in, size_t in_len) {
+char *base64_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	int i = 0, j = 0, left = 0;
 	char align[3] = { 0, 0, 0 };
 	const char *context = in;
@@ -50,6 +50,7 @@ char *base64_encode(char *out, const char *in, size_t in_len) {
 	}
 
 	if (!(left = in_len - i)) {
+		*out_len = j;
 		out[j] = 0;
 		return out;
 	}
@@ -65,6 +66,8 @@ char *base64_encode(char *out, const char *in, size_t in_len) {
 			out[j + 3] = '=';
 			if (left == 1) out[j + 2] = '=';
 	}
+
+	*out_len = j;
 
 	return out;
 }

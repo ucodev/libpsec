@@ -35,7 +35,7 @@ int md4_low_init(MD4_CTX *context) {
 	return 0;
 }
 
-int md4_low_compress(MD4_CTX *context, const char *in, size_t len) {
+int md4_low_update(MD4_CTX *context, const char *in, size_t len) {
 	MD4Update(context, in, len);
 
 	return 0;

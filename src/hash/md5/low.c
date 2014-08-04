@@ -35,7 +35,7 @@ int md5_low_init(MD5_CTX *context) {
 	return 0;
 }
 
-int md5_low_compress(MD5_CTX *context, const char *in, size_t len) {
+int md5_low_update(MD5_CTX *context, const char *in, size_t len) {
 	MD5Update(context, in, len);
 
 	return 0;

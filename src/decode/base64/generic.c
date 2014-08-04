@@ -46,7 +46,7 @@ int _get_index(char code) {
 	return i;
 }
 
-char *base64_decode(char *out, const char *in, size_t in_len) {
+char *base64_decode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	int i = 0, j = 0, left = 0;
 	char align[4] = { '=', '=', '=', '=' };
 	const char *context = in;
@@ -63,6 +63,7 @@ char *base64_decode(char *out, const char *in, size_t in_len) {
 	}
 
 	if (!(left = in_len - i)) {
+		*out_len = j;
 		out[j] = 0;
 		return out;
 	}
@@ -70,7 +71,10 @@ char *base64_decode(char *out, const char *in, size_t in_len) {
 	memcpy(align, &context[i], left);
 	context = align;
 
-	base64_decode(&out[j], context, 4);
+	base64_decode(&out[j], out_len, context, 4);
+
+	*out_len = j + 4;
+	out[j] = 0;
 
 	return out;
 }

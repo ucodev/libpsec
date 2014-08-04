@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encoding interface header
  *
- * Date: 03-08-2014
+ * Date: 04-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -35,7 +35,7 @@
 /********************/
 /* Base64 Interface */
 /********************/
-char *encode_buffer_base64(char *out, const char *in, size_t in_len);
+char *encode_buffer_base64(char *out, size_t *out_len, const char *in, size_t in_len);
 void encode_destroy(char *encode);
 
 #endif

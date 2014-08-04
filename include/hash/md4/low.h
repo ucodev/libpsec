@@ -36,7 +36,7 @@
 
 /* MD4 Low Level Interface */
 int md4_low_init(MD4_CTX *context);
-int md4_low_compress(MD4_CTX *context, const char *in, size_t len);
+int md4_low_update(MD4_CTX *context, const char *in, size_t len);
 int md4_low_final(MD4_CTX *context, char *out);
 
 #endif

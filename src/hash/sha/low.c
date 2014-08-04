@@ -33,7 +33,7 @@ int sha1_low_init(SHA1Context *context) {
 	return SHA1Reset(context);
 }
 
-int sha1_low_compress(SHA1Context *context, const char *in, size_t len) {
+int sha1_low_update(SHA1Context *context, const char *in, size_t len) {
 	return SHA1Input(context, (uint8_t *) in, len);
 }
 
@@ -46,7 +46,7 @@ int sha224_low_init(SHA224Context *context) {
 	return SHA224Reset(context);
 }
 
-int sha224_low_compress(SHA224Context *context, const char *in, size_t len) {
+int sha224_low_update(SHA224Context *context, const char *in, size_t len) {
 	return SHA224Input(context, (uint8_t *) in, len);
 }
 
@@ -59,7 +59,7 @@ int sha256_low_init(SHA256Context *context) {
 	return SHA256Reset(context);
 }
 
-int sha256_low_compress(SHA256Context *context, const char *in, size_t len) {
+int sha256_low_update(SHA256Context *context, const char *in, size_t len) {
 	return SHA256Input(context, (uint8_t *) in, len);
 }
 
@@ -72,7 +72,7 @@ int sha384_low_init(SHA384Context *context) {
 	return SHA384Reset(context);
 }
 
-int sha384_low_compress(SHA384Context *context, const char *in, size_t len) {
+int sha384_low_update(SHA384Context *context, const char *in, size_t len) {
 	return SHA384Input(context, (uint8_t *) in, len);
 }
 
@@ -85,7 +85,7 @@ int sha512_low_init(SHA512Context *context) {
 	return SHA512Reset(context);
 }
 
-int sha512_low_compress(SHA512Context *context, const char *in, size_t len) {
+int sha512_low_update(SHA512Context *context, const char *in, size_t len) {
 	return SHA512Input(context, (uint8_t *) in, len);
 }
 

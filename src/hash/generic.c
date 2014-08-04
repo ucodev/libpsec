@@ -33,6 +33,8 @@
 #include "hash/md5/generic.h"
 #include "hash/sha/generic.h"
 
+#include "hash.h"
+
 /* MD Interface */
 char *hash_buffer_md4(char *out, const char *in, size_t len) {
 	return md4_buffer(out, in, len);

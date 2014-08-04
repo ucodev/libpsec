@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Base64 Decoding interface header
  *
- * Date: 03-08-2014
+ * Date: 04-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -40,6 +40,6 @@ static char _base64_index[64] = {
 };
 
 /* Prototypes */
-char *base64_decode(char *out, const char *in, size_t in_len);
+char *base64_decode(char *out, size_t *out_len, const char *in, size_t in_len);
 
 #endif
