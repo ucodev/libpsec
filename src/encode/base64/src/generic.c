@@ -9,7 +9,7 @@
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
+ * distributed with this context for additional information
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
@@ -35,7 +35,7 @@
 char *base64_encode(char *out, const char *in, size_t in_len) {
 	int i = 0, j = 0, left = 0;
 	char align[3] = { 0, 0, 0 };
-	const char *work = in;
+	const char *context = in;
 
 	if (!out) {
 		if (!(out = malloc((in_len + 3) * 1.4)))
@@ -43,10 +43,10 @@ char *base64_encode(char *out, const char *in, size_t in_len) {
 	}
 
 	for (i = 0, j = 0; (i + 3) <= in_len; i += 3, j += 4) {
-		out[j]     = _base64_index[work[i] >> 2];
-		out[j + 1] = _base64_index[((work[i] & 0x03) << 4) | (work[i + 1] >> 4)];
-		out[j + 2] = _base64_index[((work[i + 1] & 0x0f) << 2) | (work[i + 2] >> 6)];
-		out[j + 3] = _base64_index[work[i + 2] & 0x3f];
+		out[j]     = _base64_index[context[i] >> 2];
+		out[j + 1] = _base64_index[((context[i] & 0x03) << 4) | (context[i + 1] >> 4)];
+		out[j + 2] = _base64_index[((context[i + 1] & 0x0f) << 2) | (context[i + 2] >> 6)];
+		out[j + 3] = _base64_index[context[i + 2] & 0x3f];
 	}
 
 	if (!(left = in_len - i)) {
@@ -55,13 +55,13 @@ char *base64_encode(char *out, const char *in, size_t in_len) {
 	}
 
 	memcpy(align, &in[i], left);
-	work = align;
+	context = align;
 	out[j + 4] = i = 0;
 
 	switch (left) {
-		case 2: out[j + 2] = _base64_index[((work[i + 1] & 0x0f) << 2) | (work[i + 2] >> 6)];
-		case 1: out[j] = _base64_index[work[i] >> 2];
-			out[j + 1] = _base64_index[((work[i] & 0x03) << 4) | (work[i + 1] >> 4)];
+		case 2: out[j + 2] = _base64_index[((context[i + 1] & 0x0f) << 2) | (context[i + 2] >> 6)];
+		case 1: out[j] = _base64_index[context[i] >> 2];
+			out[j + 1] = _base64_index[((context[i] & 0x03) << 4) | (context[i + 1] >> 4)];
 			out[j + 3] = '=';
 			if (left == 1) out[j + 2] = '=';
 	}
