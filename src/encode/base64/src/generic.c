@@ -37,6 +37,11 @@ char *base64_encode(char *out, const char *in, size_t in_len) {
 	char align[3] = { 0, 0, 0 };
 	const char *work = in;
 
+	if (!out) {
+		if (!(out = malloc((in_len + 3) * 1.4)))
+			return NULL;
+	}
+
 	for (i = 0, j = 0; (i + 3) <= in_len; i += 3, j += 4) {
 		out[j]     = _base64_index[work[i] >> 2];
 		out[j + 1] = _base64_index[((work[i] & 0x03) << 4) | (work[i + 1] >> 4)];
@@ -44,12 +49,14 @@ char *base64_encode(char *out, const char *in, size_t in_len) {
 		out[j + 3] = _base64_index[work[i + 2] & 0x3f];
 	}
 
-	if (!(left = in_len - i))
+	if (!(left = in_len - i)) {
+		out[j] = 0;
 		return out;
+	}
 
 	memcpy(align, &in[i], left);
 	work = align;
-	i = 0;
+	out[j + 4] = i = 0;
 
 	switch (left) {
 		case 2: out[j + 2] = _base64_index[((work[i + 1] & 0x0f) << 2) | (work[i + 2] >> 6)];

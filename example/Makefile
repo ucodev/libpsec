@@ -2,6 +2,7 @@ CC=`cat ../.compiler`
 LDFLAGS=-lpsec
 
 all:
+	${CC} -o base64_encode base64_encode.c ${LDFLAGS}
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
 	${CC} -o md5_buffer_alloc md5_buffer_alloc.c ${LDFLAGS}
 	${CC} -o md5_buffer md5_buffer.c ${LDFLAGS}
@@ -11,6 +12,7 @@ all:
 	${CC} -o pbkdf2 pbkdf2.c ${LDFLAGS}
 
 clean:
+	rm -f base64_encode
 	rm -f hmac_md5
 	rm -f md5_buffer_alloc
 	rm -f md5_buffer
