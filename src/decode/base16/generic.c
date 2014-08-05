@@ -27,11 +27,12 @@
  */
 
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "decode/base16/generic.h"
 
-static char _hex_char_to_nibble(char hex) {
+static uint8_t _hex_char_to_nibble(uint8_t hex) {
 	hex |= 0x20;
 
 	return hex - (hex >= 97 ? 87 : 48);

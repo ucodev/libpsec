@@ -28,14 +28,15 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "encode/base64/generic.h"
 
 char *base64_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	int i = 0, j = 0, left = 0;
-	char align[3] = { 0, 0, 0 };
-	const char *context = in;
+	uint8_t align[3] = { 0, 0, 0 };
+	const uint8_t *context = (uint8_t *) in;
 
 	if (!out) {
 		if (!(out = malloc((in_len + 3) * 1.4)))
@@ -67,7 +68,7 @@ char *base64_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
 			if (left == 1) out[j + 2] = '=';
 	}
 
-	*out_len = j;
+	*out_len = j + 4;
 
 	return out;
 }

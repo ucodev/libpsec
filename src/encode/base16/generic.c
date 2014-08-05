@@ -27,15 +27,16 @@
  */
 
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "encode/base16/generic.h"
 
-static char _nibble_to_hex_char(char nibble) {
+static uint8_t _nibble_to_hex_char(uint8_t nibble) {
 	if (nibble > 15)
-		return (char) 0;
+		return (uint8_t) 0;
 
-	return (char) nibble + (nibble < 10 ? 48 : 87);
+	return (uint8_t) nibble + (nibble < 10 ? 48 : 87);
 }
 
 char *base16_encode(char *out, size_t *out_len, const char *in, size_t in_len) {

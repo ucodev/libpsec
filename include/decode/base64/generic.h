@@ -30,9 +30,10 @@
 #define LIBPSEC_GENERIC_DECODE_BASE64_H
 
 #include <stdio.h>
+#include <stdint.h>
 
 /* Definitions */
-static char _base64_index[64] = {
+static uint8_t _base64_index[64] = {
 	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
 	'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
 	'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',

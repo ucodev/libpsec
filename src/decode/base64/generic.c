@@ -28,11 +28,12 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "decode/base64/generic.h"
 
-int _get_index(char code) {
+int _get_index(uint8_t code) {
 	int i = 0;
 
 	if (code == '=')
@@ -48,8 +49,8 @@ int _get_index(char code) {
 
 char *base64_decode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	int i = 0, j = 0, left = 0;
-	char align[4] = { '=', '=', '=', '=' };
-	const char *context = in;
+	uint8_t align[4] = { '=', '=', '=', '=' };
+	const uint8_t *context = (uint8_t *) in;
 
 	if (!out) {
 		if (!(out = malloc((in_len + 4) * 0.8)))
@@ -71,9 +72,9 @@ char *base64_decode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	memcpy(align, &context[i], left);
 	context = align;
 
-	base64_decode(&out[j], out_len, context, 4);
+	base64_decode(&out[j], out_len, (const char *) context, 4);
 
-	*out_len = j + 4;
+	*out_len = j + 3;
 	out[j] = 0;
 
 	return out;
