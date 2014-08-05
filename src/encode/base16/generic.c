@@ -41,6 +41,7 @@ static uint8_t _nibble_to_hex_char(uint8_t nibble) {
 
 char *base16_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	int i = 0;
+	const uint8_t *work = (const uint8_t *) in;
 
 	if (!out) {
 		if (!(out = malloc((in_len * 2) + 1)))
@@ -48,8 +49,8 @@ char *base16_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	}
 
 	for (i = 0; i < in_len; i ++) {
-		out[(i * 2)] = _nibble_to_hex_char((in[i] & 0xf0) >> 4);
-		out[(i * 2) + 1] = _nibble_to_hex_char(in[i] & 0x0f);
+		out[(i * 2)] = _nibble_to_hex_char((work[i] & 0xf0) >> 4);
+		out[(i * 2) + 1] = _nibble_to_hex_char(work[i] & 0x0f);
 	}
 
 	*out_len = i * 2;
