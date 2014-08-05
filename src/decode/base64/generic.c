@@ -74,8 +74,7 @@ char *base64_decode(char *out, size_t *out_len, const char *in, size_t in_len) {
 
 	base64_decode(&out[j], out_len, (const char *) context, 4);
 
-	*out_len = j + 3;
-	out[j] = 0;
+	*out_len += j;
 
 	return out;
 }
