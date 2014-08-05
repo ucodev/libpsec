@@ -8,6 +8,7 @@ all:
 	${CC} -o base64_encode base64_encode.c ${LDFLAGS}
 	${CC} -o blake2b_buffer blake2b_buffer.c ${LDFLAGS}
 	${CC} -o blake2s_buffer blake2s_buffer.c ${LDFLAGS}
+	${CC} -o blake2s_file blake2s_file.c ${LDFLAGS}
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
 	${CC} -o md5_buffer_alloc md5_buffer_alloc.c ${LDFLAGS}
 	${CC} -o md5_buffer md5_buffer.c ${LDFLAGS}
@@ -23,6 +24,7 @@ clean:
 	rm -f base64_encode
 	rm -f blake2b_buffer
 	rm -f blake2s_buffer
+	rm -f blake2s_file
 	rm -f hmac_md5
 	rm -f md5_buffer_alloc
 	rm -f md5_buffer

@@ -11,6 +11,11 @@ else
 	exit 1
 fi
 
+if [ ! -e "/usr/bin/ld" ]; then
+	echo "/usr/bin/ld not found."
+	exit 1
+fi
+
 make
 
 if [ $? -ne 0 ]; then
