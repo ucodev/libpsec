@@ -9,7 +9,6 @@ int main(void) {
 	unsigned char decrypted[19];
 	unsigned char key[CRYPT_KEY_SIZE_XSALSA20] = "weak";
 	unsigned char nonce[CRYPT_NONCE_SIZE_XSALSA20] = "random";
-	unsigned char out1[128], out2[128];
 	size_t encrypted_out_len = 0, decrypted_out_len = 0;
 
 	crypt_encrypt_xsalsa20(encrypted, &encrypted_out_len, plain, sizeof(plain), nonce, key);
