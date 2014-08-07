@@ -34,14 +34,14 @@
 #include "kdf.h"
 
 /* PBKDF2 Interface */
-char *kdf_pbkdf2_hash(
-	char *out,
-	char *(hash) (char *out, const char *in, size_t len),
+unsigned char *kdf_pbkdf2_hash(
+	unsigned char *out,
+	unsigned char *(hash) (unsigned char *out, const unsigned char *in, size_t in_len),
 	size_t hash_len,
 	size_t hash_block_size,
-	const char *pw,
+	const unsigned char *pw,
 	size_t pw_len,
-	const char *salt,
+	const unsigned char *salt,
 	size_t salt_len,
 	int iterations,
 	size_t out_size)
@@ -49,7 +49,7 @@ char *kdf_pbkdf2_hash(
 	return pbkdf2_hash(out, hash, hash_len, hash_block_size, pw, pw_len, salt, salt_len, iterations, out_size);
 }
 
-void kdf_destroy(char *digest) {
+void kdf_destroy(unsigned char *digest) {
 	free(digest);
 }
 

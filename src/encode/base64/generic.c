@@ -33,7 +33,7 @@
 
 #include "encode/base64/generic.h"
 
-char *base64_encode(char *out, size_t *out_len, const char *in, size_t in_len) {
+unsigned char *base64_encode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
 	int i = 0, j = 0, left = 0;
 	uint8_t align[3] = { 0, 0, 0 };
 	const uint8_t *context = (uint8_t *) in;

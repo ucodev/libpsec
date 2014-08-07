@@ -41,11 +41,11 @@
 /* Prototypes */
 
 /* Blake2b Generic Interface */
-char *blake2b_buffer(char *out, const char *in, size_t len);
-char *blake2b_file(char *out, FILE *fp);
+unsigned char *blake2b_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *blake2b_file(unsigned char *out, FILE *fp);
 /* Blake2s Generic Interface */
-char *blake2s_buffer(char *out, const char *in, size_t len);
-char *blake2s_file(char *out, FILE *fp);
+unsigned char *blake2s_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *blake2s_file(unsigned char *out, FILE *fp);
 
 
 #endif

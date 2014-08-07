@@ -31,20 +31,20 @@
 #include <errno.h>
 #include <stdlib.h>
 
-char *hmac_generic(
-	char *out,
-	char *(*hash) (char *out, const char *in, size_t len),
+unsigned char *hmac_generic(
+	unsigned char *out,
+	unsigned char *(*hash) (unsigned char *out, const unsigned char *in, size_t in_len),
 	size_t hash_len,
 	size_t hash_block_size,
-	const char *key,
+	const unsigned char *key,
 	size_t key_len,
-	const char *msg,
+	const unsigned char *msg,
 	size_t msg_len)
 {
 	int i = 0, errsv = 0;
-	char *key_local = NULL;
-	char *o_key_pad = NULL;
-	char *i_key_pad = NULL;
+	unsigned char *key_local = NULL;
+	unsigned char *o_key_pad = NULL;
+	unsigned char *i_key_pad = NULL;
 
 	/* Allocate temporary memory */
 	if (!(key_local = malloc(hash_block_size)))

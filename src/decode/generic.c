@@ -35,17 +35,17 @@
 #include "decode.h"
 
 /* Base16 Interface */
-char *decode_buffer_base16(char *out, size_t *out_len, const char *in, size_t len) {
-	return base16_decode(out, out_len, in, len);
+unsigned char *decode_buffer_base16(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
+	return base16_decode(out, out_len, in, in_len);
 }
 
 /* Base64 Interface */
-char *decode_buffer_base64(char *out, size_t *out_len, const char *in, size_t len) {
-	return base64_decode(out, out_len, in, len);
+unsigned char *decode_buffer_base64(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
+	return base64_decode(out, out_len, in, in_len);
 }
 
 /* Generic */
-void decode_destroy(char *decode) {
+void decode_destroy(unsigned char *decode) {
 	free(decode);
 }
 

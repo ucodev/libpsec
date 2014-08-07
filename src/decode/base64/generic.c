@@ -47,7 +47,7 @@ int _get_index(uint8_t code) {
 	return i;
 }
 
-char *base64_decode(char *out, size_t *out_len, const char *in, size_t in_len) {
+unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
 	int i = 0, j = 0, left = 0;
 	uint8_t align[4] = { '=', '=', '=', '=' };
 	const uint8_t *context = (uint8_t *) in;
@@ -72,7 +72,7 @@ char *base64_decode(char *out, size_t *out_len, const char *in, size_t in_len) {
 	memcpy(align, &context[i], left);
 	context = align;
 
-	base64_decode(&out[j], out_len, (const char *) context, 4);
+	base64_decode(&out[j], out_len, (const unsigned char *) context, 4);
 
 	*out_len += j;
 

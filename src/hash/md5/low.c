@@ -35,13 +35,13 @@ int md5_low_init(MD5_CTX *context) {
 	return 0;
 }
 
-int md5_low_update(MD5_CTX *context, const char *in, size_t len) {
-	MD5Update(context, in, len);
+int md5_low_update(MD5_CTX *context, const unsigned char *in, size_t in_len) {
+	MD5Update(context, in, in_len);
 
 	return 0;
 }
 
-int md5_low_final(MD5_CTX *context, char *out) {
+int md5_low_final(MD5_CTX *context, unsigned char *out) {
 	MD5Final(out, context);
 
 	return 0;

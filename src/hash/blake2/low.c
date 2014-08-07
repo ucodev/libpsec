@@ -35,13 +35,13 @@ int blake2b_low_init(blake2b_state *context) {
 	return 0;
 }
 
-int blake2b_low_update(blake2b_state *context, const char *in, size_t len) {
-	blake2b_update(context, (const uint8_t *) in, len);
+int blake2b_low_update(blake2b_state *context, const unsigned char *in, size_t in_len) {
+	blake2b_update(context, (const uint8_t *) in, in_len);
 
 	return 0;
 }
 
-int blake2b_low_final(blake2b_state *context, char *out) {
+int blake2b_low_final(blake2b_state *context, unsigned char *out) {
 	blake2b_final(context, (uint8_t *) out, BLAKE2B_OUTBYTES);
 
 	return 0;
@@ -54,13 +54,13 @@ int blake2s_low_init(blake2s_state *context) {
 	return 0;
 }
 
-int blake2s_low_update(blake2s_state *context, const char *in, size_t len) {
-	blake2s_update(context, (const uint8_t *) in, len);
+int blake2s_low_update(blake2s_state *context, const unsigned char *in, size_t in_len) {
+	blake2s_update(context, (const uint8_t *) in, in_len);
 
 	return 0;
 }
 
-int blake2s_low_final(blake2s_state *context, char *out) {
+int blake2s_low_final(blake2s_state *context, unsigned char *out) {
 	blake2s_final(context, (uint8_t *) out, BLAKE2S_OUTBYTES);
 
 	return 0;

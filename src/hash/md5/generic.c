@@ -35,9 +35,9 @@
 #include "hash/md5/md5.h"
 
 /* MD5 Generic Interface */
-char *md5_buffer(char *out, const char *in, size_t len) {
+unsigned char *md5_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
 	MD5_CTX md5;
-	char *digest = NULL;
+	unsigned char *digest = NULL;
 
 	if (!out) {
 		if (!(digest = malloc(MD5_HASH_DIGEST_SIZE)))
@@ -47,17 +47,17 @@ char *md5_buffer(char *out, const char *in, size_t len) {
 	}
 
 	MD5Init(&md5);
-	MD5Update(&md5, in, len);
+	MD5Update(&md5, in, in_len);
 	MD5Final(digest, &md5);
 
 	return digest;
 }
 
-char *md5_file(char *out, FILE *fp) {
+unsigned char *md5_file(unsigned char *out, FILE *fp) {
 	MD5_CTX md5;
 	size_t ret = 0;
 	int errsv = 0;
-	char buf[8192], *digest = NULL;
+	unsigned char buf[8192], *digest = NULL;
 
 	MD5Init(&md5);
 

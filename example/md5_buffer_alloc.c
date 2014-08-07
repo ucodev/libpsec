@@ -5,16 +5,16 @@
 #include <psec/hash.h>
 
 int main(void) {
-	char msg[] = "test";
-	char *digest = NULL, *fmt_digest = NULL;
+	unsigned char msg[] = "test";
+	unsigned char *digest = NULL, *encoded_digest = NULL;
 	size_t out_len = 0;
 
-	digest = hash_buffer_md5(NULL, msg, strlen(msg));
-	fmt_digest = encode_buffer_base16(NULL, &out_len, digest, HASH_DIGEST_SIZE_MD5);
+	digest = hash_buffer_md5(NULL, msg, strlen((char *) msg));
+	encoded_digest = encode_buffer_base16(NULL, &out_len, digest, HASH_DIGEST_SIZE_MD5);
 
-	puts(fmt_digest);
+	puts((char *) encoded_digest);
 
-	encode_destroy(fmt_digest);
+	encode_destroy(encoded_digest);
 	hash_destroy(digest);
 
 	return 0;

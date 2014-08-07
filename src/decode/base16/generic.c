@@ -38,7 +38,7 @@ static uint8_t _hex_char_to_nibble(uint8_t hex) {
 	return hex - (hex >= 97 ? 87 : 48);
 }
 
-char *base16_decode(char *out, size_t *out_len, const char *in, size_t in_len) {
+unsigned char *base16_decode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
 	int i = 0, align = 0;
 	const uint8_t *work = (const uint8_t *) in;
 

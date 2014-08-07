@@ -39,8 +39,8 @@
 /* Prototypes */
 
 /* MD4 Generic Interface */
-char *md4_buffer(char *out, const char *in, size_t len);
-char *md4_file(char *out, FILE *fp);
+unsigned char *md4_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *md4_file(unsigned char *out, FILE *fp);
 
 #endif
 

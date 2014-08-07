@@ -32,6 +32,6 @@
 #include <stdio.h>
 
 /* Prototypes */
-char *base16_decode(char *out, size_t *out_len, const char *in, size_t in_len);
+unsigned char *base16_decode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len);
 
 #endif

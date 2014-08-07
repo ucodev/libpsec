@@ -36,8 +36,8 @@
 
 /* MD4 Low Level Interface */
 int md5_low_init(MD5_CTX *context);
-int md5_low_update(MD5_CTX *context, const char *in, size_t len);
-int md5_low_final(MD5_CTX *context, char *out);
+int md5_low_update(MD5_CTX *context, const unsigned char *in, size_t in_len);
+int md5_low_final(MD5_CTX *context, unsigned char *out);
 
 #endif
 

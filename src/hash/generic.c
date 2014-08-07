@@ -37,82 +37,82 @@
 #include "hash.h"
 
 /* MD Interface */
-char *hash_buffer_md4(char *out, const char *in, size_t len) {
-	return md4_buffer(out, in, len);
+unsigned char *hash_buffer_md4(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return md4_buffer(out, in, in_len);
 }
 
-char *hash_file_md4(char *out, FILE *fp) {
+unsigned char *hash_file_md4(unsigned char *out, FILE *fp) {
 	return md4_file(out, fp);
 }
 
-char *hash_buffer_md5(char *out, const char *in, size_t len) {
-	return md5_buffer(out, in, len);
+unsigned char *hash_buffer_md5(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return md5_buffer(out, in, in_len);
 }
 
-char *hash_file_md5(char *out, FILE *fp) {
+unsigned char *hash_file_md5(unsigned char *out, FILE *fp) {
 	return md5_file(out, fp);
 }
 
 /* SHA Interface */
-char *hash_buffer_sha1(char *out, const char *in, size_t len) {
-	return sha1_buffer(out, in, len);
+unsigned char *hash_buffer_sha1(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return sha1_buffer(out, in, in_len);
 }
 
-char *hash_file_sha1(char *out, FILE *fp) {
+unsigned char *hash_file_sha1(unsigned char *out, FILE *fp) {
 	return sha1_file(out, fp);
 }
 
-char *hash_buffer_sha224(char *out, const char *in, size_t len) {
-	return sha224_buffer(out, in, len);
+unsigned char *hash_buffer_sha224(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return sha224_buffer(out, in, in_len);
 }
 
-char *hash_file_sha224(char *out, FILE *fp) {
+unsigned char *hash_file_sha224(unsigned char *out, FILE *fp) {
 	return sha224_file(out, fp);
 }
 
-char *hash_buffer_sha256(char *out, const char *in, size_t len) {
-	return sha256_buffer(out, in, len);
+unsigned char *hash_buffer_sha256(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return sha256_buffer(out, in, in_len);
 }
 
-char *hash_file_sha256(char *out, FILE *fp) {
+unsigned char *hash_file_sha256(unsigned char *out, FILE *fp) {
 	return sha256_file(out, fp);
 }
 
-char *hash_buffer_sha384(char *out, const char *in, size_t len) {
-	return sha384_buffer(out, in, len);
+unsigned char *hash_buffer_sha384(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return sha384_buffer(out, in, in_len);
 }
 
-char *hash_file_sha384(char *out, FILE *fp) {
+unsigned char *hash_file_sha384(unsigned char *out, FILE *fp) {
 	return sha384_file(out, fp);
 }
 
-char *hash_buffer_sha512(char *out, const char *in, size_t len) {
-	return sha512_buffer(out, in, len);
+unsigned char *hash_buffer_sha512(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return sha512_buffer(out, in, in_len);
 }
 
-char *hash_file_sha512(char *out, FILE *fp) {
+unsigned char *hash_file_sha512(unsigned char *out, FILE *fp) {
 	return sha512_file(out, fp);
 }
 
 /* Blake2 Interface */
-char *hash_buffer_blake2b(char *out, const char *in, size_t len) {
-	return blake2b_buffer(out, in, len);
+unsigned char *hash_buffer_blake2b(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return blake2b_buffer(out, in, in_len);
 }
 
-char *hash_file_blake2b(char *out, FILE *fp) {
+unsigned char *hash_file_blake2b(unsigned char *out, FILE *fp) {
 	return blake2b_file(out, fp);
 }
 
-char *hash_buffer_blake2s(char *out, const char *in, size_t len) {
-	return blake2s_buffer(out, in, len);
+unsigned char *hash_buffer_blake2s(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return blake2s_buffer(out, in, in_len);
 }
 
-char *hash_file_blake2s(char *out, FILE *fp) {
+unsigned char *hash_file_blake2s(unsigned char *out, FILE *fp) {
 	return blake2s_file(out, fp);
 }
 
 /* Generic */
-void hash_destroy(char *digest) {
+void hash_destroy(unsigned char *digest) {
 	free(digest);
 }
 

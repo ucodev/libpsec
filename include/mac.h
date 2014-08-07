@@ -35,14 +35,14 @@
 /******************/
 /* HMAC Interface */
 /******************/
-char *mac_hmac_hash(
-	char *out,
-	char *(*hash) (char *out, const char *in, size_t len),
+unsigned char *mac_hmac_hash(
+	unsigned char *out,
+	unsigned char *(*hash) (unsigned char *out, const unsigned char *in, size_t in_len),
 	size_t hash_len,
 	size_t hash_block_size,
-	const char *key,
+	const unsigned char *key,
 	size_t key_len,
-	const char *msg,
+	const unsigned char *msg,
 	size_t msg_len);
 
 #endif

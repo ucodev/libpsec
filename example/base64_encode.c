@@ -3,13 +3,13 @@
 #include <psec/encode.h>
 
 int main(void) {
-	char msg[] = "test";
-	char *out = NULL;
+	unsigned char msg[] = "test";
+	unsigned char *out = NULL;
 	size_t out_len = 0;
 
 	out = encode_buffer_base64(NULL, &out_len, msg, sizeof(msg) - 1);
 
-	puts(out);
+	puts((char *) out);
 
 	encode_destroy(out);
 

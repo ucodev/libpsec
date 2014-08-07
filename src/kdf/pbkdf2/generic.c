@@ -37,21 +37,21 @@
 
 #include "mac.h"
 
-static char *_f_hash(
-	char *out,
-	char *(hash) (char *out, const char *in, size_t len),
+static unsigned char *_f_hash(
+	unsigned char *out,
+	unsigned char *(hash) (unsigned char *out, const unsigned char *in, size_t in_len),
 	size_t hash_len,
 	size_t hash_block_size,
-	const char *pw,
+	const unsigned char *pw,
 	size_t pw_len,
-	const char *salt,
+	const unsigned char *salt,
 	size_t salt_len,
 	unsigned int iterations,
 	uint32_t iteration)
 {
 	int i = 0, j = 0, errsv = 0;
-	char *u = NULL;
-	char *out_tmp = NULL;
+	unsigned char *u = NULL;
+	unsigned char *out_tmp = NULL;
 
 	if (!(u = malloc(hash_len + salt_len + 4)))
 		return NULL;
@@ -96,20 +96,20 @@ static char *_f_hash(
 	return out;
 }
 
-char *pbkdf2_hash(
-	char *out,
-	char *(hash) (char *out, const char *in, size_t len),
+unsigned char *pbkdf2_hash(
+	unsigned char *out,
+	unsigned char *(hash) (unsigned char *out, const unsigned char *in, size_t in_len),
 	size_t hash_len,
 	size_t hash_block_size,
-	const char *pw,
+	const unsigned char *pw,
 	size_t pw_len,
-	const char *salt,
+	const unsigned char *salt,
 	size_t salt_len,
 	int iterations,
 	size_t out_size)
 {
 	int i = 0, len = 0, errsv = 0, out_alloc = 0;
-	char *hash_tmp = NULL;
+	unsigned char *hash_tmp = NULL;
 
 	if (!(hash_tmp = malloc(hash_len)))
 		return NULL;

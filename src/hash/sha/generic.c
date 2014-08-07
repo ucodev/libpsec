@@ -35,7 +35,7 @@
 #include "hash/sha/sha.h"
 
 /* SHA1 Generic Interface */
-char *sha1_buffer(char *out, const char *in, size_t len) {
+unsigned char *sha1_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
 	SHA1Context sha1;
 	uint8_t *digest = NULL;
 
@@ -47,7 +47,7 @@ char *sha1_buffer(char *out, const char *in, size_t len) {
 	}
 
 	SHA1Reset(&sha1);
-	SHA1Input(&sha1, (const uint8_t *) in, len);
+	SHA1Input(&sha1, (const uint8_t *) in, in_len);
 
 	if (SHA1Result(&sha1, digest)) {
 		free(digest);
@@ -55,14 +55,14 @@ char *sha1_buffer(char *out, const char *in, size_t len) {
 		return NULL;
 	}
 
-	return (char *) digest;
+	return (unsigned char *) digest;
 }
 
-char *sha1_file(char *out, FILE *fp) {
+unsigned char *sha1_file(unsigned char *out, FILE *fp) {
 	SHA1Context sha1;
 	size_t ret = 0;
 	int errsv = 0;
-	char buf[8192];
+	unsigned char buf[8192];
 	uint8_t *digest = NULL;
 
 	SHA1Reset(&sha1);
@@ -91,11 +91,11 @@ char *sha1_file(char *out, FILE *fp) {
 
 	SHA1Result(&sha1, digest);
 
-	return (char *) digest;
+	return (unsigned char *) digest;
 }
 
 /* SHA224 Generic Interface */
-char *sha224_buffer(char *out, const char *in, size_t len) {
+unsigned char *sha224_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
 	SHA224Context sha224;
 	uint8_t *digest = NULL;
 
@@ -107,7 +107,7 @@ char *sha224_buffer(char *out, const char *in, size_t len) {
 	}
 
 	SHA224Reset(&sha224);
-	SHA224Input(&sha224, (const uint8_t *) in, len);
+	SHA224Input(&sha224, (const uint8_t *) in, in_len);
 
 	if (SHA224Result(&sha224, digest)) {
 		free(digest);
@@ -115,14 +115,14 @@ char *sha224_buffer(char *out, const char *in, size_t len) {
 		return NULL;
 	}
 
-	return (char *) digest;
+	return (unsigned char *) digest;
 }
 
-char *sha224_file(char *out, FILE *fp) {
+unsigned char *sha224_file(unsigned char *out, FILE *fp) {
 	SHA224Context sha224;
 	size_t ret = 0;
 	int errsv = 0;
-	char buf[8192];
+	unsigned char buf[8192];
 	uint8_t *digest = NULL;
 
 	SHA224Reset(&sha224);
@@ -151,11 +151,11 @@ char *sha224_file(char *out, FILE *fp) {
 
 	SHA224Result(&sha224, digest);
 
-	return (char *) digest;
+	return (unsigned char *) digest;
 }
 
 /* SHA256 Generic Interface */
-char *sha256_buffer(char *out, const char *in, size_t len) {
+unsigned char *sha256_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
 	SHA256Context sha256;
 	uint8_t *digest = NULL;
 
@@ -167,7 +167,7 @@ char *sha256_buffer(char *out, const char *in, size_t len) {
 	}
 
 	SHA256Reset(&sha256);
-	SHA256Input(&sha256, (const uint8_t *) in, len);
+	SHA256Input(&sha256, (const uint8_t *) in, in_len);
 
 	if (SHA256Result(&sha256, digest)) {
 		free(digest);
@@ -175,14 +175,14 @@ char *sha256_buffer(char *out, const char *in, size_t len) {
 		return NULL;
 	}
 
-	return (char *) digest;
+	return (unsigned char *) digest;
 }
 
-char *sha256_file(char *out, FILE *fp) {
+unsigned char *sha256_file(unsigned char *out, FILE *fp) {
 	SHA256Context sha256;
 	size_t ret = 0;
 	int errsv = 0;
-	char buf[8192];
+	unsigned char buf[8192];
 	uint8_t *digest = NULL;
 
 	SHA256Reset(&sha256);
@@ -211,11 +211,11 @@ char *sha256_file(char *out, FILE *fp) {
 
 	SHA256Result(&sha256, digest);
 
-	return (char *) digest;
+	return (unsigned char *) digest;
 }
 
 /* SHA384 Generic Interface */
-char *sha384_buffer(char *out, const char *in, size_t len) {
+unsigned char *sha384_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
 	SHA384Context sha384;
 	uint8_t *digest = NULL;
 
@@ -227,7 +227,7 @@ char *sha384_buffer(char *out, const char *in, size_t len) {
 	}
 
 	SHA384Reset(&sha384);
-	SHA384Input(&sha384, (const uint8_t *) in, len);
+	SHA384Input(&sha384, (const uint8_t *) in, in_len);
 
 	if (SHA384Result(&sha384, digest)) {
 		free(digest);
@@ -235,14 +235,14 @@ char *sha384_buffer(char *out, const char *in, size_t len) {
 		return NULL;
 	}
 
-	return (char *) digest;
+	return (unsigned char *) digest;
 }
 
-char *sha384_file(char *out, FILE *fp) {
+unsigned char *sha384_file(unsigned char *out, FILE *fp) {
 	SHA384Context sha384;
 	size_t ret = 0;
 	int errsv = 0;
-	char buf[8192];
+	unsigned char buf[8192];
 	uint8_t *digest = NULL;
 
 	SHA384Reset(&sha384);
@@ -271,11 +271,11 @@ char *sha384_file(char *out, FILE *fp) {
 
 	SHA384Result(&sha384, digest);
 
-	return (char *) digest;
+	return (unsigned char *) digest;
 }
 
 /* SHA512 Generic Interface */
-char *sha512_buffer(char *out, const char *in, size_t len) {
+unsigned char *sha512_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
 	SHA512Context sha512;
 	uint8_t *digest = NULL;
 
@@ -287,7 +287,7 @@ char *sha512_buffer(char *out, const char *in, size_t len) {
 	}
 
 	SHA512Reset(&sha512);
-	SHA512Input(&sha512, (const uint8_t *) in, len);
+	SHA512Input(&sha512, (const uint8_t *) in, in_len);
 
 	if (SHA512Result(&sha512, digest)) {
 		free(digest);
@@ -295,14 +295,14 @@ char *sha512_buffer(char *out, const char *in, size_t len) {
 		return NULL;
 	}
 
-	return (char *) digest;
+	return (unsigned char *) digest;
 }
 
-char *sha512_file(char *out, FILE *fp) {
+unsigned char *sha512_file(unsigned char *out, FILE *fp) {
 	SHA512Context sha512;
 	size_t ret = 0;
 	int errsv = 0;
-	char buf[8192];
+	unsigned char buf[8192];
 	uint8_t *digest = NULL;
 
 	SHA512Reset(&sha512);
@@ -331,6 +331,6 @@ char *sha512_file(char *out, FILE *fp) {
 
 	SHA512Result(&sha512, digest);
 
-	return (char *) digest;
+	return (unsigned char *) digest;
 }
 

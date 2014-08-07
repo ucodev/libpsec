@@ -35,15 +35,15 @@
 /********************/
 /* Base16 Interface */
 /********************/
-char *encode_buffer_base16(char *out, size_t *out_len, const char *in, size_t in_len);
+unsigned char *encode_buffer_base16(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len);
 /********************/
 /* Base64 Interface */
 /********************/
-char *encode_buffer_base64(char *out, size_t *out_len, const char *in, size_t in_len);
+unsigned char *encode_buffer_base64(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len);
 /********************/
 /* Common Interface */
 /********************/
-void encode_destroy(char *encode);
+void encode_destroy(unsigned char *encode);
 
 #endif
 

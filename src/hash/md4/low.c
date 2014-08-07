@@ -35,13 +35,13 @@ int md4_low_init(MD4_CTX *context) {
 	return 0;
 }
 
-int md4_low_update(MD4_CTX *context, const char *in, size_t len) {
-	MD4Update(context, in, len);
+int md4_low_update(MD4_CTX *context, const unsigned char *in, size_t in_len) {
+	MD4Update(context, in, in_len);
 
 	return 0;
 }
 
-int md4_low_final(MD4_CTX *context, char *out) {
+int md4_low_final(MD4_CTX *context, unsigned char *out) {
 	MD4Final(out, context);
 
 	return 0;

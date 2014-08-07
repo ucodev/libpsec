@@ -14,6 +14,7 @@
         - RSA Data Security Inc. MD4 Message-Digest Algorithm
         - RSA Data Security Inc. MD5 Message-Digest Algorithm
         - The Internet Society, US Secure Hash Algorithms.
+	- Ilya O. Levin, AES-256 ECB, http://www.literatecode.com/aes256
 
    Only the files containing original contents are covered by
    the LICENSE. The content of any other file not covered by

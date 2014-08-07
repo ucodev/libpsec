@@ -51,40 +51,40 @@ typedef union {
 /* Prototypes */
 /* Blake2b Interface */
 int hash_low_blake2b_init(psec_low_hash_t *context);
-int hash_low_blake2b_update(psec_low_hash_t *context, const char *in, size_t len);
-int hash_low_blake2b_final(psec_low_hash_t *context, char *out);
+int hash_low_blake2b_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_blake2b_final(psec_low_hash_t *context, unsigned char *out);
 /* Blake2s Interface */
 int hash_low_blake2s_init(psec_low_hash_t *context);
-int hash_low_blake2s_update(psec_low_hash_t *context, const char *in, size_t len);
-int hash_low_blake2s_final(psec_low_hash_t *context, char *out);
+int hash_low_blake2s_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_blake2s_final(psec_low_hash_t *context, unsigned char *out);
 /* MD4 Interface */
 int hash_low_md4_init(psec_low_hash_t *context);
-int hash_low_md4_update(psec_low_hash_t *context, const char *in, size_t len);
-int hash_low_md4_final(psec_low_hash_t *context, char *out);
+int hash_low_md4_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_md4_final(psec_low_hash_t *context, unsigned char *out);
 /* MD5 Interface */
 int hash_low_md5_init(psec_low_hash_t *context);
-int hash_low_md5_update(psec_low_hash_t *context, const char *in, size_t len);
-int hash_low_md5_final(psec_low_hash_t *context, char *out);
+int hash_low_md5_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_md5_final(psec_low_hash_t *context, unsigned char *out);
 /* SHA1 Interface */
 int hash_low_sha1_init(psec_low_hash_t *context);
-int hash_low_sha1_update(psec_low_hash_t *context, const char *in, size_t len);
-int hash_low_sha1_final(psec_low_hash_t *context, char *out);
+int hash_low_sha1_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_sha1_final(psec_low_hash_t *context, unsigned char *out);
 /* SHA224 Interface */
 int hash_low_sha224_init(psec_low_hash_t *context);
-int hash_low_sha224_update(psec_low_hash_t *context, const char *in, size_t len);
-int hash_low_sha224_final(psec_low_hash_t *context, char *out);
+int hash_low_sha224_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_sha224_final(psec_low_hash_t *context, unsigned char *out);
 /* SHA256 Interface */
 int hash_low_sha256_init(psec_low_hash_t *context);
-int hash_low_sha256_update(psec_low_hash_t *context, const char *in, size_t len);
-int hash_low_sha256_final(psec_low_hash_t *context, char *out);
+int hash_low_sha256_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_sha256_final(psec_low_hash_t *context, unsigned char *out);
 /* SHA384 Interface */
 int hash_low_sha384_init(psec_low_hash_t *context);
-int hash_low_sha384_update(psec_low_hash_t *context, const char *in, size_t len);
-int hash_low_sha384_final(psec_low_hash_t *context, char *out);
+int hash_low_sha384_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_sha384_final(psec_low_hash_t *context, unsigned char *out);
 /* SHA512 Interface */
 int hash_low_sha512_init(psec_low_hash_t *context);
-int hash_low_sha512_update(psec_low_hash_t *context, const char *in, size_t len);
-int hash_low_sha512_final(psec_low_hash_t *context, char *out);
+int hash_low_sha512_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_sha512_final(psec_low_hash_t *context, unsigned char *out);
 
 #endif
 

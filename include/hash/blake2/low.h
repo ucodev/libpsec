@@ -35,13 +35,13 @@
 
 /* Blake2b Low Level Interface */
 int blake2b_low_init(blake2b_state *context);
-int blake2b_low_update(blake2b_state *context, const char *in, size_t len);
-int blake2b_low_final(blake2b_state *context, char *out);
+int blake2b_low_update(blake2b_state *context, const unsigned char *in, size_t in_len);
+int blake2b_low_final(blake2b_state *context, unsigned char *out);
 
 /* Blake2s Low Level Interface */
 int blake2s_low_init(blake2s_state *context);
-int blake2s_low_update(blake2s_state *context, const char *in, size_t len);
-int blake2s_low_final(blake2s_state *context, char *out);
+int blake2s_low_update(blake2s_state *context, const unsigned char *in, size_t in_len);
+int blake2s_low_final(blake2s_state *context, unsigned char *out);
 
 
 #endif

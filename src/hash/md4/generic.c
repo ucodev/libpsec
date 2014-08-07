@@ -35,9 +35,9 @@
 #include "hash/md4/md4.h"
 
 /* MD4 Generic Interface */
-char *md4_buffer(char *out, const char *in, size_t len) {
+unsigned char *md4_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
 	MD4_CTX md4;
-	char *digest = NULL;
+	unsigned char *digest = NULL;
 
 	if (!out) {
 		if (!(digest = malloc(MD4_HASH_DIGEST_SIZE)))
@@ -47,17 +47,17 @@ char *md4_buffer(char *out, const char *in, size_t len) {
 	}
 
 	MD4Init(&md4);
-	MD4Update(&md4, in, len);
+	MD4Update(&md4, in, in_len);
 	MD4Final(digest, &md4);
 
 	return digest;
 }
 
-char *md4_file(char *out, FILE *fp) {
+unsigned char *md4_file(unsigned char *out, FILE *fp) {
 	MD4_CTX md4;
 	size_t ret = 0;
 	int errsv = 0;
-	char buf[8192], *digest = NULL;
+	unsigned char buf[8192], *digest = NULL;
 
 	MD4Init(&md4);
 

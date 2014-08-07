@@ -16,6 +16,7 @@ all:
 	${CC} -o md5_file md5_file.c ${LDFLAGS}
 	${CC} -o pbkdf2_alloc pbkdf2_alloc.c ${LDFLAGS}
 	${CC} -o pbkdf2 pbkdf2.c ${LDFLAGS}
+	${CC} -o xsalsa20 xsalsa20.c ${LDFLAGS}
 
 clean:
 	rm -f base16_decode
@@ -32,4 +33,5 @@ clean:
 	rm -f md5_file
 	rm -f pbkdf2_alloc
 	rm -f pbkdf2
+	rm -f xsalsa20
 

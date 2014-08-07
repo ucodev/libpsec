@@ -40,10 +40,10 @@
 #define HASH_BLOCK_SIZE_BLAKE2B		128
 #define HASH_BLOCK_SIZE_BLAKE2S		64
 /* Prototypes */
-char *hash_buffer_blake2b(char *out, const char *in, size_t len);
-char *hash_buffer_blake2s(char *out, const char *in, size_t len);
-char *hash_file_blake2b(char *out, FILE *fp);
-char *hash_file_blake2s(char *out, FILE *fp);
+unsigned char *hash_buffer_blake2b(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_buffer_blake2s(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_blake2b(unsigned char *out, FILE *fp);
+unsigned char *hash_file_blake2s(unsigned char *out, FILE *fp);
 /*****************/
 /* SHA Interface */
 /*****************/
@@ -59,16 +59,16 @@ char *hash_file_blake2s(char *out, FILE *fp);
 #define HASH_BLOCK_SIZE_SHA384		128
 #define HASH_BLOCK_SIZE_SHA512		128
 /* Prototypes */
-char *hash_buffer_sha1(char *out, const char *in, size_t len);
-char *hash_buffer_sha224(char *out, const char *in, size_t len);
-char *hash_buffer_sha256(char *out, const char *in, size_t len);
-char *hash_buffer_sha384(char *out, const char *in, size_t len);
-char *hash_buffer_sha512(char *out, const char *in, size_t len);
-char *hash_file_sha1(char *out, FILE *fp);
-char *hash_file_sha224(char *out, FILE *fp);
-char *hash_file_sha256(char *out, FILE *fp);
-char *hash_file_sha384(char *out, FILE *fp);
-char *hash_file_sha512(char *out, FILE *fp);
+unsigned char *hash_buffer_sha1(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_buffer_sha224(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_buffer_sha256(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_buffer_sha384(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_buffer_sha512(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_sha1(unsigned char *out, FILE *fp);
+unsigned char *hash_file_sha224(unsigned char *out, FILE *fp);
+unsigned char *hash_file_sha256(unsigned char *out, FILE *fp);
+unsigned char *hash_file_sha384(unsigned char *out, FILE *fp);
+unsigned char *hash_file_sha512(unsigned char *out, FILE *fp);
 /****************/
 /* MD Interface */
 /****************/
@@ -78,14 +78,14 @@ char *hash_file_sha512(char *out, FILE *fp);
 #define HASH_BLOCK_SIZE_MD4		64
 #define HASH_BLOCK_SIZE_MD5		64
 /* Prototypes */
-char *hash_buffer_md4(char *out, const char *in, size_t len);
-char *hash_file_md4(char *out, FILE *fp);
-char *hash_buffer_md5(char *out, const char *in, size_t len);
-char *hash_file_md5(char *out, FILE *fp);
+unsigned char *hash_buffer_md4(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_md4(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_md5(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_md5(unsigned char *out, FILE *fp);
 /********************/
 /* Common Interface */
 /********************/
-void hash_destroy(char *digest);
+void hash_destroy(unsigned char *digest);
 
 #endif
 

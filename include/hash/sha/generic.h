@@ -49,20 +49,20 @@
 /* Prototypes */
 
 /* SHA1 Generic Interface */
-char *sha1_buffer(char *out, const char *in, size_t len);
-char *sha1_file(char *out, FILE *fp);
+unsigned char *sha1_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *sha1_file(unsigned char *out, FILE *fp);
 /* SHA224 Generic Interface */
-char *sha224_buffer(char *out, const char *in, size_t len);
-char *sha224_file(char *out, FILE *fp);
+unsigned char *sha224_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *sha224_file(unsigned char *out, FILE *fp);
 /* SHA256 Generic Interface */
-char *sha256_buffer(char *out, const char *in, size_t len);
-char *sha256_file(char *out, FILE *fp);
+unsigned char *sha256_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *sha256_file(unsigned char *out, FILE *fp);
 /* SHA384 Generic Interface */
-char *sha384_buffer(char *out, const char *in, size_t len);
-char *sha384_file(char *out, FILE *fp);
+unsigned char *sha384_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *sha384_file(unsigned char *out, FILE *fp);
 /* SHA512 Generic Interface */
-char *sha512_buffer(char *out, const char *in, size_t len);
-char *sha512_file(char *out, FILE *fp);
+unsigned char *sha512_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *sha512_file(unsigned char *out, FILE *fp);
 
 #endif
 

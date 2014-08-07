@@ -39,8 +39,8 @@
 /* Prototypes */
 
 /* MD5 Generic Interface */
-char *md5_buffer(char *out, const char *in, size_t len);
-char *md5_file(char *out, FILE *fp);
+unsigned char *md5_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *md5_file(unsigned char *out, FILE *fp);
 
 #endif
 
