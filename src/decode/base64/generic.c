@@ -76,7 +76,7 @@ unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned
 	}
 
 	if (!(left = in_len - i)) {
-		*out_len = j;
+		*out_len = j + 1;
 		out[j] = 0;
 		return out;
 	}
@@ -89,7 +89,7 @@ unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned
 		return NULL;
 	}
 
-	*out_len += j;
+	*out_len += j + 1;
 
 	return out;
 }

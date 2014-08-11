@@ -69,7 +69,7 @@ unsigned char *base16_decode(unsigned char *out, size_t *out_len, const unsigned
 		return NULL;
 	}
 
-	*out_len = i + align;
+	*out_len = i + align + 1;
 	out[i + align] = 0;
 
 	return out;

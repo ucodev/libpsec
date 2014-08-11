@@ -80,7 +80,7 @@ unsigned char *base64_encode(unsigned char *out, size_t *out_len, const unsigned
 			if (left == 1) out[j + 2] = '=';
 	}
 
-	*out_len = j + 4;
+	*out_len = j + 4 + 1;
 
 	return out;
 }

@@ -65,7 +65,7 @@ unsigned char *base16_encode(unsigned char *out, size_t *out_len, const unsigned
 		return NULL;
 	}
 
-	*out_len = i * 2;
+	*out_len = (i * 2) + 1;
 	out[(i * 2)] = 0;
 
 	return out;
