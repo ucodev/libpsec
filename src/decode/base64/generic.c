@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Base64 Decoding interface 
  *
- * Date: 03-08-2014
+ * Date: 11-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -48,19 +48,31 @@ int _get_index(uint8_t code) {
 }
 
 unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
-	int i = 0, j = 0, left = 0;
+	int i = 0, j = 0, left = 0, out_alloc = 0;
 	uint8_t align[4] = { '=', '=', '=', '=' };
 	const uint8_t *context = (uint8_t *) in;
 
 	if (!out) {
 		if (!(out = malloc((in_len + 4) * 0.8)))
 			return NULL;
+
+		out_alloc = 1;
 	}
 
 	for (i = 0, j = 0; (i + 4) <= in_len; i += 4, j += 3) {
+		if (*out_len && ((j + 3) > *out_len)) {
+			if (out_alloc) free(out);
+			return NULL;
+		}
+
 		out[j] = (_get_index(context[i]) << 2) | (_get_index(context[i + 1]) >> 4);
 		out[j + 1] = ((_get_index(context[i + 1]) & 0x0f) << 4) | (_get_index(context[i + 2]) >> 2);
 		out[j + 2] = ((_get_index(context[i + 2]) & 0x03) << 6) | _get_index(context[i + 3]);
+	}
+
+	if (*out_len && ((j + 1) > *out_len)) {
+		if (out_alloc) free(out);
+		return NULL;
 	}
 
 	if (!(left = in_len - i)) {
@@ -72,7 +84,10 @@ unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned
 	memcpy(align, &context[i], left);
 	context = align;
 
-	base64_decode(&out[j], out_len, (const unsigned char *) context, 4);
+	if (!base64_decode(&out[j], out_len, (const unsigned char *) context, 4)) {
+		if (out_alloc) free(out);
+		return NULL;
+	}
 
 	*out_len += j;
 

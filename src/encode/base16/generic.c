@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Base64 Encoding interface 
  *
- * Date: 04-08-2014
+ * Date: 11-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -40,17 +40,29 @@ static uint8_t _nibble_to_hex_char(uint8_t nibble) {
 }
 
 unsigned char *base16_encode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
-	int i = 0;
+	int i = 0, out_alloc = 0;
 	const uint8_t *work = (const uint8_t *) in;
 
 	if (!out) {
 		if (!(out = malloc((in_len * 2) + 1)))
 			return NULL;
+
+		out_alloc = 1;
 	}
 
 	for (i = 0; i < in_len; i ++) {
+		if (*out_len && (((i * 2) + 1) > *out_len)) {
+			if (out_alloc) free(out);
+			return NULL;
+		}
+
 		out[(i * 2)] = _nibble_to_hex_char((work[i] & 0xf0) >> 4);
 		out[(i * 2) + 1] = _nibble_to_hex_char(work[i] & 0x0f);
+	}
+
+	if (*out_len && (((i * 2) + 1) > *out_len)) {
+		if (out_alloc) free(out);
+		return NULL;
 	}
 
 	*out_len = i * 2;
