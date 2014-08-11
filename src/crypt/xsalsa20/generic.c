@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include "crypt/xsalsa20/crypto.h"
 
@@ -60,7 +61,11 @@ unsigned char *xsalsa20_encrypt(
 	/* in_tmp == | zero (32 bytes) | plaintext (in_len) | */
 
 	/* Encrypt data */
-	crypto_secretbox(out_tmp, in_tmp, in_len + CRYPTO_ZEROBYTES, nonce, key);
+	if (crypto_secretbox(out_tmp, in_tmp, in_len + CRYPTO_ZEROBYTES, nonce, key) < 0) {
+		free(buf_tmp);
+		errno = EINVAL;
+		return NULL;
+	}
 
 	/* out_tmp == | zero (16 bytes) | poly1305 (16 bytes) | ciphered text (in_len) | */
 
@@ -107,7 +112,11 @@ unsigned char *xsalsa20_decrypt(
 	/* in_tmp == | zero (16 bytes) | poly1305 (16 bytes) | ciphertext (in_len - 16 bytes) | */
 
 	/* Decrypt data */
-	crypto_secretbox_open(out_tmp, in_tmp, in_len + CRYPTO_BOXZEROBYTES, nonce, key);
+	if (crypto_secretbox_open(out_tmp, in_tmp, in_len + CRYPTO_BOXZEROBYTES, nonce, key) < 0) {
+		free(buf_tmp);
+		errno = EINVAL;
+		return NULL;
+	}
 
 	/* out_tmp == | zero (32 bytes) | plaintext (in_len - 16 bytes) | */
 

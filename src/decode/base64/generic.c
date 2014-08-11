@@ -36,7 +36,7 @@
 int _get_index(uint8_t code) {
 	int i = 0;
 
-	if (code == '=')
+	if (code == (unsigned char) '=')
 		return 0;
 
 	for (i = 0; i < sizeof(_base64_index) - 1; i ++) {
@@ -60,19 +60,9 @@ unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned
 	}
 
 	for (i = 0, j = 0; (i + 4) <= in_len; i += 4, j += 3) {
-		if (*out_len && ((j + 3) > *out_len)) {
-			if (out_alloc) free(out);
-			return NULL;
-		}
-
 		out[j] = (_get_index(context[i]) << 2) | (_get_index(context[i + 1]) >> 4);
 		out[j + 1] = ((_get_index(context[i + 1]) & 0x0f) << 4) | (_get_index(context[i + 2]) >> 2);
 		out[j + 2] = ((_get_index(context[i + 2]) & 0x03) << 6) | _get_index(context[i + 3]);
-	}
-
-	if (*out_len && ((j + 1) > *out_len)) {
-		if (out_alloc) free(out);
-		return NULL;
 	}
 
 	if (!(left = in_len - i)) {

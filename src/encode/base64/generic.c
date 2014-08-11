@@ -34,23 +34,16 @@
 #include "encode/base64/generic.h"
 
 unsigned char *base64_encode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
-	int i = 0, j = 0, left = 0, out_alloc = 0;
+	int i = 0, j = 0, left = 0;
 	uint8_t align[3] = { 0, 0, 0 };
 	const uint8_t *context = (uint8_t *) in;
 
 	if (!out) {
 		if (!(out = malloc((in_len + 3) * 1.4)))
 			return NULL;
-
-		out_alloc = 1;
 	}
 
 	for (i = 0, j = 0; (i + 3) <= in_len; i += 3, j += 4) {
-		if (*out_len && ((j + 4) > *out_len)) {
-			if (out_alloc) free(out);
-			return NULL;
-		}
-
 		out[j]     = _base64_index[context[i] >> 2];
 		out[j + 1] = _base64_index[((context[i] & 0x03) << 4) | (context[i + 1] >> 4)];
 		out[j + 2] = _base64_index[((context[i + 1] & 0x0f) << 2) | (context[i + 2] >> 6)];
@@ -61,11 +54,6 @@ unsigned char *base64_encode(unsigned char *out, size_t *out_len, const unsigned
 		*out_len = j;
 		out[j] = 0;
 		return out;
-	}
-
-	if (*out_len && ((j + 5) > *out_len)) {
-		if (out_alloc) free(out);
-		return NULL;
 	}
 
 	memcpy(align, &in[i], left);

@@ -39,14 +39,12 @@ static uint8_t _hex_char_to_nibble(uint8_t hex) {
 }
 
 unsigned char *base16_decode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
-	int i = 0, align = 0, out_alloc = 0;
+	int i = 0, align = 0;
 	const uint8_t *work = (const uint8_t *) in;
 
 	if (!out) {
 		if (!(out = malloc((in_len * 2) + 1)))
 			return NULL;
-
-		out_alloc = 1;
 	}
 
 	if (in_len % 2) {
@@ -55,19 +53,8 @@ unsigned char *base16_decode(unsigned char *out, size_t *out_len, const unsigned
 		in_len --;
 	}
 
-	for (i = 0; (i * 2) < in_len; i ++) {
-		if (*out_len && ((i + align + 1) > *out_len)) {
-			if (out_alloc) free(out);
-			return NULL;
-		}
-
+	for (i = 0; (i * 2) < in_len; i ++)
 		out[i + align] = (_hex_char_to_nibble(work[i * 2]) << 4) | _hex_char_to_nibble(work[(i * 2) + 1]);
-	}
-
-	if (*out_len && ((i + align + 1) > *out_len)) {
-		if (out_alloc) free(out);
-		return NULL;
-	}
 
 	*out_len = i + align + 1;
 	out[i + align] = 0;
