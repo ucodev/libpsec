@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Generate interface 
  *
- * Date: 08-08-2014
+ * Date: 13-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -36,6 +36,15 @@
 /* Random Interface */
 unsigned char *generate_bytes_random(unsigned char *out, size_t len) {
 	return random_bytes(out, len);
+}
+
+unsigned char *generate_dict_random(
+	unsigned char *out,
+	size_t out_len,
+	unsigned char *dict,
+	size_t dict_len)
+{
+	return random_dict(out, out_len, dict, dict_len);
 }
 
 /* Common */

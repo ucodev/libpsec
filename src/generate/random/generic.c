@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Generate [Random] generic interface header
  *
- * Date: 08-08-2014
+ * Date: 13-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -93,6 +93,23 @@ unsigned char *random_bytes(unsigned char *out, size_t len) {
 			memcpy(out + i, (unsigned int [1]) { (random() + 31) * (random() + 47) + (random() + 57) * (random() + 111) }, ((len - i) < sizeof(unsigned int)) ? (len - i) : sizeof(unsigned int));
 		}
 	}
+
+	return out;
+}
+
+unsigned char *random_dict(
+	unsigned char *out,
+	size_t out_len,
+	unsigned char *dict,
+	size_t dict_len)
+{
+	int i = 0;
+
+	if (!(out = random_bytes(out, out_len)))
+		return NULL;
+
+	for (i = 0; i < out_len; i ++)
+		out[i] = dict[out[i] % dict_len];
 
 	return out;
 }

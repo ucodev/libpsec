@@ -21,6 +21,7 @@ all:
 	${CC} -o pbkdf2_alloc pbkdf2_alloc.c ${LDFLAGS}
 	${CC} -o pbkdf2 pbkdf2.c ${LDFLAGS}
 	${CC} -o random random.c ${LDFLAGS}
+	${CC} -o random_dict random_dict.c ${LDFLAGS}
 	${CC} -o xsalsa20 xsalsa20.c ${LDFLAGS}
 
 clean:
@@ -43,5 +44,6 @@ clean:
 	rm -f pbkdf2_alloc
 	rm -f pbkdf2
 	rm -f random
+	rm -f random_dict
 	rm -f xsalsa20
 

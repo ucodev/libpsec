@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Generate [Random] generic interface header
  *
- * Date: 08-08-2014
+ * Date: 13-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -33,6 +33,7 @@
 
 /* Prototypes */
 unsigned char *random_bytes(unsigned char *out, size_t len);
+unsigned char *random_dict(unsigned char *out, size_t len, unsigned char *dict, size_t dict_len);
 
 #endif
 
