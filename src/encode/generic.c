@@ -39,9 +39,17 @@ unsigned char *encode_buffer_base16(unsigned char *out, size_t *out_len, const u
 	return base16_encode(out, out_len, in, in_len);
 }
 
+size_t encode_size_base16(size_t in_len) {
+	return base16_encode_size(in_len);
+}
+
 /* Base64 Interface */
 unsigned char *encode_buffer_base64(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
 	return base64_encode(out, out_len, in, in_len);
+}
+
+size_t encode_size_base64(size_t in_len) {
+	return base64_encode_size(in_len);
 }
 
 /* Generic */

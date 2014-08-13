@@ -32,6 +32,7 @@
 #include <stdio.h>
 
 /* Prototypes */
+size_t base16_encode_size(size_t in_len);
 unsigned char *base16_encode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len);
 
 #endif

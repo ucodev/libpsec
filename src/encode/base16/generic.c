@@ -39,12 +39,16 @@ static uint8_t _nibble_to_hex_char(uint8_t nibble) {
 	return (uint8_t) nibble + (nibble < 10 ? 48 : 87);
 }
 
+size_t base16_encode_size(size_t in_len) {
+	return (in_len * 2) + 1;
+}
+
 unsigned char *base16_encode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
 	int i = 0;
 	const uint8_t *work = (const uint8_t *) in;
 
 	if (!out) {
-		if (!(out = malloc((in_len * 2) + 1)))
+		if (!(out = malloc(base16_encode_size(in_len))))
 			return NULL;
 	}
 

@@ -33,7 +33,7 @@
 
 #include "decode/base64/generic.h"
 
-int _get_index(uint8_t code) {
+static int _get_index(uint8_t code) {
 	int i = 0;
 
 	if (code == (unsigned char) '=')
@@ -47,13 +47,24 @@ int _get_index(uint8_t code) {
 	return i;
 }
 
+size_t base64_decode_size(size_t in_len) {
+	unsigned int align = 4 - (in_len % 4);
+	float fval = ((float) in_len + ((align == 4) ? 0 : align)) * 0.75;
+	size_t ret = (unsigned int) fval;
+
+	ret = (unsigned int) fval;
+	ret += ((fval - ((float) ret)) > 0) ? 1 : 0;
+
+	return ret + 1;
+}
+
 unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
 	int i = 0, j = 0, left = 0, out_alloc = 0;
 	uint8_t align[4] = { '=', '=', '=', '=' };
 	const uint8_t *context = (uint8_t *) in;
 
 	if (!out) {
-		if (!(out = malloc((in_len + 4) * 0.8)))
+		if (!(out = malloc(base64_decode_size(in_len))))
 			return NULL;
 
 		out_alloc = 1;

@@ -41,6 +41,7 @@ static uint8_t _base64_index[64] = {
 };
 
 /* Prototypes */
+size_t base64_decode_size(size_t in_len);
 unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len);
 
 #endif

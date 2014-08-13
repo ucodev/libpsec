@@ -38,12 +38,22 @@ static uint8_t _hex_char_to_nibble(uint8_t hex) {
 	return hex - (hex >= 97 ? 87 : 48);
 }
 
+size_t base16_decode_size(size_t in_len) {
+	float fval = ((float) in_len + (in_len % 2)) * 0.5;
+	size_t ret = (unsigned int) fval;
+
+	ret = (unsigned int) fval;
+	ret += ((fval - ((float) ret)) > 0) ? 1 : 0;
+
+	return ret + 1;
+}
+
 unsigned char *base16_decode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
 	int i = 0, align = 0;
 	const uint8_t *work = (const uint8_t *) in;
 
 	if (!out) {
-		if (!(out = malloc((in_len * 2) + 1)))
+		if (!(out = malloc(base16_decode_size(in_len))))
 			return NULL;
 	}
 

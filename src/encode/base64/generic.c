@@ -33,13 +33,24 @@
 
 #include "encode/base64/generic.h"
 
+size_t base64_encode_size(size_t in_len) {
+	unsigned int align = 3 - (in_len % 3);
+	float fval = ((float) in_len + ((align == 3) ? 0 : align)) * 1.333333;
+	size_t ret = (unsigned int) fval;
+
+	ret = (unsigned int) fval;
+	ret += ((fval - ((float) ret)) > 0) ? 1 : 0;
+
+	return ret + 1;
+}
+
 unsigned char *base64_encode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
 	int i = 0, j = 0, left = 0;
 	uint8_t align[3] = { 0, 0, 0 };
 	const uint8_t *context = (uint8_t *) in;
 
 	if (!out) {
-		if (!(out = malloc((in_len + 3) * 1.4)))
+		if (!(out = malloc(base64_encode_size(in_len))))
 			return NULL;
 	}
 
