@@ -55,7 +55,7 @@ size_t base64_decode_size(size_t in_len) {
 	ret = (unsigned int) fval;
 	ret += ((fval - ((float) ret)) > 0) ? 1 : 0;
 
-	return ret + 1;
+	return ret;
 }
 
 unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
@@ -77,7 +77,7 @@ unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned
 	}
 
 	if (!(left = in_len - i)) {
-		*out_len = j + 1;
+		*out_len = j;
 		return out;
 	}
 
@@ -89,7 +89,7 @@ unsigned char *base64_decode(unsigned char *out, size_t *out_len, const unsigned
 		return NULL;
 	}
 
-	*out_len += j + 1;
+	*out_len += j;
 
 	return out;
 }

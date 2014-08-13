@@ -62,7 +62,7 @@ unsigned char *base64_encode(unsigned char *out, size_t *out_len, const unsigned
 	}
 
 	if (!(left = in_len - i)) {
-		*out_len = j;
+		*out_len = j + 1;
 		out[j] = 0;
 		return out;
 	}

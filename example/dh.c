@@ -4,8 +4,8 @@
 #include <psec/ke.h>
 
 int main(void) {
-	unsigned char A_shared[256], A_pub[256], A_priv[64];
-	unsigned char B_shared[256], B_pub[256], B_priv[64];
+	unsigned char A_shared[512], A_pub[512], A_priv[256];
+	unsigned char B_shared[512], B_pub[512], B_priv[256];
 
 	ke_dh_private(A_priv, sizeof(A_priv));
 	ke_dh_private(B_priv, sizeof(B_priv));

@@ -45,7 +45,7 @@ size_t base16_decode_size(size_t in_len) {
 	ret = (unsigned int) fval;
 	ret += ((fval - ((float) ret)) > 0) ? 1 : 0;
 
-	return ret + 1;
+	return ret;
 }
 
 unsigned char *base16_decode(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
@@ -66,7 +66,7 @@ unsigned char *base16_decode(unsigned char *out, size_t *out_len, const unsigned
 	for (i = 0; (i * 2) < in_len; i ++)
 		out[i + align] = (_hex_char_to_nibble(work[i * 2]) << 4) | _hex_char_to_nibble(work[(i * 2) + 1]);
 
-	*out_len = i + align + 1;
+	*out_len = i + align;
 
 	return out;
 }
