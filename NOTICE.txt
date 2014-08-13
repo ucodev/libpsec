@@ -8,12 +8,14 @@
    the following RFCs:
 	- RFC1320
         - RFC1321
+	- RFC3526
         - RFC4634
 
    This software contains code derived from:
         - RSA Data Security Inc. MD4 Message-Digest Algorithm
         - RSA Data Security Inc. MD5 Message-Digest Algorithm
         - The Internet Society, US Secure Hash Algorithms.
+	- The Internet Society, RFC3526
 	- D. J. Bernstein, poly1305 + xsalsa20
 
    Only the files containing original contents are covered by

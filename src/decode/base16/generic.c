@@ -67,7 +67,6 @@ unsigned char *base16_decode(unsigned char *out, size_t *out_len, const unsigned
 		out[i + align] = (_hex_char_to_nibble(work[i * 2]) << 4) | _hex_char_to_nibble(work[(i * 2) + 1]);
 
 	*out_len = i + align + 1;
-	out[i + align] = 0;
 
 	return out;
 }
