@@ -200,7 +200,52 @@ static char *_get_p_modp(int prime_bits) {
 }
 
 unsigned char *dh_init_private_key(unsigned char *priv, size_t priv_size) {
-	return generate_bytes_random(priv, priv_size);
+	int errsv = 0, out_alloc = 0;
+	mpz_t gmp_s;
+	unsigned char *out = NULL, *hex_priv = NULL;
+
+	/* If priv is NULL, out will be dynamically allocated */
+	if (!priv)
+		out_alloc = 1;
+
+	/* Generate private key */
+	if (!(out = generate_bytes_random(priv, priv_size)))
+		return NULL;
+
+	/* Encode the random secret in base16 */
+	if (!(hex_priv = encode_buffer_base16(NULL, (size_t [1]) { 0 }, priv, priv_size))) {
+		errsv = errno;
+		if (out_alloc) free(out);
+		errno = errsv;
+		return NULL;
+	}
+
+	/* Initialize gmp value */
+	if (mpz_init_set_str(gmp_s, (char *) hex_priv, 16) < 0) {
+		errsv = errno;
+		mpz_clear(gmp_s);
+		if (out_alloc) free(out);
+		errno = errsv;
+		return NULL;
+	}
+
+	/* Free unused memory */
+	encode_destroy(hex_priv);
+
+	/* Grant that private key is greater than 0 */
+	if (mpz_cmp_ui(gmp_s, 0) <= 0) {
+		errsv = errno;
+		mpz_clear(gmp_s);
+		if (out_alloc) free(out);
+		errno = errsv;
+		return NULL;
+	}
+
+	/* Clear GMP data */
+	mpz_clear(gmp_s);
+
+	/* All good */
+	return out;
 }
 
 unsigned char *dh_compute_public_key(
@@ -209,7 +254,7 @@ unsigned char *dh_compute_public_key(
 	const unsigned char *priv,
 	size_t priv_size)
 {
-	int sbits = priv_size * 8, pbits = pub_size * 8;
+	int sbits = priv_size << 3, pbits = pub_size << 3;
 	int errsv = 0, pub_alloc = 0;
 	mpz_t gmp_g, gmp_p; /* Generator, prime */
 	mpz_t gmp_r, gmp_s; /* Public result, secret */
@@ -223,42 +268,82 @@ unsigned char *dh_compute_public_key(
 	}
 
 	/* Encode the random secret in base16 */
-	if (!(hex_priv = encode_buffer_base16(NULL, (size_t [1]) { 0 }, priv, sbits / 8)))
+	if (!(hex_priv = encode_buffer_base16(NULL, (size_t [1]) { 0 }, priv, sbits >> 3)))
 		return NULL;
 
 	/* Initialize GMP values */
-	mpz_init_set_str(gmp_g, g_modp, 0);
-	mpz_init_set_str(gmp_p, hex_prime, 16);
+	if (mpz_init_set_str(gmp_g, g_modp, 0) < 0) {
+		errsv = errno;
+		mpz_clear(gmp_g);
+		errno = errsv;
+		return NULL;
+	}
+
+	if (mpz_init_set_str(gmp_p, hex_prime, 16) < 0) {
+		errsv = errno;
+		mpz_clear(gmp_g);
+		mpz_clear(gmp_p);
+		errno = errsv;
+		return NULL;
+	}
+
+	if (mpz_init_set_str(gmp_s, (char *) hex_priv, 16) < 0) {
+		errsv = errno;
+		mpz_clear(gmp_g);
+		mpz_clear(gmp_p);
+		mpz_clear(gmp_s);
+		errno = errsv;
+		return NULL;
+	}
 
 	mpz_init(gmp_r);
-	mpz_init_set_str(gmp_s, (char *) hex_priv, 16);
 
 	/* Free unused memory */
 	encode_destroy(hex_priv);
 
+	/* Grant that exp is greater than 0 */
+	if (mpz_cmp_si(gmp_s, 0) <= 0) {
+		mpz_clear(gmp_g);
+		mpz_clear(gmp_p);
+		mpz_clear(gmp_s);
+		mpz_clear(gmp_r);
+		errno = EINVAL;
+		return NULL;
+	}
+
 	/* Compute public result */
 	mpz_powm_sec(gmp_r, gmp_g, gmp_s, gmp_p);
 
-	/* Convert 'r' to base16 */
-	if (!(hex_pub = mpz_get_str(NULL, 16, gmp_r)))
-		return NULL;
-
-	/* Clear GMP data */
+	/* Clear unused GMP data */
 	mpz_clear(gmp_g);
 	mpz_clear(gmp_p);
-	mpz_clear(gmp_r);
 	mpz_clear(gmp_s);
+
+	/* Convert 'r' to base16 */
+	if (!(hex_pub = mpz_get_str(NULL, 16, gmp_r))) {
+		errsv = errno;
+		mpz_clear(gmp_r);
+		errno = errsv;
+		return NULL;
+	}
+
+	/* Clear unused GMP data */
+	mpz_clear(gmp_r);
 
 	/* If out is NULL, allocate enough space to hold the decoded result */
 	if (!pub) {
-		if (!(pub = malloc(pbits / 8)))
+		if (!(pub = malloc(pbits >> 3))) {
+			errsv = errno;
+			free(hex_pub);
+			errno = errsv;
 			return NULL;
+		}
 
 		pub_alloc = 1;
 	}
 
 	/* Reset out memory */
-	memset(pub, 0, pbits / 8);
+	memset(pub, 0, pbits >> 3);
 
 	/* Decode 'hex_result' */
 	if (!(decode_buffer_base16(pub, (size_t [1]) { 0 }, (unsigned char *) hex_pub, strlen(hex_pub)))) {
@@ -283,7 +368,7 @@ unsigned char *dh_compute_shared_key(
 	const unsigned char *priv,
 	size_t priv_size)
 {
-	int sbits = priv_size * 8, pbits = pub_size * 8;
+	int sbits = priv_size << 3, pbits = pub_size << 3;
 	int errsv = 0, shared_alloc = 0;
 	mpz_t gmp_p;			/* Prime */
 	mpz_t gmp_k, gmp_r, gmp_s;	/* Key, public result */
@@ -297,49 +382,105 @@ unsigned char *dh_compute_shared_key(
 	}
 
 	/* Encode the public result in base16 */
-	if (!(hex_pub = encode_buffer_base16(NULL, (size_t [1]) { 0 }, pub, pbits / 8)))
+	if (!(hex_pub = encode_buffer_base16(NULL, (size_t [1]) { 0 }, pub, pbits >> 3)))
 		return NULL;
 
 	/* Encode the secret in base16 */
-	if (!(hex_priv = encode_buffer_base16(NULL, (size_t [1]) { 0 }, priv, sbits / 8))) {
+	if (!(hex_priv = encode_buffer_base16(NULL, (size_t [1]) { 0 }, priv, sbits >> 3))) {
 		encode_destroy(hex_pub);
 		return NULL;
 	}
 
 	/* Initialize GMP values */
-	mpz_init_set_str(gmp_p, hex_prime, 16);
+	if (mpz_init_set_str(gmp_p, hex_prime, 16) < 0) {
+		errsv = errno;
+		mpz_clear(gmp_p);
+		encode_destroy(hex_pub);
+		encode_destroy(hex_priv);
+		errno = errsv;
+		return NULL;
+	}
+
+	if (mpz_init_set_str(gmp_r, (char *) hex_pub, 16) < 0) {
+		errsv = errno;
+		mpz_clear(gmp_p);
+		mpz_clear(gmp_r);
+		encode_destroy(hex_pub);
+		encode_destroy(hex_priv);
+		errno = errsv;
+		return NULL;
+	}
+
+	if (mpz_init_set_str(gmp_s, (char *) hex_priv, 16) < 0) {
+		errsv = errno;
+		mpz_clear(gmp_p);
+		mpz_clear(gmp_r);
+		mpz_clear(gmp_s);
+		encode_destroy(hex_pub);
+		encode_destroy(hex_priv);
+		errno = errsv;
+		return NULL;
+	}
 
 	mpz_init(gmp_k);
-	mpz_init_set_str(gmp_r, (char *) hex_pub, 16);
-	mpz_init_set_str(gmp_s, (char *) hex_priv, 16);
 
 	/* Free unused memory */
 	encode_destroy(hex_pub);
 	encode_destroy(hex_priv);
 
+	/* Grant that base is greater than 0 */
+	if (mpz_cmp_si(gmp_r, 0) <= 0) {
+		mpz_clear(gmp_k);
+		mpz_clear(gmp_p);
+		mpz_clear(gmp_r);
+		mpz_clear(gmp_s);
+		errno = EINVAL;
+		return NULL;
+	}
+
+	/* Grant that exp is greater than 0 */
+	if (mpz_cmp_si(gmp_s, 0) <= 0) {
+		mpz_clear(gmp_k);
+		mpz_clear(gmp_p);
+		mpz_clear(gmp_r);
+		mpz_clear(gmp_s);
+		errno = EINVAL;
+		return NULL;
+	}
+
 	/* Compute public result */
 	mpz_powm_sec(gmp_k, gmp_r, gmp_s, gmp_p);
 
-	/* Convert 'r' to base16 */
-	if (!(hex_shared = mpz_get_str(NULL, 16, gmp_k)))
-		return NULL;
-
-	/* Clear GMP data */
-	mpz_clear(gmp_k);
+	/* Clear unused GMP data */
 	mpz_clear(gmp_p);
 	mpz_clear(gmp_r);
 	mpz_clear(gmp_s);
 
+	/* Convert 'r' to base16 */
+	if (!(hex_shared = mpz_get_str(NULL, 16, gmp_k))) {
+		errsv = errno;
+		mpz_clear(gmp_k);
+		errno = errsv;
+		return NULL;
+	}
+
+	/* Clear unused GMP data */
+	mpz_clear(gmp_k);
+
 	/* If out is NULL, allocate enough space to hold the decoded result */
 	if (!shared) {
-		if (!(shared = malloc(pbits / 8)))
+		if (!(shared = malloc(pbits >> 3))) {
+			errsv = errno;
+			free(hex_shared);
+			errno = errsv;
 			return NULL;
+		}
 
 		shared_alloc = 1;
 	}
 
 	/* Reset out memory */
-	memset(shared, 0, pbits / 8);
+	memset(shared, 0, pbits >> 3);
 
 	/* Decode 'hex_result' */
 	if (!(decode_buffer_base16(shared, (size_t [1]) { 0 }, (unsigned char *) hex_shared, strlen(hex_shared)))) {
