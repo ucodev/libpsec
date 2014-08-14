@@ -75,12 +75,16 @@ int shadow_user_pass_verify(const char *username, const char *password) {
 
 	spentp = getspnam(username);
 
+	errsv = errno;
+
 	pthread_mutex_unlock(&_auth_shadow_mutex);
 #endif
 
 	/* Validate that spentp is valid */
-	if (!spentp)
+	if (!spentp) {
+		errno = errsv;
 		return -1;
+	}
 
 	/* Search for '$' in the local hash. If found, extensions (non-POSIX) are enabled */
 	if (!(local_hash = strrchr(spentp->sp_pwdp, '$'))) {
