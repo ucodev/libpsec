@@ -185,14 +185,14 @@ static const char prime_modp_8192[] =
 
 
 /* Functions */
-static char *_get_p_modp(int prime_bits) {
+static const char *_get_p_modp(int prime_bits) {
 	switch (prime_bits) {
-		case 1536: return (char *) prime_modp_1536;
-		case 2048: return (char *) prime_modp_2048;
-		case 3072: return (char *) prime_modp_3072;
-		case 4096: return (char *) prime_modp_4096;
-		case 6144: return (char *) prime_modp_6144;
-		case 8192: return (char *) prime_modp_8192;
+		case 1536: return prime_modp_1536;
+		case 2048: return prime_modp_2048;
+		case 3072: return prime_modp_3072;
+		case 4096: return prime_modp_4096;
+		case 6144: return prime_modp_6144;
+		case 8192: return prime_modp_8192;
 		default: return NULL;
 	}
 
@@ -260,7 +260,8 @@ unsigned char *dh_compute_public_key(
 	mpz_t gmp_g, gmp_p, gmp_p_sub_2; /* Generator, prime, prime - 2 */
 	mpz_t gmp_r, gmp_s; /* Public result, secret */
 	unsigned char *hex_priv = NULL;
-	char *hex_prime = NULL, *hex_pub = NULL;
+	const char *hex_prime = NULL;
+	char *hex_pub = NULL;
 
 	/* Retrieve the prime number based on length pbits */
 	if (!(hex_prime = _get_p_modp(pbits))) {
@@ -393,7 +394,8 @@ unsigned char *dh_compute_shared_key(
 	int errsv = 0, shared_alloc = 0;
 	mpz_t gmp_p, gmp_p_sub_2;	/* Prime */
 	mpz_t gmp_k, gmp_r, gmp_s;	/* Key, public result */
-	char *hex_prime = NULL, *hex_shared = NULL;
+	const char *hex_prime = NULL;
+	char *hex_shared = NULL;
 	unsigned char *hex_pub = NULL, *hex_priv = NULL;
 
 	/* Retrieve the prime number based on length pbits */
