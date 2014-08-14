@@ -255,7 +255,6 @@ unsigned char *dh_compute_public_key(
 	const unsigned char *priv,
 	size_t priv_size)
 {
-	size_t sbits = priv_size << 3, pbits = pub_size << 3;
 	int errsv = 0, pub_alloc = 0;
 	mpz_t gmp_g, gmp_p, gmp_p_sub_2; /* Generator, prime, prime - 2 */
 	mpz_t gmp_r, gmp_s; /* Public result, secret */
@@ -264,17 +263,17 @@ unsigned char *dh_compute_public_key(
 	char *hex_pub = NULL;
 
 	/* Retrieve the prime number based on length pbits */
-	if (!(hex_prime = _get_p_modp(pbits))) {
+	if (!(hex_prime = _get_p_modp(pub_size << 3))) {
 		errno = EINVAL;
 		return NULL;
 	}
 
 	/* Encode the random secret in base16 */
-	if (!(hex_priv = encode_buffer_base16(NULL, (size_t [1]) { 0 }, priv, sbits >> 3)))
+	if (!(hex_priv = encode_buffer_base16(NULL, (size_t [1]) { 0 }, priv, priv_size)))
 		return NULL;
 
 	/* Initialize GMP values */
-	if (mpz_init_set_str(gmp_g, g_modp, 0) < 0) {
+	if (mpz_init_set_str(gmp_g, g_modp, 10) < 0) {
 		errsv = errno;
 		mpz_clear(gmp_g);
 		encode_destroy(hex_priv);
@@ -354,7 +353,7 @@ unsigned char *dh_compute_public_key(
 
 	/* If out is NULL, allocate enough space to hold the decoded result */
 	if (!pub) {
-		if (!(pub = malloc(pbits >> 3))) {
+		if (!(pub = malloc(pub_size))) {
 			errsv = errno;
 			free(hex_pub);
 			errno = errsv;
@@ -365,7 +364,7 @@ unsigned char *dh_compute_public_key(
 	}
 
 	/* Reset out memory */
-	memset(pub, 0, pbits >> 3);
+	memset(pub, 0, pub_size);
 
 	/* Decode 'hex_result' */
 	if (!(decode_buffer_base16(pub, (size_t [1]) { 0 }, (unsigned char *) hex_pub, strlen(hex_pub)))) {
@@ -390,7 +389,6 @@ unsigned char *dh_compute_shared_key(
 	const unsigned char *priv,
 	size_t priv_size)
 {
-	size_t sbits = priv_size << 3, pbits = pub_size << 3;
 	int errsv = 0, shared_alloc = 0;
 	mpz_t gmp_p, gmp_p_sub_2;	/* Prime */
 	mpz_t gmp_k, gmp_r, gmp_s;	/* Key, public result */
@@ -399,17 +397,17 @@ unsigned char *dh_compute_shared_key(
 	unsigned char *hex_pub = NULL, *hex_priv = NULL;
 
 	/* Retrieve the prime number based on length pbits */
-	if (!(hex_prime = _get_p_modp(pbits))) {
+	if (!(hex_prime = _get_p_modp(pub_size << 3))) {
 		errno = EINVAL;
 		return NULL;
 	}
 
 	/* Encode the public result in base16 */
-	if (!(hex_pub = encode_buffer_base16(NULL, (size_t [1]) { 0 }, pub, pbits >> 3)))
+	if (!(hex_pub = encode_buffer_base16(NULL, (size_t [1]) { 0 }, pub, pub_size)))
 		return NULL;
 
 	/* Encode the secret in base16 */
-	if (!(hex_priv = encode_buffer_base16(NULL, (size_t [1]) { 0 }, priv, sbits >> 3))) {
+	if (!(hex_priv = encode_buffer_base16(NULL, (size_t [1]) { 0 }, priv, priv_size))) {
 		encode_destroy(hex_pub);
 		return NULL;
 	}
@@ -521,7 +519,7 @@ unsigned char *dh_compute_shared_key(
 
 	/* If out is NULL, allocate enough space to hold the decoded result */
 	if (!shared) {
-		if (!(shared = malloc(pbits >> 3))) {
+		if (!(shared = malloc(pub_size))) {
 			errsv = errno;
 			free(hex_shared);
 			errno = errsv;
@@ -532,7 +530,7 @@ unsigned char *dh_compute_shared_key(
 	}
 
 	/* Reset out memory */
-	memset(shared, 0, pbits >> 3);
+	memset(shared, 0, pub_size);
 
 	/* Decode 'hex_result' */
 	if (!(decode_buffer_base16(shared, (size_t [1]) { 0 }, (unsigned char *) hex_shared, strlen(hex_shared)))) {
