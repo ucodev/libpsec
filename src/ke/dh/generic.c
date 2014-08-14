@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exhange [DH] interface 
  *
- * Date: 13-08-2014
+ * Date: 14-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -254,9 +254,9 @@ unsigned char *dh_compute_public_key(
 	const unsigned char *priv,
 	size_t priv_size)
 {
-	int sbits = priv_size << 3, pbits = pub_size << 3;
+	size_t sbits = priv_size << 3, pbits = pub_size << 3;
 	int errsv = 0, pub_alloc = 0;
-	mpz_t gmp_g, gmp_p; /* Generator, prime */
+	mpz_t gmp_g, gmp_p, gmp_p_sub_2; /* Generator, prime, prime - 2 */
 	mpz_t gmp_r, gmp_s; /* Public result, secret */
 	unsigned char *hex_priv = NULL;
 	char *hex_prime = NULL, *hex_pub = NULL;
@@ -297,14 +297,30 @@ unsigned char *dh_compute_public_key(
 	}
 
 	mpz_init(gmp_r);
+	mpz_init(gmp_p_sub_2);
 
 	/* Free unused memory */
 	encode_destroy(hex_priv);
 
-	/* Grant that exp is greater than 0 */
-	if (mpz_cmp_si(gmp_s, 0) <= 0) {
+	/* Grant that exp is greater than 1 */
+	if (mpz_cmp_ui(gmp_s, 1) <= 0) {
 		mpz_clear(gmp_g);
 		mpz_clear(gmp_p);
+		mpz_clear(gmp_p_sub_2);
+		mpz_clear(gmp_s);
+		mpz_clear(gmp_r);
+		errno = EINVAL;
+		return NULL;
+	}
+
+	/* Compute prime - 2 */
+	mpz_sub_ui(gmp_p_sub_2, gmp_p, 2);
+
+	/* Grant that exp is lesser than prime - 1 */
+	if (mpz_cmp(gmp_s, gmp_p_sub_2) > 0) {
+		mpz_clear(gmp_g);
+		mpz_clear(gmp_p);
+		mpz_clear(gmp_p_sub_2);
 		mpz_clear(gmp_s);
 		mpz_clear(gmp_r);
 		errno = EINVAL;
@@ -317,6 +333,7 @@ unsigned char *dh_compute_public_key(
 	/* Clear unused GMP data */
 	mpz_clear(gmp_g);
 	mpz_clear(gmp_p);
+	mpz_clear(gmp_p_sub_2);
 	mpz_clear(gmp_s);
 
 	/* Convert 'r' to base16 */
@@ -368,9 +385,9 @@ unsigned char *dh_compute_shared_key(
 	const unsigned char *priv,
 	size_t priv_size)
 {
-	int sbits = priv_size << 3, pbits = pub_size << 3;
+	size_t sbits = priv_size << 3, pbits = pub_size << 3;
 	int errsv = 0, shared_alloc = 0;
-	mpz_t gmp_p;			/* Prime */
+	mpz_t gmp_p, gmp_p_sub_2;	/* Prime */
 	mpz_t gmp_k, gmp_r, gmp_s;	/* Key, public result */
 	char *hex_prime = NULL, *hex_shared = NULL;
 	unsigned char *hex_pub = NULL, *hex_priv = NULL;
@@ -423,27 +440,55 @@ unsigned char *dh_compute_shared_key(
 	}
 
 	mpz_init(gmp_k);
+	mpz_init(gmp_p_sub_2);
 
 	/* Free unused memory */
 	encode_destroy(hex_pub);
 	encode_destroy(hex_priv);
 
-	/* Grant that base is greater than 0 */
-	if (mpz_cmp_si(gmp_r, 0) <= 0) {
+	/* Grant that base is greater than 1 */
+	if (mpz_cmp_ui(gmp_r, 1) <= 0) {
 		mpz_clear(gmp_k);
 		mpz_clear(gmp_p);
+		mpz_clear(gmp_p_sub_2);
 		mpz_clear(gmp_r);
 		mpz_clear(gmp_s);
 		errno = EINVAL;
 		return NULL;
 	}
 
-	/* Grant that exp is greater than 0 */
-	if (mpz_cmp_si(gmp_s, 0) <= 0) {
+	/* Grant that exp is greater than 1 */
+	if (mpz_cmp_ui(gmp_s, 1) <= 0) {
 		mpz_clear(gmp_k);
 		mpz_clear(gmp_p);
+		mpz_clear(gmp_p_sub_2);
 		mpz_clear(gmp_r);
 		mpz_clear(gmp_s);
+		errno = EINVAL;
+		return NULL;
+	}
+
+	/* Compute prime - 2 */
+	mpz_sub_ui(gmp_p_sub_2, gmp_p, 2);
+
+	/* Grant that exp is lesser than prime - 1 */
+	if (mpz_cmp(gmp_s, gmp_p_sub_2) > 0) {
+		mpz_clear(gmp_k);
+		mpz_clear(gmp_p);
+		mpz_clear(gmp_p_sub_2);
+		mpz_clear(gmp_s);
+		mpz_clear(gmp_r);
+		errno = EINVAL;
+		return NULL;
+	}
+
+	/* Grant that base is lesser than prime - 1 */
+	if (mpz_cmp(gmp_r, gmp_p_sub_2) > 0) {
+		mpz_clear(gmp_k);
+		mpz_clear(gmp_p);
+		mpz_clear(gmp_p_sub_2);
+		mpz_clear(gmp_s);
+		mpz_clear(gmp_r);
 		errno = EINVAL;
 		return NULL;
 	}
@@ -453,6 +498,7 @@ unsigned char *dh_compute_shared_key(
 
 	/* Clear unused GMP data */
 	mpz_clear(gmp_p);
+	mpz_clear(gmp_p_sub_2);
 	mpz_clear(gmp_r);
 	mpz_clear(gmp_s);
 
