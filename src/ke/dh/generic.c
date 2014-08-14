@@ -224,6 +224,7 @@ unsigned char *dh_init_private_key(unsigned char *priv, size_t priv_size) {
 	if (mpz_init_set_str(gmp_s, (char *) hex_priv, 16) < 0) {
 		errsv = errno;
 		mpz_clear(gmp_s);
+		encode_destroy(hex_priv);
 		if (out_alloc) free(out);
 		errno = errsv;
 		return NULL;
@@ -232,8 +233,8 @@ unsigned char *dh_init_private_key(unsigned char *priv, size_t priv_size) {
 	/* Free unused memory */
 	encode_destroy(hex_priv);
 
-	/* Grant that private key is greater than 0 */
-	if (mpz_cmp_ui(gmp_s, 0) <= 0) {
+	/* Grant that private key is greater than 1 */
+	if (mpz_cmp_ui(gmp_s, 1) <= 0) {
 		errsv = errno;
 		mpz_clear(gmp_s);
 		if (out_alloc) free(out);
@@ -275,6 +276,7 @@ unsigned char *dh_compute_public_key(
 	if (mpz_init_set_str(gmp_g, g_modp, 0) < 0) {
 		errsv = errno;
 		mpz_clear(gmp_g);
+		encode_destroy(hex_priv);
 		errno = errsv;
 		return NULL;
 	}
@@ -283,6 +285,7 @@ unsigned char *dh_compute_public_key(
 		errsv = errno;
 		mpz_clear(gmp_g);
 		mpz_clear(gmp_p);
+		encode_destroy(hex_priv);
 		errno = errsv;
 		return NULL;
 	}
@@ -292,6 +295,7 @@ unsigned char *dh_compute_public_key(
 		mpz_clear(gmp_g);
 		mpz_clear(gmp_p);
 		mpz_clear(gmp_s);
+		encode_destroy(hex_priv);
 		errno = errsv;
 		return NULL;
 	}
