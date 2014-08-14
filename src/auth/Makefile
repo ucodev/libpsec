@@ -3,15 +3,15 @@ DEFINES=`cat ../../.defines`
 LD=/usr/bin/ld
 CCFLAGS=-g -O2 -Wall -Werror -fPIC
 INCLUDEDIRS=-I../../include
-OBJS_COMMON=./xsalsa20/*.o
+OBJS_COMMON=./shadow/*.o
 OBJS=generic.o
-TARGET=crypt.o
+TARGET=auth.o
 
 all:
-	make -C xsalsa20/
+	make -C shadow/
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
-	make -C xsalsa20/ clean
+	make -C shadow/ clean
 	rm -f ${OBJS} ${TARGET}

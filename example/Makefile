@@ -1,7 +1,8 @@
 CC=`cat ../.compiler`
-LDFLAGS=-lpsec -lgmp
+LDFLAGS=-lpsec -lgmp -lcrypt
 
 all:
+	${CC} -o auth_shadow auth_shadow.c ${LDFLAGS}
 	${CC} -o base16_decode base16_decode.c ${LDFLAGS}
 	${CC} -o base16_decode_small_buf base16_decode_small_buf.c ${LDFLAGS}
 	${CC} -o base16_encode base16_encode.c ${LDFLAGS}
@@ -26,6 +27,7 @@ all:
 	${CC} -o xsalsa20 xsalsa20.c ${LDFLAGS}
 
 clean:
+	rm -f auth_shadow
 	rm -f base16_decode
 	rm -f base16_decode_small_buf
 	rm -f base16_encode

@@ -1,4 +1,5 @@
 CC=`cat ../../.compiler`
+DEFINES=`cat ../../.defines`
 LD=/usr/bin/ld
 CCFLAGS=-g -O2 -Wall -Werror -fPIC
 INCLUDEDIRS=-I../../include
@@ -11,8 +12,8 @@ all:
 	make -C md4/
 	make -C md5/
 	make -C sha/
-	${CC} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
-	${CC} ${CCFLAGS} ${INCLUDEDIRS} -c low.c
+	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c low.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:

@@ -11,6 +11,14 @@ else
 	exit 1
 fi
 
+if [ `uname` == "Linux" ]; then
+	echo "-D_GNU_SOURCE -D_XOPEN_SOURCE=700" > .defines
+elif [ `uname`== "Darwin" ]; then
+	echo "-D_XOPEN_SOURCE=700" > .defines
+else
+	echo "" > .defines
+fi
+
 if [ ! -e "/usr/bin/ld" ]; then
 	echo "/usr/bin/ld not found."
 	exit 1

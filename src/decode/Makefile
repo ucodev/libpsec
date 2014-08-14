@@ -1,4 +1,5 @@
 CC=`cat ../../.compiler`
+DEFINES=`cat ../../.defines`
 LD=/usr/bin/ld
 CCFLAGS=-g -O2 -Wall -Werror -fPIC
 INCLUDEDIRS=-I../../include
@@ -9,7 +10,7 @@ TARGET=decode.o
 all:
 	make -C base16/
 	make -C base64/
-	${CC} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
