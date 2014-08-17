@@ -1,7 +1,7 @@
 /*
- * @file generic.h
+ * @file generic.c
  * @brief PSEC Library
- *        Xsalsa20 Encryption/Decryption interface header
+ *        OTP Encryption/Decryption interface 
  *
  * Date: 17-08-2014
  *
@@ -26,25 +26,45 @@
  *
  */
 
-#ifndef LIBPSEC_CRYPT_XSALSA20_GENERIC_H
-#define LIBPSEC_CRYPT_XSALSA20_GENERIC_H
-
 #include <stdio.h>
+#include <stdlib.h>
 
-unsigned char *xsalsa20_encrypt(
-        unsigned char *out,
+unsigned char *otp_encrypt(
+	unsigned char *out,
 	size_t *out_len,
-        const unsigned char *in,
-        size_t in_len,
-        const unsigned char *nonce,
-        const unsigned char *key);
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	int i = 0;
 
-unsigned char *xsalsa20_decrypt(
-        unsigned char *out,
+	if (!out) {
+		if (!(out = malloc(in_len)))
+			return NULL;
+	}
+
+	for (i = 0; i < in_len; i ++) {
+		if (nonce) {
+			out[i] = in[i] ^ key[i] ^ nonce[i];
+		} else {
+			out[i] = in[i] ^ key[i];
+		}
+	}
+
+	*out_len = in_len;
+
+	return out;
+}
+
+unsigned char *otp_decrypt(
+	unsigned char *out,
 	size_t *out_len,
-        const unsigned char *in,
-        size_t in_len,
-        const unsigned char *nonce,
-        const unsigned char *key);
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return otp_encrypt(out, out_len, in, in_len, nonce, key);
+}
 
-#endif

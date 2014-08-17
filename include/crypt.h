@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface header
  *
- * Date: 08-08-2014
+ * Date: 17-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,6 +32,23 @@
 #include <stdio.h>
 
 /* Prototypes */
+/*****************/
+/* OTP Interface */
+/*****************/
+unsigned char *crypt_encrypt_otp(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_otp(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
 /**********************/
 /* Xsalsa20 Interface */
 /**********************/

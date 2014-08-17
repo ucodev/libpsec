@@ -1,7 +1,7 @@
 /*
  * @file generic.h
  * @brief PSEC Library
- *        Xsalsa20 Encryption/Decryption interface header
+ *        OTP Encryption/Decryption interface header
  *
  * Date: 17-08-2014
  *
@@ -26,25 +26,26 @@
  *
  */
 
-#ifndef LIBPSEC_CRYPT_XSALSA20_GENERIC_H
-#define LIBPSEC_CRYPT_XSALSA20_GENERIC_H
+#ifndef LIBPSEC_CRYPT_OTP_GENERIC_H
+#define LIBPSEC_CRYPT_OTP_GENERIC_H
 
 #include <stdio.h>
 
-unsigned char *xsalsa20_encrypt(
-        unsigned char *out,
+/* Prototypes */
+unsigned char *otp_encrypt(
+	unsigned char *out,
 	size_t *out_len,
-        const unsigned char *in,
-        size_t in_len,
-        const unsigned char *nonce,
-        const unsigned char *key);
-
-unsigned char *xsalsa20_decrypt(
-        unsigned char *out,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *otp_decrypt(
+	unsigned char *out,
 	size_t *out_len,
-        const unsigned char *in,
-        size_t in_len,
-        const unsigned char *nonce,
-        const unsigned char *key);
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
 
 #endif
+

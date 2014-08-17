@@ -14,6 +14,8 @@ all:
 	${CC} -o blake2b_buffer blake2b_buffer.c ${LDFLAGS}
 	${CC} -o blake2s_buffer blake2s_buffer.c ${LDFLAGS}
 	${CC} -o blake2s_file blake2s_file.c ${LDFLAGS}
+	${CC} -o crypt_otp crypt_otp.c ${LDFLAGS}
+	${CC} -o crypt_xsalsa20 crypt_xsalsa20.c ${LDFLAGS}
 	${CC} -o dh dh.c ${LDFLAGS}
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
 	${CC} -o md5_buffer_alloc md5_buffer_alloc.c ${LDFLAGS}
@@ -24,7 +26,6 @@ all:
 	${CC} -o pbkdf2 pbkdf2.c ${LDFLAGS}
 	${CC} -o random random.c ${LDFLAGS}
 	${CC} -o random_dict random_dict.c ${LDFLAGS}
-	${CC} -o xsalsa20 xsalsa20.c ${LDFLAGS}
 
 clean:
 	rm -f auth_shadow
@@ -39,6 +40,8 @@ clean:
 	rm -f blake2b_buffer
 	rm -f blake2s_buffer
 	rm -f blake2s_file
+	rm -f crypt_otp
+	rm -f crypt_xsalsa20
 	rm -f dh 
 	rm -f hmac_md5
 	rm -f md5_buffer_alloc
@@ -49,5 +52,4 @@ clean:
 	rm -f pbkdf2
 	rm -f random
 	rm -f random_dict
-	rm -f xsalsa20
 
