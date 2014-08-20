@@ -146,14 +146,14 @@ unsigned char *pankake_server_init(
 
 	/* Allocate enough memory for server session, if required */
 	if (!server_session) {
-		if (!(server_session = malloc(pubkey_len + CRYPT_NONCE_SIZE_XSALSA20 + CRYPT_EXTRA_SIZE_XSALSA20POLY1305 + HASH_DIGEST_SIZE_BLAKE2S)))
+		if (!(server_session = malloc(pubkey_len + CRYPT_NONCE_SIZE_XSALSA20 + HASH_DIGEST_SIZE_BLAKE2S)))
 			return NULL;
 
 		session_alloc = 1;
 	}
 
 	/* Encrypt server token with rehashed version of shared key */
-	if (!crypt_encrypt_xsalsa20poly1305(server_session + pubkey_len + CRYPT_NONCE_SIZE_XSALSA20, &out_len, server_token, HASH_DIGEST_SIZE_BLAKE2S, nonce, shrkey_hash)) {
+	if (!crypt_encrypt_xsalsa20(server_session + pubkey_len + CRYPT_NONCE_SIZE_XSALSA20, &out_len, server_token, HASH_DIGEST_SIZE_BLAKE2S, nonce, shrkey_hash)) {
 		errsv = errno;
 		if (session_alloc) free(server_session);
 		errno = errsv;
@@ -238,7 +238,7 @@ unsigned char *pankake_client_authorize(
 	memcpy(nonce, server_session + pubkey_len, sizeof(nonce));
 
 	/* Decrypt server token with rehashed version of shared key */
-	if (!crypt_decrypt_xsalsa20poly1305(server_token, &out_len, server_session + pubkey_len + CRYPT_NONCE_SIZE_XSALSA20, HASH_DIGEST_SIZE_BLAKE2S + CRYPT_EXTRA_SIZE_XSALSA20POLY1305, nonce, shrkey_hash))
+	if (!crypt_decrypt_xsalsa20(server_token, &out_len, server_session + pubkey_len + CRYPT_NONCE_SIZE_XSALSA20, HASH_DIGEST_SIZE_BLAKE2S, nonce, shrkey_hash))
 		return NULL;
 
 	/* Decrypt the server token with client hash in order to retrieve the server rehashed version
@@ -274,14 +274,14 @@ unsigned char *pankake_client_authorize(
 		return NULL;
 
 	if (!client_auth) {
-		if (!(client_auth = malloc(CRYPT_NONCE_SIZE_XSALSA20 + CRYPT_EXTRA_SIZE_XSALSA20POLY1305 + sizeof(pw_payload))))
+		if (!(client_auth = malloc(CRYPT_NONCE_SIZE_XSALSA20 + sizeof(pw_payload))))
 			return NULL;
 
 		auth_alloc = 1;
 	}
 
 	/* Encrypt pw_payload to create the client auth */
-	if (!crypt_encrypt_xsalsa20poly1305(client_auth + CRYPT_NONCE_SIZE_XSALSA20, &out_len, pw_payload, sizeof(pw_payload), nonce, key_agreed)) {
+	if (!crypt_encrypt_xsalsa20(client_auth + CRYPT_NONCE_SIZE_XSALSA20, &out_len, pw_payload, sizeof(pw_payload), nonce, key_agreed)) {
 		errsv = errno;
 		if (auth_alloc) free(client_auth);
 		errno = errsv;
@@ -341,7 +341,7 @@ unsigned char *pankake_server_authorize(
 	memcpy(nonce, client_auth, CRYPT_NONCE_SIZE_XSALSA20);
 
 	/* Encrypt pw_payload to create the client auth */
-	if (!crypt_decrypt_xsalsa20poly1305(pw_payload, &out_len, client_auth + CRYPT_NONCE_SIZE_XSALSA20, sizeof(pw_payload) + CRYPT_EXTRA_SIZE_XSALSA20POLY1305, nonce, key_agreed_local))
+	if (!crypt_decrypt_xsalsa20(pw_payload, &out_len, client_auth + CRYPT_NONCE_SIZE_XSALSA20, sizeof(pw_payload), nonce, key_agreed_local))
 		return NULL;
 
 	/* Set password length */

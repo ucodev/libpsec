@@ -31,12 +31,12 @@
 
 #include <stdio.h>
 
-#define PANKAKE_CLIENT_AUTH_SIZE	24 + 16 + 1 + 256
-					/* xsalsa20 nonce, xsalsa20 extra, pw_payload(pw_size, password) */
+#define PANKAKE_CLIENT_AUTH_SIZE	24 + 1 + 256
+					/* xsalsa20 nonce, pw_payload(pw_size, password) */
 #define PANKAKE_CLIENT_SESSION_SIZE	512 + 32
 					/* public key, token */
-#define PANKAKE_SERVER_SESSION_SIZE	512 + 24 + 16 + 32
-					/* public key, xsalsa20 nonce, xsalsa20 extra, token */
+#define PANKAKE_SERVER_SESSION_SIZE	512 + 24 + 32
+					/* public key, xsalsa20 nonce, token */
 
 /* Prototypes */
 unsigned char *pankake_client_init(

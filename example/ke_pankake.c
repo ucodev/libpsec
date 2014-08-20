@@ -20,6 +20,12 @@ int main(void) {
 	unsigned char client_key_agreed[32];
 	unsigned char server_key_agreed[32];
 
+	/* Grant that keys are different before the test so we can grant that this is working
+	 * properly.
+	 */
+	memset(client_key_agreed, 'C', sizeof(client_key_agreed));
+	memset(server_key_agreed, 'S', sizeof(server_key_agreed));
+
 	/* Create pwhash */
 	kdf_pbkdf2_hash(pwhash, hash_buffer_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, (unsigned char *) password, strlen(password), (unsigned char *) salt, strlen(salt), 5000, HASH_DIGEST_SIZE_SHA512);
 

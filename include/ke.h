@@ -41,9 +41,9 @@ unsigned char *ke_dh_shared(unsigned char *shared, const unsigned char *pub, siz
 /*********************/
 /* PANKAKE Interface */
 /*********************/
-#define KE_CLIENT_AUTH_SIZE_PANKAKE	24 + 16 + 256 + 1
+#define KE_CLIENT_AUTH_SIZE_PANKAKE	24 + 256 + 1
 #define KE_CLIENT_SESSION_SIZE_PANKAKE	512 + 32
-#define KE_SERVER_SESSION_SIZE_PANKAKE	512 + 24 + 16 + 32
+#define KE_SERVER_SESSION_SIZE_PANKAKE	512 + 24 + 32
 unsigned char *ke_pankake_client_init(
 	unsigned char *client_session,
 	const unsigned char *client_pubkey,
