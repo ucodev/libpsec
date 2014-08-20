@@ -54,7 +54,7 @@ unsigned char *crypt_decrypt_otp(
 	return otp_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
-unsigned char *crypt_encrypt_xsalsa20(
+unsigned char *crypt_encrypt_xsalsa20poly1305(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,
@@ -62,10 +62,10 @@ unsigned char *crypt_encrypt_xsalsa20(
 	const unsigned char *nonce,
 	const unsigned char *key)
 {
-	return xsalsa20_encrypt(out, out_len, in, in_len, nonce, key);
+	return xsalsa20poly1305_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
-unsigned char *crypt_decrypt_xsalsa20(
+unsigned char *crypt_decrypt_xsalsa20poly1305(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,
@@ -73,7 +73,7 @@ unsigned char *crypt_decrypt_xsalsa20(
 	const unsigned char *nonce,
 	const unsigned char *key)
 {
-	return xsalsa20_decrypt(out, out_len, in, in_len, nonce, key);
+	return xsalsa20poly1305_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
 void crypt_destroy(unsigned char *crypt) {

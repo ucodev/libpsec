@@ -15,7 +15,7 @@ all:
 	${CC} -o blake2s_buffer blake2s_buffer.c ${LDFLAGS}
 	${CC} -o blake2s_file blake2s_file.c ${LDFLAGS}
 	${CC} -o crypt_otp crypt_otp.c ${LDFLAGS}
-	${CC} -o crypt_xsalsa20 crypt_xsalsa20.c ${LDFLAGS}
+	${CC} -o crypt_xsalsa20poly1305 crypt_xsalsa20poly1305.c ${LDFLAGS}
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
 	${CC} -o ke_dh ke_dh.c ${LDFLAGS}
 	${CC} -o ke_pankake ke_pankake.c ${LDFLAGS}
@@ -42,7 +42,7 @@ clean:
 	rm -f blake2s_buffer
 	rm -f blake2s_file
 	rm -f crypt_otp
-	rm -f crypt_xsalsa20
+	rm -f crypt_xsalsa20poly1305
 	rm -f hmac_md5
 	rm -f ke_dh 
 	rm -f ke_pankake

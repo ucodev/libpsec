@@ -52,17 +52,17 @@ unsigned char *crypt_decrypt_otp(
 /**********************/
 /* Xsalsa20 Interface */
 /**********************/
-#define CRYPT_KEY_SIZE_XSALSA20		32
-#define CRYPT_NONCE_SIZE_XSALSA20	24
-#define CRYPT_EXTRA_SIZE_XSALSA20	16
-unsigned char *crypt_encrypt_xsalsa20(
+#define CRYPT_KEY_SIZE_XSALSA20			32
+#define CRYPT_NONCE_SIZE_XSALSA20		24
+#define CRYPT_EXTRA_SIZE_XSALSA20POLY1305	16
+unsigned char *crypt_encrypt_xsalsa20poly1305(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,
 	size_t in_len,
 	const unsigned char *nonce,
 	const unsigned char *key);
-unsigned char *crypt_decrypt_xsalsa20(
+unsigned char *crypt_decrypt_xsalsa20poly1305(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,

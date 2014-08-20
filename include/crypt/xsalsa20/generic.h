@@ -31,7 +31,7 @@
 
 #include <stdio.h>
 
-unsigned char *xsalsa20_encrypt(
+unsigned char *xsalsa20poly1305_encrypt(
         unsigned char *out,
 	size_t *out_len,
         const unsigned char *in,
@@ -39,7 +39,7 @@ unsigned char *xsalsa20_encrypt(
         const unsigned char *nonce,
         const unsigned char *key);
 
-unsigned char *xsalsa20_decrypt(
+unsigned char *xsalsa20poly1305_decrypt(
         unsigned char *out,
 	size_t *out_len,
         const unsigned char *in,

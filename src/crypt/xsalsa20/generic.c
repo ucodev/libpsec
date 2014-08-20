@@ -33,7 +33,7 @@
 
 #include "crypt/xsalsa20/crypto.h"
 
-unsigned char *xsalsa20_encrypt(
+unsigned char *xsalsa20poly1305_encrypt(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,
@@ -84,7 +84,7 @@ unsigned char *xsalsa20_encrypt(
 	return out;
 }
 
-unsigned char *xsalsa20_decrypt(
+unsigned char *xsalsa20poly1305_decrypt(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,
