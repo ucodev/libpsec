@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exchange interface header
  *
- * Date: 13-08-2014
+ * Date: 20-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -38,6 +38,49 @@
 unsigned char *ke_dh_private(unsigned char *priv, size_t size);
 unsigned char *ke_dh_public(unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
 unsigned char *ke_dh_shared(unsigned char *shared, const unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
+/*********************/
+/* PANKAKE Interface */
+/*********************/
+#define KE_CLIENT_AUTH_SIZE_PANKAKE	24 + 16 + 256 + 1
+#define KE_CLIENT_SESSION_SIZE_PANKAKE	512 + 32
+#define KE_SERVER_SESSION_SIZE_PANKAKE	512 + 24 + 16 + 32
+unsigned char *ke_pankake_client_init(
+	unsigned char *client_session,
+	const unsigned char *client_pubkey,
+	size_t pubkey_len,
+	const char *password,
+	const unsigned char *salt,
+	size_t salt_len);
+unsigned char *ke_pankake_server_init(
+	unsigned char *server_session,
+	unsigned char *shrkey,
+	const unsigned char *server_pubkey,
+	size_t pubkey_len,
+	const unsigned char *server_prvkey,
+	size_t prvkey_len,
+	const unsigned char *client_session,
+	const unsigned char *pwhash);
+unsigned char *ke_pankake_client_authorize(
+	unsigned char *client_auth,
+	unsigned char *key_agreed,
+	unsigned char *shrkey,
+	const unsigned char *client_pubkey,
+	size_t pubkey_len,
+	const unsigned char *client_prvkey,
+	size_t prvkey_len,
+	const unsigned char *server_session,
+	const unsigned char *client_session,
+	const char *password,
+	const unsigned char *salt,
+	size_t salt_len);
+unsigned char *ke_pankake_server_authorize(
+	unsigned char *key_agreed,
+	const unsigned char *shrkey,
+	size_t shrkey_len,
+	const unsigned char *client_auth,
+	const unsigned char *pwhash,
+	const unsigned char *salt,
+	size_t salt_len);
 /********************/
 /* Common Interface */
 /********************/

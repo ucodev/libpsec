@@ -1,7 +1,7 @@
 /*
- * @file generic.c
+ * @file generic.h
  * @brief PSEC Library
- *        Key Exhange interface 
+ *        Key Exchange [PANKAKE] interface header
  *
  * Date: 20-08-2014
  *
@@ -26,51 +26,27 @@
  *
  */
 
+#ifndef LIBPSEC_GENERIC_KE_PANKAKE_H
+#define LIBPSEC_GENERIC_KE_PANKAKE_H
+
 #include <stdio.h>
-#include <stdlib.h>
 
-#include "ke/dh/generic.h"
-#include "ke/pankake/generic.h"
+#define PANKAKE_CLIENT_AUTH_SIZE	24 + 16 + 1 + 256
+					/* xsalsa20 nonce, xsalsa20 extra, pw_payload(pw_size, password) */
+#define PANKAKE_CLIENT_SESSION_SIZE	512 + 32
+					/* public key, token */
+#define PANKAKE_SERVER_SESSION_SIZE	512 + 24 + 16 + 32
+					/* public key, xsalsa20 nonce, xsalsa20 extra, token */
 
-#include "ke.h"
-
-/* DH Interface */
-unsigned char *ke_dh_private(unsigned char *priv, size_t size) {
-	return dh_init_private_key(priv, size);
-}
-
-unsigned char *ke_dh_public(
-	unsigned char *pub,
-	size_t pub_size,
-	const unsigned char *priv,
-	size_t priv_size)
-{
-	return dh_compute_public_key(pub, pub_size, priv, priv_size);
-}
-
-unsigned char *ke_dh_shared(
-	unsigned char *shared,
-	const unsigned char *pub,
-	size_t pub_size,
-	const unsigned char *priv,
-	size_t priv_size)
-{
-	return dh_compute_shared_key(shared, pub, pub_size, priv, priv_size);
-}
-
-/* PANKAKE Interface */
-unsigned char *ke_pankake_client_init(
+/* Prototypes */
+unsigned char *pankake_client_init(
 	unsigned char *client_session,
 	const unsigned char *client_pubkey,
 	size_t pubkey_len,
 	const char *password,
 	const unsigned char *salt,
-	size_t salt_len)
-{
-	return pankake_client_init(client_session, client_pubkey, pubkey_len, password, salt, salt_len);
-}
-
-unsigned char *ke_pankake_server_init(
+	size_t salt_len);
+unsigned char *pankake_server_init(
 	unsigned char *server_session,
 	unsigned char *shrkey,
 	const unsigned char *server_pubkey,
@@ -78,12 +54,8 @@ unsigned char *ke_pankake_server_init(
 	const unsigned char *server_prvkey,
 	size_t prvkey_len,
 	const unsigned char *client_session,
-	const unsigned char *pwhash)
-{
-	return pankake_server_init(server_session, shrkey, server_pubkey, pubkey_len, server_prvkey, prvkey_len, client_session, pwhash);
-}
-
-unsigned char *ke_pankake_client_authorize(
+	const unsigned char *pwhash);
+unsigned char *pankake_client_authorize(
 	unsigned char *client_auth,
 	unsigned char *key_agreed,
 	unsigned char *shrkey,
@@ -95,27 +67,15 @@ unsigned char *ke_pankake_client_authorize(
 	const unsigned char *client_session,
 	const char *password,
 	const unsigned char *salt,
-	size_t salt_len)
-{
-	return pankake_client_authorize(client_auth, key_agreed, shrkey, client_pubkey, pubkey_len, client_prvkey, prvkey_len, server_session, client_session, password, salt, salt_len);
-}
-
-unsigned char *ke_pankake_server_authorize(
+	size_t salt_len);
+unsigned char *pankake_server_authorize(
 	unsigned char *key_agreed,
 	const unsigned char *shrkey,
 	size_t shrkey_len,
 	const unsigned char *client_auth,
 	const unsigned char *pwhash,
 	const unsigned char *salt,
-	size_t salt_len)
-{
-	return pankake_server_authorize(key_agreed, shrkey, shrkey_len, client_auth, pwhash, salt, salt_len);
-}
+	size_t salt_len);
 
-/********************/
-/* Common Interface */
-/********************/
-void ke_destroy(unsigned char *key) {
-	free(key);
-}
+#endif
 

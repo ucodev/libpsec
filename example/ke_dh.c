@@ -23,6 +23,6 @@ int main(void) {
 
 	puts("Keys don't match!");
 
-	return -1;
+	return 1;
 }
 
