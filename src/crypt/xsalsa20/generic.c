@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Xsalsa20 Encryption/Decryption interface 
  *
- * Date: 08-08-2014
+ * Date: 20-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,6 +32,46 @@
 #include <errno.h>
 
 #include "crypt/xsalsa20/crypto.h"
+
+unsigned char *xsalsa20_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	int errsv = 0, out_alloc = 0;
+
+	if (!out) {
+		if (!(out = malloc(in_len)))
+			return NULL;
+
+		out_alloc = 1;
+	}
+
+	if (crypto_stream_xsalsa20_xor(out, in, in_len, nonce, key) < 0) {
+		errsv = errno;
+		if (out_alloc) free(out);
+		errno = errsv;
+		return NULL;
+	}
+
+	*out_len = in_len;
+
+	return out;
+}
+
+unsigned char *xsalsa20_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa20_encrypt(out, out_len, in, in_len, nonce, key);
+}
 
 unsigned char *xsalsa20poly1305_encrypt(
 	unsigned char *out,

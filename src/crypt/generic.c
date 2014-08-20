@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface 
  *
- * Date: 17-08-2014
+ * Date: 20-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -52,6 +52,28 @@ unsigned char *crypt_decrypt_otp(
 	const unsigned char *key)
 {
 	return otp_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_encrypt_xsalsa20(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa20_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_xsalsa20(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa20_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
 unsigned char *crypt_encrypt_xsalsa20poly1305(

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Xsalsa20 Encryption/Decryption interface header
  *
- * Date: 17-08-2014
+ * Date: 20-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -30,6 +30,21 @@
 #define LIBPSEC_CRYPT_XSALSA20_GENERIC_H
 
 #include <stdio.h>
+
+unsigned char *xsalsa20_encrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+unsigned char *xsalsa20_decrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
 
 unsigned char *xsalsa20poly1305_encrypt(
         unsigned char *out,

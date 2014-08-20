@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface header
  *
- * Date: 17-08-2014
+ * Date: 20-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -55,6 +55,20 @@ unsigned char *crypt_decrypt_otp(
 #define CRYPT_KEY_SIZE_XSALSA20			32
 #define CRYPT_NONCE_SIZE_XSALSA20		24
 #define CRYPT_EXTRA_SIZE_XSALSA20POLY1305	16
+unsigned char *crypt_encrypt_xsalsa20(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_xsalsa20(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
 unsigned char *crypt_encrypt_xsalsa20poly1305(
 	unsigned char *out,
 	size_t *out_len,
