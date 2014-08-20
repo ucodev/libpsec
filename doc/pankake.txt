@@ -57,6 +57,7 @@
  - Resistant to man-in-the-middle packet mangling in all communications.
  - Resistant to dictionary attacks.
  - Resistant to FPGA based decryption.
+ - An attacker who discloses the password or password hash won't be able to decrypt past connections.
 
 
 3. Diagram

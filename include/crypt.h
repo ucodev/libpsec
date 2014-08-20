@@ -32,6 +32,25 @@
 #include <stdio.h>
 
 /* Prototypes */
+/********************/
+/* ChaCha Interface */
+/********************/
+#define CRYPT_KEY_SIZE_CHACHA20			32
+#define CRYPT_NONCE_SIZE_CHACHA20		8
+unsigned char *crypt_encrypt_chacha20(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_chacha20(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
 /*****************/
 /* OTP Interface */
 /*****************/

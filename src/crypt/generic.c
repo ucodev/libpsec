@@ -29,8 +29,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "crypt/chacha/generic.h"
 #include "crypt/xsalsa20/generic.h"
 #include "crypt/otp/generic.h"
+
+unsigned char *crypt_encrypt_chacha20(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return chacha20_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_chacha20(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return chacha20_decrypt(out, out_len, in, in_len, nonce, key);
+}
 
 unsigned char *crypt_encrypt_otp(
 	unsigned char *out,
