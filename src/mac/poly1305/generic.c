@@ -1,7 +1,7 @@
 /*
  * @file generic.c
  * @brief PSEC Library
- *        Message Authentication Code interface 
+ *        Poly1305 Message Authentication Code interface 
  *
  * Date: 21-08-2014
  *
@@ -27,48 +27,42 @@
  */
 
 #include <stdio.h>
+#include <errno.h>
 #include <stdlib.h>
 
-#include "mac/hmac/generic.h"
-#include "mac/poly1305/generic.h"
+#include "mac/poly1305/crypto.h"
 
-#include "mac.h"
-
-/* HMAC Interface */
-unsigned char *mac_hmac_hash(
-	unsigned char *out,
-	unsigned char *(*hash) (unsigned char *out, const unsigned char *in, size_t in_len),
-	size_t hash_len,
-	size_t hash_block_size,
-	const unsigned char *key,
-	size_t key_len,
-	const unsigned char *msg,
-	size_t msg_len)
-{
-	return hmac_generic(out, hash, hash_len, hash_block_size, key, key_len, msg, msg_len);
-}
-
-/* Poly1305 Interface */
-unsigned char *mac_poly1305_hash(
+unsigned char *poly1305_auth(
 	unsigned char *out,
 	const unsigned char *key,
 	const unsigned char *msg,
 	size_t msg_len)
 {
-	return poly1305_auth(out, key, msg, msg_len);
+	int errsv = 0, out_alloc = 0;
+
+	if (!out) {
+		if (!(out = malloc(16)))
+			return NULL;
+
+		out_alloc = 1;
+	}
+
+	if (crypto_onetimeauth_poly1305(out, msg, msg_len, key) < 0) {
+		errsv = errno;
+		if (out_alloc) free(out);
+		errno = errsv;
+		return NULL;
+	}
+
+	return out;
 }
 
-int mac_poly1305_verify(
+int poly1305_verify(
 	const unsigned char *mac,
 	const unsigned char *key,
 	const unsigned char *msg,
 	size_t msg_len)
 {
-	return poly1305_verify(mac, key, msg, msg_len);
-}
-
-/* Common interface */
-void mac_destroy(unsigned char *digest) {
-	free(digest);
+	return crypto_onetimeauth_poly1305_verify(mac, msg, msg_len, key);
 }
 

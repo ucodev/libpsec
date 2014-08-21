@@ -32,6 +32,7 @@
 #include <errno.h>
 
 #include "crypt/xsalsa20/crypto.h"
+#include "mac/poly1305/crypto.h"
 
 unsigned char *xsalsa20_encrypt(
 	unsigned char *out,
@@ -101,7 +102,7 @@ unsigned char *xsalsa20poly1305_encrypt(
 	/* in_tmp == | zero (32 bytes) | plaintext (in_len) | */
 
 	/* Encrypt data */
-	if (crypto_secretbox(out_tmp, in_tmp, in_len + CRYPTO_ZEROBYTES, nonce, key) < 0) {
+	if (crypto_secretbox_xsalsa20(out_tmp, in_tmp, in_len + CRYPTO_ZEROBYTES, nonce, key) < 0) {
 		free(buf_tmp);
 		errno = EINVAL;
 		return NULL;
@@ -152,7 +153,7 @@ unsigned char *xsalsa20poly1305_decrypt(
 	/* in_tmp == | zero (16 bytes) | poly1305 (16 bytes) | ciphertext (in_len - 16 bytes) | */
 
 	/* Decrypt data */
-	if (crypto_secretbox_open(out_tmp, in_tmp, in_len + CRYPTO_BOXZEROBYTES, nonce, key) < 0) {
+	if (crypto_secretbox_xsalsa20_open(out_tmp, in_tmp, in_len + CRYPTO_BOXZEROBYTES, nonce, key) < 0) {
 		free(buf_tmp);
 		errno = EINVAL;
 		return NULL;

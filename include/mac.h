@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        MAC interface header
  *
- * Date: 03-08-2014
+ * Date: 21-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -44,6 +44,23 @@ unsigned char *mac_hmac_hash(
 	size_t key_len,
 	const unsigned char *msg,
 	size_t msg_len);
+/**********************/
+/* Poly1305 Interface */
+/**********************/
+unsigned char *mac_poly1305_hash(
+	unsigned char *out,
+	const unsigned char *key,
+	const unsigned char *msg,
+	size_t msg_len);
+int mac_poly1305_verify(
+	const unsigned char *mac,
+	const unsigned char *key,
+	const unsigned char *msg,
+	size_t msg_len);
+/********************/
+/* Common Interface */
+/********************/
+void mac_destroy(unsigned char *digest);
 
 #endif
 

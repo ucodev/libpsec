@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        ChaCha Encryption/Decryption interface header
  *
- * Date: 20-08-2014
+ * Date: 21-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -39,6 +39,21 @@ unsigned char *chacha20_encrypt(
         const unsigned char *nonce,
         const unsigned char *key);
 unsigned char *chacha20_decrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+
+unsigned char *chacha20poly1305_encrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+unsigned char *chacha20poly1305_decrypt(
         unsigned char *out,
 	size_t *out_len,
         const unsigned char *in,

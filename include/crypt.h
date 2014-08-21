@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface header
  *
- * Date: 20-08-2014
+ * Date: 21-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -37,6 +37,7 @@
 /********************/
 #define CRYPT_KEY_SIZE_CHACHA20			32
 #define CRYPT_NONCE_SIZE_CHACHA20		8
+#define CRYPT_EXTRA_SIZE_CHACHA20POLY1305	16
 unsigned char *crypt_encrypt_chacha20(
 	unsigned char *out,
 	size_t *out_len,
@@ -51,6 +52,21 @@ unsigned char *crypt_decrypt_chacha20(
 	size_t in_len,
 	const unsigned char *nonce,
 	const unsigned char *key);
+unsigned char *crypt_encrypt_chacha20poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_chacha20poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+
 /*****************/
 /* OTP Interface */
 /*****************/

@@ -25,7 +25,7 @@ Changes by Pedro A. Hortas:
   x[a] = PLUS(x[a],x[b]); x[d] = ROTATE(XOR(x[d],x[a]), 8); \
   x[c] = PLUS(x[c],x[d]); x[b] = ROTATE(XOR(x[b],x[c]), 7);
 
-static void salsa20_wordtobyte(
+static void chacha_wordtobyte(
 	unsigned char output[64],
 	const uint32_t input[16],
 	size_t rounds)
@@ -97,7 +97,7 @@ int crypto_core_chacha_xor(
   /* Encrypt bytes */
   if (!mlen) return -1;
   for (;;) {
-    salsa20_wordtobyte(output,input, rounds);
+    chacha_wordtobyte(output,input, rounds);
     input[12] = PLUSONE(input[12]);
     if (!input[12]) {
       input[13] = PLUSONE(input[13]);

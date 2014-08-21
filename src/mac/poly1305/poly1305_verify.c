@@ -9,9 +9,13 @@ libpsec Changes:
 
 */
 
-#include "crypt/xsalsa20/crypto.h"
+#include "mac/poly1305/crypto.h"
 
-int crypto_onetimeauth_poly1305_verify(const unsigned char *h,const unsigned char *in,unsigned long long inlen,const unsigned char *k)
+int crypto_onetimeauth_poly1305_verify(
+	const unsigned char *h,
+	const unsigned char *in,
+	unsigned long long inlen,
+	const unsigned char *k)
 {
   unsigned char correct[16];
   crypto_onetimeauth_poly1305(correct,in,inlen,k);

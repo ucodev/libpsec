@@ -7,13 +7,10 @@ INCLUDEDIRS=-I../../../include
 all:
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c hsalsa20_core.c
-	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c poly1305_auth.c
-	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c poly1305_verify.c
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c salsa20.c
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c salsa20_core.c
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c salsa20_xor.c
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c secretbox.c
-	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c verify_16.c
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c xsalsa20.c
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c xsalsa20_xor.c
 

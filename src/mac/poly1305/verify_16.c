@@ -9,7 +9,7 @@ libpsec Changes:
 
 */
 
-#include "crypt/xsalsa20/crypto.h"
+#include "mac/poly1305/crypto.h"
 
 int crypto_verify_16(const unsigned char *x,const unsigned char *y)
 {

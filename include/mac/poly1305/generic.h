@@ -1,7 +1,7 @@
 /*
- * @file generic.c
+ * @file generic.h
  * @brief PSEC Library
- *        Message Authentication Code interface 
+ *        Poly1305 Message Authentication Code interface header
  *
  * Date: 21-08-2014
  *
@@ -26,49 +26,23 @@
  *
  */
 
+#ifndef LIBPSEC_GENERIC_MAC_POLY1305_H
+#define LIBPSEC_GENERIC_MAC_POLY1305_H
+
 #include <stdio.h>
-#include <stdlib.h>
 
-#include "mac/hmac/generic.h"
-#include "mac/poly1305/generic.h"
 
-#include "mac.h"
-
-/* HMAC Interface */
-unsigned char *mac_hmac_hash(
-	unsigned char *out,
-	unsigned char *(*hash) (unsigned char *out, const unsigned char *in, size_t in_len),
-	size_t hash_len,
-	size_t hash_block_size,
-	const unsigned char *key,
-	size_t key_len,
-	const unsigned char *msg,
-	size_t msg_len)
-{
-	return hmac_generic(out, hash, hash_len, hash_block_size, key, key_len, msg, msg_len);
-}
-
-/* Poly1305 Interface */
-unsigned char *mac_poly1305_hash(
+/* Prototypes */
+unsigned char *poly1305_auth(
 	unsigned char *out,
 	const unsigned char *key,
 	const unsigned char *msg,
-	size_t msg_len)
-{
-	return poly1305_auth(out, key, msg, msg_len);
-}
-
-int mac_poly1305_verify(
+	size_t msg_len);
+int poly1305_verify(
 	const unsigned char *mac,
 	const unsigned char *key,
 	const unsigned char *msg,
-	size_t msg_len)
-{
-	return poly1305_verify(mac, key, msg, msg_len);
-}
+	size_t msg_len);
 
-/* Common interface */
-void mac_destroy(unsigned char *digest) {
-	free(digest);
-}
+#endif
 

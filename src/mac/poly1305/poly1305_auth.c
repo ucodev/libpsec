@@ -9,7 +9,7 @@ libpsec Changes:
 
 */
 
-#include "crypt/xsalsa20/crypto.h"
+#include "mac/poly1305/crypto.h"
 
 static void add(unsigned int h[17],const unsigned int c[17])
 {
