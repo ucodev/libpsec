@@ -17,8 +17,8 @@ int main(void) {
 	unsigned char client_session[KE_CLIENT_SESSION_SIZE_PANKAKE];
 	unsigned char server_session[KE_SERVER_SESSION_SIZE_PANKAKE];
 
-	unsigned char client_key_agreed[32];
-	unsigned char server_key_agreed[32];
+	unsigned char client_key_agreed[KE_KEY_SIZE_PANKAKE];
+	unsigned char server_key_agreed[KE_KEY_SIZE_PANKAKE];
 
 	/* Grant that keys are different before the test so we can grant that this is working
 	 * properly.

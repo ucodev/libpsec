@@ -49,6 +49,7 @@ struct pankake_context {
 #pragma pack(pop)
 
 /* Sizes */
+#define PANKAKE_KEY_SIZE		32
 #define PANKAKE_CONTEXT_SIZE		sizeof(struct pankake_context)
 #define PANKAKE_CLIENT_AUTH_SIZE	24 + 1 + 256
 					/* xsalsa20 nonce, pw_payload(pw_size, password) */
