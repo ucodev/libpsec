@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exchange interface header
  *
- * Date: 20-08-2014
+ * Date: 21-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -53,6 +53,7 @@ unsigned char *ke_pankake_client_init(
 	size_t salt_len);
 unsigned char *ke_pankake_server_init(
 	unsigned char *server_session,
+	unsigned char *key_agreed,
 	unsigned char *shrkey,
 	const unsigned char *server_pubkey,
 	size_t pubkey_len,
@@ -73,10 +74,8 @@ unsigned char *ke_pankake_client_authorize(
 	const char *password,
 	const unsigned char *salt,
 	size_t salt_len);
-unsigned char *ke_pankake_server_authorize(
-	unsigned char *key_agreed,
-	const unsigned char *shrkey,
-	size_t shrkey_len,
+int ke_pankake_server_authorize(
+	const unsigned char *key_agreed,
 	const unsigned char *client_auth,
 	const unsigned char *pwhash,
 	const unsigned char *salt,

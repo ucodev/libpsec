@@ -41,7 +41,7 @@ int main(void) {
 	ke_pankake_client_init(client_session, client_pub, sizeof(client_pub), password, (unsigned char *) salt, strlen(salt));
 
 	/* Initialize server authentication */
-	ke_pankake_server_init(server_session, server_shared, server_pub, sizeof(server_pub), server_priv, sizeof(server_priv), client_session, pwhash);
+	ke_pankake_server_init(server_session, server_key_agreed, server_shared, server_pub, sizeof(server_pub), server_priv, sizeof(server_priv), client_session, pwhash);
 
 
 	/* Authorize server */
@@ -51,7 +51,7 @@ int main(void) {
 	}
 
 	/* Authorize client */
-	if (!ke_pankake_server_authorize(server_key_agreed, server_shared, sizeof(server_shared), client_auth, pwhash, (unsigned char *) salt, strlen(salt))) {
+	if (ke_pankake_server_authorize(server_key_agreed, client_auth, pwhash, (unsigned char *) salt, strlen(salt)) < 0) {
 		puts("ke_pankake_server_authorize(): failed.");
 		return 1;
 	}

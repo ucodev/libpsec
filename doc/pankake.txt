@@ -31,7 +31,7 @@
  - If salt isn't known by client, it may be transfered from server in plain text.
  - Deffie-Hellman public key exchange is performed in the first two flows (client -> server -> client).
  - Client token must be a random value with a minimum length of 256 bits.
- - Client hash derivation is SHA-512 based and should output a BIG hash (not only 64 bytes).
+ - Secret hash derivation is SHA-512 based and should output a BIG hash (not only 64 bytes).
  - All xor() operations must be a OTP encryption (encryption key must be the same size of the data).
  - When encryption keys exceed the permited size, Blake2 should be used to shrink them.
  - All encrypt() operations should NOT add any sort of Message Authentication Code (MAC).
