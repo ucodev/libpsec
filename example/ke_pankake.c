@@ -33,17 +33,17 @@ int main(void) {
 	ke_pankake_client_init(client_session, client_context, password, (unsigned char *) salt, strlen(salt));
 
 	/* Initialize server authentication */
-	ke_pankake_server_init(server_session, server_context, server_key_agreed, client_session, pwhash);
+	ke_pankake_server_init(server_session, server_context, client_session, pwhash);
 
 
 	/* Authorize server */
-	if (!ke_pankake_client_authorize(client_auth, client_context, client_key_agreed, server_session, password, (unsigned char *) salt, strlen(salt))) {
+	if (!ke_pankake_client_authorize(client_auth, client_context, client_key_agreed, server_session)) {
 		puts("ke_pankake_client_authorize(): failed.");
 		return 1;
 	}
 
 	/* Authorize client */
-	if (ke_pankake_server_authorize(server_key_agreed, client_auth, pwhash, (unsigned char *) salt, strlen(salt)) < 0) {
+	if (ke_pankake_server_authorize(server_context, server_key_agreed, client_auth, (unsigned char *) salt, strlen(salt)) < 0) {
 		puts("ke_pankake_server_authorize(): failed.");
 		return 1;
 	}

@@ -41,7 +41,7 @@ unsigned char *ke_dh_shared(unsigned char *shared, const unsigned char *pub, siz
 /*********************/
 /* PANKAKE Interface */
 /*********************/
-#define KE_CONTEXT_SIZE_PANKAKE		256 + 512 + 512 + 512 + 32
+#define KE_CONTEXT_SIZE_PANKAKE		256 + 512 + 512 + 512 + 32 + 64 + 32 + 32 + 32 + 256
 #define KE_CLIENT_AUTH_SIZE_PANKAKE	24 + 256 + 1
 #define KE_CLIENT_SESSION_SIZE_PANKAKE	512 + 32
 #define KE_SERVER_SESSION_SIZE_PANKAKE	512 + 24 + 32
@@ -54,21 +54,17 @@ unsigned char *ke_pankake_client_init(
 unsigned char *ke_pankake_server_init(
 	unsigned char *server_session,
 	unsigned char *server_context,
-	unsigned char *key_agreed,
 	const unsigned char *client_session,
 	const unsigned char *pwhash);
 unsigned char *ke_pankake_client_authorize(
 	unsigned char *client_auth,
 	unsigned char *client_context,
 	unsigned char *key_agreed,
-	const unsigned char *server_session,
-	const char *password,
-	const unsigned char *salt,
-	size_t salt_len);
+	const unsigned char *server_session);
 int ke_pankake_server_authorize(
-	const unsigned char *key_agreed,
+	unsigned char *server_context,
+	unsigned char *key_agreed,
 	const unsigned char *client_auth,
-	const unsigned char *pwhash,
 	const unsigned char *salt,
 	size_t salt_len);
 /********************/

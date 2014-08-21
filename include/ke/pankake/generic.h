@@ -31,7 +31,25 @@
 
 #include <stdio.h>
 
-#define PANKAKE_CONTEXT_SIZE		256 + 512 + 512 + 512 + 32
+/* Structures */
+#pragma pack(push)
+#pragma pack(1)
+struct pankake_context {
+	unsigned char private[256];
+	unsigned char shared[512];
+	unsigned char c_public[512];
+	unsigned char s_public[512];
+	unsigned char token[32];
+	unsigned char pwhash[64];
+	unsigned char pwrehash[32];
+	unsigned char secret_hash[32];
+	unsigned char shared_hash[32];
+	char password[256];
+};
+#pragma pack(pop)
+
+/* Sizes */
+#define PANKAKE_CONTEXT_SIZE		sizeof(struct pankake_context)
 #define PANKAKE_CLIENT_AUTH_SIZE	24 + 1 + 256
 					/* xsalsa20 nonce, pw_payload(pw_size, password) */
 #define PANKAKE_CLIENT_SESSION_SIZE	512 + 32
@@ -49,21 +67,17 @@ unsigned char *pankake_client_init(
 unsigned char *pankake_server_init(
 	unsigned char *server_session,
 	unsigned char *server_context,
-	unsigned char *key_agreed,
 	const unsigned char *client_session,
 	const unsigned char *pwhash);
 unsigned char *pankake_client_authorize(
 	unsigned char *client_auth,
 	unsigned char *client_context,
 	unsigned char *key_agreed,
-	const unsigned char *server_session,
-	const char *password,
-	const unsigned char *salt,
-	size_t salt_len);
+	const unsigned char *server_session);
 int pankake_server_authorize(
-	const unsigned char *key_agreed,
+	unsigned char *server_context,
+	unsigned char *key_agreed,
 	const unsigned char *client_auth,
-	const unsigned char *pwhash,
 	const unsigned char *salt,
 	size_t salt_len);
 
