@@ -61,44 +61,34 @@ unsigned char *ke_dh_shared(
 /* PANKAKE Interface */
 unsigned char *ke_pankake_client_init(
 	unsigned char *client_session,
-	const unsigned char *client_pubkey,
-	size_t pubkey_len,
+	unsigned char *client_context,
 	const char *password,
 	const unsigned char *salt,
 	size_t salt_len)
 {
-	return pankake_client_init(client_session, client_pubkey, pubkey_len, password, salt, salt_len);
+	return pankake_client_init(client_session, client_context, password, salt, salt_len);
 }
 
 unsigned char *ke_pankake_server_init(
 	unsigned char *server_session,
+	unsigned char *server_context,
 	unsigned char *key_agreed,
-	unsigned char *shrkey,
-	const unsigned char *server_pubkey,
-	size_t pubkey_len,
-	const unsigned char *server_prvkey,
-	size_t prvkey_len,
 	const unsigned char *client_session,
 	const unsigned char *pwhash)
 {
-	return pankake_server_init(server_session, key_agreed, shrkey, server_pubkey, pubkey_len, server_prvkey, prvkey_len, client_session, pwhash);
+	return pankake_server_init(server_session, server_context, key_agreed, client_session, pwhash);
 }
 
 unsigned char *ke_pankake_client_authorize(
 	unsigned char *client_auth,
+	unsigned char *client_context,
 	unsigned char *key_agreed,
-	unsigned char *shrkey,
-	const unsigned char *client_pubkey,
-	size_t pubkey_len,
-	const unsigned char *client_prvkey,
-	size_t prvkey_len,
 	const unsigned char *server_session,
-	const unsigned char *client_session,
 	const char *password,
 	const unsigned char *salt,
 	size_t salt_len)
 {
-	return pankake_client_authorize(client_auth, key_agreed, shrkey, client_pubkey, pubkey_len, client_prvkey, prvkey_len, server_session, client_session, password, salt, salt_len);
+	return pankake_client_authorize(client_auth, client_context, key_agreed, server_session, password, salt, salt_len);
 }
 
 int ke_pankake_server_authorize(

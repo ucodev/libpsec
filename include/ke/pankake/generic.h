@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 
+#define PANKAKE_CONTEXT_SIZE		256 + 512 + 512 + 512 + 32
 #define PANKAKE_CLIENT_AUTH_SIZE	24 + 1 + 256
 					/* xsalsa20 nonce, pw_payload(pw_size, password) */
 #define PANKAKE_CLIENT_SESSION_SIZE	512 + 32
@@ -41,31 +42,21 @@
 /* Prototypes */
 unsigned char *pankake_client_init(
 	unsigned char *client_session,
-	const unsigned char *client_pubkey,
-	size_t pubkey_len,
+	unsigned char *client_context,
 	const char *password,
 	const unsigned char *salt,
 	size_t salt_len);
 unsigned char *pankake_server_init(
 	unsigned char *server_session,
+	unsigned char *server_context,
 	unsigned char *key_agreed,
-	unsigned char *shrkey,
-	const unsigned char *server_pubkey,
-	size_t pubkey_len,
-	const unsigned char *server_prvkey,
-	size_t prvkey_len,
 	const unsigned char *client_session,
 	const unsigned char *pwhash);
 unsigned char *pankake_client_authorize(
 	unsigned char *client_auth,
+	unsigned char *client_context,
 	unsigned char *key_agreed,
-	unsigned char *shrkey,
-	const unsigned char *client_pubkey,
-	size_t pubkey_len,
-	const unsigned char *client_prvkey,
-	size_t prvkey_len,
 	const unsigned char *server_session,
-	const unsigned char *client_session,
 	const char *password,
 	const unsigned char *salt,
 	size_t salt_len);
