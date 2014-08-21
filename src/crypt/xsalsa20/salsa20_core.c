@@ -15,6 +15,17 @@ libpsec Changes:
 
 #include <stdint.h>
 
+#define is_littleendian() (*(unsigned char *) (unsigned int [1]) { 1 })
+
+#define load(x) \
+	(is_littleendian() ? _load_littleendian((x)) : _load_bigendian((x)))
+
+#define store(x,u) \
+	do { \
+		if (is_littleendian()) _store_littleendian((x),(u)); \
+		else _store_bigendian((x),(u)); \
+	} while (0)
+
 typedef uint32_t uint32;
 
 #if 0
@@ -26,7 +37,17 @@ static uint32 rotate(uint32 u,int c)
   return (u << c) | (u >> (32 - c));
 }
 
-static uint32 load_littleendian(const unsigned char *x)
+static uint32 _load_bigendian(const unsigned char *x)
+{
+  return
+    (((uint32) (x[0])) << 24) \
+  | (((uint32) (x[1])) << 16) \
+  | (((uint32) (x[2])) << 8)  \
+  |   (uint32) (x[3])
+  ;
+}
+
+static uint32 _load_littleendian(const unsigned char *x)
 {
   return
       (uint32) (x[0]) \
@@ -36,7 +57,15 @@ static uint32 load_littleendian(const unsigned char *x)
   ;
 }
 
-static void store_littleendian(unsigned char *x,uint32 u)
+static void _store_bigendian(unsigned char *x,uint32 u)
+{
+  x[3] = u; u >>= 8;
+  x[2] = u; u >>= 8;
+  x[1] = u; u >>= 8;
+  x[0] = u;
+}
+
+static void _store_littleendian(unsigned char *x,uint32 u)
 {
   x[0] = u; u >>= 8;
   x[1] = u; u >>= 8;
@@ -55,22 +84,22 @@ int crypto_core_salsa20(
   uint32 j0, j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12, j13, j14, j15;
   int i;
 
-  j0 = x0 = load_littleendian(c + 0);
-  j1 = x1 = load_littleendian(k + 0);
-  j2 = x2 = load_littleendian(k + 4);
-  j3 = x3 = load_littleendian(k + 8);
-  j4 = x4 = load_littleendian(k + 12);
-  j5 = x5 = load_littleendian(c + 4);
-  j6 = x6 = load_littleendian(in + 0);
-  j7 = x7 = load_littleendian(in + 4);
-  j8 = x8 = load_littleendian(in + 8);
-  j9 = x9 = load_littleendian(in + 12);
-  j10 = x10 = load_littleendian(c + 8);
-  j11 = x11 = load_littleendian(k + 16);
-  j12 = x12 = load_littleendian(k + 20);
-  j13 = x13 = load_littleendian(k + 24);
-  j14 = x14 = load_littleendian(k + 28);
-  j15 = x15 = load_littleendian(c + 12);
+  j0 = x0 = load(c + 0);
+  j1 = x1 = load(k + 0);
+  j2 = x2 = load(k + 4);
+  j3 = x3 = load(k + 8);
+  j4 = x4 = load(k + 12);
+  j5 = x5 = load(c + 4);
+  j6 = x6 = load(in + 0);
+  j7 = x7 = load(in + 4);
+  j8 = x8 = load(in + 8);
+  j9 = x9 = load(in + 12);
+  j10 = x10 = load(c + 8);
+  j11 = x11 = load(k + 16);
+  j12 = x12 = load(k + 20);
+  j13 = x13 = load(k + 24);
+  j14 = x14 = load(k + 28);
+  j15 = x15 = load(c + 12);
 
   for (i = ROUNDS;i > 0;i -= 2) {
      x4 ^= rotate( x0+x12, 7);
@@ -124,22 +153,22 @@ int crypto_core_salsa20(
   x14 += j14;
   x15 += j15;
 
-  store_littleendian(out + 0,x0);
-  store_littleendian(out + 4,x1);
-  store_littleendian(out + 8,x2);
-  store_littleendian(out + 12,x3);
-  store_littleendian(out + 16,x4);
-  store_littleendian(out + 20,x5);
-  store_littleendian(out + 24,x6);
-  store_littleendian(out + 28,x7);
-  store_littleendian(out + 32,x8);
-  store_littleendian(out + 36,x9);
-  store_littleendian(out + 40,x10);
-  store_littleendian(out + 44,x11);
-  store_littleendian(out + 48,x12);
-  store_littleendian(out + 52,x13);
-  store_littleendian(out + 56,x14);
-  store_littleendian(out + 60,x15);
+  store(out + 0,x0);
+  store(out + 4,x1);
+  store(out + 8,x2);
+  store(out + 12,x3);
+  store(out + 16,x4);
+  store(out + 20,x5);
+  store(out + 24,x6);
+  store(out + 28,x7);
+  store(out + 32,x8);
+  store(out + 36,x9);
+  store(out + 40,x10);
+  store(out + 44,x11);
+  store(out + 48,x12);
+  store(out + 52,x13);
+  store(out + 56,x14);
+  store(out + 60,x15);
 
   return 0;
 }
