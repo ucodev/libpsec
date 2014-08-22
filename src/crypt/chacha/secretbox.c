@@ -48,7 +48,7 @@ int crypto_secretbox_chacha(
 		return -1;
 
 	crypto_core_chacha(subkey, k, n, 0, 256, rounds);
-	crypto_core_chacha_xor(c, m, mlen, n, k, 0, 256, rounds);
+	crypto_core_chacha_xor(c, m, mlen, n, k, 1, 256, rounds);
 	crypto_onetimeauth_poly1305(c + 16, c + 32, mlen - 32, subkey);
 
 	for (i = 0; i < 16; ++i)
@@ -76,7 +76,7 @@ int crypto_secretbox_chacha_open(
 	if (crypto_onetimeauth_poly1305_verify(c + 16, c + 32, clen - 32, subkey))
 		return -1;
 
-	crypto_core_chacha_xor(m, c, clen, n, k, 0, 256, rounds);
+	crypto_core_chacha_xor(m, c, clen, n, k, 1, 256, rounds);
 
 	for (i = 0; i < 32; ++i)
 		m[i] = 0;
