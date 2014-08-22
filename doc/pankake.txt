@@ -42,7 +42,6 @@
  - None of the exchanged tokens between the parties should live beyond the authentication procedures.
  - PBKDF2 iterations should be at least 5000.
  - The client auth must have the same size in all authentications regardless of the password size.
- - Client may optionally send pwhash instead of plain text password in the last client step.
 
 
 2. Goals
@@ -58,6 +57,7 @@
  - Resistant to dictionary attacks.
  - Resistant to FPGA based decryption.
  - An attacker who discloses the password or password hash won't be able to decrypt past connections.
+ - Constant processing time regardeless of input, either if correct or incorrect.
 
 
 3. Diagram

@@ -51,7 +51,7 @@ unsigned char *pankake_client_init(
 	size_t out_len = 0, pw_len = 0;
 
 	/* Check password length */
-	if ((pw_len = strlen(password)) >= sizeof(password))
+	if ((pw_len = strlen(password)) >= sizeof(ctx->password))
 		return NULL;
 
 	strcpy(ctx->password, password);
@@ -143,28 +143,24 @@ unsigned char *pankake_server_init(
 	if (!hash_buffer_blake2s(ctx->shared_hash, ctx->shared, sizeof(ctx->shared)))
 		return NULL;
 
-	/* Generate a pseudo random nonce */
-	if (!generate_bytes_random(nonce, sizeof(nonce)))
-		return NULL;
+	/* Set nonce to the maximum possible value */
+	memset(nonce, 255, sizeof(nonce));
 
 	/* Allocate enough memory for server session, if required */
 	if (!server_session) {
-		if (!(server_session = malloc(sizeof(ctx->s_public) + CRYPT_NONCE_SIZE_XSALSA20 + HASH_DIGEST_SIZE_BLAKE2S)))
+		if (!(server_session = malloc(sizeof(ctx->s_public) + HASH_DIGEST_SIZE_BLAKE2S)))
 			return NULL;
 
 		session_alloc = 1;
 	}
 
 	/* Encrypt server token with rehashed version of shared key */
-	if (!crypt_encrypt_xsalsa20(server_session + sizeof(ctx->s_public) + CRYPT_NONCE_SIZE_XSALSA20, &out_len, server_token, HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash)) {
+	if (!crypt_encrypt_xsalsa20(server_session + sizeof(ctx->s_public), &out_len, server_token, HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash)) {
 		errsv = errno;
 		if (session_alloc) free(server_session);
 		errno = errsv;
 		return NULL;
 	}
-
-	/* Prepend nonce */
-	memcpy(server_session + sizeof(ctx->s_public), nonce, sizeof(nonce));
 
 	/* Prepend public key */
 	memcpy(server_session, ctx->s_public, sizeof(ctx->s_public));
@@ -172,7 +168,6 @@ unsigned char *pankake_server_init(
 	/* Cleanup */
 	memset(server_token, 0, sizeof(server_token));
 	memset(secret_hash_tmp, 0, sizeof(secret_hash_tmp));
-	memset(nonce, 0, sizeof(nonce));
 
 	/* All good */
 	return server_session;
@@ -209,11 +204,11 @@ unsigned char *pankake_client_authorize(
 	if (!hash_buffer_blake2s(ctx->shared_hash, ctx->shared, sizeof(ctx->shared)))
 		return NULL;
 
-	/* Extract nonce */
-	memcpy(nonce, server_session + sizeof(ctx->s_public), sizeof(nonce));
+	/* Set nonce to the maximum possible value to match the server nonce */
+	memset(nonce, 255, sizeof(nonce));
 
 	/* Decrypt server token with rehashed version of shared key */
-	if (!crypt_decrypt_xsalsa20(server_token, &out_len, server_session + sizeof(ctx->s_public) + CRYPT_NONCE_SIZE_XSALSA20, HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash))
+	if (!crypt_decrypt_xsalsa20(server_token, &out_len, server_session + sizeof(ctx->s_public), HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash))
 		return NULL;
 
 	/* Decrypt the server token with client hash in order to retrieve the server rehashed version
@@ -244,34 +239,30 @@ unsigned char *pankake_client_authorize(
 	/* Set the password length in the pw payload */
 	pw_payload[0] = pw_len;
 
-	/* Generate a new nonce */
-	if (!generate_bytes_random(nonce, sizeof(nonce)))
-		return NULL;
-
 	/* Allocate client auth memory if required */
 	if (!client_auth) {
-		if (!(client_auth = malloc(CRYPT_NONCE_SIZE_XSALSA20 + sizeof(pw_payload))))
+		if (!(client_auth = malloc(sizeof(pw_payload))))
 			return NULL;
 
 		auth_alloc = 1;
 	}
 
-	/* Encrypt pw_payload to create the client auth */
-	if (!crypt_encrypt_xsalsa20(client_auth + CRYPT_NONCE_SIZE_XSALSA20, &out_len, pw_payload, sizeof(pw_payload), nonce, key_agreed)) {
+	/* Encrypt pw_payload to create the client auth.
+	 *
+	 * NOTE: We use the same nonce because the key is different.
+	 *
+	 */
+	if (!crypt_encrypt_xsalsa20(client_auth, &out_len, pw_payload, sizeof(pw_payload), nonce, key_agreed)) {
 		errsv = errno;
 		if (auth_alloc) free(client_auth);
 		errno = errsv;
 		return NULL;
 	}
 
-	/* Copy nonce into client_auth */
-	memcpy(client_auth, nonce, sizeof(nonce));
-
 	/* Cleanup */
 	memset(pwrehash_s, 0, sizeof(pwrehash_s));
 	memset(server_token, 0, sizeof(server_token));
 	memset(secret_hash_tmp, 0, sizeof(secret_hash_tmp));
-	memset(nonce, 0, sizeof(nonce));
 
 	/* All good */
 	return client_auth;
@@ -296,11 +287,11 @@ int pankake_server_authorize(
 	if (!crypt_encrypt_otp(key_agreed, &out_len, ctx->shared_hash, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->secret_hash))
 		return -1;
 
-	/* Extract nonce */
-	memcpy(nonce, client_auth, CRYPT_NONCE_SIZE_XSALSA20);
+	/* Set nonce to the maximum possible value to match the client value */
+	memset(nonce, 255, sizeof(nonce));
 
 	/* Encrypt pw_payload to create the client auth */
-	if (!crypt_decrypt_xsalsa20(pw_payload, &out_len, client_auth + CRYPT_NONCE_SIZE_XSALSA20, sizeof(pw_payload), nonce, key_agreed))
+	if (!crypt_decrypt_xsalsa20(pw_payload, &out_len, client_auth, sizeof(pw_payload), nonce, key_agreed))
 		return -1;
 
 	/* Set password length */
@@ -316,7 +307,6 @@ int pankake_server_authorize(
 
 	/* Cleanup */
 	memset(pwhash_c, 0, sizeof(pwhash_c));
-	memset(nonce, 0, sizeof(nonce));
 	memset(pw_payload, 0, sizeof(pw_payload));
 
 	/* All good */
