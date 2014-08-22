@@ -51,20 +51,8 @@ static void chacha_wordtobyte(
 static const char sigma[16] = "expand 32-byte k";
 static const char tau[16] = "expand 16-byte k";
 
-int crypto_core_chacha_xor(
-	unsigned char *c,
-	const unsigned char *m,
-	size_t mlen,
-	const unsigned char *n,
-	const unsigned char *k,
-	size_t kbits,
-	size_t rounds)
-{
+void crypto_core_chacha_key(uint32_t *input, const unsigned char *k, size_t kbits) {
   const char *constants = NULL;
-  unsigned char output[64];
-  uint32_t input[16];
-  int i = 0;
-
 
   /* Key setup */
   input[4] = U8TO32_LITTLE(k + 0);
@@ -85,14 +73,57 @@ int crypto_core_chacha_xor(
   input[1] = U8TO32_LITTLE(constants + 4);
   input[2] = U8TO32_LITTLE(constants + 8);
   input[3] = U8TO32_LITTLE(constants + 12);
+}
 
+void crypto_core_chacha_counter(uint32_t *input, uint64_t counter) {
+  input[12] = (uint32_t) counter;
+  input[13] = (uint32_t) (counter >> 32);
+}
 
-  /* nonce setup */
-  input[12] = 0;
-  input[13] = 0;
+void crypto_core_chacha_nonce(uint32_t *input, const unsigned char *n) {
   input[14] = U8TO32_LITTLE(n + 0);
   input[15] = U8TO32_LITTLE(n + 4);
+}
 
+void crypto_core_chacha(
+	unsigned char output[64],
+	const unsigned char k[32],
+	const unsigned char n[8],
+	uint64_t counter,
+	size_t kbits,
+	size_t rounds)
+{
+  uint32_t input[16];
+
+  crypto_core_chacha_key(input, k, kbits);
+  crypto_core_chacha_counter(input, counter);
+  crypto_core_chacha_nonce(input, n);
+
+  chacha_wordtobyte(output, input, rounds);
+}
+
+int crypto_core_chacha_xor(
+	unsigned char *c,
+	const unsigned char *m,
+	size_t mlen,
+	const unsigned char *n,
+	const unsigned char *k,
+	uint64_t counter,
+	size_t kbits,
+	size_t rounds)
+{
+  unsigned char output[64];
+  uint32_t input[16];
+  int i = 0;
+
+  /* Key setup */
+  crypto_core_chacha_key(input, k, kbits);
+
+  /* counter setup */
+  crypto_core_chacha_counter(input, counter);
+
+  /* nonce setup */
+  crypto_core_chacha_nonce(input, n);
 
   /* Encrypt bytes */
   if (!mlen) return -1;

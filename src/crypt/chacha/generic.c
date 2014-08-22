@@ -51,7 +51,7 @@ unsigned char *chacha20_encrypt(
 		out_alloc = 1;
 	}
 
-	if (crypto_core_chacha_xor(out, in, in_len, nonce, key, 256, 20) < 0) {
+	if (crypto_core_chacha_xor(out, in, in_len, nonce, key, 0, 256, 20) < 0) {
 		errsv = errno;
 		if (out_alloc) free(out);
 		errno = errsv;
