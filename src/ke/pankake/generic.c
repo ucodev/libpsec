@@ -104,7 +104,7 @@ unsigned char *pankake_server_init(
 	int rounds = 5000, errsv = 0, session_alloc = 0;
 	unsigned char server_token[HASH_DIGEST_SIZE_BLAKE2S];
 	unsigned char secret_hash_tmp[HASH_DIGEST_SIZE_SHA512 * 2];
-	unsigned char nonce[CRYPT_NONCE_SIZE_XSALSA20];
+	unsigned char nonce[CRYPT_NONCE_SIZE_CHACHA20];
 	struct pankake_context *ctx = (struct pankake_context *) server_context;
 	size_t out_len = 0;
 
@@ -155,7 +155,7 @@ unsigned char *pankake_server_init(
 	}
 
 	/* Encrypt server token with rehashed version of shared key */
-	if (!crypt_encrypt_xsalsa20(server_session + sizeof(ctx->s_public), &out_len, server_token, HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash)) {
+	if (!crypt_encrypt_chacha20(server_session + sizeof(ctx->s_public), &out_len, server_token, HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash)) {
 		errsv = errno;
 		if (session_alloc) free(server_session);
 		errno = errsv;
@@ -183,7 +183,7 @@ unsigned char *pankake_client_authorize(
 	unsigned char pwrehash_s[HASH_DIGEST_SIZE_BLAKE2S];
 	unsigned char server_token[HASH_DIGEST_SIZE_BLAKE2S];
 	unsigned char secret_hash_tmp[HASH_DIGEST_SIZE_SHA512 * 2];
-	unsigned char nonce[CRYPT_NONCE_SIZE_XSALSA20];
+	unsigned char nonce[CRYPT_NONCE_SIZE_CHACHA20];
 	unsigned char pw_payload[256 + 1];
 	struct pankake_context *ctx = (struct pankake_context *) client_context;
 	size_t out_len = 0, pw_len = 0;
@@ -208,7 +208,7 @@ unsigned char *pankake_client_authorize(
 	memset(nonce, 255, sizeof(nonce));
 
 	/* Decrypt server token with rehashed version of shared key */
-	if (!crypt_decrypt_xsalsa20(server_token, &out_len, server_session + sizeof(ctx->s_public), HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash))
+	if (!crypt_decrypt_chacha20(server_token, &out_len, server_session + sizeof(ctx->s_public), HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash))
 		return NULL;
 
 	/* Decrypt the server token with client hash in order to retrieve the server rehashed version
@@ -252,7 +252,7 @@ unsigned char *pankake_client_authorize(
 	 * NOTE: We use the same nonce because the key is different.
 	 *
 	 */
-	if (!crypt_encrypt_xsalsa20(client_auth, &out_len, pw_payload, sizeof(pw_payload), nonce, key_agreed)) {
+	if (!crypt_encrypt_chacha20(client_auth, &out_len, pw_payload, sizeof(pw_payload), nonce, key_agreed)) {
 		errsv = errno;
 		if (auth_alloc) free(client_auth);
 		errno = errsv;
@@ -277,7 +277,7 @@ int pankake_server_authorize(
 {
 	int rounds = 5000;
 	unsigned char pwhash_c[HASH_DIGEST_SIZE_SHA512];
-	unsigned char nonce[CRYPT_NONCE_SIZE_XSALSA20];
+	unsigned char nonce[CRYPT_NONCE_SIZE_CHACHA20];
 	unsigned char pw_payload[256 + 1];
 	unsigned char *password = &pw_payload[1];
 	struct pankake_context *ctx = (struct pankake_context *) server_context;
@@ -291,7 +291,7 @@ int pankake_server_authorize(
 	memset(nonce, 255, sizeof(nonce));
 
 	/* Encrypt pw_payload to create the client auth */
-	if (!crypt_decrypt_xsalsa20(pw_payload, &out_len, client_auth, sizeof(pw_payload), nonce, key_agreed))
+	if (!crypt_decrypt_chacha20(pw_payload, &out_len, client_auth, sizeof(pw_payload), nonce, key_agreed))
 		return -1;
 
 	/* Set password length */

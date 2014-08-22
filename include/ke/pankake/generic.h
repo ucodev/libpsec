@@ -51,12 +51,12 @@ struct pankake_context {
 /* Sizes */
 #define PANKAKE_KEY_SIZE		32
 #define PANKAKE_CONTEXT_SIZE		sizeof(struct pankake_context)
-#define PANKAKE_CLIENT_AUTH_SIZE	24 + 1 + 256
-					/* xsalsa20 nonce, pw_payload(pw_size, password) */
+#define PANKAKE_CLIENT_AUTH_SIZE	1 + 256
+					/* pw_size, password */
 #define PANKAKE_CLIENT_SESSION_SIZE	512 + 32
 					/* public key, token */
-#define PANKAKE_SERVER_SESSION_SIZE	512 + 24 + 32
-					/* public key, xsalsa20 nonce, token */
+#define PANKAKE_SERVER_SESSION_SIZE	512 + 32
+					/* public key, token */
 
 /* Prototypes */
 unsigned char *pankake_client_init(
