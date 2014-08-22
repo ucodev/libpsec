@@ -25,7 +25,7 @@ Changes by Pedro A. Hortas:
   x[a] = PLUS(x[a],x[b]); x[d] = ROTATE(XOR(x[d],x[a]), 8); \
   x[c] = PLUS(x[c],x[d]); x[b] = ROTATE(XOR(x[b],x[c]), 7);
 
-static void chacha_wordtobyte(
+static void _chacha_core(
 	unsigned char output[64],
 	const uint32_t input[16],
 	size_t rounds)
@@ -51,36 +51,38 @@ static void chacha_wordtobyte(
 static const char sigma[16] = "expand 32-byte k";
 static const char tau[16] = "expand 16-byte k";
 
-void crypto_core_chacha_key(uint32_t *input, const unsigned char *k, size_t kbits) {
-  const char *constants = NULL;
+static void _crypto_core_chacha_constant(uint32_t *input, size_t kbits) {
+  const char *constants = ((kbits == 256) ? sigma : tau);
 
-  /* Key setup */
-  input[4] = U8TO32_LITTLE(k + 0);
-  input[5] = U8TO32_LITTLE(k + 4);
-  input[6] = U8TO32_LITTLE(k + 8);
-  input[7] = U8TO32_LITTLE(k + 12);
-  if (kbits == 256) { /* recommended */
-    k += 16;
-    constants = sigma;
-  } else { /* kbits == 128 */
-    constants = tau;
-  }
-  input[8] = U8TO32_LITTLE(k + 0);
-  input[9] = U8TO32_LITTLE(k + 4);
-  input[10] = U8TO32_LITTLE(k + 8);
-  input[11] = U8TO32_LITTLE(k + 12);
   input[0] = U8TO32_LITTLE(constants + 0);
   input[1] = U8TO32_LITTLE(constants + 4);
   input[2] = U8TO32_LITTLE(constants + 8);
   input[3] = U8TO32_LITTLE(constants + 12);
 }
 
-void crypto_core_chacha_counter(uint32_t *input, uint64_t counter) {
-  input[12] = (uint32_t) counter;
-  input[13] = (uint32_t) (counter >> 32);
+static void _crypto_core_chacha_key(uint32_t *input, const unsigned char *k, size_t kbits) {
+  input[4] = U8TO32_LITTLE(k + 0);
+  input[5] = U8TO32_LITTLE(k + 4);
+  input[6] = U8TO32_LITTLE(k + 8);
+  input[7] = U8TO32_LITTLE(k + 12);
+
+  k += ((kbits == 256) ? 16 : 0);
+
+  input[8] = U8TO32_LITTLE(k + 0);
+  input[9] = U8TO32_LITTLE(k + 4);
+  input[10] = U8TO32_LITTLE(k + 8);
+  input[11] = U8TO32_LITTLE(k + 12);
 }
 
-void crypto_core_chacha_nonce(uint32_t *input, const unsigned char *n) {
+static void _crypto_core_chacha_block_counter(uint32_t *input, uint32_t bc) {
+  input[12] = bc;
+}
+
+static void _crypto_core_chacha_nonce_const(uint32_t *input, uint32_t nc) {
+  input[13] = nc;
+}
+
+static void _crypto_core_chacha_nonce(uint32_t *input, const unsigned char *n) {
   input[14] = U8TO32_LITTLE(n + 0);
   input[15] = U8TO32_LITTLE(n + 4);
 }
@@ -89,26 +91,30 @@ void crypto_core_chacha(
 	unsigned char output[64],
 	const unsigned char k[32],
 	const unsigned char n[8],
-	uint64_t counter,
+	uint32_t nc,
+	uint32_t bc,
 	size_t kbits,
 	size_t rounds)
 {
   uint32_t input[16];
 
-  crypto_core_chacha_key(input, k, kbits);
-  crypto_core_chacha_counter(input, counter);
-  crypto_core_chacha_nonce(input, n);
+  _crypto_core_chacha_constant(input, kbits);
+  _crypto_core_chacha_key(input, k, kbits);
+  _crypto_core_chacha_block_counter(input, bc);
+  _crypto_core_chacha_nonce_const(input, nc);
+  _crypto_core_chacha_nonce(input, n);
 
-  chacha_wordtobyte(output, input, rounds);
+  _chacha_core(output, input, rounds);
 }
 
-int crypto_core_chacha_xor(
+int crypto_stream_chacha_xor(
 	unsigned char *c,
 	const unsigned char *m,
 	size_t mlen,
 	const unsigned char *n,
 	const unsigned char *k,
-	uint64_t counter,
+	uint32_t nc,
+	uint32_t bc,
 	size_t kbits,
 	size_t rounds)
 {
@@ -116,19 +122,25 @@ int crypto_core_chacha_xor(
   uint32_t input[16];
   int i = 0;
 
+  /* Constant setup */
+  _crypto_core_chacha_constant(input, kbits);
+
   /* Key setup */
-  crypto_core_chacha_key(input, k, kbits);
+  _crypto_core_chacha_key(input, k, kbits);
 
-  /* counter setup */
-  crypto_core_chacha_counter(input, counter);
+  /* block counter setup */
+  _crypto_core_chacha_block_counter(input, bc);
 
+  /* nonce constant setup */
+  _crypto_core_chacha_nonce_const(input, nc);
+ 
   /* nonce setup */
-  crypto_core_chacha_nonce(input, n);
+  _crypto_core_chacha_nonce(input, n);
 
   /* Encrypt bytes */
   if (!mlen) return -1;
   for (;;) {
-    chacha_wordtobyte(output,input, rounds);
+    _chacha_core(output,input, rounds);
     input[12] = PLUSONE(input[12]);
     if (!input[12]) {
       input[13] = PLUSONE(input[13]);

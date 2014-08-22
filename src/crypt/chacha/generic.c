@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Xsalsa20 Encryption/Decryption interface 
  *
- * Date: 20-08-2014
+ * Date: 22-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -51,7 +51,7 @@ unsigned char *chacha20_encrypt(
 		out_alloc = 1;
 	}
 
-	if (crypto_core_chacha_xor(out, in, in_len, nonce, key, 0, 256, 20) < 0) {
+	if (crypto_stream_chacha_xor(out, in, in_len, nonce, key, 0, 0, 256, 20) < 0) {
 		errsv = errno;
 		if (out_alloc) free(out);
 		errno = errsv;

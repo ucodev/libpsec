@@ -13,16 +13,18 @@ int crypto_core_chacha(
 	unsigned char output[64],
 	const unsigned char k[32],
 	const unsigned char n[8],
-	uint64_t counter,
+	uint32_t nc,
+	uint32_t bc,
 	size_t kbits,
 	size_t rounds);
-int crypto_core_chacha_xor(
+int crypto_stream_chacha_xor(
 	unsigned char *c,
 	const unsigned char *m,
 	size_t mlen,
 	const unsigned char *n,
 	const unsigned char *k,
-	uint64_t counter,
+	uint32_t nc,
+	uint32_t bc,
 	size_t kbits,
 	size_t rounds);
 int crypto_secretbox_chacha(unsigned char *c, const unsigned char *m, unsigned long long mlen, const unsigned char *n, const unsigned char *k, size_t rounds);

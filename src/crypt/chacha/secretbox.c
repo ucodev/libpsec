@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        ChaChaXX+Poly1305 Secret box interface
  *
- * Date: 21-08-2014
+ * Date: 22-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -47,8 +47,8 @@ int crypto_secretbox_chacha(
 	if (mlen < 32)
 		return -1;
 
-	crypto_core_chacha(subkey, k, n, 0, 256, rounds);
-	crypto_core_chacha_xor(c, m, mlen, n, k, 1, 256, rounds);
+	crypto_core_chacha(subkey, k, n, 0, 0, 256, rounds);
+	crypto_stream_chacha_xor(c, m, mlen, n, k, 0, 1, 256, rounds);
 	crypto_onetimeauth_poly1305(c + 16, c + 32, mlen - 32, subkey);
 
 	for (i = 0; i < 16; ++i)
@@ -71,12 +71,12 @@ int crypto_secretbox_chacha_open(
 	if (clen < 32)
 		return -1;
 
-	crypto_core_chacha(subkey, k, n, 0, 256, rounds);
+	crypto_core_chacha(subkey, k, n, 0, 0, 256, rounds);
 
 	if (crypto_onetimeauth_poly1305_verify(c + 16, c + 32, clen - 32, subkey))
 		return -1;
 
-	crypto_core_chacha_xor(m, c, clen, n, k, 1, 256, rounds);
+	crypto_stream_chacha_xor(m, c, clen, n, k, 0, 1, 256, rounds);
 
 	for (i = 0; i < 32; ++i)
 		m[i] = 0;
