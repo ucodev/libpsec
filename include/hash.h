@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH interface header
  *
- * Date: 03-08-2014
+ * Date: 22-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -85,6 +85,8 @@ unsigned char *hash_file_md5(unsigned char *out, FILE *fp);
 /********************/
 /* Common Interface */
 /********************/
+#define HASH_BLOCK_SIZE_MAX		128
+#define HASH_DIGEST_SIZE_MAX		64
 void hash_destroy(unsigned char *digest);
 
 #endif

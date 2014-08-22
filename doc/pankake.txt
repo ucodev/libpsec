@@ -48,6 +48,7 @@
 2. Goals
 
  - Open protocol.
+ - No third parties required.
  - Authenticate both parties in only 3 communications flows (client -> server -> client -> server).
  - Client grants that server is legit before revealing critical data.
  - Server grants that client is legit without revealing critical data.

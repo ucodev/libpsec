@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Hash-based Message Authentication Code interface 
  *
- * Date: 02-08-2014
+ * Date: 22-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -31,6 +31,8 @@
 #include <errno.h>
 #include <stdlib.h>
 
+#include "hash.h"
+
 unsigned char *hmac_generic(
 	unsigned char *out,
 	unsigned char *(*hash) (unsigned char *out, const unsigned char *in, size_t in_len),
@@ -41,29 +43,13 @@ unsigned char *hmac_generic(
 	const unsigned char *msg,
 	size_t msg_len)
 {
-	int i = 0, errsv = 0;
-	unsigned char *key_local = NULL;
-	unsigned char *o_key_pad = NULL;
+	int i = 0;
+	unsigned char key_local[HASH_BLOCK_SIZE_MAX];
+	unsigned char o_key_pad[HASH_BLOCK_SIZE_MAX + HASH_DIGEST_SIZE_MAX];
 	unsigned char *i_key_pad = NULL;
 
-	/* Allocate temporary memory */
-	if (!(key_local = malloc(hash_block_size)))
+	if (!(i_key_pad = malloc(hash_block_size + msg_len)))
 		return NULL;
-
-	if (!(o_key_pad = malloc(hash_block_size + hash_len))) {
-		errsv = errno;
-		free(key_local);
-		errno = errsv;
-		return NULL;
-	}
-
-	if (!(i_key_pad = malloc(hash_block_size + msg_len))) {
-		errsv = errno;
-		free(key_local);
-		free(o_key_pad);
-		errno = errsv;
-		return NULL;
-	}
 
 	/* Reset memory */
 	memset(key_local, 0, hash_block_size);
@@ -95,8 +81,6 @@ unsigned char *hmac_generic(
 	out = hash(out, o_key_pad, hash_block_size + hash_len);
 
 	/* Free temporary memory */
-	free(key_local);
-	free(o_key_pad);
 	free(i_key_pad);
 
 	/* Return result */
