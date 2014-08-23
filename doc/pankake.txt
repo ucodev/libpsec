@@ -30,7 +30,7 @@
  - Salt is known either by client and server.
  - If salt isn't known by client, it may be transfered from server in plain text.
  - It is advisable to use a username as the salt.
- - Deffie-Hellman public key exchange is performed in the first two flows (client -> server -> client).
+ - Diffie-Hellman public key exchange is performed in the first two flows (client -> server -> client).
  - Client token must be a random value with a minimum length of 256 bits.
  - Secret hash derivation is SHA-512 based and should output a BIG hash (not only 64 bytes).
  - All xor() operations must be a OTP encryption (encryption key must be the same size of the data).
@@ -65,7 +65,7 @@
 3. Diagram
 
  - The '+' sign means concatenation.
- - Deffie-Hellman computations are implicit (as in, not shown in the diagram).
+ - Diffie-Hellman computations are implicit (as in, not shown in the diagram).
 
 ______________________________________________________________________________________________
                                             |     |
