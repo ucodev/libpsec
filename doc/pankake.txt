@@ -63,7 +63,106 @@
  - Constant processing time regardeless of input, either if correct or incorrect.
 
 
-3. Diagram
+3. Functions
+
+ +------------------+---------------------------------------------------------+
+ | function         | description                                             |
+ +------------------+---------------------------------------------------------+
+ | dec(m, k)        | ChaCha20 decryption                                     |
+ | dec_mac(m, k)    | ChaCha20 decryption with Poly1305 authentication        |
+ |                  |                                                         |
+ | enc(m, k)        | ChaCha20 encryption                                     |
+ | enc_mac(m, k)    | ChaCha20 encryption with Poly1305 authentication        |
+ |                  |                                                         |
+ | pbkdf2(pw, salt) | PBKDF2 key derivation based on SHA-512 with 5000 rounds |
+ |                  |                                                         |
+ | random()         | strong pseudo-random generation                         |
+ |                  |                                                         |
+ | xor(a, b)        | a xor b                                                 |
+ +------------------+---------------------------------------------------------+
+
+
+4. Variables
+
+ +------+-----------------------+--------------------+--------------------+
+ | var  | description           | client computation | server computation |
+ +------+-----------------------+--------------------+--------------------+
+ | g    | generator             | <known>            | <known>            |
+ | p    | prime                 | <known>            | <known>            |
+ |      |                       |                    |                    |
+ | salt | username              | <known>            | <known>            |
+ | pw   | plain password        | <known>            | dec(ca, ak)        |
+ |      |                       |                    |                    |
+ | cpub | client public key     | g**cprv mod p      | <received>         |
+ | spub | server public key     | <received>         | g**sprv mod p      |
+ |      |                       |                    |                    |
+ | cprv | client private key    | random()           | <unknown>          |
+ | sprv | server private key    | <unknown>          | random()           |
+ |      |                       |                    |                    |
+ | cpwh | client password hash  | pbkdf2(pw, salt)   | <received>         |
+ | spwh | server password hash  | <unknown>          | <known>            |
+ |      |                       |                    |                    |
+ | ca   | client auth           | enc(ak, pw)        | <received>         |
+ | sa   | server auth           | xor(sh, pwh)       | xor(sh, spwh)      |
+ |      |                       |                    |                    |
+ | cs   | client session        | xor(pwh, ct)       | <received>         |
+ | ss   | server session        | <received>         | enc(sa, sk)        |
+ |      |                       |                    |                    |
+ | ct   | client token          | random()           | xor(cs, spwh)      |
+ | st   | server token          | dec_mac(sh, ct)    | random()           |
+ |      |                       |                    |                    |
+ | sh   | secret hash           | xor(sa, cpwh)      | enc_mac(st, ct)    |
+ | sk   | shared key            | g**spub mod cprv   | g**cpub mod sprv   |
+ | ak   | agreed key            | enc(sh, sk)        | enc(sh, sk)        |
+ +------+-----------------------+--------------------+--------------------+
+
+
+5. Processing
+
+ - Client -> Server
+
+   *     cprv = random()
+   *     cpub = g**cprv mod p
+   *     cpwh = pbkdf2(pw, salt)
+   *       cs = xor(cpwh, ct)
+   *      msg = concat(cpub, cs)
+
+ - Server -> Client
+
+   * cpub, cs = split(msg)
+   *     sprv = random()
+   *     spub = g**sprv mod p
+   *       sk = g**cpub mod sprv
+   *       ct = xor(cs, spwh)
+   *       st = random()
+   *       sh = enc_mac(st, ct)
+   *       sa = xor(sh, spwh)
+   *       ss = enc(sa, sk)
+   *      msg = concat(spub, ss)
+
+ - Client -> Server
+
+   * spub, ss = split(msg)
+   *       sk = g**spub mod cprv
+   *       sa = dec(ss, sk)
+   *       sh = xor(sa, cpwh)
+   *       st = dec_mac(sh, ct)
+   *            <on success, proceed>
+   *       ak = enc(sh, sk)
+   *       ca = enc(pw, ak)
+   *      msg = ca
+
+ - Server
+
+   *      ca = msg
+   *      ak = enc(sh, sk)
+   *      pw = dec(ca, ak)
+   *    cpwh = pbkdf(pw, salt)
+   *     ret = cmp(cpwh, spwh)
+   *            <if ret is true, proceed>
+
+
+6. Diagram
 
  - The '+' sign means concatenation.
  - Diffie-Hellman computations are implicit (as in, not shown in the diagram).
@@ -100,9 +199,9 @@ ________________________________________________________________________________
                 \__________/                |     |
                       |                     |     |
               +----------------+            |     |   +----------------+ +----------------+
-              | client session |            |     |   | client session | |                |
-              |       +        |--------------------->|       +        | |     pwhash     |
               |  C DH pub key  |            |     |   |  C DH pub key  | |                |
+              |       +        |--------------------->|       +        | |     pwhash     |
+              | client session |            |     |   | client session | |                |
               +----------------+            |     |   +----------------+ +----------------+
                                             |     |            |                 |
                                             |     |            +-----------------+
@@ -154,9 +253,9 @@ ________________________________________________________________________________
                                             |     |               \___________/
                                             |     |                     |
     +----------------+ +----------------+   |     |             +----------------+
-    |                | | SERVER SESSION |   |     |             | SERVER SESSION |
-    |  DH shared key | |       +        |<----------------------|       +        |
     |                | |  S DH pub key  |   |     |             |  S DH pub key  |
+    |  DH shared key | |       +        |<----------------------|       +        |
+    |                | | server session |   |     |             | server session |
     +----------------+ +----------------+   |     |             +----------------+
             |                  |            |     |
             +--<K>--------<M>--+            |     |
