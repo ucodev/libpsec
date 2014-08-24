@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exchange interface header
  *
- * Date: 21-08-2014
+ * Date: 24-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -38,6 +38,39 @@
 unsigned char *ke_dh_private(unsigned char *priv, size_t size);
 unsigned char *ke_dh_public(unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
 unsigned char *ke_dh_shared(unsigned char *shared, const unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
+/********************/
+/* DH-EKE Interface */
+/********************/
+#define KE_CONTEXT_SIZE_DHEKE		((sizeof(unsigned char *) * 8) + (sizeof(size_t) * 5) + sizeof(unsigned int))
+#define KE_EXTRA_SESSION_SIZE_DHEKE	16 /* Poly1305 */
+unsigned char *ke_dheke_client_init(
+	unsigned char *client_session,
+	unsigned char *context,
+	const unsigned char *pwd,
+	size_t pwd_len,
+	const unsigned char *salt,
+	size_t salt_len,
+	size_t prv_len,
+	size_t pub_len,
+	unsigned int pbkdf2_rounds,
+	unsigned int use_mac);
+unsigned char *ke_dheke_server_init(
+	unsigned char *server_session,
+	unsigned char *key,
+	unsigned char *context,
+	const unsigned char *client_session,
+	const unsigned char *pwd,
+	size_t pwd_len,
+	const unsigned char *salt,
+	size_t salt_len,
+	size_t prv_len,
+	size_t pub_len,
+	unsigned int pbkdf2_rounds,
+	unsigned int use_mac);
+unsigned char *ke_dheke_client_process(
+	unsigned char *key,
+	unsigned char *context,
+	const unsigned char *server_session);
 /*********************/
 /* PANKAKE Interface */
 /*********************/

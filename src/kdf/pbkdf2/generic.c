@@ -134,7 +134,7 @@ unsigned char *pbkdf2_hash(
 			return NULL;
 		}
 
-		len = ((i * hash_len) > out_size) ? (i * hash_len) - out_size : hash_len;
+		len = (((i + 1) * hash_len) > out_size) ? out_size - (i * hash_len) : hash_len;
 
 		memcpy(&out[i * hash_len], hash_tmp, len);
 	}

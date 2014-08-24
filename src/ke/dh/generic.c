@@ -209,7 +209,7 @@ unsigned char *dh_init_private_key(unsigned char *priv, size_t priv_size) {
 		out_alloc = 1;
 
 	/* Generate private key */
-	if (!(out = generate_bytes_random(priv, priv_size)))
+	if (!(priv = out = generate_bytes_random(priv, priv_size)))
 		return NULL;
 
 	/* Encode the random secret in base16 */

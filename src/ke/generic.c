@@ -30,6 +30,7 @@
 #include <stdlib.h>
 
 #include "ke/dh/generic.h"
+#include "ke/dheke/generic.h"
 #include "ke/pankake/generic.h"
 
 #include "ke.h"
@@ -56,6 +57,47 @@ unsigned char *ke_dh_shared(
 	size_t priv_size)
 {
 	return dh_compute_shared_key(shared, pub, pub_size, priv, priv_size);
+}
+
+/* DHEKE Interface */
+unsigned char *ke_dheke_client_init(
+	unsigned char *client_session,
+	unsigned char *context,
+	const unsigned char *pwd,
+	size_t pwd_len,
+	const unsigned char *salt,
+	size_t salt_len,
+	size_t prv_len,
+	size_t pub_len,
+	unsigned int pbkdf2_rounds,
+	unsigned int use_mac)
+{
+	return dheke_client_init(client_session, context, pwd, pwd_len, salt, salt_len, prv_len, pub_len, pbkdf2_rounds, use_mac);
+}
+
+unsigned char *ke_dheke_server_init(
+	unsigned char *server_session,
+	unsigned char *key,
+	unsigned char *context,
+	const unsigned char *client_session,
+	const unsigned char *pwd,
+	size_t pwd_len,
+	const unsigned char *salt,
+	size_t salt_len,
+	size_t prv_len,
+	size_t pub_len,
+	unsigned int pbkdf2_rounds,
+	unsigned int use_mac)
+{
+	return dheke_server_init(server_session, key, context, client_session, pwd, pwd_len, salt, salt_len, prv_len, pub_len, pbkdf2_rounds, use_mac);
+}
+
+unsigned char *ke_dheke_client_process(
+	unsigned char *key,
+	unsigned char *context,
+	const unsigned char *server_session)
+{
+	return dheke_client_process(key, context, server_session);
 }
 
 /* PANKAKE Interface */
