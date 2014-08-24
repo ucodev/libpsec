@@ -69,7 +69,7 @@
  | function         | description                                             |
  +------------------+---------------------------------------------------------+
  | concat(a, b)     | a || b                                                  |
- | compare()        | a == b                                                  |
+ | compare(a, b)    | a == b                                                  |
  |                  |                                                         |
  | dec(m, k)        | ChaCha20 decryption                                     |
  | dec_mac(m, k)    | ChaCha20 decryption with Poly1305 authentication        |
@@ -80,6 +80,8 @@
  | pbkdf2(pw, salt) | PBKDF2 key derivation based on SHA-512 with 5000 rounds |
  |                  |                                                         |
  | random()         | strong pseudo-random generation                         |
+ |                  |                                                         | 
+ | split(m)         | splits variable 'm' into variables 'a' and 'b'          |
  |                  |                                                         |
  | xor(a, b)        | a xor b                                                 |
  +------------------+---------------------------------------------------------+
