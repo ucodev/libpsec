@@ -1,5 +1,5 @@
 ===========================================================
- PANKAKE v0.06 (being reviewed)
+ PANKAKE v0.07 (being reviewed)
  Password Authentication N' Key Agreement with Key Exchange
 
  Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
@@ -8,7 +8,7 @@
 
  Author:  Pedro A. Hortas
  Email:   pah@ucodev.org
- Changed: 2014-08-22
+ Changed: 2014-08-24
  License: Public Domain
 
 
@@ -32,12 +32,13 @@
  - It is advisable to use a username as the salt.
  - Diffie-Hellman public key exchange is performed in the first two flows (client -> server -> client).
  - Client token must be a random value with a minimum length of 256 bits.
- - Secret hash derivation is SHA-512 based and should output a BIG hash (not only 64 bytes).
  - All xor() operations must be a OTP encryption (encryption key must be the same size of the data).
  - When encryption keys exceed the permited size, Blake2 should be used to shrink them.
- - All encrypt() operations should NOT add any sort of Message Authentication Code (MAC).
- - All encrypt() operations should use a nonce based feature.
+ - All encrypt() operations should *not add* any sort of Message Authentication Code (MAC).
+ - All encrypt_mac() operations should *add* a Message Authentication Code (MAC).
+ - All encrypt() and encrypt_mac() operations should use a nonce based feature.
  - It is recommended to use ChaCha20 for encrypt() and decrypt() operations.
+ - It is recommended to use ChaCha20+Poly1305 for encrypt_mac() and decrypt_mac() operations.
  - It is recommended to use PBKDF2-SHA-512 for key derivation of the plain text passwords.
  - PBKDF2 iterations should be at least 5000.
  - All communications after successful authentication may use the Agreed Key for encryption.
@@ -114,15 +115,15 @@ ________________________________________________________________________________
                                             |     |                              |
                                             |     |   +----------------+ +----------------+
                                             |     |   |                | |                |
-                                            |     |   |     pwhash     | |  client token  |
+                                            |     |   |  server token  | |  client token  |
                                             |     |   |                | |                |
                                             |     |   +----------------+ +----------------+
                                             |     |            |                  |
                                             |  A  |            +------------------+
                                             |  T  |                     |
-                                            |  T  |                 __________
-                                            |  A  |                / pbkdf2() \
-                                            |  C  |                \__________/
+                                            |  T  |               _______________
+                                            |  A  |              / encrypt_mac() \
+                                            |  C  |              \_______________/
                                             |  K  |                     |
                                             |  E  |            +--------+
                                             |  R  |            |
@@ -131,44 +132,44 @@ ________________________________________________________________________________
                                             |     |   |   secret hash  | |     pwhash     |
                                             |     |   |                | |                |
                                             |     |   +----------------+ +----------------+
-                                            |     |            |                  |
-                                            |     |            +------------------+
+                                            |     |            |                 |
+                                            |     |            +-----------------+
                                             |     |                     |
                                             |     |                 __________
                                             |     |                /   xor()  \
                                             |     |                \__________/
                                             |     |                     |
-    +----------------+ +----------------+   |     |                     +---------+
-    |                | |                |   |     |                               |
-    |    pwhash      | |  client token  |   |     |   +----------------+ +----------------+
-    |                | |                |   |     |   |                | |                |
-    +----------------+ +----------------+   |     |   |  DH shared key | |  server token  |
-            |                  |            |     |   |                | |                |
-            +------------------+            |     |   +----------------+ +----------------+
-                      |                     |     |            |                  |
-                  __________                |     |            +------------------+
-                 / pbkdf2() \               |     |                     |
-                 \__________/               |     |                ___________
-                      |                     |     |               / encrypt() \
- +--------------------+                     |     |               \___________/
- |                                          |     |                     |
- |  +----------------+ +----------------+   |     |             +----------------+
- |  |                | | SERVER SESSION |   |     |             | SERVER SESSION |
- |  |  DH shared key | |       +        |<----------------------|       +        |
- |  |                | |  S DH pub key  |   |     |             |  S DH pub key  |
- |  +----------------+ +----------------+   |     |             +----------------+
- |          |                  |            |     |
- |          +------------------+            |     |
- |                    |                     |     |
- |               ___________                |     |
- |              / decrypt() \               |     |
- |              \___________/               |     |
- |                    |                     |     |
- +----------+         +--------+            |     |
+                                            |     |                     +--------+
+                                            |     |                              |
+                                            |     |   +----------------+ +----------------+
+                                            |     |   |                | |                |
+                                            |     |   |  DH shared key | |   server auth  |
+                                            |     |   |                | |                |
+                                            |     |   +----------------+ +----------------+
+                                            |     |            |                 |
+                                            |     |            +-----------------+
+                                            |     |                     |
+                                            |     |                ___________
+                                            |     |               / encrypt() \
+                                            |     |               \___________/
+                                            |     |                     |
+    +----------------+ +----------------+   |     |             +----------------+
+    |                | | SERVER SESSION |   |     |             | SERVER SESSION |
+    |  DH shared key | |       +        |<----------------------|       +        |
+    |                | |  S DH pub key  |   |     |             |  S DH pub key  |
+    +----------------+ +----------------+   |     |             +----------------+
             |                  |            |     |
+            +------------------+            |     |
+                      |                     |     |
+                 ___________                |     |
+                / decrypt() \               |     |
+                \___________/               |     |
+                      |                     |     |
+                      +--------+            |     |
+                               |            |     |
     +----------------+ +----------------+   |     |
     |                | |                |   |     |
-    |   secret hash  | |  server token  |   |     |
+    |     pwhash     | |  server auth   |   |     |
     |                | |                |   |     |
     +----------------+ +----------------+   |     |
             |                  |            |     |
@@ -182,15 +183,15 @@ ________________________________________________________________________________
             |                               |  R  |
     +----------------+ +----------------+   |     |
     |                | |                |   |     |
-    | SERVER pwhash  | | CLIENT pwhash  |   |     |
-    |   (received)   | |   (computed)   |   |     |
+    |  client token  | |  secret hash   |   |     |
+    |                | |                |   |     |
     +----------------+ +----------------+   |     |
             |                  |            |     |
             +------------------+            |     |
                       |                     |     |
-                 ___________                |     |
-                / compare() \               |     |
-                \___________/               |     |
+              _______________               |     |
+             / decrypt_mac() \              |     |
+             \_______________/              |     |
                       |                     |     |
             +--<OK>---+--<NOK>-+            |     |
             |                  |            |     |
