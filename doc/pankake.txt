@@ -68,6 +68,9 @@
  +------------------+---------------------------------------------------------+
  | function         | description                                             |
  +------------------+---------------------------------------------------------+
+ | concat(a, b)     | a || b                                                  |
+ | compare()        | a == b                                                  |
+ |                  |                                                         |
  | dec(m, k)        | ChaCha20 decryption                                     |
  | dec_mac(m, k)    | ChaCha20 decryption with Poly1305 authentication        |
  |                  |                                                         |
@@ -158,7 +161,7 @@
    *      ak = enc(sh, sk)
    *      pw = dec(ca, ak)
    *    cpwh = pbkdf(pw, salt)
-   *     ret = cmp(cpwh, spwh)
+   *     ret = compare(cpwh, spwh)
    *            <if ret is true, proceed>
 
 
