@@ -68,7 +68,7 @@
  +------------------+---------------------------------------------------------+
  | function         | description                                             |
  +------------------+---------------------------------------------------------+
- | concat(a, b)     | a || b                                                  |
+ | concat(a, b)     | concatenate variables 'a' and 'b' into variable 'm'     |
  | compare(a, b)    | a == b                                                  |
  |                  |                                                         |
  | dec(m, k)        | ChaCha20 decryption                                     |
