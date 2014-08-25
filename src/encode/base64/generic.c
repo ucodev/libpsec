@@ -38,7 +38,6 @@ size_t base64_encode_size(size_t in_len) {
 	float fval = ((float) in_len + ((align == 3) ? 0 : align)) * 1.333333;
 	size_t ret = (unsigned int) fval;
 
-	ret = (unsigned int) fval;
 	ret += ((fval - ((float) ret)) > 0) ? 1 : 0;
 
 	return ret + 1;

@@ -25,18 +25,38 @@
 ===========================================================
 
 
-1. Notes
+1. Goals
+
+ - Open protocol.
+ - No third parties required.
+ - Authenticate both parties in only 3 communications flows (client -> server -> client -> server).
+ - Client challenges server and grants that it is legit before revealing critical data.
+ - Server challenges client and grants it is legit without revealing critical data.
+ - Server only stores the client's password hash and NOT the plain-text password.
+ - Resistant to replay attacks.
+ - Resistant to eavesdropping in all communications.
+ - Resistant to man-in-the-middle packet mangling in all communications.
+ - Resistant to side-channel attacks.
+ - Resistant to dictionary attacks.
+ - Resistant to FPGA/CPLD based decryption.
+ - An attacker who discloses the password or password hash won't be able to decrypt past connections.
+ - Constant processing time regardeless of input, either if correct or incorrect.
+ - A strong Agreed Key is computed by both parties that isn't based on the password.
+
+
+2. Notes
 
  - Salt is known either by client and server.
  - If salt isn't known by client, it may be transfered from server in plain text.
  - It is advisable to use a username as the salt.
  - Diffie-Hellman public key exchange is performed in the first two flows (client -> server -> client).
- - Client token must be a random value with a minimum length of 256 bits.
- - All xor() operations must be a OTP encryption (encryption key must be the same size of the data).
- - When encryption keys exceed the permited size, Blake2 should be used to shrink them.
+ - Diffie-Hellman keys must not be stored or reused.
+ - Client and server token must be a random value with a minimum length of 256 bits.
+ - All xor() operations must be an OTP encryption (encryption key must be the same size of the data).
  - All encrypt() operations should *not add* any sort of Message Authentication Code (MAC).
  - All encrypt_mac() operations should *add* a Message Authentication Code (MAC).
  - All encrypt() and encrypt_mac() operations should use a nonce based feature.
+ - When encryption keys exceed the permited size, Blake2 should be used to shrink them.
  - It is recommended to use ChaCha20 for encrypt() and decrypt() operations.
  - It is recommended to use ChaCha20+Poly1305 for encrypt_mac() and decrypt_mac() operations.
  - It is recommended to use PBKDF2-SHA-512 for key derivation of the plain text passwords.
@@ -46,30 +66,13 @@
  - The client auth must have the same size in all authentications regardless of the password size.
 
 
-2. Goals
-
- - Open protocol.
- - No third parties required.
- - Authenticate both parties in only 3 communications flows (client -> server -> client -> server).
- - Client grants that server is legit before revealing critical data.
- - Server grants that client is legit without revealing critical data.
- - Server only stores the client's password hash and NOT the plain-text password.
- - Resistant to replay attacks.
- - Resistant to eavesdropping in all communications.
- - Resistant to man-in-the-middle packet mangling in all communications.
- - Resistant to dictionary attacks.
- - Resistant to FPGA based decryption.
- - An attacker who discloses the password or password hash won't be able to decrypt past connections.
- - Constant processing time regardeless of input, either if correct or incorrect.
-
-
 3. Functions
 
  +------------------+---------------------------------------------------------+
  | function         | description                                             |
  +------------------+---------------------------------------------------------+
  | concat(a, b)     | concatenate variables 'a' and 'b' into variable 'm'     |
- | compare(a, b)    | a == b                                                  |
+ | compare(a, b)    | time constant comparing function (a == b)               |
  |                  |                                                         |
  | dec(m, k)        | ChaCha20 decryption                                     |
  | dec_mac(m, k)    | ChaCha20 decryption with Poly1305 authentication        |
@@ -79,7 +82,7 @@
  |                  |                                                         |
  | pbkdf2(pw, salt) | PBKDF2 key derivation based on SHA-512 with 5000 rounds |
  |                  |                                                         |
- | random()         | strong pseudo-random generation                         |
+ | random()         | strong pseudo-random generator                          |
  |                  |                                                         | 
  | split(m)         | splits variable 'm' into variables 'a' and 'b'          |
  |                  |                                                         |
@@ -104,7 +107,7 @@
  | cprv | client private key    | random()           | <unknown>          |
  | sprv | server private key    | <unknown>          | random()           |
  |      |                       |                    |                    |
- | cpwh | client password hash  | pbkdf2(pw, salt)   | <received>         |
+ | cpwh | client password hash  | pbkdf2(pw, salt)   | <unknown>          |
  | spwh | server password hash  | <unknown>          | <known>            |
  |      |                       |                    |                    |
  | ca   | client auth           | enc(ak, pw)        | <received>         |
@@ -122,18 +125,18 @@
  +------+-----------------------+--------------------+--------------------+
 
 
-5. Processing
+5. Process
 
- - Client
+ - Client [Stage #1]
 
    *     cprv = random()
    *     cpub = g**cprv mod p
    *     cpwh = pbkdf2(pw, salt)
    *       cs = xor(cpwh, ct)
    *      msg = concat(cpub, cs)
-                 <client sends 'msg' to server>
+   >             <client sends 'msg' to server>
 
- - Server
+ - Server [Stage #2]
 
    * cpub, cs = split(msg)
    *     sprv = random()
@@ -145,29 +148,29 @@
    *       sa = xor(sh, spwh)
    *       ss = enc(sa, sk)
    *      msg = concat(spub, ss)
-   *             <server sends 'msg' to client>
+   >             <server sends 'msg' to client>
 
- - Client
+ - Client [Stage #3]
 
    * spub, ss = split(msg)
    *       sk = spub**cprv mod p
    *       sa = dec(ss, sk)
    *       sh = xor(sa, cpwh)
    *       st = dec_mac(sh, ct)
-   *            <on success, proceed>
+   >             <on success, proceed>
    *       ak = enc(sh, sk)
    *       ca = enc(pw, ak)
    *      msg = ca
-   *             <client sends 'msg' to server>
+   >             <client sends 'msg' to server>
 
- - Server
+ - Server [Stage #4]
 
    *      ca = msg
    *      ak = enc(sh, sk)
    *      pw = dec(ca, ak)
-   *    cpwh = pbkdf(pw, salt)
+   *    cpwh = pbkdf2(pw, salt)
    *     ret = compare(cpwh, spwh)
-   *            <if 'ret' is true, proceed>
+   >            <if 'ret' is true, proceed>
 
 
 6. Diagram
@@ -200,7 +203,7 @@ ________________________________________________________________________________
     |                | |                |   |     |
     +----------------+ +----------------+   |     |
             |                  |            |     |
-            +------------------+            |     |
+            +---------+--------+            |     |
                       |                     |     |
                  __________                 |     |
                 /   xor()  \                |     |
@@ -212,7 +215,7 @@ ________________________________________________________________________________
               | client session |            |     |   | client session | |                |
               +----------------+            |     |   +----------------+ +----------------+
                                             |     |            |                 |
-                                            |     |            +-----------------+
+                                            |     |            +--------+--------+
                                             |     |                     |
                                             |     |                 __________
                                             |     |                /   xor()  \
@@ -226,7 +229,7 @@ ________________________________________________________________________________
                                             |     |   |                | |                |
                                             |     |   +----------------+ +----------------+
                                             |     |            |                 |
-                                            |  A  |            +--<M>-------<K>--+
+                                            |  A  |            +--<M>---+---<K>--+
                                             |  T  |                     |
                                             |  T  |               _______________
                                             |  A  |              / encrypt_mac() \
@@ -240,7 +243,7 @@ ________________________________________________________________________________
                                             |     |   |                | |                |
                                             |     |   +----------------+ +----------------+
                                             |     |            |                 |
-                                            |     |            +-----------------+
+                                            |     |            +--------+--------+
                                             |     |                     |
                                             |     |                 __________
                                             |     |                /   xor()  \
@@ -254,7 +257,7 @@ ________________________________________________________________________________
                                             |     |   |                | |                |
                                             |     |   +----------------+ +----------------+
                                             |     |            |                 |
-                                            |     |            +--<M>-------<K>--+
+                                            |     |            +--<M>---+---<K>--+
                                             |     |                     |
                                             |     |                ___________
                                             |     |               / encrypt() \
@@ -266,7 +269,7 @@ ________________________________________________________________________________
     |                | | server session |   |     |             | server session |
     +----------------+ +----------------+   |     |             +----------------+
             |                  |            |     |
-            +--<K>--------<M>--+            |     |
+            +--<K>----+---<M>--+            |     |
                       |                     |     |
                  ___________                |     |
                 / decrypt() \               |     |
@@ -280,7 +283,7 @@ ________________________________________________________________________________
     |                | |                |   |     |
     +----------------+ +----------------+   |     |
             |                  |            |     |
-            +------------------+            |  A  |
+            +---------+--------+            |  A  |
                       |                     |  T  |
                   __________                |  T  |
                  /   xor()  \               |  A  |
@@ -294,7 +297,7 @@ ________________________________________________________________________________
     |                | |                |   |     |
     +----------------+ +----------------+   |     |
             |                  |            |     |
-            +--<K>--------<M>--+            |     |
+            +--<K>----+---<M>--+            |     |
                       |                     |     |
               _______________               |     |
              / decrypt_mac() \              |     |
@@ -313,7 +316,7 @@ ________________________________________________________________________________
     |                | |                |   |     |
     +----------------+ +----------------+   |     |
             |                  |            |     |
-            +--<K>--------<M>--+            |     |
+            +--<K>----+---<M>--+            |     |
                       |                     |     |
                  ___________                |     |
                 / encrypt() \               |     |
@@ -325,9 +328,9 @@ ________________________________________________________________________________
     |                | |                |   |     |   |                | |                |
     |   Agreed Key   | | plain password |   |     |   +----------------+ +----------------+
     |                | |                |   |     |            |                 |
-    +----------------+ +----------------+   |     |            +--<M>-------<K>--+
+    +----------------+ +----------------+   |     |            +--<M>---+---<K>--+
             |                  |            |     |                     |
-            +--<K>--------<M>--+            |     |                ___________
+            +--<K>----+---<M>--+            |     |                ___________
                       |                     |     |               / encrypt() \
                  ___________                |     |               \___________/
                 / encrypt() \               |     |                     |
@@ -339,7 +342,7 @@ ________________________________________________________________________________
               |                |            |     |   |                | |                |
               +----------------+            |     |   +----------------+ +----------------+
                                             |     |            |                 |
-                                            |     |            +--<M>-------<K>--+
+                                            |     |            +--<M>---+---<K>--+
                                             |     |                     |
                                             |  A  |                ___________
                                             |  T  |               / decrypt() \
@@ -353,11 +356,11 @@ ________________________________________________________________________________
                                             |     |   |                | |                |
                                             |     |   +----------------+ +----------------+
                                             |     |            |                 |
-                                            |     |            +-----------------+
+                                            |     |            +--------+--------+
                                             |     |                     |
-                                            |     |                 __________
-                                            |     |                / pbkdf2() \
-                                            |     |                \__________/
+                                            |     |                ___________
+                                            |     |               /  pbkdf2() \
+                                            |     |               \___________/
                                             |     |                     |
                                             |     |            +--------+
                                             |     |            |
@@ -367,7 +370,7 @@ ________________________________________________________________________________
                                             |     |   |   (computed)   | |    (stored)    |
                                             |     |   +----------------+ +----------------+
                                             |     |            |                 |
-                                            |     |            +-----------------+
+                                            |     |            +--------+--------+
                                             |     |                     |
                                             |     |                ___________
                                             |     |               / compare() \

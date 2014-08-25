@@ -39,7 +39,8 @@ struct pankake_context {
 	unsigned char shared[512];
 	unsigned char c_public[512];
 	unsigned char s_public[512];
-	unsigned char token[32];
+	unsigned char c_token[32];
+	unsigned char s_token[32];
 	unsigned char pwhash[64];
 	unsigned char pwrehash[32];
 	unsigned char secret_hash[32];

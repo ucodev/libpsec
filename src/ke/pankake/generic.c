@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exhange [PANKAKE] interface 
  *
- * Date: 21-08-2014
+ * Date: 25-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -36,6 +36,7 @@
 #include "kdf.h"
 #include "ke.h"
 #include "crypt.h"
+#include "tc.h"
 
 #include "ke/pankake/generic.h"
 
@@ -69,7 +70,7 @@ unsigned char *pankake_client_init(
 		return NULL;
 
 	/* Generate a pseudo random token */
-	if (!generate_bytes_random(ctx->token, sizeof(ctx->token)))
+	if (!generate_bytes_random(ctx->c_token, sizeof(ctx->c_token)))
 		return NULL;
 
 	/* Allocate session memory, if required */
@@ -81,10 +82,10 @@ unsigned char *pankake_client_init(
 	}
 
 	/* Encrypt token with the re-hashed version of password hash */
-	if (!crypt_encrypt_otp(client_session + sizeof(ctx->c_public), &out_len, ctx->token, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash)) {
-		errno = errsv;
-		if (session_alloc) free(client_session);
+	if (!crypt_encrypt_otp(client_session + sizeof(ctx->c_public), &out_len, ctx->c_token, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash)) {
 		errsv = errno;
+		if (session_alloc) free(client_session);
+		errno = errsv;
 		return NULL;
 	}
 
@@ -101,9 +102,8 @@ unsigned char *pankake_server_init(
 	const unsigned char *client_session,
 	const unsigned char *pwhash)
 {
-	int rounds = 5000, errsv = 0, session_alloc = 0;
-	unsigned char server_token[HASH_DIGEST_SIZE_BLAKE2S];
-	unsigned char secret_hash_tmp[HASH_DIGEST_SIZE_SHA512 * 2];
+	int errsv = 0, session_alloc = 0;
+	unsigned char server_auth[HASH_DIGEST_SIZE_BLAKE2S];
 	unsigned char nonce[CRYPT_NONCE_SIZE_CHACHA20];
 	struct pankake_context *ctx = (struct pankake_context *) server_context;
 	size_t out_len = 0;
@@ -120,31 +120,31 @@ unsigned char *pankake_server_init(
 		return NULL;
 
 	/* Decrypt token with the re-hashed version of password hash */
-	if (!crypt_decrypt_otp(ctx->token, &out_len, client_session + sizeof(ctx->c_public), HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash))
+	if (!crypt_decrypt_otp(ctx->c_token, &out_len, client_session + sizeof(ctx->c_public), HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash))
 		return NULL;
 
 	/* Compute DH shared key */
 	if (!ke_dh_shared(ctx->shared, client_session, sizeof(ctx->c_public), ctx->private, sizeof(ctx->private)))
 		return NULL;
 
-	/* Generate the temporary client hash */
-	if (!kdf_pbkdf2_hash(secret_hash_tmp, hash_buffer_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, pwhash, HASH_DIGEST_SIZE_SHA512, ctx->token, HASH_DIGEST_SIZE_BLAKE2S, rounds, sizeof(secret_hash_tmp)) < 0)
+	/* Generate a pseudo random token */
+	if (!generate_bytes_random(ctx->s_token, sizeof(ctx->s_token) - CRYPT_EXTRA_SIZE_CHACHA20POLY1305))
 		return NULL;
 
-	/* Reduce temporary client hash */
-	if (!hash_buffer_blake2s(ctx->secret_hash, secret_hash_tmp, sizeof(secret_hash_tmp)))
+	/* Set nonce to the maximum possible value */
+	memset(nonce, 255, sizeof(nonce));
+
+	/* Encrypt token with the re-hashed version of password hash */
+	if (!crypt_encrypt_chacha20poly1305(ctx->secret_hash, &out_len, ctx->s_token, sizeof(ctx->s_token) - CRYPT_EXTRA_SIZE_CHACHA20POLY1305, nonce, ctx->c_token))
 		return NULL;
 
 	/* Encrypt client hash with rehashed version of pwhash to create the server token */
-	if (!crypt_encrypt_otp(server_token, &out_len, ctx->secret_hash, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash))
+	if (!crypt_encrypt_otp(server_auth, &out_len, ctx->secret_hash, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash))
 		return NULL;
 
 	/* Reduce the DH shared key */
 	if (!hash_buffer_blake2s(ctx->shared_hash, ctx->shared, sizeof(ctx->shared)))
 		return NULL;
-
-	/* Set nonce to the maximum possible value */
-	memset(nonce, 255, sizeof(nonce));
 
 	/* Allocate enough memory for server session, if required */
 	if (!server_session) {
@@ -155,7 +155,7 @@ unsigned char *pankake_server_init(
 	}
 
 	/* Encrypt server token with rehashed version of shared key */
-	if (!crypt_encrypt_chacha20(server_session + sizeof(ctx->s_public), &out_len, server_token, HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash)) {
+	if (!crypt_encrypt_chacha20(server_session + sizeof(ctx->s_public), &out_len, server_auth, HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash)) {
 		errsv = errno;
 		if (session_alloc) free(server_session);
 		errno = errsv;
@@ -166,8 +166,7 @@ unsigned char *pankake_server_init(
 	memcpy(server_session, ctx->s_public, sizeof(ctx->s_public));
 
 	/* Cleanup */
-	memset(server_token, 0, sizeof(server_token));
-	memset(secret_hash_tmp, 0, sizeof(secret_hash_tmp));
+	memset(server_auth, 0, sizeof(server_auth));
 
 	/* All good */
 	return server_session;
@@ -179,22 +178,12 @@ unsigned char *pankake_client_authorize(
 	unsigned char *key_agreed,
 	const unsigned char *server_session)
 {
-	int rounds = 5000, errsv = 0, auth_alloc = 0;
-	unsigned char pwrehash_s[HASH_DIGEST_SIZE_BLAKE2S];
-	unsigned char server_token[HASH_DIGEST_SIZE_BLAKE2S];
-	unsigned char secret_hash_tmp[HASH_DIGEST_SIZE_SHA512 * 2];
+	int errsv = 0, auth_alloc = 0;
+	unsigned char server_auth[HASH_DIGEST_SIZE_BLAKE2S];
 	unsigned char nonce[CRYPT_NONCE_SIZE_CHACHA20];
 	unsigned char pw_payload[256 + 1];
 	struct pankake_context *ctx = (struct pankake_context *) client_context;
 	size_t out_len = 0, pw_len = 0;
-
-	/* Generate the temporary client hash */
-	if (!kdf_pbkdf2_hash(secret_hash_tmp, hash_buffer_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, ctx->pwhash, HASH_DIGEST_SIZE_SHA512, ctx->token, HASH_DIGEST_SIZE_BLAKE2S, rounds, sizeof(secret_hash_tmp)) < 0)
-		return NULL;
-
-	/* Reduce temporary client hash */
-	if (!hash_buffer_blake2s(ctx->secret_hash, secret_hash_tmp, sizeof(secret_hash_tmp)))
-		return NULL;
 
 	/* Compute DH shared key */
 	if (!ke_dh_shared(ctx->shared, server_session, sizeof(ctx->s_public), ctx->private, sizeof(ctx->private)))
@@ -207,22 +196,24 @@ unsigned char *pankake_client_authorize(
 	/* Set nonce to the maximum possible value to match the server nonce */
 	memset(nonce, 255, sizeof(nonce));
 
-	/* Decrypt server token with rehashed version of shared key */
-	if (!crypt_decrypt_chacha20(server_token, &out_len, server_session + sizeof(ctx->s_public), HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash))
+	/* Decrypt server auth with rehashed version of shared key */
+	if (!crypt_decrypt_chacha20(server_auth, &out_len, server_session + sizeof(ctx->s_public), HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash))
 		return NULL;
 
-	/* Decrypt the server token with client hash in order to retrieve the server rehashed version
-	 * of pwhash.
-	 */
-	if (!crypt_decrypt_otp(pwrehash_s, &out_len, server_token, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->secret_hash))
+	/* Decrypt the secret hash with rehashed version of pwhash */
+	if (!crypt_decrypt_otp(ctx->secret_hash, &out_len, server_auth, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash))
 		return NULL;
 
-	/* Compare both rehashed version */
-	if (memcmp(pwrehash_s, ctx->pwrehash, HASH_DIGEST_SIZE_BLAKE2S))
+	/* Try to decrypt the secret hash. If verification fails, server isn't legit */
+	if (!crypt_decrypt_chacha20poly1305(ctx->s_token, &out_len, ctx->secret_hash, HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->c_token))
 		return NULL;
 
-	/* Encrypt client hash with rehashed version of pwhash to create the server token */
-	if (!crypt_encrypt_otp(key_agreed, &out_len, ctx->shared_hash, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->secret_hash))
+	/* Set nonce to 2**sizeof(nonce) - 2 */
+	memset(nonce, 255, sizeof(nonce));
+	nonce[sizeof(nonce) - 1] = 254;
+
+	/* Encrypt secret hash with the dh shared key to create the agreed key */
+	if (!crypt_encrypt_chacha20(key_agreed, &out_len, ctx->secret_hash, HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash))
 		return NULL;
 
 	/* Check if password is within acceptable limits */
@@ -260,9 +251,7 @@ unsigned char *pankake_client_authorize(
 	}
 
 	/* Cleanup */
-	memset(pwrehash_s, 0, sizeof(pwrehash_s));
-	memset(server_token, 0, sizeof(server_token));
-	memset(secret_hash_tmp, 0, sizeof(secret_hash_tmp));
+	memset(server_auth, 0, sizeof(server_auth));
 
 	/* All good */
 	return client_auth;
@@ -283,14 +272,15 @@ int pankake_server_authorize(
 	struct pankake_context *ctx = (struct pankake_context *) server_context;
 	size_t out_len = 0, pw_len = 0;
 
-	/* Encrypt secret hash with rehashed version of pwhash to create the server token */
-	if (!crypt_encrypt_otp(key_agreed, &out_len, ctx->shared_hash, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->secret_hash))
+	/* Set nonce to 2**sizeof(nonce) - 2 */
+	memset(nonce, 255, sizeof(nonce));
+	nonce[sizeof(nonce) - 1] = 254;
+
+	/* Encrypt secret hash with dh shared key to create the agreed key */
+	if (!crypt_encrypt_chacha20(key_agreed, &out_len, ctx->secret_hash, HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash))
 		return -1;
 
-	/* Set nonce to the maximum possible value to match the client value */
-	memset(nonce, 255, sizeof(nonce));
-
-	/* Encrypt pw_payload to create the client auth */
+	/* Decrypt pw_payload to create the client auth */
 	if (!crypt_decrypt_chacha20(pw_payload, &out_len, client_auth, sizeof(pw_payload), nonce, key_agreed))
 		return -1;
 
@@ -302,7 +292,7 @@ int pankake_server_authorize(
 		return -1;
 
 	/* Compare hashes */
-	if (memcmp(ctx->pwhash, pwhash_c, HASH_DIGEST_SIZE_SHA512))
+	if (tc_memcmp(ctx->pwhash, pwhash_c, HASH_DIGEST_SIZE_SHA512))
 		return -1;
 
 	/* Cleanup */

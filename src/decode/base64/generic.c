@@ -52,7 +52,6 @@ size_t base64_decode_size(size_t in_len) {
 	float fval = ((float) in_len + ((align == 4) ? 0 : align)) * 0.75;
 	size_t ret = (unsigned int) fval;
 
-	ret = (unsigned int) fval;
 	ret += ((fval - ((float) ret)) > 0) ? 1 : 0;
 
 	return ret;

@@ -42,7 +42,6 @@ size_t base16_decode_size(size_t in_len) {
 	float fval = ((float) in_len + (in_len % 2)) * 0.5;
 	size_t ret = (unsigned int) fval;
 
-	ret = (unsigned int) fval;
 	ret += ((fval - ((float) ret)) > 0) ? 1 : 0;
 
 	return ret;
