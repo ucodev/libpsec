@@ -112,7 +112,7 @@
  | spwh | server password hash  | <unknown>            | <known>              |
  |      |                       |                      |                      |
  | ca   | client auth           | enc(ak, pw)          | <received>           |
- | sa   | server auth           | <received>           | xor(sh, spwh)        |
+ | sa   | server auth           | dec(sk, ss)          | xor(sh, spwh)        |
  |      |                       |                      |                      |
  | cs   | client session        | xor(cpwh, ct)        | <received>           |
  | ss   | server session        | <received>           | enc(sa, sk)          |
