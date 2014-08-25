@@ -8,7 +8,7 @@
 
  Author:  Pedro A. Hortas
  Email:   pah@ucodev.org
- Changed: 2014-08-24
+ Changed: 2014-08-25
  License: Public Domain
 
 
@@ -51,7 +51,8 @@
  - A username may be used as the salt.
  - Diffie-Hellman public key exchange is performed in the first two flows (client -> server -> client).
  - Diffie-Hellman keys must not be stored or reused.
- - Client and server tokens must be a random value with a minimum length of 256 bits.
+ - Client token must be a random value with a minimum length of 256 bits.
+ - Server token must be a random value with at least half the length of the client token.
  - All xor() operations must be an OTP encryption (encryption key must be the same size of the data).
  - All encrypt() operations should *not add* any sort of Message Authentication Code (MAC).
  - All encrypt_mac() operations should *add* a Message Authentication Code (MAC).
@@ -111,7 +112,7 @@
  | spwh | server password hash  | <unknown>            | <known>              |
  |      |                       |                      |                      |
  | ca   | client auth           | enc(ak, pw)          | <received>           |
- | sa   | server auth           | xor(sh, cpwh)        | xor(sh, spwh)        |
+ | sa   | server auth           | <received>           | xor(sh, spwh)        |
  |      |                       |                      |                      |
  | cs   | client session        | xor(cpwh, ct)        | <received>           |
  | ss   | server session        | <received>           | enc(sa, sk)          |
