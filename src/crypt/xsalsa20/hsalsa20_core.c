@@ -81,24 +81,24 @@ int crypto_core_hsalsa20(
 )
 {
   uint32 x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15;
-  uint32 j0, j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12, j13, j14, j15;
+  uint32 j0, /* j1, j2, j3, j4, */ j5, j6, j7, j8, j9, j10, /* j11, j12, j13, j14, */ j15;
   int i;
 
   j0 = x0 = load(c + 0);
-  j1 = x1 = load(k + 0);
-  j2 = x2 = load(k + 4);
-  j3 = x3 = load(k + 8);
-  j4 = x4 = load(k + 12);
+  /* j1 = */ x1 = load(k + 0);
+  /* j2 = */ x2 = load(k + 4);
+  /* j3 = */ x3 = load(k + 8);
+  /* j4 = */ x4 = load(k + 12);
   j5 = x5 = load(c + 4);
   j6 = x6 = load(in + 0);
   j7 = x7 = load(in + 4);
   j8 = x8 = load(in + 8);
   j9 = x9 = load(in + 12);
   j10 = x10 = load(c + 8);
-  j11 = x11 = load(k + 16);
-  j12 = x12 = load(k + 20);
-  j13 = x13 = load(k + 24);
-  j14 = x14 = load(k + 28);
+  /* j11 = */ x11 = load(k + 16);
+  /* j12 = */ x12 = load(k + 20);
+  /* j13 = */ x13 = load(k + 24);
+  /* j14 = */ x14 = load(k + 28);
   j15 = x15 = load(c + 12);
 
   for (i = ROUNDS;i > 0;i -= 2) {
@@ -137,20 +137,20 @@ int crypto_core_hsalsa20(
   }
 
   x0 += j0;
-  x1 += j1;
-  x2 += j2;
-  x3 += j3;
-  x4 += j4;
+  /* x1 += j1; */
+  /* x2 += j2; */
+  /* x3 += j3; */
+  /* x4 += j4; */
   x5 += j5;
   x6 += j6;
   x7 += j7;
   x8 += j8;
   x9 += j9;
   x10 += j10;
-  x11 += j11;
-  x12 += j12;
-  x13 += j13;
-  x14 += j14;
+  /* x11 += j11; */
+  /* x12 += j12; */
+  /* x13 += j13; */
+  /* x14 += j14; */
   x15 += j15;
 
   x0 -= load(c + 0);
