@@ -5,6 +5,5 @@ make clean
 rm -f .compiler
 rm -f .defines
 rm -f .done
-rm -f .libs
-rm -f .lgmp
+rm -f .l*
 rm -rf build
