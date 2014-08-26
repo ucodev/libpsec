@@ -52,7 +52,7 @@
  - A username may be used as the salt.
  - Diffie-Hellman key exchange should be eliptic curve based.
  - Diffie-Hellman public key exchange is performed in the first two flows (client -> server -> client).
- - Diffie-Hellman private and public keys may be stored and reused.
+ - Diffie-Hellman key pair may be stored and reused, but if so, past connections may be decrypted.
  - Diffie-Hellman shared key must be of the same size of secret hash.
  - Client token must be a random value with a minimum length of 256 bits.
  - Server token must be a random value with at least half the length of the client token.
