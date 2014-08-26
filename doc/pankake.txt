@@ -1,5 +1,5 @@
 ===========================================================
- PANKAKE v0.1 (being reviewed)
+ PANKAKE v0.2 (being reviewed)
  Password Authentication N' Key Agreement with Key Exchange
 
  Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
@@ -50,8 +50,10 @@
  - Salt is known either by client and server.
  - If salt isn't known by client, it may be transfered from server in plain text.
  - A username may be used as the salt.
+ - Diffie-Hellman key exchange should be eliptic curve based.
  - Diffie-Hellman public key exchange is performed in the first two flows (client -> server -> client).
- - Diffie-Hellman keys must not be stored or reused.
+ - Diffie-Hellman private and public keys may be stored and reused.
+ - Diffie-Hellman shared key must be of the same size of secret hash.
  - Client token must be a random value with a minimum length of 256 bits.
  - Server token must be a random value with at least half the length of the client token.
  - Password hashes length must be at least twice the length of client token.
@@ -61,6 +63,7 @@
  - All encrypt() and encrypt_mac() operations should use a nonce based feature.
  - When encryption keys exceed the expected size, Blake2s should be used to shrink them.
  - When encryption keys are under the expected size, Blake2p should be used to grow them.
+ - It is recommended to use Curve25519 for Eliptic Curve Diffie-Hellman.
  - It is recommended to use ChaCha20 for encrypt() and decrypt() operations.
  - It is recommended to use ChaCha20+Poly1305 for encrypt_mac() and decrypt_mac() operations.
  - It is recommended to use PBKDF2-SHA-512 for key derivation of the plain text passwords.
@@ -78,7 +81,7 @@
  | | |     | |v|          | length of 'v'                                     |
  | []      | v[]          | vectorization                                     |
  | [i]     | v[i]         | value of vector position 'i' (1 <= i <= |v|)      |
- | [x1:x2] | v[x1:x2]     | range from 'x1' to 'x2' (1 <= x1 < x2)            |
+ | [:]     | v[x1:x2]     | range from 'x1' to 'x2' (1 <= x1 < x2)            |
  | =       | a = b        | assigns 'b' to 'a'                                |
  | **      | b**e         | exponentiation ('b' is base, 'e' is exponent)     |
  | mod     | a mod b      | modulo ('a' modulo 'b')                           |
@@ -349,7 +352,7 @@ ________________________________________________________________________________
             +---------+                     |     |
     +----------------+ +----------------+   |     |
     |                | |                |   |     |
-    |  DH shared key | |  secret hash   |   |     |
+    |  secret hash   | |  DH shared key |   |     |
     |                | |                |   |     |
     +----------------+ +----------------+   |     |
             |                  |            |     |
@@ -361,7 +364,7 @@ ________________________________________________________________________________
                       |                     |     |
             +---------+                     |     |   +----------------+ +----------------+
             |                               |     |   |                | |                |
-    +----------------+ +----------------+   |     |   |   secret hash  | |  DH shared key |
+    +----------------+ +----------------+   |     |   |  DH shared key | |   secret hash  |
     |                | |                |   |     |   |                | |                |
     |   Agreed Key   | | plain password |   |     |   +----------------+ +----------------+
     |                | |                |   |     |            |                 |
