@@ -111,7 +111,7 @@
  | enc(m, k)        | ChaCha20 encryption                                     |
  | enc_mac(m, k)    | ChaCha20 encryption with Poly1305 authentication        |
  |                  |                                                         |
- | fail()           | Interrupt execution                                     |
+ | fail()           | interrupt execution                                     |
  |                  |                                                         |
  | pbkdf2(pw, salt) | PBKDF2 key derivation based on SHA-512 with 5000 rounds |
  |                  |                                                         |
@@ -119,6 +119,8 @@
  |                  |                                                         |
  | random()         | strong pseudo-random generator                          |
  |                  |                                                         | 
+ | smult(e, p)      | curve25519 scalar multiplication                        |
+ |                  |                                                         |
  | split(m)         | splits variable 'm' into 'a' and 'b' (a <m> b)          |
  |                  |                                                         |
  | xor(a, b)        | a ^ b                                                   |
@@ -130,16 +132,15 @@
  +------+-----------------------+----------------------+----------------------+
  | var  | description           | client computation   | server computation   |
  +------+-----------------------+----------------------+----------------------+
- | g    | generator             | <known>              | <known>              |
- | p    | prime                 | <known>              | <known>              |
+ | b    | smult() base point    | <known>              | <known>              |
  |      |                       |                      |                      |
  | l    | cpwh or spwh length   | |cpwh|               | |spwh|               |
  |      |                       |                      |                      |
  | salt | username              | <known>              | <known>              |
  | pw   | plain password        | <known>              | dec(ca, ak)          |
  |      |                       |                      |                      |
- | cpub | client public key     | g**cprv mod p        | <received>           |
- | spub | server public key     | <received>           | g**sprv mod p        |
+ | cpub | client public key     | smult(cprv, b)       | <received>           |
+ | spub | server public key     | <received>           | smult(sprv, b)       |
  |      |                       |                      |                      |
  | cprv | client private key    | random()             | <unknown>            |
  | sprv | server private key    | <unknown>            | random()             |
@@ -157,7 +158,7 @@
  | st   | server token          | dec_mac(sh, ct)      | random()             |
  |      |                       |                      |                      |
  | sh   | secret hash           | xor(sa, cpwh[l/2:l]) | enc_mac(st, ct)      |
- | sk   | shared key            | spub**cprv mod p     | cpub**sprv mod p     |
+ | sk   | shared key            | smult(cprv, spub)    | smult(sprv, cpub)    |
  | ak   | agreed key            | enc(sh, sk)          | enc(sh, sk)          |
  +------+-----------------------+----------------------+----------------------+
 
