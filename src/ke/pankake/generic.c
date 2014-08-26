@@ -58,8 +58,8 @@ unsigned char *pankake_client_init(
 	strcpy(ctx->password, password);
 
 	/* Initialize context */
-	ke_dh_private(ctx->private, sizeof(ctx->private));
-	ke_dh_public(ctx->c_public, sizeof(ctx->c_public), ctx->private, sizeof(ctx->private));
+	ke_ecdh_private(ctx->private, sizeof(ctx->private));
+	ke_ecdh_public(ctx->c_public, sizeof(ctx->c_public), ctx->private, sizeof(ctx->private));
 
 	/* Generate the password hash */
 	if (!kdf_pbkdf2_hash(ctx->pwhash, hash_buffer_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, (unsigned char *) password, strlen(password), salt, salt_len, rounds, HASH_DIGEST_SIZE_SHA512) < 0)
@@ -109,8 +109,8 @@ unsigned char *pankake_server_init(
 	size_t out_len = 0;
 
 	/* Initialize context */
-	ke_dh_private(ctx->private, sizeof(ctx->private));
-	ke_dh_public(ctx->s_public, sizeof(ctx->s_public), ctx->private, sizeof(ctx->private));
+	ke_ecdh_private(ctx->private, sizeof(ctx->private));
+	ke_ecdh_public(ctx->s_public, sizeof(ctx->s_public), ctx->private, sizeof(ctx->private));
 
 	/* Copy pwhash into context */
 	memcpy(ctx->pwhash, pwhash, sizeof(ctx->pwhash));
@@ -124,7 +124,7 @@ unsigned char *pankake_server_init(
 		return NULL;
 
 	/* Compute DH shared key */
-	if (!ke_dh_shared(ctx->shared, client_session, sizeof(ctx->c_public), ctx->private, sizeof(ctx->private)))
+	if (!ke_ecdh_shared(ctx->shared, client_session, sizeof(ctx->c_public), ctx->private, sizeof(ctx->private)))
 		return NULL;
 
 	/* Generate a pseudo random token */
@@ -190,7 +190,7 @@ unsigned char *pankake_client_authorize(
 	size_t out_len = 0, pw_len = 0;
 
 	/* Compute DH shared key */
-	if (!ke_dh_shared(ctx->shared, server_session, sizeof(ctx->s_public), ctx->private, sizeof(ctx->private)))
+	if (!ke_ecdh_shared(ctx->shared, server_session, sizeof(ctx->s_public), ctx->private, sizeof(ctx->private)))
 		return NULL;
 
 	/* Reduce the DH shared key */

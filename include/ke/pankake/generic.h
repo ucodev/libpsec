@@ -35,10 +35,10 @@
 #pragma pack(push)
 #pragma pack(1)
 struct pankake_context {
-	unsigned char private[256];
-	unsigned char shared[512];
-	unsigned char c_public[512];
-	unsigned char s_public[512];
+	unsigned char private[32];
+	unsigned char shared[32];
+	unsigned char c_public[32];
+	unsigned char s_public[32];
 	unsigned char c_token[32];
 	unsigned char s_token[32];
 	unsigned char pwhash[64];

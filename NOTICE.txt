@@ -16,7 +16,8 @@
         - RSA Data Security Inc. MD5 Message-Digest Algorithm
         - The Internet Society, US Secure Hash Algorithms.
 	- The Internet Society, RFC3526
-	- D. J. Bernstein, poly1305 + xsalsa20
+	- D. J. Bernstein - ChaCha, Curve25519, Poly1305, Xsalsa20
+	- Matthew Dempsky - Curve25519
 
    There is no intention to promote the libpsec by stating the
    persons or entities described in the paragraph above, as the

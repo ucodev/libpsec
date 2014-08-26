@@ -24,6 +24,21 @@ if [ ! -e "/usr/bin/ld" ]; then
 	exit 1
 fi
 
+mkdir -p build
+
+## Test features ##
+
+# test gmp support
+echo 'int main(void) { return 0; }' > build/test.c && clang -o build/test build/test.c -lgmp
+
+if [ $? -eq 0 ]; then
+	touch .lgmp
+	echo -ne '-lgmp ' >> .libs
+fi
+
+rm -f build/test build/test.c
+
+# Build
 make
 
 if [ $? -ne 0 ]; then
