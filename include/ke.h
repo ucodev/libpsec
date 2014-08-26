@@ -71,6 +71,12 @@ unsigned char *ke_dheke_client_process(
 	unsigned char *key,
 	unsigned char *context,
 	const unsigned char *server_session);
+/****************/
+/* ECDH Interface */
+/****************/
+unsigned char *ke_ecdh_private(unsigned char *priv, size_t size);
+unsigned char *ke_ecdh_public(unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
+unsigned char *ke_ecdh_shared(unsigned char *shared, const unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
 /*********************/
 /* PANKAKE Interface */
 /*********************/

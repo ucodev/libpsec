@@ -31,6 +31,7 @@
 
 #include "ke/dh/generic.h"
 #include "ke/dheke/generic.h"
+#include "ke/ecdh/generic.h"
 #include "ke/pankake/generic.h"
 
 #include "ke.h"
@@ -98,6 +99,30 @@ unsigned char *ke_dheke_client_process(
 	const unsigned char *server_session)
 {
 	return dheke_client_process(key, context, server_session);
+}
+
+/* ECDH Interface */
+unsigned char *ke_ecdh_private(unsigned char *priv, size_t size) {
+	return ecdh_init_private_key(priv, size);
+}
+
+unsigned char *ke_ecdh_public(
+	unsigned char *pub,
+	size_t pub_size,
+	const unsigned char *priv,
+	size_t priv_size)
+{
+	return ecdh_compute_public_key(pub, pub_size, priv, priv_size);
+}
+
+unsigned char *ke_ecdh_shared(
+	unsigned char *shared,
+	const unsigned char *pub,
+	size_t pub_size,
+	const unsigned char *priv,
+	size_t priv_size)
+{
+	return ecdh_compute_shared_key(shared, pub, pub_size, priv, priv_size);
 }
 
 /* PANKAKE Interface */

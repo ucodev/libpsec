@@ -22,6 +22,7 @@ all:
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
 	${CC} -o ke_dh ke_dh.c ${LDFLAGS}
 	${CC} -o ke_dheke ke_dheke.c ${LDFLAGS}
+	${CC} -o ke_ecdh ke_ecdh.c ${LDFLAGS}
 	${CC} -o ke_pankake ke_pankake.c ${LDFLAGS}
 	${CC} -o md5_buffer_alloc md5_buffer_alloc.c ${LDFLAGS}
 	${CC} -o md5_buffer md5_buffer.c ${LDFLAGS}
@@ -53,6 +54,7 @@ clean:
 	rm -f hmac_md5
 	rm -f ke_dh 
 	rm -f ke_dheke
+	rm -f ke_ecdh 
 	rm -f ke_pankake
 	rm -f md5_buffer_alloc
 	rm -f md5_buffer
