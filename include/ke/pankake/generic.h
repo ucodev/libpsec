@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exchange [PANKAKE] interface header
  *
- * Date: 21-08-2014
+ * Date: 26-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -42,7 +42,8 @@ struct pankake_context {
 	unsigned char c_token[32];
 	unsigned char s_token[32];
 	unsigned char pwhash[64];
-	unsigned char pwrehash[32];
+	unsigned char pwrehash_l[32];
+	unsigned char pwrehash_h[32];
 	unsigned char secret_hash[32];
 	unsigned char shared_hash[32];
 	char password[256];

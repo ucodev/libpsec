@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exhange [PANKAKE] interface 
  *
- * Date: 25-08-2014
+ * Date: 26-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -65,8 +65,8 @@ unsigned char *pankake_client_init(
 	if (!kdf_pbkdf2_hash(ctx->pwhash, hash_buffer_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, (unsigned char *) password, strlen(password), salt, salt_len, rounds, HASH_DIGEST_SIZE_SHA512) < 0)
 		return NULL;
 
-	/* Reduce the password hash to match the token size */
-	if (!hash_buffer_blake2s(ctx->pwrehash, ctx->pwhash, sizeof(ctx->pwhash)))
+	/* Re-hash the first half of the password hash */
+	if (!hash_buffer_blake2s(ctx->pwrehash_l, ctx->pwhash, sizeof(ctx->pwhash) >> 1))
 		return NULL;
 
 	/* Generate a pseudo random token */
@@ -82,7 +82,7 @@ unsigned char *pankake_client_init(
 	}
 
 	/* Encrypt token with the re-hashed version of password hash */
-	if (!crypt_encrypt_otp(client_session + sizeof(ctx->c_public), &out_len, ctx->c_token, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash)) {
+	if (!crypt_encrypt_otp(client_session + sizeof(ctx->c_public), &out_len, ctx->c_token, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash_l)) {
 		errsv = errno;
 		if (session_alloc) free(client_session);
 		errno = errsv;
@@ -115,12 +115,12 @@ unsigned char *pankake_server_init(
 	/* Copy pwhash into context */
 	memcpy(ctx->pwhash, pwhash, sizeof(ctx->pwhash));
 
-	/* Reduce the password hash to match the token size */
-	if (!hash_buffer_blake2s(ctx->pwrehash, ctx->pwhash, HASH_DIGEST_SIZE_SHA512))
+	/* Re-hash the first half of the password hash */
+	if (!hash_buffer_blake2s(ctx->pwrehash_l, ctx->pwhash, HASH_DIGEST_SIZE_SHA512 >> 1))
 		return NULL;
 
 	/* Decrypt token with the re-hashed version of password hash */
-	if (!crypt_decrypt_otp(ctx->c_token, &out_len, client_session + sizeof(ctx->c_public), HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash))
+	if (!crypt_decrypt_otp(ctx->c_token, &out_len, client_session + sizeof(ctx->c_public), HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash_l))
 		return NULL;
 
 	/* Compute DH shared key */
@@ -138,8 +138,12 @@ unsigned char *pankake_server_init(
 	if (!crypt_encrypt_chacha20poly1305(ctx->secret_hash, &out_len, ctx->s_token, sizeof(ctx->s_token) - CRYPT_EXTRA_SIZE_CHACHA20POLY1305, nonce, ctx->c_token))
 		return NULL;
 
+	/* Re-hash the second half of the password hash */
+	if (!hash_buffer_blake2s(ctx->pwrehash_h, ctx->pwhash + (HASH_DIGEST_SIZE_SHA512 >> 1), HASH_DIGEST_SIZE_SHA512 >> 1))
+		return NULL;
+
 	/* Encrypt client hash with rehashed version of pwhash to create the server token */
-	if (!crypt_encrypt_otp(server_auth, &out_len, ctx->secret_hash, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash))
+	if (!crypt_encrypt_otp(server_auth, &out_len, ctx->secret_hash, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash_h))
 		return NULL;
 
 	/* Reduce the DH shared key */
@@ -200,8 +204,12 @@ unsigned char *pankake_client_authorize(
 	if (!crypt_decrypt_chacha20(server_auth, &out_len, server_session + sizeof(ctx->s_public), HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash))
 		return NULL;
 
+	/* Re-hash the second half of the password hash */
+	if (!hash_buffer_blake2s(ctx->pwrehash_h, ctx->pwhash + (HASH_DIGEST_SIZE_SHA512 >> 1), HASH_DIGEST_SIZE_SHA512 >> 1))
+		return NULL;
+
 	/* Decrypt the secret hash with rehashed version of pwhash */
-	if (!crypt_decrypt_otp(ctx->secret_hash, &out_len, server_auth, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash))
+	if (!crypt_decrypt_otp(ctx->secret_hash, &out_len, server_auth, HASH_DIGEST_SIZE_BLAKE2S, NULL, ctx->pwrehash_h))
 		return NULL;
 
 	/* Try to decrypt the secret hash. If verification fails, server isn't legit */

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exchange interface header
  *
- * Date: 24-08-2014
+ * Date: 26-08-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -75,7 +75,7 @@ unsigned char *ke_dheke_client_process(
 /* PANKAKE Interface */
 /*********************/
 #define KE_KEY_SIZE_PANKAKE		32
-#define KE_CONTEXT_SIZE_PANKAKE		256 + 512 + 512 + 512 + 32 + 32 + 64 + 32 + 32 + 32 + 256
+#define KE_CONTEXT_SIZE_PANKAKE		256 + 512 + 512 + 512 + 32 + 32 + 64 + 32 + 32 + 32 + 32 + 256
 #define KE_CLIENT_AUTH_SIZE_PANKAKE	256 + 1
 #define KE_CLIENT_SESSION_SIZE_PANKAKE	512 + 32
 #define KE_SERVER_SESSION_SIZE_PANKAKE	512 + 32

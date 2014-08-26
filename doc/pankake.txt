@@ -1,5 +1,5 @@
 ===========================================================
- PANKAKE v0.08 (being reviewed)
+ PANKAKE v0.1 (being reviewed)
  Password Authentication N' Key Agreement with Key Exchange
 
  Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
@@ -53,6 +53,7 @@
  - Diffie-Hellman keys must not be stored or reused.
  - Client token must be a random value with a minimum length of 256 bits.
  - Server token must be a random value with at least half the length of the client token.
+ - Password hashes length must be at least twice the length of client token.
  - All xor() operations must be an OTP encryption (encryption key must be the same size of the data).
  - All encrypt() operations should *not add* any sort of Message Authentication Code (MAC).
  - All encrypt_mac() operations should *add* a Message Authentication Code (MAC).
@@ -91,13 +92,36 @@
  +------------------+---------------------------------------------------------+
 
 
-4. Variables
+4. Operators
+
+ +---------+--------------+---------------------------------------------------+
+ | oper    | usage        | description                                       |
+ +---------+--------------+---------------------------------------------------+
+ | []      | v[]          | vector                                            |
+ | [i]     | v[i]         | vector element on index 'i' (where i >= 1)        |
+ | [x1:x2] | v[x1:x2]     | vector range from 'x1' to 'x2' (where 'x1' >= 1)  |
+ | =       | a = b        | assigns 'b' to 'a'                                |
+ | **      | b**e         | exponentiation ('b' is base, 'e' is exponent      |
+ | mod     | a mod b      | modulo ('a' modulo 'b')                           |
+ | +       | a + b        | summation ('a' plus 'b')                          |
+ | -       | a - b        | subtraction ('a' minus 'b')                       |
+ | *       | a * b        | multiplication ('a' times 'b')                    |
+ | /       | a / b        | division ('a' divided by 'b')                     |
+ | ||      | a || b       | concatenation (same as concat(a, b))              |
+ | ^       | a ^ b        | XOR (same as xor(a, b))                           |
+ | ==      | a == b       | equality comparision (same as compare(a, b))      |
+ +---------+--------------+---------------------------------------------------+
+ 
+
+5. Variables
 
  +------+-----------------------+----------------------+----------------------+
  | var  | description           | client computation   | server computation   |
  +------+-----------------------+----------------------+----------------------+
  | g    | generator             | <known>              | <known>              |
  | p    | prime                 | <known>              | <known>              |
+ |      |                       |                      |                      |
+ | l    | total length of []    | <known>              | <known>              |
  |      |                       |                      |                      |
  | salt | username              | <known>              | <known>              |
  | pw   | plain password        | <known>              | dec(ca, ak)          |
@@ -112,28 +136,28 @@
  | spwh | server password hash  | <unknown>            | <known>              |
  |      |                       |                      |                      |
  | ca   | client auth           | enc(ak, pw)          | <received>           |
- | sa   | server auth           | dec(sk, ss)          | xor(sh, spwh)        |
+ | sa   | server auth           | dec(sk, ss)          | xor(sh, spwh[l/2:l]) |
  |      |                       |                      |                      |
- | cs   | client session        | xor(cpwh, ct)        | <received>           |
+ | cs   | client session        | xor(cpwh[1:l/2], ct) | <received>           |
  | ss   | server session        | <received>           | enc(sa, sk)          |
  |      |                       |                      |                      |
- | ct   | client token          | random()             | xor(cs, spwh)        |
+ | ct   | client token          | random()             | xor(cs, spwh[1:l/2]) |
  | st   | server token          | dec_mac(sh, ct)      | random()             |
  |      |                       |                      |                      |
- | sh   | secret hash           | xor(sa, cpwh)        | enc_mac(st, ct)      |
+ | sh   | secret hash           | xor(sa, cpwh[l/2:l]) | enc_mac(st, ct)      |
  | sk   | shared key            | spub**cprv mod p     | cpub**sprv mod p     |
  | ak   | agreed key            | enc(sh, sk)          | enc(sh, sk)          |
  +------+-----------------------+----------------------+----------------------+
 
 
-5. Procedures
+6. Procedures
 
  - Client [Stage #1]
 
    *     cprv = random()
    *     cpub = g**cprv mod p
    *     cpwh = pbkdf2(pw, salt)
-   *       cs = xor(cpwh, ct)
+   *       cs = xor(cpwh[1:l/2], ct)
    *      msg = concat(cpub, cs)
    >             <client sends 'msg' to server>
 
@@ -143,10 +167,10 @@
    *     sprv = random()
    *     spub = g**sprv mod p
    *       sk = cpub**sprv mod p
-   *       ct = xor(cs, spwh)
+   *       ct = xor(cs, spwh[1:l/2])
    *       st = random()
    *       sh = enc_mac(st, ct)
-   *       sa = xor(sh, spwh)
+   *       sa = xor(sh, spwh[l/2:l])
    *       ss = enc(sa, sk)
    *      msg = concat(spub, ss)
    >             <server sends 'msg' to client>
@@ -156,7 +180,7 @@
    * spub, ss = split(msg)
    *       sk = spub**cprv mod p
    *       sa = dec(ss, sk)
-   *       sh = xor(sa, cpwh)
+   *       sh = xor(sa, cpwh[l/2:l])
    *       st = dec_mac(sh, ct)
    >             <on success, proceed>
    *       ak = enc(sh, sk)
@@ -174,9 +198,8 @@
    >            <if 'ret' is true, proceed>
 
 
-6. Diagram
+7. Diagram
 
- - The '+' sign means concatenation.
  - <M> stands for message.
  - <K> stands for key.
  - <OK> stands for expected result.
@@ -205,7 +228,7 @@ ________________________________________________________________________________
             |                               |     |
     +----------------+ +----------------+   |     |
     |                | |                |   |     |
-    |     pwhash     | |  client token  |   |     |
+    |  pwhash[1:l/2] | |  client token  |   |     |
     |                | |                |   |     |
     +----------------+ +----------------+   |     |
             |                  |            |     |
@@ -217,7 +240,7 @@ ________________________________________________________________________________
                       |                     |     |
               +----------------+            |     |   +----------------+ +----------------+
               |  C DH pub key  |            |     |   |  C DH pub key  | |                |
-              |       +        |--------------------->|       +        | |     pwhash     |
+              |       ||       |--------------------->|       ||       | |  pwhash[1:l/2] |
               | client session |            |     |   | client session | |                |
               +----------------+            |     |   +----------------+ +----------------+
                                             |     |            |                 |
@@ -245,7 +268,7 @@ ________________________________________________________________________________
                                             |  R  |            |
                                             |     |   +----------------+ +----------------+
                                             |     |   |                | |                |
-                                            |     |   |   secret hash  | |     pwhash     |
+                                            |     |   |   secret hash  | |  pwhash[l/2:l] |
                                             |     |   |                | |                |
                                             |     |   +----------------+ +----------------+
                                             |     |            |                 |
@@ -271,7 +294,7 @@ ________________________________________________________________________________
                                             |     |                     |
     +----------------+ +----------------+   |     |             +----------------+
     |                | |  S DH pub key  |   |     |             |  S DH pub key  |
-    |  DH shared key | |       +        |<----------------------|       +        |
+    |  DH shared key | |       ||       |<----------------------|       ||       |
     |                | | server session |   |     |             | server session |
     +----------------+ +----------------+   |     |             +----------------+
             |                  |            |     |
@@ -285,7 +308,7 @@ ________________________________________________________________________________
                                |            |     |
     +----------------+ +----------------+   |     |
     |                | |                |   |     |
-    |     pwhash     | |  server auth   |   |     |
+    |  pwhash[l/2:l] | |  server auth   |   |     |
     |                | |                |   |     |
     +----------------+ +----------------+   |     |
             |                  |            |     |
