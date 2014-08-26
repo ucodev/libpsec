@@ -8,7 +8,7 @@
 
  Author:  Pedro A. Hortas
  Email:   pah@ucodev.org
- Changed: 2014-08-25
+ Changed: 2014-08-26
  License: Public Domain
 
 
@@ -68,38 +68,15 @@
  - The client auth must have the same size in all authentications regardless of the password size.
 
 
-3. Functions
-
- +------------------+---------------------------------------------------------+
- | function         | description                                             |
- +------------------+---------------------------------------------------------+
- | concat(a, b)     | concatenate variables 'a' and 'b' into variable 'm'     |
- | compare(a, b)    | time constant comparing function (a == b)               |
- |                  |                                                         |
- | dec(m, k)        | ChaCha20 decryption                                     |
- | dec_mac(m, k)    | ChaCha20 decryption with Poly1305 authentication        |
- |                  |                                                         |
- | enc(m, k)        | ChaCha20 encryption                                     |
- | enc_mac(m, k)    | ChaCha20 encryption with Poly1305 authentication        |
- |                  |                                                         |
- | pbkdf2(pw, salt) | PBKDF2 key derivation based on SHA-512 with 5000 rounds |
- |                  |                                                         |
- | random()         | strong pseudo-random generator                          |
- |                  |                                                         | 
- | split(m)         | splits variable 'm' into variables 'a' and 'b'          |
- |                  |                                                         |
- | xor(a, b)        | a xor b                                                 |
- +------------------+---------------------------------------------------------+
-
-
-4. Operators
+3. Operators
 
  +---------+--------------+---------------------------------------------------+
  | oper    | usage        | description                                       |
  +---------+--------------+---------------------------------------------------+
- | []      | v[]          | vector                                            |
- | [i]     | v[i]         | vector element on index 'i' (where i >= 1)        |
- | [x1:x2] | v[x1:x2]     | vector range from 'x1' to 'x2' (where 'x1' >= 1)  |
+ | | |     | |v|          | length of 'v'                                     |
+ | []      | v[]          | vectorization                                     |
+ | [i]     | v[i]         | value of vector position 'i' (1 <= i <= |v|)      |
+ | [x1:x2] | v[x1:x2]     | range from 'x1' to 'x2' (1 <= x1 < x2)            |
  | =       | a = b        | assigns 'b' to 'a'                                |
  | **      | b**e         | exponentiation ('b' is base, 'e' is exponent      |
  | mod     | a mod b      | modulo ('a' modulo 'b')                           |
@@ -107,11 +84,41 @@
  | -       | a - b        | subtraction ('a' minus 'b')                       |
  | *       | a * b        | multiplication ('a' times 'b')                    |
  | /       | a / b        | division ('a' divided by 'b')                     |
- | ||      | a || b       | concatenation (same as concat(a, b))              |
+ | ||      | a || b       | concatenation of 'a' and 'b' into 'm' (m = a || b)|
+ | < >     | a <m> b      | split 'm' into 'a' and 'b'                        |
  | ^       | a ^ b        | XOR (same as xor(a, b))                           |
  | ==      | a == b       | equality comparision (same as compare(a, b))      |
+ | !=      | a != b       | non-equality comparision                          |
  +---------+--------------+---------------------------------------------------+
  
+
+4. Functions
+
+ +------------------+---------------------------------------------------------+
+ | function         | description                                             |
+ +------------------+---------------------------------------------------------+
+ | concat(a, b)     | concatenate variables 'a' and 'b' into 'm' (m = a || b) |
+ | compare(a, b)    | constant time comparing function (a == b)               |
+ |                  |                                                         |
+ | dec(m, k)        | ChaCha20 decryption                                     |
+ | dec_mac(m, k)    | ChaCha20 decryption with Poly1305 authentication        |
+ |                  |                                                         |
+ | enc(m, k)        | ChaCha20 encryption                                     |
+ | enc_mac(m, k)    | ChaCha20 encryption with Poly1305 authentication        |
+ |                  |                                                         |
+ | fail()           | Interrupt execution                                     |
+ |                  |                                                         |
+ | pbkdf2(pw, salt) | PBKDF2 key derivation based on SHA-512 with 5000 rounds |
+ |                  |                                                         |
+ | proceed()        | proceed execution                                       |
+ |                  |                                                         |
+ | random()         | strong pseudo-random generator                          |
+ |                  |                                                         | 
+ | split(m)         | splits variable 'm' into 'a' and 'b' (a <m> b)          |
+ |                  |                                                         |
+ | xor(a, b)        | a ^ b                                                   |
+ +------------------+---------------------------------------------------------+
+
 
 5. Variables
 
@@ -121,7 +128,7 @@
  | g    | generator             | <known>              | <known>              |
  | p    | prime                 | <known>              | <known>              |
  |      |                       |                      |                      |
- | l    | total length of []    | <known>              | <known>              |
+ | l    | cpwh or spwh length   | |cpwh|               | |spwh|               |
  |      |                       |                      |                      |
  | salt | username              | <known>              | <known>              |
  | pw   | plain password        | <known>              | dec(ca, ak)          |
@@ -182,7 +189,7 @@
    *       sa = dec(ss, sk)
    *       sh = xor(sa, cpwh[l/2:l])
    *       st = dec_mac(sh, ct)
-   >             <on success, proceed>
+   >             <on success proceed(), otherwise fail()>
    *       ak = enc(sh, sk)
    *       ca = enc(pw, ak)
    *      msg = ca
@@ -195,7 +202,7 @@
    *      pw = dec(ca, ak)
    *    cpwh = pbkdf2(pw, salt)
    *     ret = compare(cpwh, spwh)
-   >            <if 'ret' is true, proceed>
+   >            <if 'ret' is true then proceed(), else fail()>
 
 
 7. Diagram
