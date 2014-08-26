@@ -34,11 +34,12 @@
  - Server challenges the client and grants it is legit without revealing critical data.
  - Server only stores the client's password hash and NOT the plain-text password.
  - Resistant to replay attacks.
- - Resistant to eavesdropping in all communications.
- - Resistant to man-in-the-middle packet mangling in all communications.
+ - Resistant to eavesdropping in all 3 communications flows.
+ - Resistant to man-in-the-middle packet mangling (tampering) in all 3 communications flows.
  - Resistant to side-channel attacks (implementation dependent, but easy to achieve).
  - Resistant to dictionary attacks.
- - Resistant to FPGA/CPLD based decryption.
+ - Resistant to decryption based on FPGA/CPLD.
+ - Resistant to decryption based on quantum computing.
  - An attacker who discloses the password or password hash won't be able to decrypt past connections.
  - Constant processing time regardeless of input, either if correct or incorrect.
  - A strong Agreed Key, that's NOT based on the password or password hash, is computed by both parties.
@@ -54,11 +55,12 @@
  - Client token must be a random value with a minimum length of 256 bits.
  - Server token must be a random value with at least half the length of the client token.
  - Password hashes length must be at least twice the length of client token.
- - All xor() operations must be an OTP encryption (encryption key must be the same size of the data).
+ - All xor() operations must grant that both operands are of the same size.
  - All encrypt() operations should *not add* any sort of Message Authentication Code (MAC).
  - All encrypt_mac() operations should *add* a Message Authentication Code (MAC).
  - All encrypt() and encrypt_mac() operations should use a nonce based feature.
- - When encryption keys exceed the permited size, Blake2 should be used to shrink them.
+ - When encryption keys exceed the expected size, Blake2s should be used to shrink them.
+ - When encryption keys are under the expected size, Blake2p should be used to grow them.
  - It is recommended to use ChaCha20 for encrypt() and decrypt() operations.
  - It is recommended to use ChaCha20+Poly1305 for encrypt_mac() and decrypt_mac() operations.
  - It is recommended to use PBKDF2-SHA-512 for key derivation of the plain text passwords.
@@ -78,7 +80,7 @@
  | [i]     | v[i]         | value of vector position 'i' (1 <= i <= |v|)      |
  | [x1:x2] | v[x1:x2]     | range from 'x1' to 'x2' (1 <= x1 < x2)            |
  | =       | a = b        | assigns 'b' to 'a'                                |
- | **      | b**e         | exponentiation ('b' is base, 'e' is exponent      |
+ | **      | b**e         | exponentiation ('b' is base, 'e' is exponent)     |
  | mod     | a mod b      | modulo ('a' modulo 'b')                           |
  | +       | a + b        | summation ('a' plus 'b')                          |
  | -       | a - b        | subtraction ('a' minus 'b')                       |
@@ -212,7 +214,6 @@
  - <OK> stands for expected result.
  - <NOT> stands for unexpected result.
  - Diffie-Hellman computations are implicit (as in, not shown in the diagram).
- - OTP encryptions/decryptions expect that both elements are of the same size.
 
 ______________________________________________________________________________________________
                                             |     |
