@@ -168,7 +168,7 @@
  - Client [Stage #1]
 
    *     cprv = random()
-   *     cpub = g**cprv mod p
+   *     cpub = smult(cprv, b)
    *     cpwh = pbkdf2(pw, salt)
    *       cs = xor(cpwh[1:l/2], ct)
    *      msg = concat(cpub, cs)
@@ -178,8 +178,8 @@
 
    * cpub, cs = split(msg)
    *     sprv = random()
-   *     spub = g**sprv mod p
-   *       sk = cpub**sprv mod p
+   *     spub = smult(sprv, b)
+   *       sk = smult(sprv, cpub)
    *       ct = xor(cs, spwh[1:l/2])
    *       st = random()
    *       sh = enc_mac(st, ct)
@@ -191,7 +191,7 @@
  - Client [Stage #3]
 
    * spub, ss = split(msg)
-   *       sk = spub**cprv mod p
+   *       sk = smult(cprv, spub)
    *       sa = dec(ss, sk)
    *       sh = xor(sa, cpwh[l/2:l])
    *       st = dec_mac(sh, ct)
@@ -423,3 +423,7 @@ ________________________________________________________________________________
                                             |     |      / proceed() \      /   fail()  \
                                             |     |      \___________/      \___________/
                                             |     |
+____________________________________________|_____|____________________________________________
+
+
+
