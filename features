@@ -1,0 +1,108 @@
+#!/bin/sh
+
+/bin/echo -e "\nSupported modules:\n"
+
+# Auth support
+/bin/echo -ne \
+"      auth/shadow support:\t"
+
+if [ -e .lcrypt ]; then
+	/bin/echo "OK"
+else
+	/bin/echo "Unsupported"
+fi
+
+# Crypt support
+/bin/echo -ne "\n"
+
+/bin/echo -e \
+"     crypt/chacha support:\tOK"
+/bin/echo -e \
+"        crypt/otp support:\tOK"
+/bin/echo -e \
+"   crypt/xsalsa20 support:\tOK"
+
+# Decode support
+/bin/echo -ne "\n"
+
+/bin/echo -e \
+"    decode/base16 support:\tOK"
+/bin/echo -e \
+"    decode/base64 support:\tOK"
+
+# Encode support
+/bin/echo -ne "\n"
+
+/bin/echo -e \
+"    encode/base16 support:\tOK"
+/bin/echo -e \
+"    encode/base64 support:\tOK"
+
+# Generate support
+/bin/echo -ne "\n"
+
+/bin/echo -e \
+"  generate/random support:\tOK"
+
+# Hash support
+/bin/echo -ne "\n"
+
+/bin/echo -e \
+"      hash/blake2 support:\tOK"
+/bin/echo -e \
+"         hash/md4 support:\tOK"
+/bin/echo -e \
+"         hash/md5 support:\tOK"
+/bin/echo -e \
+"        hash/sha* support:\tOK"
+
+# KDF support
+/bin/echo -ne "\n"
+
+/bin/echo -e \
+"       kdf/pbkdf2 support:\tOK"
+
+# KE support
+/bin/echo -ne "\n"
+
+/bin/echo -ne \
+"            ke/dh support:\t"
+
+if [ -e .lgmp ]; then
+	/bin/echo "OK"
+else
+	/bin/echo "Unsupported"
+fi
+
+/bin/echo -ne \
+"         ke/dheke support:\t"
+
+if [ -e .lgmp ]; then
+	/bin/echo "OK"
+else
+	/bin/echo "Unsupported"
+fi
+
+/bin/echo -e \
+"          ke/ecdh support:\tOK"
+/bin/echo -e \
+"       ke/pankake support:\tOK"
+
+# MAC support
+/bin/echo -ne "\n"
+
+/bin/echo -e \
+"         mac/hmac support:\tOK"
+/bin/echo -e \
+"     mac/poly1305 support:\tOK"
+
+
+# TC support
+/bin/echo -ne "\n"
+
+/bin/echo -e \
+"           tc/mem support:\tOK"
+
+## DONE ##
+/bin/echo -ne "\n"
+

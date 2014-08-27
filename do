@@ -44,5 +44,7 @@ touch .done
 
 echo "Build completed."
 
+./features
+
 exit 0
 
