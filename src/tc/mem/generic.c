@@ -38,3 +38,36 @@ int memcmp_timec(const void *s1, const void *s2, size_t n) {
 	return match != n;
 }
 
+void *memcpy_timec(void *dest, const void *src, size_t n) {
+	unsigned char *d = dest;
+	const unsigned char *s = src;
+
+	while (n --) d[n] = s[n];
+
+	return dest;
+}
+
+void *memmove_timec(void *dest, const void *src, size_t n) {
+	unsigned char *d = dest;
+	const unsigned char *s = src;
+	int i = 0, z = 0;
+
+	n --;
+
+	if (d <= s) {
+		for (i = 0, z = n; i <= n; i ++) d[i] = s[i];
+	} else {
+		for (i = n, z = 0; z <= i; i --) d[i] = s[i];
+	}
+
+	return dest;
+}
+
+void *memset_timec(void *s, int c, size_t n) {
+	unsigned char *d = s;
+
+	while (n --) d[n] = (unsigned char) c;
+
+	return s;
+}
+

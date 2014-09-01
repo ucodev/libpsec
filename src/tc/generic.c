@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Time Constant interface 
  *
- * Date: 24-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -33,5 +33,17 @@
 /* Memory Operations Interface */
 int tc_memcmp(const void *s1, const void *s2, size_t n) {
 	return memcmp_timec(s1, s2, n);
+}
+
+void *tc_memcpy(void *dest, const void *src, size_t n) {
+	return memcpy_timec(dest, src, n);
+}
+
+void *tc_memmove(void *dest, const void *src, size_t n) {
+	return memmove_timec(dest, src, n);
+}
+
+void *tc_memset(void *s, int c, size_t n) {
+	return memset_timec(s, c, n);
 }
 

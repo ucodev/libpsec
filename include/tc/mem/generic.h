@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Time Constant [Memory Operations] interface header
  *
- * Date: 24-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -34,6 +34,9 @@
 
 /* Prototypes */
 int memcmp_timec(const void *s1, const void *s2, size_t n);
+void *memcpy_timec(void *dest, const void *src, size_t n);
+void *memmove_timec(void *dest, const void *src, size_t n);
+void *memset_timec(void *s, int c, size_t n);
 
 #endif
 

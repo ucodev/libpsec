@@ -36,5 +36,8 @@
 /* Memory Operations */
 /*********************/
 int tc_memcmp(const void *s1, const void *s2, size_t n);
+void *tc_memcpy(void *dest, const void *src, size_t n);
+void *tc_memmove(void *dest, const void *src, size_t n);
+void *tc_memset(void *s, int c, size_t n);
 
 #endif
