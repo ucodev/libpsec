@@ -33,6 +33,10 @@ all:
 	${CC} -o pbkdf2 pbkdf2.c ${LDFLAGS}
 	${CC} -o random random.c ${LDFLAGS}
 	${CC} -o random_dict random_dict.c ${LDFLAGS}
+	${CC} -o tc_memcmp tc_memcmp.c ${LDFLAGS}
+	${CC} -o tc_memcpy tc_memcpy.c ${LDFLAGS}
+	${CC} -o tc_memmove tc_memmove.c ${LDFLAGS}
+	${CC} -o tc_memset tc_memset.c ${LDFLAGS}
 
 clean:
 	rm -f auth_shadow
@@ -66,4 +70,8 @@ clean:
 	rm -f pbkdf2
 	rm -f random
 	rm -f random_dict
+	rm -f tc_memcmp
+	rm -f tc_memcpy
+	rm -f tc_memmove
+	rm -f tc_memset
 

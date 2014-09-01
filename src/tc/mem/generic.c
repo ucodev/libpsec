@@ -1,9 +1,9 @@
 /*
  * @file generic.c
  * @brief PSEC Library
- *        Time Constant [Memory Operations] interface 
+ *        Constant Time [Memory Operations] interface 
  *
- * Date: 24-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -33,9 +33,9 @@ int memcmp_timec(const void *s1, const void *s2, size_t n) {
 	const unsigned char *a1 = s1, *a2 = s2;
 
 	for (i = 0, match = 0; i < n; i ++)
-		match += (a1[i] == a2[i]);
+		match += (a1[i] == a2[i]) + 1; /* Avoid add 0, reg */
 
-	return match != n;
+	return match != (n << 1);
 }
 
 void *memcpy_timec(void *dest, const void *src, size_t n) {
@@ -47,20 +47,30 @@ void *memcpy_timec(void *dest, const void *src, size_t n) {
 	return dest;
 }
 
-void *memmove_timec(void *dest, const void *src, size_t n) {
+static void *_memmove_fw_timec(void *dest, const void *src, size_t n) {
 	unsigned char *d = dest;
 	const unsigned char *s = src;
 	int i = 0, z = 0;
 
-	n --;
-
-	if (d <= s) {
-		for (i = 0, z = n; i <= n; i ++) d[i] = s[i];
-	} else {
-		for (i = n, z = 0; z <= i; i --) d[i] = s[i];
-	}
+	for (i = 0, z = -- n; i <= n; i ++) d[i] = s[i];
 
 	return dest;
+}
+
+static void *_memmove_bw_timec(void *dest, const void *src, size_t n) {
+	unsigned char *d = dest;
+	const unsigned char *s = src;
+	int i = 0, z = 0;
+
+	for (i = -- n, z = 0; z <= i; i --) d[i] = s[i];
+
+	return dest;
+}
+
+void *memmove_timec(void *dest, const void *src, size_t n) {
+	void *(*f[2]) (void *, const void *, size_t) = { _memmove_bw_timec, _memmove_fw_timec };
+
+	return f[dest <= src](dest, src, n);
 }
 
 void *memset_timec(void *s, int c, size_t n) {
