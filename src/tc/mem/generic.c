@@ -52,7 +52,7 @@ static void *_memmove_fw_timec(void *dest, const void *src, size_t n) {
 	const unsigned char *s = src;
 	int i = 0, z = 0;
 
-	for (i = 0, z = -- n; i <= n; i ++) d[i] = s[i];
+	for (i = 0, z = n - 1; i <= z; i ++) d[i] = s[i];
 
 	return dest;
 }
@@ -62,7 +62,7 @@ static void *_memmove_bw_timec(void *dest, const void *src, size_t n) {
 	const unsigned char *s = src;
 	int i = 0, z = 0;
 
-	for (i = -- n, z = 0; z <= i; i --) d[i] = s[i];
+	for (i = n - 1, z = 0; z <= i; i --) d[i] = s[i];
 
 	return dest;
 }
