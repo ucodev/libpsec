@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface header
  *
- * Date: 21-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,6 +32,26 @@
 #include <stdio.h>
 
 /* Prototypes */
+/*****************/
+/* AES Interface */
+/*****************/
+#define CRYPT_KEY_SIZE_AES256			32
+#define CRYPT_NONCE_SIZE_AES256			16
+#define CRYPT_EXTRA_SIZE_AES256			16 + 16
+unsigned char *crypt_encrypt_aes256cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_aes256cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
 /********************/
 /* ChaCha Interface */
 /********************/

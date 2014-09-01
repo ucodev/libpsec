@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface 
  *
- * Date: 20-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -29,9 +29,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "crypt/aes/generic.h"
 #include "crypt/chacha/generic.h"
 #include "crypt/xsalsa20/generic.h"
 #include "crypt/otp/generic.h"
+
+unsigned char *crypt_encrypt_aes256cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes256cbc_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_aes256cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes256cbc_decrypt(out, out_len, in, in_len, nonce, key);
+}
 
 unsigned char *crypt_encrypt_chacha20(
 	unsigned char *out,

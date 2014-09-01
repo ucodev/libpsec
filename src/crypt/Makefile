@@ -3,11 +3,12 @@ DEFINES=`cat ../../.defines`
 LD=/usr/bin/ld
 CCFLAGS=-g -O2 -Wall -Werror -fPIC
 INCLUDEDIRS=-I../../include
-OBJS_COMMON=./chacha/*.o ./otp/*.o ./xsalsa20/*.o
+OBJS_COMMON=./aes/*.o ./chacha/*.o ./otp/*.o ./xsalsa20/*.o
 OBJS=generic.o
 TARGET=crypt.o
 
 all:
+	make -C aes/
 	make -C chacha/
 	make -C otp/
 	make -C xsalsa20/
@@ -15,6 +16,7 @@ all:
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
+	make -C aes/ clean
 	make -C chacha/ clean
 	make -C otp/ clean
 	make -C xsalsa20/ clean
