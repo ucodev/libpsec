@@ -15,6 +15,10 @@ all:
 	${CC} -o blake2b_buffer blake2b_buffer.c ${LDFLAGS}
 	${CC} -o blake2s_buffer blake2s_buffer.c ${LDFLAGS}
 	${CC} -o blake2s_file blake2s_file.c ${LDFLAGS}
+	${CC} -o crypt_aes128cbc crypt_aes128cbc.c ${LDFLAGS}
+	${CC} -o crypt_aes128ecb crypt_aes128ecb.c ${LDFLAGS}
+	${CC} -o crypt_aes192cbc crypt_aes192cbc.c ${LDFLAGS}
+	${CC} -o crypt_aes192ecb crypt_aes192ecb.c ${LDFLAGS}
 	${CC} -o crypt_aes256cbc crypt_aes256cbc.c ${LDFLAGS}
 	${CC} -o crypt_aes256ecb crypt_aes256ecb.c ${LDFLAGS}
 	${CC} -o crypt_chacha20 crypt_chacha20.c ${LDFLAGS}
@@ -52,6 +56,10 @@ clean:
 	rm -f blake2b_buffer
 	rm -f blake2s_buffer
 	rm -f blake2s_file
+	rm -f crypt_aes128cbc
+	rm -f crypt_aes128ecb
+	rm -f crypt_aes192cbc
+	rm -f crypt_aes192ecb
 	rm -f crypt_aes256cbc
 	rm -f crypt_aes256ecb
 	rm -f crypt_chacha20

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface header
  *
- * Date: 01-09-2014
+ * Date: 02-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -66,6 +66,68 @@ unsigned char *crypt_decrypt_aes256ecb(
 	size_t in_len,
 	const unsigned char *nonce,
 	const unsigned char *key);
+#define CRYPT_KEY_SIZE_AES192			24
+#define CRYPT_NONCE_SIZE_AES192			16
+#define CRYPT_EXTRA_SIZE_AES192			16 + 16
+unsigned char *crypt_encrypt_aes192cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_aes192cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_encrypt_aes192ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_aes192ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+#define CRYPT_KEY_SIZE_AES128			16
+#define CRYPT_NONCE_SIZE_AES128			16
+#define CRYPT_EXTRA_SIZE_AES128			16 + 16
+unsigned char *crypt_encrypt_aes128cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_aes128cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_encrypt_aes128ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_aes128ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
 /********************/
 /* ChaCha Interface */
 /********************/
@@ -100,7 +162,6 @@ unsigned char *crypt_decrypt_chacha20poly1305(
 	size_t in_len,
 	const unsigned char *nonce,
 	const unsigned char *key);
-
 /*****************/
 /* OTP Interface */
 /*****************/

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        AES Encryption/Decryption interface 
  *
- * Date: 01-09-2014
+ * Date: 02-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,29 +32,21 @@
 #include "crypt/aes/generic.h"
 #include "crypt/aes/oaes_lib.h"
 
-unsigned char *aes256cbc_encrypt(
+static unsigned char *_aes_generic(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,
 	size_t in_len,
 	const unsigned char *nonce,
-	const unsigned char *key)
+	const unsigned char *key,
+	size_t key_len,
+	unsigned int encrypt,
+	OAES_CTX *ctx)
 {
 	int out_alloc = 0;
-	OAES_CTX *ctx = NULL;
-
-	/* Allocate context */
-	if (!(ctx = oaes_alloc()))
-		return NULL;
-
-	/* Set IV */
-	if (oaes_set_option(ctx, OAES_OPTION_CBC, nonce) != OAES_RET_SUCCESS) {
-		oaes_free(&ctx);
-		return NULL;
-	}
 
 	/* Set key */
-	if (oaes_key_import_data(ctx, key, 32) != OAES_RET_SUCCESS) {
+	if (oaes_key_import_data(ctx, key, key_len) != OAES_RET_SUCCESS) {
 		oaes_free(&ctx);
 		return NULL;
 	}
@@ -73,12 +65,47 @@ unsigned char *aes256cbc_encrypt(
 		out_alloc = 1;
 	}
 
-	/* Encrypt message */
-	if (oaes_encrypt(ctx, in, in_len, out, out_len) != OAES_RET_SUCCESS) {
+	/* Encrypt/Decrypt message */
+	if (encrypt) {
+		if (oaes_encrypt(ctx, in, in_len, out, out_len) != OAES_RET_SUCCESS) {
+			oaes_free(&ctx);
+			if (out_alloc) free(out);
+			return NULL;
+		}
+	} else {
+		if (oaes_decrypt(ctx, in, in_len, out, out_len) != OAES_RET_SUCCESS) {
+			oaes_free(&ctx);
+			if (out_alloc) free(out);
+			return NULL;
+		}
+	}
+
+	/* All good */
+	return out;
+}
+
+unsigned char *aes256cbc_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	OAES_CTX *ctx = NULL;
+
+	/* Allocate context */
+	if (!(ctx = oaes_alloc()))
+		return NULL;
+
+	/* Set IV */
+	if (oaes_set_option(ctx, OAES_OPTION_CBC, nonce) != OAES_RET_SUCCESS) {
 		oaes_free(&ctx);
-		if (out_alloc) free(out);
 		return NULL;
 	}
+
+	/* Encrypt message */
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 32, 1, ctx);
 
 	/* Free context */
 	oaes_free(&ctx);
@@ -95,7 +122,6 @@ unsigned char *aes256cbc_decrypt(
 	const unsigned char *nonce,
 	const unsigned char *key)
 {
-	int out_alloc = 0;
 	OAES_CTX *ctx = NULL;
 
 	/* Allocate context */
@@ -108,32 +134,8 @@ unsigned char *aes256cbc_decrypt(
 		return NULL;
 	}
 
-	/* Set key */
-	if (oaes_key_import_data(ctx, key, 32) != OAES_RET_SUCCESS) {
-		oaes_free(&ctx);
-		return NULL;
-	}
-
-	/* Get output size */
-	if (oaes_decrypt(ctx, in, in_len, NULL, out_len) != OAES_RET_SUCCESS) {
-		oaes_free(&ctx);
-		return NULL;
-	}
-
-	/* Allocate output memory if required */
-	if (!out) {
-		if (!(out = malloc(*out_len)))
-			return NULL;
-
-		out_alloc = 1;
-	}
-
-	/* Encrypt message */
-	if (oaes_decrypt(ctx, in, in_len, out, out_len) != OAES_RET_SUCCESS) {
-		oaes_free(&ctx);
-		if (out_alloc) free(out);
-		return NULL;
-	}
+	/* Decrypt message */
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 32, 0, ctx);
 
 	/* Free context */
 	oaes_free(&ctx);
@@ -150,7 +152,6 @@ unsigned char *aes256ecb_encrypt(
 	const unsigned char *nonce,
 	const unsigned char *key)
 {
-	int out_alloc = 0;
 	OAES_CTX *ctx = NULL;
 
 	/* Allocate context */
@@ -163,32 +164,8 @@ unsigned char *aes256ecb_encrypt(
 		return NULL;
 	}
 
-	/* Set key */
-	if (oaes_key_import_data(ctx, key, 32) != OAES_RET_SUCCESS) {
-		oaes_free(&ctx);
-		return NULL;
-	}
-
-	/* Get output size */
-	if (oaes_encrypt(ctx, in, in_len, NULL, out_len) != OAES_RET_SUCCESS) {
-		oaes_free(&ctx);
-		return NULL;
-	}
-
-	/* Allocate output memory if required */
-	if (!out) {
-		if (!(out = malloc(*out_len)))
-			return NULL;
-
-		out_alloc = 1;
-	}
-
 	/* Encrypt message */
-	if (oaes_encrypt(ctx, in, in_len, out, out_len) != OAES_RET_SUCCESS) {
-		oaes_free(&ctx);
-		if (out_alloc) free(out);
-		return NULL;
-	}
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 32, 1, ctx);
 
 	/* Free context */
 	oaes_free(&ctx);
@@ -205,7 +182,6 @@ unsigned char *aes256ecb_decrypt(
 	const unsigned char *nonce,
 	const unsigned char *key)
 {
-	int out_alloc = 0;
 	OAES_CTX *ctx = NULL;
 
 	/* Allocate context */
@@ -218,32 +194,250 @@ unsigned char *aes256ecb_decrypt(
 		return NULL;
 	}
 
-	/* Set key */
-	if (oaes_key_import_data(ctx, key, 32) != OAES_RET_SUCCESS) {
+	/* Decrypt message */
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 32, 0, ctx);
+
+	/* Free context */
+	oaes_free(&ctx);
+
+	/* All good */
+	return out;
+}
+
+
+unsigned char *aes192cbc_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	OAES_CTX *ctx = NULL;
+
+	/* Allocate context */
+	if (!(ctx = oaes_alloc()))
+		return NULL;
+
+	/* Set IV */
+	if (oaes_set_option(ctx, OAES_OPTION_CBC, nonce) != OAES_RET_SUCCESS) {
 		oaes_free(&ctx);
 		return NULL;
-	}
-
-	/* Get output size */
-	if (oaes_decrypt(ctx, in, in_len, NULL, out_len) != OAES_RET_SUCCESS) {
-		oaes_free(&ctx);
-		return NULL;
-	}
-
-	/* Allocate output memory if required */
-	if (!out) {
-		if (!(out = malloc(*out_len)))
-			return NULL;
-
-		out_alloc = 1;
 	}
 
 	/* Encrypt message */
-	if (oaes_decrypt(ctx, in, in_len, out, out_len) != OAES_RET_SUCCESS) {
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 24, 1, ctx);
+
+	/* Free context */
+	oaes_free(&ctx);
+
+	/* All good */
+	return out;
+}
+
+unsigned char *aes192cbc_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	OAES_CTX *ctx = NULL;
+
+	/* Allocate context */
+	if (!(ctx = oaes_alloc()))
+		return NULL;
+
+	/* Set IV */
+	if (oaes_set_option(ctx, OAES_OPTION_CBC, nonce) != OAES_RET_SUCCESS) {
 		oaes_free(&ctx);
-		if (out_alloc) free(out);
 		return NULL;
 	}
+
+	/* Decrypt message */
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 24, 0, ctx);
+
+	/* Free context */
+	oaes_free(&ctx);
+
+	/* All good */
+	return out;
+}
+
+unsigned char *aes192ecb_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	OAES_CTX *ctx = NULL;
+
+	/* Allocate context */
+	if (!(ctx = oaes_alloc()))
+		return NULL;
+
+	/* Set IV */
+	if (oaes_set_option(ctx, OAES_OPTION_ECB, NULL) != OAES_RET_SUCCESS) {
+		oaes_free(&ctx);
+		return NULL;
+	}
+
+	/* Encrypt message */
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 24, 1, ctx);
+
+	/* Free context */
+	oaes_free(&ctx);
+
+	/* All good */
+	return out;
+}
+
+unsigned char *aes192ecb_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	OAES_CTX *ctx = NULL;
+
+	/* Allocate context */
+	if (!(ctx = oaes_alloc()))
+		return NULL;
+
+	/* Set IV */
+	if (oaes_set_option(ctx, OAES_OPTION_ECB, NULL) != OAES_RET_SUCCESS) {
+		oaes_free(&ctx);
+		return NULL;
+	}
+
+	/* Decrypt message */
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 24, 0, ctx);
+
+	/* Free context */
+	oaes_free(&ctx);
+
+	/* All good */
+	return out;
+}
+
+
+unsigned char *aes128cbc_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	OAES_CTX *ctx = NULL;
+
+	/* Allocate context */
+	if (!(ctx = oaes_alloc()))
+		return NULL;
+
+	/* Set IV */
+	if (oaes_set_option(ctx, OAES_OPTION_CBC, nonce) != OAES_RET_SUCCESS) {
+		oaes_free(&ctx);
+		return NULL;
+	}
+
+	/* Encrypt message */
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 16, 1, ctx);
+
+	/* Free context */
+	oaes_free(&ctx);
+
+	/* All good */
+	return out;
+}
+
+unsigned char *aes128cbc_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	OAES_CTX *ctx = NULL;
+
+	/* Allocate context */
+	if (!(ctx = oaes_alloc()))
+		return NULL;
+
+	/* Set IV */
+	if (oaes_set_option(ctx, OAES_OPTION_CBC, nonce) != OAES_RET_SUCCESS) {
+		oaes_free(&ctx);
+		return NULL;
+	}
+
+	/* Decrypt message */
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 16, 0, ctx);
+
+	/* Free context */
+	oaes_free(&ctx);
+
+	/* All good */
+	return out;
+}
+
+unsigned char *aes128ecb_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	OAES_CTX *ctx = NULL;
+
+	/* Allocate context */
+	if (!(ctx = oaes_alloc()))
+		return NULL;
+
+	/* Set IV */
+	if (oaes_set_option(ctx, OAES_OPTION_ECB, NULL) != OAES_RET_SUCCESS) {
+		oaes_free(&ctx);
+		return NULL;
+	}
+
+	/* Encrypt message */
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 16, 1, ctx);
+
+	/* Free context */
+	oaes_free(&ctx);
+
+	/* All good */
+	return out;
+}
+
+unsigned char *aes128ecb_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	OAES_CTX *ctx = NULL;
+
+	/* Allocate context */
+	if (!(ctx = oaes_alloc()))
+		return NULL;
+
+	/* Set IV */
+	if (oaes_set_option(ctx, OAES_OPTION_ECB, NULL) != OAES_RET_SUCCESS) {
+		oaes_free(&ctx);
+		return NULL;
+	}
+
+	/* Decrypt message */
+	out = _aes_generic(out, out_len, in, in_len, nonce, key, 16, 0, ctx);
 
 	/* Free context */
 	oaes_free(&ctx);

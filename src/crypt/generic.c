@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface 
  *
- * Date: 01-09-2014
+ * Date: 02-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -76,6 +76,94 @@ unsigned char *crypt_decrypt_aes256ecb(
 	const unsigned char *key)
 {
 	return aes256ecb_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_encrypt_aes192cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes192cbc_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_aes192cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes192cbc_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_encrypt_aes192ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes192ecb_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_aes192ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes192ecb_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_encrypt_aes128cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes128cbc_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_aes128cbc(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes128cbc_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_encrypt_aes128ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes128ecb_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_aes128ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes128ecb_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
 unsigned char *crypt_encrypt_chacha20(

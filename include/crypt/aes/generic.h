@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        AES Encryption/Decryption interface header
  *
- * Date: 01-09-2014
+ * Date: 02-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -60,7 +60,62 @@ unsigned char *aes256ecb_decrypt(
         size_t in_len,
         const unsigned char *nonce,
         const unsigned char *key);
-
+unsigned char *aes192cbc_encrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+unsigned char *aes192cbc_decrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+unsigned char *aes192ecb_encrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+unsigned char *aes192ecb_decrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+unsigned char *aes128cbc_encrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+unsigned char *aes128cbc_decrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+unsigned char *aes128ecb_encrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+unsigned char *aes128ecb_decrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
 
 #endif
 
