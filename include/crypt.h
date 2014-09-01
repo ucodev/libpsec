@@ -52,6 +52,20 @@ unsigned char *crypt_decrypt_aes256cbc(
 	size_t in_len,
 	const unsigned char *nonce,
 	const unsigned char *key);
+unsigned char *crypt_encrypt_aes256ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_aes256ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
 /********************/
 /* ChaCha Interface */
 /********************/

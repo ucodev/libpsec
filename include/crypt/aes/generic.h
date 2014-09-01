@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 
+/* Prototypes */
 unsigned char *aes256cbc_encrypt(
         unsigned char *out,
 	size_t *out_len,
@@ -45,6 +46,21 @@ unsigned char *aes256cbc_decrypt(
         size_t in_len,
         const unsigned char *nonce,
         const unsigned char *key);
+unsigned char *aes256ecb_encrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+unsigned char *aes256ecb_decrypt(
+        unsigned char *out,
+	size_t *out_len,
+        const unsigned char *in,
+        size_t in_len,
+        const unsigned char *nonce,
+        const unsigned char *key);
+
 
 #endif
 

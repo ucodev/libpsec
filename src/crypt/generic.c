@@ -56,6 +56,28 @@ unsigned char *crypt_decrypt_aes256cbc(
 	return aes256cbc_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+unsigned char *crypt_encrypt_aes256ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes256ecb_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_aes256ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return aes256ecb_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
 unsigned char *crypt_encrypt_chacha20(
 	unsigned char *out,
 	size_t *out_len,
