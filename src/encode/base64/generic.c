@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Base64 Encoding interface 
  *
- * Date: 11-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,6 +32,8 @@
 #include <stdlib.h>
 
 #include "encode/base64/generic.h"
+
+#include "tc.h"
 
 size_t base64_encode_size(size_t in_len) {
 	unsigned int align = 3 - (in_len % 3);
@@ -66,7 +68,7 @@ unsigned char *base64_encode(unsigned char *out, size_t *out_len, const unsigned
 		return out;
 	}
 
-	memcpy(align, &in[i], left);
+	tc_memcpy(align, &in[i], left);
 	context = align;
 	out[j + 4] = i = 0;
 

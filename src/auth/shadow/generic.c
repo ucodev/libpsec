@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Authentication [shadow] interface 
  *
- * Date: 14-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -31,6 +31,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <shadow.h>
+
+#include "../../../include/tc.h"
 
 #ifdef _XOPEN_SOURCE
 #include <unistd.h>
@@ -111,7 +113,7 @@ int shadow_user_pass_verify(const char *username, const char *password) {
 
 #ifdef _GNU_SOURCE
 	/* cd.initialized = 0; */
-	memset(&cd, 0, sizeof(struct crypt_data));
+	tc_memset(&cd, 0, sizeof(struct crypt_data));
 
 	/* Generate password hash */
 	if (!(user_hash = crypt_r(password, salt, &cd))) {

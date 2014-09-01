@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Xsalsa20 Encryption/Decryption interface 
  *
- * Date: 20-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -33,6 +33,8 @@
 
 #include "crypt/xsalsa20/crypto.h"
 #include "mac/poly1305/crypto.h"
+
+#include "tc.h"
 
 unsigned char *xsalsa20_encrypt(
 	unsigned char *out,
@@ -90,14 +92,14 @@ unsigned char *xsalsa20poly1305_encrypt(
 		return NULL;
 
 	/* Reset all memory */
-	memset(buf_tmp, 0, (CRYPTO_ZEROBYTES + in_len) * 2);
+	tc_memset(buf_tmp, 0, (CRYPTO_ZEROBYTES + in_len) * 2);
 
 	/* Set the in and out pointers */
 	out_tmp = buf_tmp;
 	in_tmp = buf_tmp + CRYPTO_ZEROBYTES + in_len;
 
 	/* Copy the input buffer */
-	memcpy(in_tmp + CRYPTO_ZEROBYTES, in, in_len);
+	tc_memcpy(in_tmp + CRYPTO_ZEROBYTES, in, in_len);
 
 	/* in_tmp == | zero (32 bytes) | plaintext (in_len) | */
 
@@ -112,10 +114,10 @@ unsigned char *xsalsa20poly1305_encrypt(
 
 	/* Craft the respective out buffer */
 	if (!out) {
-		memmove(buf_tmp, out_tmp + CRYPTO_BOXZEROBYTES, in_len + CRYPTO_POLY1305BYTES);
+		tc_memmove(buf_tmp, out_tmp + CRYPTO_BOXZEROBYTES, in_len + CRYPTO_POLY1305BYTES);
 		out = buf_tmp;
 	} else {
-		memcpy(out, out_tmp + CRYPTO_BOXZEROBYTES, in_len + CRYPTO_POLY1305BYTES);
+		tc_memcpy(out, out_tmp + CRYPTO_BOXZEROBYTES, in_len + CRYPTO_POLY1305BYTES);
 		free(buf_tmp);
 	}
 
@@ -141,14 +143,14 @@ unsigned char *xsalsa20poly1305_decrypt(
 		return NULL;
 
 	/* Reset all memory */
-	memset(buf_tmp, 0, (CRYPTO_ZEROBYTES + in_len) * 2);
+	tc_memset(buf_tmp, 0, (CRYPTO_ZEROBYTES + in_len) * 2);
 
 	/* Set the in and out pointers */
 	out_tmp = buf_tmp;
 	in_tmp = buf_tmp + CRYPTO_ZEROBYTES + in_len;
 
 	/* Copy the input buffer */
-	memcpy(in_tmp + CRYPTO_BOXZEROBYTES, in, in_len);
+	tc_memcpy(in_tmp + CRYPTO_BOXZEROBYTES, in, in_len);
 
 	/* in_tmp == | zero (16 bytes) | poly1305 (16 bytes) | ciphertext (in_len - 16 bytes) | */
 
@@ -163,10 +165,10 @@ unsigned char *xsalsa20poly1305_decrypt(
 
 	/* Craft the respective out buffer */
 	if (!out) {
-		memmove(buf_tmp, out_tmp + CRYPTO_ZEROBYTES, in_len - CRYPTO_POLY1305BYTES);
+		tc_memmove(buf_tmp, out_tmp + CRYPTO_ZEROBYTES, in_len - CRYPTO_POLY1305BYTES);
 		out = buf_tmp;
 	} else {
-		memcpy(out, out_tmp + CRYPTO_ZEROBYTES, in_len - CRYPTO_POLY1305BYTES);
+		tc_memcpy(out, out_tmp + CRYPTO_ZEROBYTES, in_len - CRYPTO_POLY1305BYTES);
 		free(buf_tmp);
 	}
 

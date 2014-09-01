@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exhange [ECDH] interface 
  *
- * Date: 26-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,7 +32,9 @@
 #include <stdlib.h>
 
 #include "ke/ecdh/curve25519.h"
+
 #include "generate.h"
+#include "tc.h"
 
 /* Functions */
 
@@ -63,7 +65,7 @@ unsigned char *ecdh_compute_public_key(
 	}
 
 	/* Initialize basepoint */
-	memset(basepoint, 0, sizeof(basepoint));
+	tc_memset(basepoint, 0, sizeof(basepoint));
 	basepoint[0] = 9;
 
 	/* Allocate memory for public key if required */

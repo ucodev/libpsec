@@ -62,4 +62,4 @@ typedef enum
 	OAES_RET_COUNT
 } OAES_RET;
 
-#endif // _OAES_COMMON_H
+#endif /* _OAES_COMMON_H */

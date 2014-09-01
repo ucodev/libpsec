@@ -9,6 +9,11 @@
 
    You should have received a copy of the CC0 Public Domain Dedication along with
    this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+
+
+   libpsec ChangeLog (by Pedro A. Hortas on 01/09/2014):
+    - Replaced standard mem*() libc calls with the internal libpsc constant time interface.
+
 */
 
 #include <stdint.h>
@@ -17,6 +22,8 @@
 
 #include "hash/blake2/blake2.h"
 #include "hash/blake2/blake2-impl.h"
+
+#include "tc.h"
 
 static const uint64_t blake2b_IV[8] =
 {
@@ -144,7 +151,7 @@ static inline int blake2b_param_set_personal( blake2b_param *P, const uint8_t pe
 
 static inline int blake2b_init0( blake2b_state *S )
 {
-  memset( S, 0, sizeof( blake2b_state ) );
+  tc_memset( S, 0, sizeof( blake2b_state ) );
 
   for( int i = 0; i < 8; ++i ) S->h[i] = blake2b_IV[i];
 
@@ -180,9 +187,9 @@ int blake2b_init( blake2b_state *S, const uint8_t outlen )
   store64( &P->node_offset, 0 );
   P->node_depth    = 0;
   P->inner_length  = 0;
-  memset( P->reserved, 0, sizeof( P->reserved ) );
-  memset( P->salt,     0, sizeof( P->salt ) );
-  memset( P->personal, 0, sizeof( P->personal ) );
+  tc_memset( P->reserved, 0, sizeof( P->reserved ) );
+  tc_memset( P->salt,     0, sizeof( P->salt ) );
+  tc_memset( P->personal, 0, sizeof( P->personal ) );
   return blake2b_init_param( S, P );
 }
 
@@ -203,16 +210,16 @@ int blake2b_init_key( blake2b_state *S, const uint8_t outlen, const void *key, c
   store64( &P->node_offset, 0 );
   P->node_depth    = 0;
   P->inner_length  = 0;
-  memset( P->reserved, 0, sizeof( P->reserved ) );
-  memset( P->salt,     0, sizeof( P->salt ) );
-  memset( P->personal, 0, sizeof( P->personal ) );
+  tc_memset( P->reserved, 0, sizeof( P->reserved ) );
+  tc_memset( P->salt,     0, sizeof( P->salt ) );
+  tc_memset( P->personal, 0, sizeof( P->personal ) );
 
   if( blake2b_init_param( S, P ) < 0 ) return -1;
 
   {
     uint8_t block[BLAKE2B_BLOCKBYTES];
-    memset( block, 0, BLAKE2B_BLOCKBYTES );
-    memcpy( block, key, keylen );
+    tc_memset( block, 0, BLAKE2B_BLOCKBYTES );
+    tc_memcpy( block, key, keylen );
     blake2b_update( S, block, BLAKE2B_BLOCKBYTES );
     secure_zero_memory( block, BLAKE2B_BLOCKBYTES ); /* Burn the key from stack */
   }
@@ -292,18 +299,18 @@ int blake2b_update( blake2b_state *S, const uint8_t *in, uint64_t inlen )
 
     if( inlen > fill )
     {
-      memcpy( S->buf + left, in, fill ); // Fill buffer
+      tc_memcpy( S->buf + left, in, fill ); // Fill buffer
       S->buflen += fill;
       blake2b_increment_counter( S, BLAKE2B_BLOCKBYTES );
       blake2b_compress( S, S->buf ); // Compress
-      memcpy( S->buf, S->buf + BLAKE2B_BLOCKBYTES, BLAKE2B_BLOCKBYTES ); // Shift buffer left
+      tc_memcpy( S->buf, S->buf + BLAKE2B_BLOCKBYTES, BLAKE2B_BLOCKBYTES ); // Shift buffer left
       S->buflen -= BLAKE2B_BLOCKBYTES;
       in += fill;
       inlen -= fill;
     }
     else // inlen <= fill
     {
-      memcpy( S->buf + left, in, inlen );
+      tc_memcpy( S->buf + left, in, inlen );
       S->buflen += inlen; // Be lazy, do not compress
       in += inlen;
       inlen -= inlen;
@@ -323,18 +330,18 @@ int blake2b_final( blake2b_state *S, uint8_t *out, uint8_t outlen )
     blake2b_increment_counter( S, BLAKE2B_BLOCKBYTES );
     blake2b_compress( S, S->buf );
     S->buflen -= BLAKE2B_BLOCKBYTES;
-    memcpy( S->buf, S->buf + BLAKE2B_BLOCKBYTES, S->buflen );
+    tc_memcpy( S->buf, S->buf + BLAKE2B_BLOCKBYTES, S->buflen );
   }
 
   blake2b_increment_counter( S, S->buflen );
   blake2b_set_lastblock( S );
-  memset( S->buf + S->buflen, 0, 2 * BLAKE2B_BLOCKBYTES - S->buflen ); /* Padding */
+  tc_memset( S->buf + S->buflen, 0, 2 * BLAKE2B_BLOCKBYTES - S->buflen ); /* Padding */
   blake2b_compress( S, S->buf );
 
   for( int i = 0; i < 8; ++i ) /* Output full hash to temp buffer */
     store64( buffer + sizeof( S->h[i] ) * i, S->h[i] );
 
-  memcpy( out, buffer, outlen );
+  tc_memcpy( out, buffer, outlen );
   return 0;
 }
 
@@ -383,7 +390,7 @@ int main( int argc, char **argv )
     uint8_t hash[BLAKE2B_OUTBYTES];
     blake2b( hash, buf, key, BLAKE2B_OUTBYTES, i, BLAKE2B_KEYBYTES );
 
-    if( 0 != memcmp( hash, blake2b_keyed_kat[i], BLAKE2B_OUTBYTES ) )
+    if( 0 != tc_memcmp( hash, blake2b_keyed_kat[i], BLAKE2B_OUTBYTES ) )
     {
       puts( "error" );
       return -1;

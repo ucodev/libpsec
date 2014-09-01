@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Password-Based Key Derivation Function 2 interface 
  *
- * Date: 03-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -36,6 +36,7 @@
 #include <arpa/inet.h>
 
 #include "mac.h"
+#include "tc.h"
 
 static unsigned char *_f_hash(
 	unsigned char *out,
@@ -73,18 +74,18 @@ static unsigned char *_f_hash(
 		}
 	}
 
-	memcpy(u, salt, salt_len);
-	memcpy(&u[salt_len], (uint32_t [1]) { htonl(iteration) }, 4);
+	tc_memcpy(u, salt, salt_len);
+	tc_memcpy(&u[salt_len], (uint32_t [1]) { htonl(iteration) }, 4);
 
 	mac_hmac_hash(out_tmp, hash, hash_len, hash_block_size, pw, pw_len, u, salt_len + 4);
 
-	memcpy(u, out_tmp, hash_len);
-	memcpy(out, u, hash_len);
+	tc_memcpy(u, out_tmp, hash_len);
+	tc_memcpy(out, u, hash_len);
 
 	for (i = 1; i < iterations; i ++) {
 		mac_hmac_hash(out_tmp, hash, hash_len, hash_block_size, pw, pw_len, u, hash_len);
 
-		memcpy(u, out_tmp, hash_len);
+		tc_memcpy(u, out_tmp, hash_len);
 
 		for (j = 0; j < hash_len; j ++)
 			out[j] ^= u[j];
@@ -136,7 +137,7 @@ unsigned char *pbkdf2_hash(
 
 		len = (((i + 1) * hash_len) > out_size) ? out_size - (i * hash_len) : hash_len;
 
-		memcpy(&out[i * hash_len], hash_tmp, len);
+		tc_memcpy(&out[i * hash_len], hash_tmp, len);
 	}
 
 	free(hash_tmp);

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exhange [PANKAKE] interface 
  *
- * Date: 26-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -90,7 +90,7 @@ unsigned char *pankake_client_init(
 	}
 
 	/* Prepend the public key */
-	memcpy(client_session, ctx->c_public, sizeof(ctx->c_public));
+	tc_memcpy(client_session, ctx->c_public, sizeof(ctx->c_public));
 
 	/* All good */
 	return client_session;
@@ -113,7 +113,7 @@ unsigned char *pankake_server_init(
 	ke_ecdh_public(ctx->s_public, sizeof(ctx->s_public), ctx->private, sizeof(ctx->private));
 
 	/* Copy pwhash into context */
-	memcpy(ctx->pwhash, pwhash, sizeof(ctx->pwhash));
+	tc_memcpy(ctx->pwhash, pwhash, sizeof(ctx->pwhash));
 
 	/* Re-hash the first half of the password hash */
 	if (!hash_buffer_blake2s(ctx->pwrehash_l, ctx->pwhash, HASH_DIGEST_SIZE_SHA512 >> 1))
@@ -132,7 +132,7 @@ unsigned char *pankake_server_init(
 		return NULL;
 
 	/* Set nonce to the maximum possible value */
-	memset(nonce, 255, sizeof(nonce));
+	tc_memset(nonce, 255, sizeof(nonce));
 
 	/* Encrypt token with the re-hashed version of password hash */
 	if (!crypt_encrypt_chacha20poly1305(ctx->secret_hash, &out_len, ctx->s_token, sizeof(ctx->s_token) - CRYPT_EXTRA_SIZE_CHACHA20POLY1305, nonce, ctx->c_token))
@@ -167,10 +167,10 @@ unsigned char *pankake_server_init(
 	}
 
 	/* Prepend public key */
-	memcpy(server_session, ctx->s_public, sizeof(ctx->s_public));
+	tc_memcpy(server_session, ctx->s_public, sizeof(ctx->s_public));
 
 	/* Cleanup */
-	memset(server_auth, 0, sizeof(server_auth));
+	tc_memset(server_auth, 0, sizeof(server_auth));
 
 	/* All good */
 	return server_session;
@@ -198,7 +198,7 @@ unsigned char *pankake_client_authorize(
 		return NULL;
 
 	/* Set nonce to the maximum possible value to match the server nonce */
-	memset(nonce, 255, sizeof(nonce));
+	tc_memset(nonce, 255, sizeof(nonce));
 
 	/* Decrypt server auth with rehashed version of shared key */
 	if (!crypt_decrypt_chacha20(server_auth, &out_len, server_session + sizeof(ctx->s_public), HASH_DIGEST_SIZE_BLAKE2S, nonce, ctx->shared_hash))
@@ -217,7 +217,7 @@ unsigned char *pankake_client_authorize(
 		return NULL;
 
 	/* Set nonce to 2**sizeof(nonce) - 2 */
-	memset(nonce, 255, sizeof(nonce));
+	tc_memset(nonce, 255, sizeof(nonce));
 	nonce[sizeof(nonce) - 1] = 254;
 
 	/* Encrypt secret hash with the dh shared key to create the agreed key */
@@ -233,7 +233,7 @@ unsigned char *pankake_client_authorize(
 		return NULL;
 
 	/* Copy the password into the pw payload */
-	memcpy(pw_payload + 1, ctx->password, pw_len);
+	tc_memcpy(pw_payload + 1, ctx->password, pw_len);
 
 	/* Set the password length in the pw payload */
 	pw_payload[0] = pw_len;
@@ -259,7 +259,7 @@ unsigned char *pankake_client_authorize(
 	}
 
 	/* Cleanup */
-	memset(server_auth, 0, sizeof(server_auth));
+	tc_memset(server_auth, 0, sizeof(server_auth));
 
 	/* All good */
 	return client_auth;
@@ -281,7 +281,7 @@ int pankake_server_authorize(
 	size_t out_len = 0, pw_len = 0;
 
 	/* Set nonce to 2**sizeof(nonce) - 2 */
-	memset(nonce, 255, sizeof(nonce));
+	tc_memset(nonce, 255, sizeof(nonce));
 	nonce[sizeof(nonce) - 1] = 254;
 
 	/* Encrypt secret hash with dh shared key to create the agreed key */
@@ -304,8 +304,8 @@ int pankake_server_authorize(
 		return -1;
 
 	/* Cleanup */
-	memset(pwhash_c, 0, sizeof(pwhash_c));
-	memset(pw_payload, 0, sizeof(pw_payload));
+	tc_memset(pwhash_c, 0, sizeof(pwhash_c));
+	tc_memset(pw_payload, 0, sizeof(pw_payload));
 
 	/* All good */
 	return 0;

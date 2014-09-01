@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encrypted Key Exhange [DH EKE] interface 
  *
- * Date: 24-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -35,8 +35,10 @@
 #include "hash.h"
 #include "kdf.h"
 #include "ke.h"
+#include "tc.h"
 
 #include "ke/dheke/generic.h"
+
 
 static void _dheke_context_destroy(unsigned char *context) {
 	struct dheke_context *ctx = (struct dheke_context *) context;
@@ -53,7 +55,7 @@ static void _dheke_context_destroy(unsigned char *context) {
 	if (ctx->s_prv)  ke_destroy(ctx->s_prv);
 	if (ctx->shr)    ke_destroy(ctx->shr);
 
-	memset(ctx, 0, sizeof(struct dheke_context));
+	tc_memset(ctx, 0, sizeof(struct dheke_context));
 }
 
 unsigned char *dheke_client_init(
@@ -74,7 +76,7 @@ unsigned char *dheke_client_init(
 	size_t out_len = 0;
 
 	/* Clear context memory */
-	memset(ctx, 0, sizeof(struct dheke_context));
+	tc_memset(ctx, 0, sizeof(struct dheke_context));
 
 	/* Set context data */
 	ctx->pub_len = pub_len;
@@ -90,8 +92,8 @@ unsigned char *dheke_client_init(
 	if (!(ctx->salt = malloc(ctx->salt_len)))
 		return NULL;
 
-	memcpy(ctx->pwd, pwd, ctx->pwd_len);
-	memcpy(ctx->salt, salt, ctx->salt_len);
+	tc_memcpy(ctx->pwd, pwd, ctx->pwd_len);
+	tc_memcpy(ctx->salt, salt, ctx->salt_len);
 
 	/* Create DH private key */
 	if (!(ctx->c_prv = ke_dh_private(NULL, ctx->prv_len))) {
@@ -119,7 +121,7 @@ unsigned char *dheke_client_init(
 
 	/* Check if MAC is required */
 	if (ctx->use_mac) {
-		memset(nonce, 255, sizeof(nonce));
+		tc_memset(nonce, 255, sizeof(nonce));
 		nonce[sizeof(nonce) - 1] = 254;
 
 		/* ChaCha20 encryption with Poly1305 message authentication code */
@@ -163,7 +165,7 @@ unsigned char *dheke_server_init(
 	size_t out_len = 0;
 
 	/* Clear context memory */
-	memset(ctx, 0, sizeof(struct dheke_context));
+	tc_memset(ctx, 0, sizeof(struct dheke_context));
 
 	/* Set context data */
 	ctx->pub_len = pub_len;
@@ -179,8 +181,8 @@ unsigned char *dheke_server_init(
 	if (!(ctx->salt = malloc(ctx->salt_len)))
 		return NULL;
 
-	memcpy(ctx->pwd, pwd, ctx->pwd_len);
-	memcpy(ctx->salt, salt, ctx->salt_len);
+	tc_memcpy(ctx->pwd, pwd, ctx->pwd_len);
+	tc_memcpy(ctx->salt, salt, ctx->salt_len);
 
 	/* Create a password hash matching the size of the public key */
 	if (!(ctx->pwhash = kdf_pbkdf2_hash(NULL, hash_buffer_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, pwd, pwd_len, salt, salt_len, pbkdf2_rounds, ctx->pwhash_len))) {
@@ -192,7 +194,7 @@ unsigned char *dheke_server_init(
 
 	/* Check if MAC is required */
 	if (ctx->use_mac) {
-		memset(nonce, 255, sizeof(nonce));
+		tc_memset(nonce, 255, sizeof(nonce));
 		nonce[sizeof(nonce) - 1] = 254;
 
 		/* ChaCha20 decryption with Poly1305 message authentication code */
@@ -237,11 +239,11 @@ unsigned char *dheke_server_init(
 	}
 
 	/* Copy key */
-	memcpy(key, ctx->shr, ctx->pub_len);
+	tc_memcpy(key, ctx->shr, ctx->pub_len);
 
 	/* Check if MAC is required */
 	if (ctx->use_mac) {
-		memset(nonce, 255, sizeof(nonce));
+		tc_memset(nonce, 255, sizeof(nonce));
 
 		/* ChaCha20 encryption with Poly1305 message authentication code */
 		if (!(server_session = crypt_encrypt_chacha20poly1305(server_session, &out_len, ctx->s_pub, ctx->pub_len, nonce, ctx->pwhash))) {
@@ -279,7 +281,7 @@ unsigned char *dheke_client_process(
 
 	/* Check if MAC is required */
 	if (ctx->use_mac) {
-		memset(nonce, 255, sizeof(nonce));
+		tc_memset(nonce, 255, sizeof(nonce));
 
 		/* ChaCha20 decryption with Poly1305 message authentication code */
 		if (!(ctx->s_pub = crypt_decrypt_chacha20poly1305(NULL, &out_len, server_session, ctx->pub_len + CRYPT_EXTRA_SIZE_CHACHA20POLY1305, nonce, ctx->pwhash))) {
@@ -317,7 +319,7 @@ unsigned char *dheke_client_process(
 	}
 
 	/* Copy key */
-	memcpy(key, ctx->shr, ctx->pub_len);
+	tc_memcpy(key, ctx->shr, ctx->pub_len);
 
 	/* Destroy context */
 	_dheke_context_destroy(context);

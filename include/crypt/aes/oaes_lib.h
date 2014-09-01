@@ -51,19 +51,20 @@ typedef void OAES_CTX;
  * oaes_set_option() takes one of these values for its [option] parameter
  * some options accept either an optional or a required [value] parameter
  */
-// no option
+/* no option */
 #define OAES_OPTION_NONE 0
-// enable ECB mode, disable CBC mode
+/* enable ECB mode, disable CBC mode */
 #define OAES_OPTION_ECB 1
-// enable CBC mode, disable ECB mode
-// value is optional, may pass uint8_t iv[OAES_BLOCK_SIZE] to specify
-// the value of the initialization vector, iv
+/* enable CBC mode, disable ECB mode
+ * value is optional, may pass uint8_t iv[OAES_BLOCK_SIZE] to specify
+ * the value of the initialization vector, iv
+ */
 #define OAES_OPTION_CBC 2
 
 typedef uint16_t OAES_OPTION;
 
 /*
- * // usage:
+ * -- usage:
  * 
  * OAES_CTX * ctx = oaes_alloc();
  * .
@@ -73,14 +74,14 @@ typedef uint16_t OAES_OPTION;
  *   oaes_gen_key_xxx( ctx );
  *   {
  *     oaes_key_export( ctx, _buf, &_buf_len );
- *     // or
+ *     -- or
  *     oaes_key_export_data( ctx, _buf, &_buf_len );\
  *   }
  * }
- * // or
+ * -- or
  * {
  *   oaes_key_import( ctx, _buf, _buf_len );
- *   // or
+ *   -- or
  *   oaes_key_import_data( ctx, _buf, _buf_len );
  * }
  * .
@@ -110,34 +111,34 @@ OAES_API OAES_RET oaes_key_gen_192( OAES_CTX * ctx );
 
 OAES_API OAES_RET oaes_key_gen_256( OAES_CTX * ctx );
 
-// export key with header information
-// set data == NULL to get the required data_len
+/* export key with header information */
+/* set data == NULL to get the required data_len */
 OAES_API OAES_RET oaes_key_export( OAES_CTX * ctx,
 		uint8_t * data, size_t * data_len );
 
-// directly export the data from key
-// set data == NULL to get the required data_len
+/* directly export the data from key */
+/* set data == NULL to get the required data_len */
 OAES_API OAES_RET oaes_key_export_data( OAES_CTX * ctx,
 		uint8_t * data, size_t * data_len );
 
-// import key with header information
+/* import key with header information */
 OAES_API OAES_RET oaes_key_import( OAES_CTX * ctx,
 		const uint8_t * data, size_t data_len );
 
-// directly import data into key
+/* directly import data into key */
 OAES_API OAES_RET oaes_key_import_data( OAES_CTX * ctx,
 		const uint8_t * data, size_t data_len );
 
-// set c == NULL to get the required c_len
+/* set c == NULL to get the required c_len */
 OAES_API OAES_RET oaes_encrypt( OAES_CTX * ctx,
 		const uint8_t * m, size_t m_len, uint8_t * c, size_t * c_len );
 
-// set m == NULL to get the required m_len
+/* set m == NULL to get the required m_len */
 OAES_API OAES_RET oaes_decrypt( OAES_CTX * ctx,
 		const uint8_t * c, size_t c_len, uint8_t * m, size_t * m_len );
 
-// set buf == NULL to get the required buf_len
+/* set buf == NULL to get the required buf_len */
 OAES_API OAES_RET oaes_sprintf(
 		char * buf, size_t * buf_len, const uint8_t * data, size_t data_len );
 
-#endif // _OAES_LIB_H
+#endif /* _OAES_LIB_H */

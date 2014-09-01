@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Hash-based Message Authentication Code interface 
  *
- * Date: 22-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,6 +32,7 @@
 #include <stdlib.h>
 
 #include "hash.h"
+#include "tc.h"
 
 unsigned char *hmac_generic(
 	unsigned char *out,
@@ -52,15 +53,15 @@ unsigned char *hmac_generic(
 		return NULL;
 
 	/* Reset memory */
-	memset(key_local, 0, hash_block_size);
-	memset(o_key_pad, 0, hash_block_size + hash_len);
-	memset(i_key_pad, 0, hash_block_size + msg_len);
+	tc_memset(key_local, 0, hash_block_size);
+	tc_memset(o_key_pad, 0, hash_block_size + hash_len);
+	tc_memset(i_key_pad, 0, hash_block_size + msg_len);
 
 	/* Process key based on its size */
 	if (key_len > hash_block_size) {
 		hash(key_local, key, key_len);
 	} else {
-		memcpy(key_local, key, key_len);
+		tc_memcpy(key_local, key, key_len);
 	}
 
 	/* Initialize o_key_pad */
@@ -72,7 +73,7 @@ unsigned char *hmac_generic(
 		i_key_pad[i] = key_local[i] ^ 0x36;
 
 	/* i_key_pad || msg */
-	memcpy(&i_key_pad[hash_block_size], msg, msg_len);
+	tc_memcpy(&i_key_pad[hash_block_size], msg, msg_len);
 
 	/* o_key_pad || hash(i_key_pad || msg) */
 	hash(&o_key_pad[hash_block_size], i_key_pad, hash_block_size + msg_len);

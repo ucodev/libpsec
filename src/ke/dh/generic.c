@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exhange [DH] interface 
  *
- * Date: 14-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -35,6 +35,7 @@
 #include "decode.h"
 #include "encode.h"
 #include "generate.h"
+#include "tc.h"
 
 /* RFC3526 values */
 static const char g_modp[] = "2";
@@ -364,7 +365,7 @@ unsigned char *dh_compute_public_key(
 	}
 
 	/* Reset out memory */
-	memset(pub, 0, pub_size);
+	tc_memset(pub, 0, pub_size);
 
 	/* Decode 'hex_result' */
 	if (!(decode_buffer_base16(pub, (size_t [1]) { 0 }, (unsigned char *) hex_pub, strlen(hex_pub)))) {
@@ -530,7 +531,7 @@ unsigned char *dh_compute_shared_key(
 	}
 
 	/* Reset out memory */
-	memset(shared, 0, pub_size);
+	tc_memset(shared, 0, pub_size);
 
 	/* Decode 'hex_result' */
 	if (!(decode_buffer_base16(shared, (size_t [1]) { 0 }, (unsigned char *) hex_shared, strlen(hex_shared)))) {
