@@ -15,6 +15,8 @@ Changes by Pedro A. Hortas:
 
 #include "crypt/chacha/ecrypt-sync.h"
 
+#include "tc.h"
+
 #define ROTATE(v,c) (ROTL32(v,c))
 #define XOR(v,w) ((v) ^ (w))
 #define PLUS(v,w) (U32V((v) + (w)))
@@ -34,7 +36,7 @@ static void _chacha_core(
   uint32_t x[16];
   int i = 0;
 
-  memcpy(x, input, 64);
+  tc_memcpy(x, input, 64);
 
   for (i = rounds;i > 0;i -= 2) {
     QUARTERROUND( 0, 4, 8,12)
@@ -78,13 +80,13 @@ static void _crypto_core_chacha_key(uint32_t *input, const unsigned char *k, siz
 
 static void _crypto_core_chacha_block_counter(uint32_t *input, uint32_t bc) {
   uint8_t v[4];
-  memcpy(v, &bc, 4);
+  tc_memcpy(v, &bc, 4);
   input[12] = U8TO32_LITTLE(v);
 }
 
 static void _crypto_core_chacha_nonce_const(uint32_t *input, uint32_t nc) {
   uint8_t v[4];
-  memcpy(v, &nc, 4);
+  tc_memcpy(v, &nc, 4);
   input[13] = U8TO32_LITTLE(v);
 }
 
