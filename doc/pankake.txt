@@ -71,6 +71,7 @@
  - All communications after successful authentication may use the Agreed Key for encryption.
  - None of the exchanged tokens between the parties should live beyond the authentication procedures.
  - The client auth must have the same size in all authentications regardless of the password size.
+ - It is recommended to use hash chains to avoid the transmission of the password to the server.
 
 
 3. Operators

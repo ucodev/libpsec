@@ -18,6 +18,7 @@
 	- The Internet Society, RFC3526
 	- D. J. Bernstein - ChaCha, Curve25519, Poly1305, Xsalsa20
 	- Matthew Dempsky - Curve25519
+	- Nabil S. Al Ramli, www.nalramli.com - OpenAES
 
    There is no intention to promote the libpsec by stating the
    persons or entities described in the paragraph above, as the

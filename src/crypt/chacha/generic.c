@@ -1,9 +1,9 @@
 /*
  * @file generic.c
  * @brief PSEC Library
- *        Xsalsa20 Encryption/Decryption interface 
+ *        ChaCha Encryption/Decryption interface 
  *
- * Date: 22-08-2014
+ * Date: 01-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
