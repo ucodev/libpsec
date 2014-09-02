@@ -1,9 +1,9 @@
 /*
  * @file low.h
  * @brief PSEC Library
- *        HASH [MD5] low level interface header
+ *        HASH [RIPEMD] low level interface header
  *
- * Date: 04-08-2014
+ * Date: 02-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -26,18 +26,21 @@
  *
  */
 
-#ifndef LIBPSEC_MD5_LOW_H
-#define LIBPSEC_MD5_LOW_H
+#ifndef LIBPSEC_RIPEMD_LOW_H
+#define LIBPSEC_RIPEMD_LOW_H
 
 #include <stdio.h>
+#include <stdint.h>
 
-#include "global.h"
-#include "md5.h"
+/* RIPEMD-128 Low Level Interface */
+int ripemd128_low_init(uint32_t *context);
+int ripemd128_low_update(uint32_t *context, const unsigned char *in, size_t in_len);
+int ripemd128_low_final(uint32_t *context, unsigned char *out);
 
-/* MD5 Low Level Interface */
-int md5_low_init(MD5_CTX *context);
-int md5_low_update(MD5_CTX *context, const unsigned char *in, size_t in_len);
-int md5_low_final(MD5_CTX *context, unsigned char *out);
+/* RIPEMD-160 Low Level Interface */
+int ripemd160_low_init(uint32_t *context);
+int ripemd160_low_update(uint32_t *context, const unsigned char *in, size_t in_len);
+int ripemd160_low_final(uint32_t *context, unsigned char *out);
 
 #endif
 

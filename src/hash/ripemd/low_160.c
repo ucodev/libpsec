@@ -1,9 +1,9 @@
 /*
- * @file low.h
+ * @file low.c
  * @brief PSEC Library
- *        HASH [MD5] low level interface header
+ *        HASH [RIPEMD] low level interface
  *
- * Date: 04-08-2014
+ * Date: 02-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -26,18 +26,42 @@
  *
  */
 
-#ifndef LIBPSEC_MD5_LOW_H
-#define LIBPSEC_MD5_LOW_H
+#include "hash/ripemd/low.h"
+#include "hash/ripemd/rmd160.h"
 
-#include <stdio.h>
+#include "tc.h"
 
-#include "global.h"
-#include "md5.h"
+/* RIPEMD-160 Low Level Interface */
+int ripemd160_low_init(uint32_t *context) {
+	RIPEMD160_init(context);
 
-/* MD5 Low Level Interface */
-int md5_low_init(MD5_CTX *context);
-int md5_low_update(MD5_CTX *context, const unsigned char *in, size_t in_len);
-int md5_low_final(MD5_CTX *context, unsigned char *out);
+	return 0;
+}
 
-#endif
+int ripemd160_low_update(uint32_t *context, const unsigned char *in, size_t in_len) {
+	int i = 0;
+	uint32_t X[16];
+
+	for (i = 0; in_len >= sizeof(X); i += sizeof(X), in_len -= sizeof(X)) {
+		tc_memcpy(X, in + i, sizeof(X));
+		RIPEMD160_compress(context, X);
+	}
+
+	RIPEMD160_finish(context, in + i, in_len, 0);
+
+	return 0;
+}
+
+int ripemd160_low_final(uint32_t *context, unsigned char *out) {
+	int i = 0;
+
+	for (i = 0; i < 20; i += 4) {
+		out[i]     = context[i >> 2];
+		out[i + 1] = context[i >> 2] >> 8;
+		out[i + 2] = context[i >> 2] >> 16;
+		out[i + 3] = context[i >> 2] >> 24;
+	}
+
+	return 0;
+}
 

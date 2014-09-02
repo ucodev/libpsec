@@ -56,6 +56,8 @@ fi
 /bin/echo -e \
 "         hash/md5 support:\tOK"
 /bin/echo -e \
+"     hash/ripemd* support:\tOK"
+/bin/echo -e \
 "        hash/sha* support:\tOK"
 
 # KDF support

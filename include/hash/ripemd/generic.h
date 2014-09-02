@@ -1,9 +1,9 @@
 /*
- * @file low.h
+ * @file generic.h
  * @brief PSEC Library
- *        HASH [MD5] low level interface header
+ *        HASH [RIPEMD] generic interface header
  *
- * Date: 04-08-2014
+ * Date: 02-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -26,18 +26,26 @@
  *
  */
 
-#ifndef LIBPSEC_MD5_LOW_H
-#define LIBPSEC_MD5_LOW_H
+#ifndef LIBPSEC_GENERIC_RIPEMD_H
+#define LIBPSEC_GENERIC_RIPEMD_H
 
 #include <stdio.h>
 
-#include "global.h"
-#include "md5.h"
+/* Definitions */
+#define RIPEMD128_HASH_DIGEST_SIZE		16
+#define RIPEMD128_HASH_BLOCK_SIZE		64
+#define RIPEMD160_HASH_DIGEST_SIZE		20
+#define RIPEMD160_HASH_BLOCK_SIZE		64
 
-/* MD5 Low Level Interface */
-int md5_low_init(MD5_CTX *context);
-int md5_low_update(MD5_CTX *context, const unsigned char *in, size_t in_len);
-int md5_low_final(MD5_CTX *context, unsigned char *out);
+
+/* Prototypes */
+
+/* RIPEMD-128 Generic Interface */
+unsigned char *ripemd128_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *ripemd128_file(unsigned char *out, FILE *fp);
+/* RIPEMD-160 Generic Interface */
+unsigned char *ripemd160_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *ripemd160_file(unsigned char *out, FILE *fp);
 
 #endif
 

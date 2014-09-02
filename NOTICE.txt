@@ -19,7 +19,8 @@
 	- D. J. Bernstein - ChaCha, Curve25519, Poly1305, Xsalsa20
 	- Matthew Dempsky - Curve25519
 	- Nabil S. Al Ramli, www.nalramli.com - OpenAES
-	- Samuel Neves, Blake2
+	- Samuel Neves - BLAKE2p, BLAKE2s
+	- Antoon Bosselaers, Bart Preneel - RIPEMD-128, RIPEMD-160
 
    There is no intention to promote the libpsec by stating the
    persons or entities described in the paragraph above, as the

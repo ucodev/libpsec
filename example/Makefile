@@ -33,6 +33,10 @@ all:
 	${CC} -o hash_md5_buffer_alloc hash_md5_buffer_alloc.c ${LDFLAGS}
 	${CC} -o hash_md5_file hash_md5_file.c ${LDFLAGS}
 	${CC} -o hash_md5_file_alloc hash_md5_file_alloc.c ${LDFLAGS}
+	${CC} -o hash_ripemd128_buffer hash_ripemd128_buffer.c ${LDFLAGS}
+	${CC} -o hash_ripemd128_file hash_ripemd128_file.c ${LDFLAGS}
+	${CC} -o hash_ripemd160_buffer hash_ripemd160_buffer.c ${LDFLAGS}
+	${CC} -o hash_ripemd160_file hash_ripemd160_file.c ${LDFLAGS}
 	${CC} -o hash_sha1_buffer hash_sha1_buffer.c ${LDFLAGS}
 	${CC} -o hash_sha224_buffer hash_sha224_buffer.c ${LDFLAGS}
 	${CC} -o hash_sha256_buffer hash_sha256_buffer.c ${LDFLAGS}
@@ -81,6 +85,10 @@ clean:
 	rm -f hash_md5_buffer_alloc
 	rm -f hash_md5_file
 	rm -f hash_md5_file_alloc
+	rm -f hash_ripemd128_buffer
+	rm -f hash_ripemd128_file
+	rm -f hash_ripemd160_buffer
+	rm -f hash_ripemd160_file
 	rm -f hash_sha1_buffer
 	rm -f hash_sha224_buffer
 	rm -f hash_sha256_buffer

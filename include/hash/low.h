@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH Low Level interface header
  *
- * Date: 04-08-2014
+ * Date: 02-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -30,9 +30,12 @@
 #ifndef LIBPSEC_HASH_LOW_H
 #define LIBPSEC_HASH_LOW_H
 
+#include <stdint.h>
+
 #include "blake2/low.h"
 #include "md4/low.h"
 #include "md5/low.h"
+#include "ripemd/low.h"
 #include "sha/low.h"
 
 /* Type definitions */
@@ -41,6 +44,8 @@ typedef union {
 	blake2s_state blake2s;
 	MD4_CTX md4;
 	MD5_CTX md5;
+	uint32_t ripemd128[4];
+	uint32_t ripemd160[5];
 	SHA1Context sha1;
 	SHA224Context sha224;
 	SHA256Context sha256;
@@ -65,6 +70,14 @@ int hash_low_md4_final(psec_low_hash_t *context, unsigned char *out);
 int hash_low_md5_init(psec_low_hash_t *context);
 int hash_low_md5_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
 int hash_low_md5_final(psec_low_hash_t *context, unsigned char *out);
+/* RIPEMD-128 Interface */
+int hash_low_ripemd128_init(psec_low_hash_t *context);
+int hash_low_ripemd128_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_ripemd128_final(psec_low_hash_t *context, unsigned char *out);
+/* RIPEMD-160 Interface */
+int hash_low_ripemd160_init(psec_low_hash_t *context);
+int hash_low_ripemd160_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_ripemd160_final(psec_low_hash_t *context, unsigned char *out);
 /* SHA1 Interface */
 int hash_low_sha1_init(psec_low_hash_t *context);
 int hash_low_sha1_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);

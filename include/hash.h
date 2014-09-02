@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH interface header
  *
- * Date: 22-08-2014
+ * Date: 02-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -82,6 +82,19 @@ unsigned char *hash_buffer_md4(unsigned char *out, const unsigned char *in, size
 unsigned char *hash_file_md4(unsigned char *out, FILE *fp);
 unsigned char *hash_buffer_md5(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *hash_file_md5(unsigned char *out, FILE *fp);
+/********************/
+/* RIPEMD Interface */
+/********************/
+/* Digest sizes */
+#define HASH_DIGEST_SIZE_RIPEMD128		16
+#define HASH_DIGEST_SIZE_RIPEMD160		20
+#define HASH_BLOCK_SIZE_RIPEMD128		64
+#define HASH_BLOCK_SIZE_RIPEMD160		64
+/* Prototypes */
+unsigned char *hash_buffer_ripemd128(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_ripemd128(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_ripemd160(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_ripemd160(unsigned char *out, FILE *fp);
 /********************/
 /* Common Interface */
 /********************/
