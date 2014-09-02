@@ -4,14 +4,14 @@ LDFLAGS=-lpsec `cat ../.libs`
 all:
 	/bin/sh -c 'if [ -e ../.lgmp ]; then ${CC} -o ke_dh ke_dh.c ${LDFLAGS}; fi'
 	/bin/sh -c 'if [ -e ../.lcrypt ]; then ${CC} -o auth_shadow auth_shadow.c ${LDFLAGS}; fi'
-	${CC} -o base16_decode base16_decode.c ${LDFLAGS}
-	${CC} -o base16_decode_small_buf base16_decode_small_buf.c ${LDFLAGS}
-	${CC} -o base16_encode base16_encode.c ${LDFLAGS}
-	${CC} -o base16_encode_small_buf base16_encode_small_buf.c ${LDFLAGS}
-	${CC} -o base64_decode base64_decode.c ${LDFLAGS}
-	${CC} -o base64_decode_small_buf base64_decode_small_buf.c ${LDFLAGS}
-	${CC} -o base64_encode base64_encode.c ${LDFLAGS}
-	${CC} -o base64_encode_small_buf base64_encode_small_buf.c ${LDFLAGS}
+	${CC} -o encode_base16 encode_base16.c ${LDFLAGS}
+	${CC} -o encode_base16_small_buf encode_base16_small_buf.c ${LDFLAGS}
+	${CC} -o encode_base64 encode_base64.c ${LDFLAGS}
+	${CC} -o encode_base64_small_buf encode_base64_small_buf.c ${LDFLAGS}
+	${CC} -o decode_base16 decode_base16.c ${LDFLAGS}
+	${CC} -o decode_base16_small_buf decode_base16_small_buf.c ${LDFLAGS}
+	${CC} -o decode_base64 decode_base64.c ${LDFLAGS}
+	${CC} -o decode_base64_small_buf decode_base64_small_buf.c ${LDFLAGS}
 	${CC} -o crypt_aes128cbc crypt_aes128cbc.c ${LDFLAGS}
 	${CC} -o crypt_aes128ecb crypt_aes128ecb.c ${LDFLAGS}
 	${CC} -o crypt_aes192cbc crypt_aes192cbc.c ${LDFLAGS}
@@ -23,6 +23,8 @@ all:
 	${CC} -o crypt_otp crypt_otp.c ${LDFLAGS}
 	${CC} -o crypt_xsalsa20 crypt_xsalsa20.c ${LDFLAGS}
 	${CC} -o crypt_xsalsa20poly1305 crypt_xsalsa20poly1305.c ${LDFLAGS}
+	${CC} -o generate_random generate_random.c ${LDFLAGS}
+	${CC} -o generate_random_dict generate_random_dict.c ${LDFLAGS}
 	${CC} -o hash_blake2b_buffer hash_blake2b_buffer.c ${LDFLAGS}
 	${CC} -o hash_blake2s_buffer hash_blake2s_buffer.c ${LDFLAGS}
 	${CC} -o hash_blake2s_file hash_blake2s_file.c ${LDFLAGS}
@@ -38,13 +40,11 @@ all:
 	${CC} -o hash_sha512_buffer hash_sha512_buffer.c ${LDFLAGS}
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
 	${CC} -o hmac_sha512 hmac_sha512.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_sha1 kdf_pbkdf2_sha1.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_sha1_alloc kdf_pbkdf2_sha1_alloc.c ${LDFLAGS}
 	${CC} -o ke_dheke ke_dheke.c ${LDFLAGS}
 	${CC} -o ke_ecdh ke_ecdh.c ${LDFLAGS}
 	${CC} -o ke_pankake ke_pankake.c ${LDFLAGS}
-	${CC} -o pbkdf2_alloc pbkdf2_alloc.c ${LDFLAGS}
-	${CC} -o pbkdf2 pbkdf2.c ${LDFLAGS}
-	${CC} -o random random.c ${LDFLAGS}
-	${CC} -o random_dict random_dict.c ${LDFLAGS}
 	${CC} -o tc_memcmp tc_memcmp.c ${LDFLAGS}
 	${CC} -o tc_memcpy tc_memcpy.c ${LDFLAGS}
 	${CC} -o tc_memmove tc_memmove.c ${LDFLAGS}
@@ -52,14 +52,14 @@ all:
 
 clean:
 	rm -f auth_shadow
-	rm -f base16_decode
-	rm -f base16_decode_small_buf
-	rm -f base16_encode
-	rm -f base16_encode_small_buf
-	rm -f base64_decode
-	rm -f base64_decode_small_buf
-	rm -f base64_encode
-	rm -f base64_encode_small_buf
+	rm -f encode_base16
+	rm -f encode_base16_small_buf
+	rm -f encode_base64
+	rm -f encode_base64_small_buf
+	rm -f decode_base16
+	rm -f decode_base16_small_buf
+	rm -f decode_base64
+	rm -f decode_base64_small_buf
 	rm -f crypt_aes128cbc
 	rm -f crypt_aes128ecb
 	rm -f crypt_aes192cbc
@@ -71,6 +71,8 @@ clean:
 	rm -f crypt_otp
 	rm -f crypt_xsalsa20
 	rm -f crypt_xsalsa20poly1305
+	rm -f generate_random
+	rm -f generate_random_dict
 	rm -f hash_blake2b_buffer
 	rm -f hash_blake2s_buffer
 	rm -f hash_blake2s_file
@@ -86,14 +88,12 @@ clean:
 	rm -f hash_sha512_buffer
 	rm -f hmac_md5
 	rm -f hmac_sha512
+	rm -f kdf_pbkdf2_sha1_alloc
+	rm -f kdf_pbkdf2_sha1
 	rm -f ke_dh 
 	rm -f ke_dheke
 	rm -f ke_ecdh 
 	rm -f ke_pankake
-	rm -f pbkdf2_alloc
-	rm -f pbkdf2
-	rm -f random
-	rm -f random_dict
 	rm -f tc_memcmp
 	rm -f tc_memcpy
 	rm -f tc_memmove
