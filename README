@@ -1,3 +1,40 @@
 1. Notes
 
  - This project is on its alpha stage of development.
+
+2. Latest Supported Modules
+
+      auth/shadow support:	OK
+
+        crypt/aes support:	OK
+     crypt/chacha support:	OK
+        crypt/otp support:	OK
+   crypt/xsalsa20 support:	OK
+
+    decode/base16 support:	OK
+    decode/base64 support:	OK
+
+    encode/base16 support:	OK
+    encode/base64 support:	OK
+
+  generate/random support:	OK
+
+      hash/blake2 support:	OK
+         hash/md4 support:	OK
+         hash/md5 support:	OK
+     hash/ripemd* support:	OK
+        hash/sha* support:	OK
+   hash/whirlpool support:	OK
+
+       kdf/pbkdf2 support:	OK
+
+            ke/dh support:	OK
+         ke/dheke support:	OK
+          ke/ecdh support:	OK
+       ke/pankake support:	OK
+
+         mac/hmac support:	OK
+     mac/poly1305 support:	OK
+
+           tc/mem support:	OK
+
