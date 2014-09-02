@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH Low Level interface 
  *
- * Date: 02-09-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -171,5 +171,18 @@ int hash_low_sha512_update(psec_low_hash_t *context, const unsigned char *in, si
 
 int hash_low_sha512_final(psec_low_hash_t *context, unsigned char *out) {
 	return sha512_low_final(&context->sha512, out);
+}
+
+/* WHIRLPOOL Interface */
+int hash_low_whirlpool_init(psec_low_hash_t *context) {
+	return whirlpool_low_init(&context->whirlpool);
+}
+
+int hash_low_whirlpool_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
+	return whirlpool_low_update(&context->whirlpool, in, in_len);
+}
+
+int hash_low_whirlpool_final(psec_low_hash_t *context, unsigned char *out) {
+	return whirlpool_low_final(&context->whirlpool, out);
 }
 

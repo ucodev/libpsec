@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH Low Level interface header
  *
- * Date: 02-09-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -37,6 +37,7 @@
 #include "md5/low.h"
 #include "ripemd/low.h"
 #include "sha/low.h"
+#include "whirlpool/low.h"
 
 /* Type definitions */
 typedef union {
@@ -51,6 +52,7 @@ typedef union {
 	SHA256Context sha256;
 	SHA384Context sha384;
 	SHA512Context sha512;
+	struct NESSIEstruct whirlpool;
 } psec_low_hash_t;
 
 /* Prototypes */
@@ -98,6 +100,10 @@ int hash_low_sha384_final(psec_low_hash_t *context, unsigned char *out);
 int hash_low_sha512_init(psec_low_hash_t *context);
 int hash_low_sha512_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
 int hash_low_sha512_final(psec_low_hash_t *context, unsigned char *out);
+/* WHIRLPOOL Interface */
+int hash_low_whirlpool_init(psec_low_hash_t *context);
+int hash_low_whirlpool_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_whirlpool_final(psec_low_hash_t *context, unsigned char *out);
 
 #endif
 

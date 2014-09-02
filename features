@@ -59,6 +59,8 @@ fi
 "     hash/ripemd* support:\tOK"
 /bin/echo -e \
 "        hash/sha* support:\tOK"
+/bin/echo -e \
+"   hash/whirlpool support:\tOK"
 
 # KDF support
 /bin/echo -ne "\n"

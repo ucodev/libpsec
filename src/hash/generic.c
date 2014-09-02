@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH interface 
  *
- * Date: 02-09-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -34,6 +34,7 @@
 #include "hash/md5/generic.h"
 #include "hash/ripemd/generic.h"
 #include "hash/sha/generic.h"
+#include "hash/whirlpool/generic.h"
 
 #include "hash.h"
 
@@ -127,6 +128,15 @@ unsigned char *hash_buffer_blake2s(unsigned char *out, const unsigned char *in, 
 
 unsigned char *hash_file_blake2s(unsigned char *out, FILE *fp) {
 	return blake2s_file(out, fp);
+}
+
+/* WHIRLPOOL Interface */
+unsigned char *hash_buffer_whirlpool(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return whirlpool_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_whirlpool(unsigned char *out, FILE *fp) {
+	return whirlpool_file(out, fp);
 }
 
 /* Generic */

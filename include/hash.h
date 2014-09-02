@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH interface header
  *
- * Date: 02-09-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -95,6 +95,15 @@ unsigned char *hash_buffer_ripemd128(unsigned char *out, const unsigned char *in
 unsigned char *hash_file_ripemd128(unsigned char *out, FILE *fp);
 unsigned char *hash_buffer_ripemd160(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *hash_file_ripemd160(unsigned char *out, FILE *fp);
+/***********************/
+/* WHIRLPOOL Interface */
+/***********************/
+/* Digest sizes */
+#define HASH_DIGEST_SIZE_WHIRLPOOL		64
+#define HASH_BLOCK_SIZE_WHIRLPOOL		64
+/* Prototypes */
+unsigned char *hash_buffer_whirlpool(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_whirlpool(unsigned char *out, FILE *fp);
 /********************/
 /* Common Interface */
 /********************/

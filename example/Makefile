@@ -42,6 +42,8 @@ all:
 	${CC} -o hash_sha256_buffer hash_sha256_buffer.c ${LDFLAGS}
 	${CC} -o hash_sha384_buffer hash_sha384_buffer.c ${LDFLAGS}
 	${CC} -o hash_sha512_buffer hash_sha512_buffer.c ${LDFLAGS}
+	${CC} -o hash_whirlpool_buffer hash_whirlpool_buffer.c ${LDFLAGS}
+	${CC} -o hash_whirlpool_file hash_whirlpool_file.c ${LDFLAGS}
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
 	${CC} -o hmac_sha512 hmac_sha512.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha1 kdf_pbkdf2_sha1.c ${LDFLAGS}
@@ -94,6 +96,8 @@ clean:
 	rm -f hash_sha256_buffer
 	rm -f hash_sha384_buffer
 	rm -f hash_sha512_buffer
+	rm -f hash_whirlpool_buffer
+	rm -f hash_whirlpool_file
 	rm -f hmac_md5
 	rm -f hmac_sha512
 	rm -f kdf_pbkdf2_sha1_alloc
