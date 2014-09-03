@@ -113,21 +113,38 @@ unsigned char *hash_file_sha512(unsigned char *out, FILE *fp) {
 	return sha512_file(out, fp);
 }
 
+/* Keyed Blake2 Interface */
+unsigned char *hash_buffer_blake2b_key(unsigned char *out, const unsigned char *in, size_t in_len, const unsigned char *key, size_t key_len) {
+	return blake2b_buffer(out, in, in_len, key, key_len);
+}
+
+unsigned char *hash_file_blake2b_key(unsigned char *out, FILE *fp, const unsigned char *key, size_t key_len) {
+	return blake2b_file(out, fp, key, key_len);
+}
+
+unsigned char *hash_buffer_blake2s_key(unsigned char *out, const unsigned char *in, size_t in_len, const unsigned char *key, size_t key_len) {
+	return blake2s_buffer(out, in, in_len, key, key_len);
+}
+
+unsigned char *hash_file_blake2s_key(unsigned char *out, FILE *fp, const unsigned char *key, size_t key_len) {
+	return blake2s_file(out, fp, key, key_len);
+}
+
 /* Blake2 Interface */
 unsigned char *hash_buffer_blake2b(unsigned char *out, const unsigned char *in, size_t in_len) {
-	return blake2b_buffer(out, in, in_len);
+	return blake2b_buffer(out, in, in_len, NULL, 0);
 }
 
 unsigned char *hash_file_blake2b(unsigned char *out, FILE *fp) {
-	return blake2b_file(out, fp);
+	return blake2b_file(out, fp, NULL, 0);
 }
 
 unsigned char *hash_buffer_blake2s(unsigned char *out, const unsigned char *in, size_t in_len) {
-	return blake2s_buffer(out, in, in_len);
+	return blake2s_buffer(out, in, in_len, NULL, 0);
 }
 
 unsigned char *hash_file_blake2s(unsigned char *out, FILE *fp) {
-	return blake2s_file(out, fp);
+	return blake2s_file(out, fp, NULL, 0);
 }
 
 /* WHIRLPOOL Interface */

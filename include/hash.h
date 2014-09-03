@@ -40,6 +40,10 @@
 #define HASH_BLOCK_SIZE_BLAKE2B		128
 #define HASH_BLOCK_SIZE_BLAKE2S		64
 /* Prototypes */
+unsigned char *hash_buffer_blake2b_key(unsigned char *out, const unsigned char *in, size_t in_len, const unsigned char *key, size_t key_len);
+unsigned char *hash_buffer_blake2s_key(unsigned char *out, const unsigned char *in, size_t in_len, const unsigned char *key, size_t key_len);
+unsigned char *hash_file_blake2b_key(unsigned char *out, FILE *fp, const unsigned char *key, size_t key_len);
+unsigned char *hash_file_blake2s_key(unsigned char *out, FILE *fp, const unsigned char *key, size_t key_len);
 unsigned char *hash_buffer_blake2b(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *hash_buffer_blake2s(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *hash_file_blake2b(unsigned char *out, FILE *fp);

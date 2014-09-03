@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH [Blake2] generic interface
  *
- * Date: 02-08-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -34,9 +34,22 @@
 #include "hash/blake2/blake2.h"
 
 /* Blake2b Generic Interface */
-unsigned char *blake2b_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
+unsigned char *blake2b_buffer(
+	unsigned char *out,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *key,
+	size_t key_len)
+{
 	blake2b_state blake2b;
 	unsigned char *digest = NULL;
+
+	blake2b_init(&blake2b, BLAKE2B_OUTBYTES);
+
+	if (key) {
+		if (blake2b_init_key(&blake2b, BLAKE2B_OUTBYTES, key, key_len) < 0)
+			return NULL;
+	}
 
 	if (!out) {
 		if (!(digest = malloc(BLAKE2B_HASH_DIGEST_SIZE)))
@@ -45,20 +58,24 @@ unsigned char *blake2b_buffer(unsigned char *out, const unsigned char *in, size_
 		digest = out;
 	}
 
-	blake2b_init(&blake2b, BLAKE2B_OUTBYTES);
 	blake2b_update(&blake2b, (const uint8_t *) in, in_len);
 	blake2b_final(&blake2b, (uint8_t *) digest, BLAKE2B_OUTBYTES);
 
 	return digest;
 }
 
-unsigned char *blake2b_file(unsigned char *out, FILE *fp) {
+unsigned char *blake2b_file(unsigned char *out, FILE *fp, const unsigned char *key, size_t key_len) {
 	blake2b_state blake2b;
 	size_t ret = 0;
 	int errsv = 0;
 	unsigned char buf[8192], *digest = NULL;
 
 	blake2b_init(&blake2b, BLAKE2B_OUTBYTES);
+
+	if (key) {
+		if (blake2b_init_key(&blake2b, BLAKE2B_OUTBYTES, key, key_len) < 0)
+			return NULL;
+	}
 
 	for (;;) {
 		ret = fread(buf, 1, 8192, fp);
@@ -88,9 +105,22 @@ unsigned char *blake2b_file(unsigned char *out, FILE *fp) {
 }
 
 /* Blake2s Generic Interface */
-unsigned char *blake2s_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
+unsigned char *blake2s_buffer(
+	unsigned char *out,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *key,
+	size_t key_len)
+{
 	blake2s_state blake2s;
 	unsigned char *digest = NULL;
+
+	blake2s_init(&blake2s, BLAKE2S_OUTBYTES);
+
+	if (key) {
+		if (blake2s_init_key(&blake2s, BLAKE2S_OUTBYTES, key, key_len) < 0)
+			return NULL;
+	}
 
 	if (!out) {
 		if (!(digest = malloc(BLAKE2S_HASH_DIGEST_SIZE)))
@@ -99,20 +129,24 @@ unsigned char *blake2s_buffer(unsigned char *out, const unsigned char *in, size_
 		digest = out;
 	}
 
-	blake2s_init(&blake2s, BLAKE2S_OUTBYTES);
 	blake2s_update(&blake2s, (const uint8_t *) in, in_len);
 	blake2s_final(&blake2s, (uint8_t *) digest, BLAKE2S_OUTBYTES);
 
 	return digest;
 }
 
-unsigned char *blake2s_file(unsigned char *out, FILE *fp) {
+unsigned char *blake2s_file(unsigned char *out, FILE *fp, const unsigned char *key, size_t key_len) {
 	blake2s_state blake2s;
 	size_t ret = 0;
 	int errsv = 0;
 	unsigned char buf[8192], *digest = NULL;
 
 	blake2s_init(&blake2s, BLAKE2S_OUTBYTES);
+
+	if (key) {
+		if (blake2s_init_key(&blake2s, BLAKE2S_OUTBYTES, key, key_len) < 0)
+			return NULL;
+	}
 
 	for (;;) {
 		ret = fread(buf, 1, 8192, fp);

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH [BLAKE2] generic interface header
  *
- * Date: 02-08-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -34,18 +34,18 @@
 
 /* Definitions */
 #define BLAKE2B_HASH_DIGEST_SIZE	64
-#define BLAKE2S_HASH_DIGEST_SIZE	64
+#define BLAKE2S_HASH_DIGEST_SIZE	32
 #define BLAKE2B_HASH_BLOCK_SIZE		128
-#define BLAKE2S_HASH_BLOCK_SIZE		128
+#define BLAKE2S_HASH_BLOCK_SIZE		64
 
 /* Prototypes */
 
 /* Blake2b Generic Interface */
-unsigned char *blake2b_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
-unsigned char *blake2b_file(unsigned char *out, FILE *fp);
+unsigned char *blake2b_buffer(unsigned char *out, const unsigned char *in, size_t in_len, const unsigned char *key, size_t key_len);
+unsigned char *blake2b_file(unsigned char *out, FILE *fp, const unsigned char *key, size_t key_len);
 /* Blake2s Generic Interface */
-unsigned char *blake2s_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
-unsigned char *blake2s_file(unsigned char *out, FILE *fp);
+unsigned char *blake2s_buffer(unsigned char *out, const unsigned char *in, size_t in_len, const unsigned char *key, size_t key_len);
+unsigned char *blake2s_file(unsigned char *out, FILE *fp, const unsigned char *key, size_t key_len);
 
 
 #endif

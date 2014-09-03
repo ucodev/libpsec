@@ -27,6 +27,7 @@ all:
 	${CC} -o generate_random_dict generate_random_dict.c ${LDFLAGS}
 	${CC} -o hash_blake2b_buffer hash_blake2b_buffer.c ${LDFLAGS}
 	${CC} -o hash_blake2s_buffer hash_blake2s_buffer.c ${LDFLAGS}
+	${CC} -o hash_blake2s_buffer_key hash_blake2s_buffer_key.c ${LDFLAGS}
 	${CC} -o hash_blake2s_file hash_blake2s_file.c ${LDFLAGS}
 	${CC} -o hash_md4_buffer hash_md4_buffer.c ${LDFLAGS}
 	${CC} -o hash_md5_buffer hash_md5_buffer.c ${LDFLAGS}
@@ -81,6 +82,7 @@ clean:
 	rm -f generate_random_dict
 	rm -f hash_blake2b_buffer
 	rm -f hash_blake2s_buffer
+	rm -f hash_blake2s_buffer_key
 	rm -f hash_blake2s_file
 	rm -f hash_md4_buffer
 	rm -f hash_md5_buffer
