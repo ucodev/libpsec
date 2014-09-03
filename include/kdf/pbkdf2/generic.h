@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH [MD4] generic interface header
  *
- * Date: 02-08-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -35,7 +35,7 @@
 /* Prototypes */
 unsigned char *pbkdf2_hash(
 	unsigned char *out,
-	unsigned char *(hash) (unsigned char *out, const unsigned char *in, size_t in_len),
+	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
 	size_t hash_len,
 	size_t hash_block_size,
 	const unsigned char *pw,

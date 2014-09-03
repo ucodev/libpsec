@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Password-Based Key Derivation Function 2 interface 
  *
- * Date: 01-09-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -35,12 +35,13 @@
 
 #include <arpa/inet.h>
 
+#include "hash.h"
 #include "mac.h"
 #include "tc.h"
 
 static unsigned char *_f_hash(
 	unsigned char *out,
-	unsigned char *(hash) (unsigned char *out, const unsigned char *in, size_t in_len),
+	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
 	size_t hash_len,
 	size_t hash_block_size,
 	const unsigned char *pw,
@@ -52,23 +53,15 @@ static unsigned char *_f_hash(
 {
 	int i = 0, j = 0, errsv = 0;
 	unsigned char *u = NULL;
-	unsigned char *out_tmp = NULL;
+	unsigned char out_tmp[HASH_DIGEST_SIZE_MAX];
 
 	if (!(u = malloc(hash_len + salt_len + 4)))
 		return NULL;
 	
-	if (!(out_tmp = malloc(hash_len))) {
-		errsv = errno;
-		free(u);
-		errno = errsv;
-		return NULL;
-	}
-
 	if (!out) {
 		if (!(out = malloc(hash_len))) {
 			errsv = errno;
 			free(u);
-			free(out_tmp);
 			errno = errsv;
 			return NULL;
 		}
@@ -77,13 +70,13 @@ static unsigned char *_f_hash(
 	tc_memcpy(u, salt, salt_len);
 	tc_memcpy(&u[salt_len], (uint32_t [1]) { htonl(iteration) }, 4);
 
-	mac_hmac_hash(out_tmp, hash, hash_len, hash_block_size, pw, pw_len, u, salt_len + 4);
+	hmac(out_tmp, pw, pw_len, u, salt_len + 4);
 
 	tc_memcpy(u, out_tmp, hash_len);
 	tc_memcpy(out, u, hash_len);
 
 	for (i = 1; i < iterations; i ++) {
-		mac_hmac_hash(out_tmp, hash, hash_len, hash_block_size, pw, pw_len, u, hash_len);
+		hmac(out_tmp, pw, pw_len, u, hash_len);
 
 		tc_memcpy(u, out_tmp, hash_len);
 
@@ -91,7 +84,6 @@ static unsigned char *_f_hash(
 			out[j] ^= u[j];
 	}
 
-	free(out_tmp);
 	free(u);
 
 	return out;
@@ -99,7 +91,7 @@ static unsigned char *_f_hash(
 
 unsigned char *pbkdf2_hash(
 	unsigned char *out,
-	unsigned char *(hash) (unsigned char *out, const unsigned char *in, size_t in_len),
+	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
 	size_t hash_len,
 	size_t hash_block_size,
 	const unsigned char *pw,
@@ -110,15 +102,11 @@ unsigned char *pbkdf2_hash(
 	size_t out_size)
 {
 	int i = 0, len = 0, errsv = 0, out_alloc = 0;
-	unsigned char *hash_tmp = NULL;
-
-	if (!(hash_tmp = malloc(hash_len)))
-		return NULL;
+	unsigned char hash_tmp[HASH_DIGEST_SIZE_MAX];
 
 	if (!out) {
 		if (!(out = malloc(out_size))) {
 			errsv = errno;
-			free(hash_tmp);
 			errno = errsv;
 			return NULL;
 		}
@@ -127,9 +115,8 @@ unsigned char *pbkdf2_hash(
 	}
 
 	for (i = 0, len = 0; (i * hash_len) < out_size; i ++) {
-		if (!_f_hash(hash_tmp, hash, hash_len, hash_block_size, pw, pw_len, salt, salt_len, iterations, i + 1)) {
+		if (!_f_hash(hash_tmp, hmac, hash_len, hash_block_size, pw, pw_len, salt, salt_len, iterations, i + 1)) {
 			errsv = errno;
-			free(hash_tmp);
 			if (out_alloc) free(out);
 			errno = errsv;
 			return NULL;
@@ -139,8 +126,6 @@ unsigned char *pbkdf2_hash(
 
 		tc_memcpy(&out[i * hash_len], hash_tmp, len);
 	}
-
-	free(hash_tmp);
 
 	return out;
 }

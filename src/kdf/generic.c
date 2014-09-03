@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Derivation Function interface 
  *
- * Date: 02-08-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -36,7 +36,7 @@
 /* PBKDF2 Interface */
 unsigned char *kdf_pbkdf2_hash(
 	unsigned char *out,
-	unsigned char *(hash) (unsigned char *out, const unsigned char *in, size_t in_len),
+	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
 	size_t hash_len,
 	size_t hash_block_size,
 	const unsigned char *pw,
@@ -46,7 +46,7 @@ unsigned char *kdf_pbkdf2_hash(
 	int iterations,
 	size_t out_size)
 {
-	return pbkdf2_hash(out, hash, hash_len, hash_block_size, pw, pw_len, salt, salt_len, iterations, out_size);
+	return pbkdf2_hash(out, hmac, hash_len, hash_block_size, pw, pw_len, salt, salt_len, iterations, out_size);
 }
 
 void kdf_destroy(unsigned char *digest) {

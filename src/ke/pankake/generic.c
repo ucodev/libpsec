@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exhange [PANKAKE] interface 
  *
- * Date: 01-09-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -35,6 +35,7 @@
 #include "hash.h"
 #include "kdf.h"
 #include "ke.h"
+#include "mac.h"
 #include "crypt.h"
 #include "tc.h"
 
@@ -62,7 +63,7 @@ unsigned char *pankake_client_init(
 	ke_ecdh_public(ctx->c_public, sizeof(ctx->c_public), ctx->private, sizeof(ctx->private));
 
 	/* Generate the password hash */
-	if (!kdf_pbkdf2_hash(ctx->pwhash, hash_buffer_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, (unsigned char *) password, strlen(password), salt, salt_len, rounds, HASH_DIGEST_SIZE_SHA512) < 0)
+	if (!kdf_pbkdf2_hash(ctx->pwhash, mac_hmac_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, (unsigned char *) password, strlen(password), salt, salt_len, rounds, HASH_DIGEST_SIZE_SHA512) < 0)
 		return NULL;
 
 	/* Re-hash the first half of the password hash */
@@ -296,7 +297,7 @@ int pankake_server_authorize(
 	pw_len = pw_payload[0];
 	
 	/* Generate the password hash */
-	if (!kdf_pbkdf2_hash(pwhash_c, hash_buffer_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, (unsigned char *) password, pw_len, salt, salt_len, rounds, HASH_DIGEST_SIZE_SHA512) < 0)
+	if (!kdf_pbkdf2_hash(pwhash_c, mac_hmac_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, (unsigned char *) password, pw_len, salt, salt_len, rounds, HASH_DIGEST_SIZE_SHA512) < 0)
 		return -1;
 
 	/* Compare hashes */
