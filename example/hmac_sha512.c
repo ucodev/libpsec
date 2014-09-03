@@ -10,7 +10,7 @@ int main(void) {
 	unsigned char digest[HASH_DIGEST_SIZE_SHA512], encoded_digest[(HASH_DIGEST_SIZE_SHA512 * 2) + 1];
 	size_t out_len = 0;
 
-	mac_hmac_hash(digest, hash_buffer_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, pass, sizeof(pass) - 1, msg, sizeof(msg) - 1);
+	mac_hmac_sha512(digest, pass, sizeof(pass) - 1, msg, sizeof(msg) - 1);
 	encode_buffer_base16(encoded_digest, &out_len, digest, HASH_DIGEST_SIZE_SHA512);
 
 	puts((char *) encoded_digest);

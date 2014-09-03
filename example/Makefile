@@ -45,8 +45,19 @@ all:
 	${CC} -o hash_sha512_buffer hash_sha512_buffer.c ${LDFLAGS}
 	${CC} -o hash_whirlpool_buffer hash_whirlpool_buffer.c ${LDFLAGS}
 	${CC} -o hash_whirlpool_file hash_whirlpool_file.c ${LDFLAGS}
+	${CC} -o hmac_generic hmac_generic.c ${LDFLAGS}
+	${CC} -o hmac_blake2b hmac_blake2b.c ${LDFLAGS}
+	${CC} -o hmac_blake2s hmac_blake2s.c ${LDFLAGS}
+	${CC} -o hmac_md4 hmac_md4.c ${LDFLAGS}
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
+	${CC} -o hmac_ripemd128 hmac_ripemd128.c ${LDFLAGS}
+	${CC} -o hmac_ripemd160 hmac_ripemd160.c ${LDFLAGS}
+	${CC} -o hmac_sha1 hmac_sha1.c ${LDFLAGS}
+	${CC} -o hmac_sha224 hmac_sha224.c ${LDFLAGS}
+	${CC} -o hmac_sha256 hmac_sha256.c ${LDFLAGS}
+	${CC} -o hmac_sha384 hmac_sha384.c ${LDFLAGS}
 	${CC} -o hmac_sha512 hmac_sha512.c ${LDFLAGS}
+	${CC} -o hmac_whirlpool hmac_whirlpool.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha1 kdf_pbkdf2_sha1.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha1_alloc kdf_pbkdf2_sha1_alloc.c ${LDFLAGS}
 	${CC} -o ke_dheke ke_dheke.c ${LDFLAGS}
@@ -100,8 +111,19 @@ clean:
 	rm -f hash_sha512_buffer
 	rm -f hash_whirlpool_buffer
 	rm -f hash_whirlpool_file
+	rm -f hmac_generic
+	rm -f hmac_blake2b
+	rm -f hmac_blake2s
+	rm -f hmac_md4
 	rm -f hmac_md5
+	rm -f hmac_ripemd128
+	rm -f hmac_ripemd160
+	rm -f hmac_sha1
+	rm -f hmac_sha224
+	rm -f hmac_sha256
+	rm -f hmac_sha384
 	rm -f hmac_sha512
+	rm -f hmac_whirlpool
 	rm -f kdf_pbkdf2_sha1_alloc
 	rm -f kdf_pbkdf2_sha1
 	rm -f ke_dh 

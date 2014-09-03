@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Message Authentication Code interface 
  *
- * Date: 21-08-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -34,7 +34,7 @@
 
 #include "mac.h"
 
-/* HMAC Interface */
+/* HMAC Generic Interface */
 unsigned char *mac_hmac_hash(
 	unsigned char *out,
 	unsigned char *(*hash) (unsigned char *out, const unsigned char *in, size_t in_len),
@@ -46,6 +46,131 @@ unsigned char *mac_hmac_hash(
 	size_t msg_len)
 {
 	return hmac_generic(out, hash, hash_len, hash_block_size, key, key_len, msg, msg_len);
+}
+
+/* HMAC BLAKE2 Interface */
+unsigned char *mac_hmac_blake2b(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_blake2b(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_blake2s(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_blake2s(out, key, key_len, msg, msg_len);
+}
+
+/* HMAC MD Interface */
+unsigned char *mac_hmac_md4(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_md4(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_md5(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_md5(out, key, key_len, msg, msg_len);
+}
+
+/* HMAC RIPEMD Interface */
+unsigned char *mac_hmac_ripemd128(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_ripemd128(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_ripemd160(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_ripemd160(out, key, key_len, msg, msg_len);
+}
+
+/* HMAC SHA Interface */
+unsigned char *mac_hmac_sha1(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_sha1(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_sha224(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_sha224(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_sha256(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_sha256(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_sha384(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_sha384(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_sha512(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_sha512(out, key, key_len, msg, msg_len);
+}
+
+/* HMAC RIPEMD Interface */
+unsigned char *mac_hmac_whirlpool(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_whirlpool(out, key, key_len, msg, msg_len);
 }
 
 /* Poly1305 Interface */

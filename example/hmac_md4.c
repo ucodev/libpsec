@@ -7,11 +7,11 @@
 int main(void) {
 	unsigned char msg[] = "test";
 	unsigned char pass[] = "test";
-	unsigned char digest[HASH_DIGEST_SIZE_MD5], encoded_digest[(HASH_DIGEST_SIZE_MD5 * 2) + 1];
+	unsigned char digest[HASH_DIGEST_SIZE_MD4], encoded_digest[(HASH_DIGEST_SIZE_MD4 * 2) + 1];
 	size_t out_len = 0;
 
-	mac_hmac_md5(digest, pass, sizeof(pass) - 1, msg, sizeof(msg) - 1);
-	encode_buffer_base16(encoded_digest, &out_len, digest, HASH_DIGEST_SIZE_MD5);
+	mac_hmac_md4(digest, pass, sizeof(pass) - 1, msg, sizeof(msg) - 1);
+	encode_buffer_base16(encoded_digest, &out_len, digest, HASH_DIGEST_SIZE_MD4);
 
 	puts((char *) encoded_digest);
 

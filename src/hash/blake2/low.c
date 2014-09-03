@@ -53,7 +53,7 @@ int blake2b_low_final(blake2b_state *context, unsigned char *out) {
 
 /* Blake2s Low Level Interface */
 int blake2s_low_init(blake2s_state *context) {
-	blake2s_init(context, BLAKE2B_OUTBYTES);
+	blake2s_init(context, BLAKE2S_OUTBYTES);
 
 	return 0;
 }

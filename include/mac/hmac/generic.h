@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Hash-based Message Authentication Code interface header
  *
- * Date: 03-08-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -33,11 +33,101 @@
 
 
 /* Prototypes */
+/**************************/
+/* HMAC Generic Interface */
+/**************************/
 unsigned char *hmac_generic(
 	unsigned char *out,
 	unsigned char *(*hash) (unsigned char *out, const unsigned char *in, size_t in_len),
 	size_t hash_len,
 	size_t hash_block_size,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+/*************************/
+/* HMAC BLAKE2 Interface */
+/*************************/
+unsigned char *hmac_blake2b(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *hmac_blake2s(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+/*********************/
+/* HMAC MD Interface */
+/*********************/
+unsigned char *hmac_md4(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *hmac_md5(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+/*************************/
+/* HMAC RIPEMD Interface */
+/*************************/
+unsigned char *hmac_ripemd128(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *hmac_ripemd160(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+/**********************/
+/* HMAC SHA Interface */
+/**********************/
+unsigned char *hmac_sha1(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *hmac_sha224(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *hmac_sha256(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *hmac_sha384(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *hmac_sha512(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+/****************************/
+/* HMAC WHIRLPOOL Interface */
+/****************************/
+unsigned char *hmac_whirlpool(
+	unsigned char *out,
 	const unsigned char *key,
 	size_t key_len,
 	const unsigned char *msg,

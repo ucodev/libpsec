@@ -111,8 +111,8 @@ unsigned char *hash_file_whirlpool(unsigned char *out, FILE *fp);
 /********************/
 /* Common Interface */
 /********************/
-#define HASH_BLOCK_SIZE_MAX		128
 #define HASH_DIGEST_SIZE_MAX		64
+#define HASH_BLOCK_SIZE_MAX		128
 void hash_destroy(unsigned char *digest);
 
 #endif
