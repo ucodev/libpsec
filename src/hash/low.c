@@ -35,6 +35,10 @@ int hash_low_blake2b_init(psec_low_hash_t *context) {
 	return blake2b_low_init(&context->blake2b);
 }
 
+int hash_low_blake2b_init_key(psec_low_hash_t *context, const unsigned char *key, size_t key_len) {
+	return blake2b_low_init_key(&context->blake2b, key, key_len);
+}
+
 int hash_low_blake2b_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
 	return blake2b_low_update(&context->blake2b, in, in_len);
 }
@@ -46,6 +50,10 @@ int hash_low_blake2b_final(psec_low_hash_t *context, unsigned char *out) {
 /* Blake2s Interface */
 int hash_low_blake2s_init(psec_low_hash_t *context) {
 	return blake2s_low_init(&context->blake2s);
+}
+
+int hash_low_blake2s_init_key(psec_low_hash_t *context, const unsigned char *key, size_t key_len) {
+	return blake2s_low_init_key(&context->blake2s, key, key_len);
 }
 
 int hash_low_blake2s_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH [Blake2] low level interface
  *
- * Date: 04-08-2014
+ * Date: 03-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -35,6 +35,10 @@ int blake2b_low_init(blake2b_state *context) {
 	return 0;
 }
 
+int blake2b_low_init_key(blake2b_state *context, const unsigned char *key, size_t key_len) {
+	return blake2b_init_key(context, BLAKE2B_OUTBYTES, key, key_len);
+}
+
 int blake2b_low_update(blake2b_state *context, const unsigned char *in, size_t in_len) {
 	blake2b_update(context, (const uint8_t *) in, in_len);
 
@@ -52,6 +56,10 @@ int blake2s_low_init(blake2s_state *context) {
 	blake2s_init(context, BLAKE2B_OUTBYTES);
 
 	return 0;
+}
+
+int blake2s_low_init_key(blake2s_state *context, const unsigned char *key, size_t key_len) {
+	return blake2s_init_key(context, BLAKE2S_OUTBYTES, key, key_len);
 }
 
 int blake2s_low_update(blake2s_state *context, const unsigned char *in, size_t in_len) {

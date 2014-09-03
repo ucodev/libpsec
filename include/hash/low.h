@@ -58,10 +58,12 @@ typedef union {
 /* Prototypes */
 /* Blake2b Interface */
 int hash_low_blake2b_init(psec_low_hash_t *context);
+int hash_low_blake2b_init_key(psec_low_hash_t *context, const unsigned char *key, size_t key_len);
 int hash_low_blake2b_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
 int hash_low_blake2b_final(psec_low_hash_t *context, unsigned char *out);
 /* Blake2s Interface */
 int hash_low_blake2s_init(psec_low_hash_t *context);
+int hash_low_blake2s_init_key(psec_low_hash_t *context, const unsigned char *key, size_t key_len);
 int hash_low_blake2s_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
 int hash_low_blake2s_final(psec_low_hash_t *context, unsigned char *out);
 /* MD4 Interface */
