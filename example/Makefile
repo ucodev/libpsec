@@ -68,8 +68,11 @@ all:
 	${CC} -o hmac_sha384 hmac_sha384.c ${LDFLAGS}
 	${CC} -o hmac_sha512 hmac_sha512.c ${LDFLAGS}
 	${CC} -o hmac_whirlpool hmac_whirlpool.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_generic kdf_pbkdf2_generic.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_generic_alloc kdf_pbkdf2_generic_alloc.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha1 kdf_pbkdf2_sha1.c ${LDFLAGS}
-	${CC} -o kdf_pbkdf2_sha1_alloc kdf_pbkdf2_sha1_alloc.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_sha224 kdf_pbkdf2_sha224.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_whirlpool kdf_pbkdf2_whirlpool.c ${LDFLAGS}
 	${CC} -o ke_dheke ke_dheke.c ${LDFLAGS}
 	${CC} -o ke_ecdh ke_ecdh.c ${LDFLAGS}
 	${CC} -o ke_pankake ke_pankake.c ${LDFLAGS}
@@ -109,6 +112,7 @@ clean:
 	rm -f hash_blake2s_buffer
 	rm -f hash_blake2s_buffer_key
 	rm -f hash_blake2s_file
+	rm -f hash_md2_buffer
 	rm -f hash_md4_buffer
 	rm -f hash_md5_buffer
 	rm -f hash_md5_buffer_alloc
@@ -132,6 +136,7 @@ clean:
 	rm -f hmac_blake512
 	rm -f hmac_blake2b
 	rm -f hmac_blake2s
+	rm -f hmac_md2
 	rm -f hmac_md4
 	rm -f hmac_md5
 	rm -f hmac_ripemd128
@@ -142,8 +147,11 @@ clean:
 	rm -f hmac_sha384
 	rm -f hmac_sha512
 	rm -f hmac_whirlpool
-	rm -f kdf_pbkdf2_sha1_alloc
+	rm -f kdf_pbkdf2_generic_alloc
+	rm -f kdf_pbkdf2_generic
 	rm -f kdf_pbkdf2_sha1
+	rm -f kdf_pbkdf2_sha224
+	rm -f kdf_pbkdf2_whirlpool
 	rm -f ke_dh 
 	rm -f ke_dheke
 	rm -f ke_ecdh 

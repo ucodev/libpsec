@@ -34,7 +34,7 @@
 #include "kdf.h"
 
 /* PBKDF2 Interface */
-unsigned char *kdf_pbkdf2_hash(
+unsigned char *kdf_pbkdf2_generic(
 	unsigned char *out,
 	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
 	size_t hash_len,

@@ -28,7 +28,7 @@ int main(void) {
 	memset(server_key_agreed, 'S', sizeof(server_key_agreed));
 
 	/* Create pwhash */
-	kdf_pbkdf2_hash(pwhash, mac_hmac_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, (unsigned char *) password, strlen(password), (unsigned char *) salt, strlen(salt), 5000, HASH_DIGEST_SIZE_SHA512);
+	kdf_pbkdf2_sha512(pwhash, (unsigned char *) password, strlen(password), (unsigned char *) salt, strlen(salt), 5000, HASH_DIGEST_SIZE_SHA512);
 
 	/* Initialize client authentication */
 	ke_pankake_client_init(client_session, client_context, password, (unsigned char *) salt, strlen(salt));

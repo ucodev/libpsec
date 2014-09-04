@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encrypted Key Exhange [DH EKE] interface 
  *
- * Date: 03-09-2014
+ * Date: 04-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -113,7 +113,7 @@ unsigned char *dheke_client_init(
 	}
 
 	/* Create a password hash matching the size of the public key */
-	if (!(ctx->pwhash = kdf_pbkdf2_hash(NULL, mac_hmac_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, pwd, pwd_len, salt, salt_len, pbkdf2_rounds, ctx->pwhash_len))) {
+	if (!(ctx->pwhash = kdf_pbkdf2_sha512(NULL, pwd, pwd_len, salt, salt_len, pbkdf2_rounds, ctx->pwhash_len))) {
 		errsv = errno;
 		_dheke_context_destroy(context);
 		errno = errsv;
@@ -186,7 +186,7 @@ unsigned char *dheke_server_init(
 	tc_memcpy(ctx->salt, salt, ctx->salt_len);
 
 	/* Create a password hash matching the size of the public key */
-	if (!(ctx->pwhash = kdf_pbkdf2_hash(NULL, mac_hmac_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, pwd, pwd_len, salt, salt_len, pbkdf2_rounds, ctx->pwhash_len))) {
+	if (!(ctx->pwhash = kdf_pbkdf2_sha512(NULL, pwd, pwd_len, salt, salt_len, pbkdf2_rounds, ctx->pwhash_len))) {
 		errsv = errno;
 		_dheke_context_destroy(context);
 		errno = errsv;

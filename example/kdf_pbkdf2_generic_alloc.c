@@ -11,7 +11,7 @@ int main(void) {
 	unsigned char *digest = NULL, *encoded_digest = NULL;
 	size_t out_len = 0;
 
-	digest = kdf_pbkdf2_hash(NULL, mac_hmac_sha1, HASH_DIGEST_SIZE_SHA1, HASH_BLOCK_SIZE_SHA1, pass, sizeof(pass) - 1, salt, sizeof(salt) - 1, 10, HASH_DIGEST_SIZE_SHA1);
+	digest = kdf_pbkdf2_generic(NULL, mac_hmac_sha1, HASH_DIGEST_SIZE_SHA1, HASH_BLOCK_SIZE_SHA1, pass, sizeof(pass) - 1, salt, sizeof(salt) - 1, 10, HASH_DIGEST_SIZE_SHA1);
 	encoded_digest = encode_buffer_base16(NULL, &out_len, digest, HASH_DIGEST_SIZE_SHA1);
 
 	puts((char *) encoded_digest);
