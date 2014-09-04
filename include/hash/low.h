@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH Low Level interface header
  *
- * Date: 03-09-2014
+ * Date: 04-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,6 +32,7 @@
 
 #include <stdint.h>
 
+#include "blake/low.h"
 #include "blake2/low.h"
 #include "md4/low.h"
 #include "md5/low.h"
@@ -41,6 +42,10 @@
 
 /* Type definitions */
 typedef union {
+	state224 blake224;
+	state256 blake256;
+	state384 blake384;
+	state512 blake512;
 	blake2b_state blake2b;
 	blake2s_state blake2s;
 	MD4_CTX md4;
@@ -56,6 +61,22 @@ typedef union {
 } psec_low_hash_t;
 
 /* Prototypes */
+/* BLAKE-224 Interface */
+int hash_low_blake224_init(psec_low_hash_t *context);
+int hash_low_blake224_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_blake224_final(psec_low_hash_t *context, unsigned char *out);
+/* BLAKE-256 Interface */
+int hash_low_blake256_init(psec_low_hash_t *context);
+int hash_low_blake256_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_blake256_final(psec_low_hash_t *context, unsigned char *out);
+/* BLAKE-384 Interface */
+int hash_low_blake384_init(psec_low_hash_t *context);
+int hash_low_blake384_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_blake384_final(psec_low_hash_t *context, unsigned char *out);
+/* BLAKE-512 Interface */
+int hash_low_blake512_init(psec_low_hash_t *context);
+int hash_low_blake512_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_blake512_final(psec_low_hash_t *context, unsigned char *out);
 /* Blake2b Interface */
 int hash_low_blake2b_init(psec_low_hash_t *context);
 int hash_low_blake2b_init_key(psec_low_hash_t *context, const unsigned char *key, size_t key_len);

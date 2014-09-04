@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH interface header
  *
- * Date: 03-09-2014
+ * Date: 04-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -31,10 +31,31 @@
 
 #include <stdio.h>
 
+/*******************/
+/* BLAKE Interface */
+/*******************/
+/* Digest sizes */
+#define HASH_DIGEST_SIZE_BLAKE224	28
+#define HASH_DIGEST_SIZE_BLAKE256	32
+#define HASH_DIGEST_SIZE_BLAKE384	48
+#define HASH_DIGEST_SIZE_BLAKE512	64
+#define HASH_BLOCK_SIZE_BLAKE224	64
+#define HASH_BLOCK_SIZE_BLAKE256	64
+#define HASH_BLOCK_SIZE_BLAKE384	128
+#define HASH_BLOCK_SIZE_BLAKE512	128
+/* Prototypes */
+unsigned char *hash_buffer_blake224(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_blake224(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_blake256(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_blake256(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_blake384(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_blake384(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_blake512(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_blake512(unsigned char *out, FILE *fp);
 /********************/
-/* Blake2 Interface */
+/* BLAKE2 Interface */
 /********************/
-/* DIgest sizes */
+/* Digest sizes */
 #define HASH_DIGEST_SIZE_BLAKE2B	64
 #define HASH_DIGEST_SIZE_BLAKE2S	32
 #define HASH_BLOCK_SIZE_BLAKE2B		128

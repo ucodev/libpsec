@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH Low Level interface 
  *
- * Date: 03-09-2014
+ * Date: 04-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -29,6 +29,58 @@
 #include <stdio.h>
 
 #include "hash/low.h"
+
+/* BLAKE-224 Interface */
+int hash_low_blake224_init(psec_low_hash_t *context) {
+	return blake224_low_init(&context->blake224);
+}
+
+int hash_low_blake224_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
+	return blake224_low_update(&context->blake224, in, in_len);
+}
+
+int hash_low_blake224_final(psec_low_hash_t *context, unsigned char *out) {
+	return blake224_low_final(&context->blake224, out);
+}
+
+/* BLAKE-256 Interface */
+int hash_low_blake256_init(psec_low_hash_t *context) {
+	return blake256_low_init(&context->blake256);
+}
+
+int hash_low_blake256_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
+	return blake256_low_update(&context->blake256, in, in_len);
+}
+
+int hash_low_blake256_final(psec_low_hash_t *context, unsigned char *out) {
+	return blake256_low_final(&context->blake256, out);
+}
+
+/* BLAKE-384 Interface */
+int hash_low_blake384_init(psec_low_hash_t *context) {
+	return blake384_low_init(&context->blake384);
+}
+
+int hash_low_blake384_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
+	return blake384_low_update(&context->blake384, in, in_len);
+}
+
+int hash_low_blake384_final(psec_low_hash_t *context, unsigned char *out) {
+	return blake384_low_final(&context->blake384, out);
+}
+
+/* BLAKE-512 Interface */
+int hash_low_blake512_init(psec_low_hash_t *context) {
+	return blake512_low_init(&context->blake512);
+}
+
+int hash_low_blake512_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
+	return blake512_low_update(&context->blake512, in, in_len);
+}
+
+int hash_low_blake512_final(psec_low_hash_t *context, unsigned char *out) {
+	return blake512_low_final(&context->blake512, out);
+}
 
 /* Blake2b Interface */
 int hash_low_blake2b_init(psec_low_hash_t *context) {

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Message Authentication Code interface 
  *
- * Date: 03-09-2014
+ * Date: 04-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -46,6 +46,47 @@ unsigned char *mac_hmac_hash(
 	size_t msg_len)
 {
 	return hmac_generic(out, hash, hash_len, hash_block_size, key, key_len, msg, msg_len);
+}
+
+/* HMAC BLAKE Interface */
+unsigned char *mac_hmac_blake224(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_blake224(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_blake256(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_blake256(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_blake384(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_blake384(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_blake512(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_blake512(out, key, key_len, msg, msg_len);
 }
 
 /* HMAC BLAKE2 Interface */

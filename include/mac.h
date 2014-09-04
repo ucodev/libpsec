@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        MAC interface header
  *
- * Date: 03-09-2014
+ * Date: 04-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -40,6 +40,33 @@ unsigned char *mac_hmac_hash(
 	unsigned char *(*hash) (unsigned char *out, const unsigned char *in, size_t in_len),
 	size_t hash_len,
 	size_t hash_block_size,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+/************************/
+/* HMAC BLAKE Interface */
+/************************/
+unsigned char *mac_hmac_blake224(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *mac_hmac_blake256(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *mac_hmac_blake384(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *mac_hmac_blake512(
+	unsigned char *out,
 	const unsigned char *key,
 	size_t key_len,
 	const unsigned char *msg,

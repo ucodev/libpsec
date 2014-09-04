@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Hash-based Message Authentication Code interface 
  *
- * Date: 03-09-2014
+ * Date: 04-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,6 +32,7 @@
 #include <stdlib.h>
 
 #include "hash/low.h"
+#include "hash/blake/low.h"
 #include "hash/blake2/low.h"
 #include "hash/md4/low.h"
 #include "hash/md5/low.h"
@@ -148,6 +149,46 @@ unsigned char *hmac_generic(
 
 	/* Return result */
 	return out;
+}
+
+unsigned char *hmac_blake224(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_blake224, hash_low_blake224_init, hash_low_blake224_update, hash_low_blake224_final, HASH_BLOCK_SIZE_BLAKE224, HASH_DIGEST_SIZE_BLAKE224, out, key, key_len, msg, msg_len);
+}
+
+unsigned char *hmac_blake256(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_blake256, hash_low_blake256_init, hash_low_blake256_update, hash_low_blake256_final, HASH_BLOCK_SIZE_BLAKE256, HASH_DIGEST_SIZE_BLAKE256, out, key, key_len, msg, msg_len);
+}
+
+unsigned char *hmac_blake384(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_blake384, hash_low_blake384_init, hash_low_blake384_update, hash_low_blake384_final, HASH_BLOCK_SIZE_BLAKE384, HASH_DIGEST_SIZE_BLAKE384, out, key, key_len, msg, msg_len);
+}
+
+unsigned char *hmac_blake512(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_blake512, hash_low_blake512_init, hash_low_blake512_update, hash_low_blake512_final, HASH_BLOCK_SIZE_BLAKE512, HASH_DIGEST_SIZE_BLAKE512, out, key, key_len, msg, msg_len);
 }
 
 unsigned char *hmac_blake2b(

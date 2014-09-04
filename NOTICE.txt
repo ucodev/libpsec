@@ -22,6 +22,7 @@
 	- Samuel Neves - BLAKE2p, BLAKE2s
 	- Antoon Bosselaers & Bart Preneel - RIPEMD-128, RIPEMD-160
 	- Vincent Rijmen & Paulo S. L. M. Barreto - WHIRLPOOL
+	- Jean-Philippe Aumasson - BLAKE
 
    There is no intention to promote the libpsec by stating the
    persons or entities described in the paragraph above, as the

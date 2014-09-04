@@ -50,6 +50,8 @@ fi
 /bin/echo -ne "\n"
 
 /bin/echo -e \
+"       hash/blake support:\tOK"
+/bin/echo -e \
 "      hash/blake2 support:\tOK"
 /bin/echo -e \
 "         hash/md4 support:\tOK"

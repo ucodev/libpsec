@@ -25,6 +25,10 @@ all:
 	${CC} -o crypt_xsalsa20poly1305 crypt_xsalsa20poly1305.c ${LDFLAGS}
 	${CC} -o generate_random generate_random.c ${LDFLAGS}
 	${CC} -o generate_random_dict generate_random_dict.c ${LDFLAGS}
+	${CC} -o hash_blake224_buffer hash_blake224_buffer.c ${LDFLAGS}
+	${CC} -o hash_blake256_buffer hash_blake256_buffer.c ${LDFLAGS}
+	${CC} -o hash_blake384_buffer hash_blake384_buffer.c ${LDFLAGS}
+	${CC} -o hash_blake512_buffer hash_blake512_buffer.c ${LDFLAGS}
 	${CC} -o hash_blake2b_buffer hash_blake2b_buffer.c ${LDFLAGS}
 	${CC} -o hash_blake2s_buffer hash_blake2s_buffer.c ${LDFLAGS}
 	${CC} -o hash_blake2s_buffer_key hash_blake2s_buffer_key.c ${LDFLAGS}
@@ -46,6 +50,10 @@ all:
 	${CC} -o hash_whirlpool_buffer hash_whirlpool_buffer.c ${LDFLAGS}
 	${CC} -o hash_whirlpool_file hash_whirlpool_file.c ${LDFLAGS}
 	${CC} -o hmac_generic hmac_generic.c ${LDFLAGS}
+	${CC} -o hmac_blake224 hmac_blake224.c ${LDFLAGS}
+	${CC} -o hmac_blake256 hmac_blake256.c ${LDFLAGS}
+	${CC} -o hmac_blake384 hmac_blake384.c ${LDFLAGS}
+	${CC} -o hmac_blake512 hmac_blake512.c ${LDFLAGS}
 	${CC} -o hmac_blake2b hmac_blake2b.c ${LDFLAGS}
 	${CC} -o hmac_blake2s hmac_blake2s.c ${LDFLAGS}
 	${CC} -o hmac_md4 hmac_md4.c ${LDFLAGS}
@@ -91,6 +99,10 @@ clean:
 	rm -f crypt_xsalsa20poly1305
 	rm -f generate_random
 	rm -f generate_random_dict
+	rm -f hash_blake224_buffer
+	rm -f hash_blake256_buffer
+	rm -f hash_blake384_buffer
+	rm -f hash_blake512_buffer
 	rm -f hash_blake2b_buffer
 	rm -f hash_blake2s_buffer
 	rm -f hash_blake2s_buffer_key
@@ -112,6 +124,10 @@ clean:
 	rm -f hash_whirlpool_buffer
 	rm -f hash_whirlpool_file
 	rm -f hmac_generic
+	rm -f hmac_blake224
+	rm -f hmac_blake256
+	rm -f hmac_blake384
+	rm -f hmac_blake512
 	rm -f hmac_blake2b
 	rm -f hmac_blake2s
 	rm -f hmac_md4

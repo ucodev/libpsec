@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH interface 
  *
- * Date: 03-09-2014
+ * Date: 04-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "hash/blake/generic.h"
 #include "hash/blake2/generic.h"
 #include "hash/md4/generic.h"
 #include "hash/md5/generic.h"
@@ -111,6 +112,39 @@ unsigned char *hash_buffer_sha512(unsigned char *out, const unsigned char *in, s
 
 unsigned char *hash_file_sha512(unsigned char *out, FILE *fp) {
 	return sha512_file(out, fp);
+}
+
+/* BLAKE Interface */
+unsigned char *hash_buffer_blake224(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return blake224_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_blake224(unsigned char *out, FILE *fp) {
+	return blake224_file(out, fp);
+}
+
+unsigned char *hash_buffer_blake256(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return blake256_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_blake256(unsigned char *out, FILE *fp) {
+	return blake256_file(out, fp);
+}
+
+unsigned char *hash_buffer_blake384(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return blake384_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_blake384(unsigned char *out, FILE *fp) {
+	return blake384_file(out, fp);
+}
+
+unsigned char *hash_buffer_blake512(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return blake512_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_blake512(unsigned char *out, FILE *fp) {
+	return blake512_file(out, fp);
 }
 
 /* Keyed Blake2 Interface */
