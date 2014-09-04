@@ -98,11 +98,15 @@ unsigned char *hash_file_sha512(unsigned char *out, FILE *fp);
 /* MD Interface */
 /****************/
 /* Digest sizes */
+#define HASH_DIGEST_SIZE_MD2		16
 #define HASH_DIGEST_SIZE_MD4		16
 #define HASH_DIGEST_SIZE_MD5		16
+#define HASH_BLOCK_SIZE_MD2		16
 #define HASH_BLOCK_SIZE_MD4		64
 #define HASH_BLOCK_SIZE_MD5		64
 /* Prototypes */
+unsigned char *hash_buffer_md2(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_md2(unsigned char *out, FILE *fp);
 unsigned char *hash_buffer_md4(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *hash_file_md4(unsigned char *out, FILE *fp);
 unsigned char *hash_buffer_md5(unsigned char *out, const unsigned char *in, size_t in_len);

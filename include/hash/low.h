@@ -34,6 +34,7 @@
 
 #include "blake/low.h"
 #include "blake2/low.h"
+#include "md2/low.h"
 #include "md4/low.h"
 #include "md5/low.h"
 #include "ripemd/low.h"
@@ -48,6 +49,7 @@ typedef union {
 	state512 blake512;
 	blake2b_state blake2b;
 	blake2s_state blake2s;
+	MD2_CTX md2;
 	MD4_CTX md4;
 	MD5_CTX md5;
 	uint32_t ripemd128[4];
@@ -87,6 +89,10 @@ int hash_low_blake2s_init(psec_low_hash_t *context);
 int hash_low_blake2s_init_key(psec_low_hash_t *context, const unsigned char *key, size_t key_len);
 int hash_low_blake2s_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
 int hash_low_blake2s_final(psec_low_hash_t *context, unsigned char *out);
+/* MD2 Interface */
+int hash_low_md2_init(psec_low_hash_t *context);
+int hash_low_md2_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_md2_final(psec_low_hash_t *context, unsigned char *out);
 /* MD4 Interface */
 int hash_low_md4_init(psec_low_hash_t *context);
 int hash_low_md4_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);

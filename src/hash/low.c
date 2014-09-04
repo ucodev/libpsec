@@ -116,6 +116,19 @@ int hash_low_blake2s_final(psec_low_hash_t *context, unsigned char *out) {
 	return blake2s_low_final(&context->blake2s, out);
 }
 
+/* MD2 Interface */
+int hash_low_md2_init(psec_low_hash_t *context) {
+	return md2_low_init(&context->md2);
+}
+
+int hash_low_md2_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
+	return md2_low_update(&context->md2, in, in_len);
+}
+
+int hash_low_md2_final(psec_low_hash_t *context, unsigned char *out) {
+	return md2_low_final(&context->md2, out);
+}
+
 /* MD4 Interface */
 int hash_low_md4_init(psec_low_hash_t *context) {
 	return md4_low_init(&context->md4);

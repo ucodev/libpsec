@@ -90,6 +90,12 @@ unsigned char *hmac_blake2s(
 /*********************/
 /* HMAC MD Interface */
 /*********************/
+unsigned char *hmac_md2(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
 unsigned char *hmac_md4(
 	unsigned char *out,
 	const unsigned char *key,

@@ -111,6 +111,16 @@ unsigned char *mac_hmac_blake2s(
 }
 
 /* HMAC MD Interface */
+unsigned char *mac_hmac_md2(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_md2(out, key, key_len, msg, msg_len);
+}
+
 unsigned char *mac_hmac_md4(
 	unsigned char *out,
 	const unsigned char *key,

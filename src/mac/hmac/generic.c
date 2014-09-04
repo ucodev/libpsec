@@ -34,6 +34,7 @@
 #include "hash/low.h"
 #include "hash/blake/low.h"
 #include "hash/blake2/low.h"
+#include "hash/md2/low.h"
 #include "hash/md4/low.h"
 #include "hash/md5/low.h"
 #include "hash/ripemd/low.h"
@@ -209,6 +210,16 @@ unsigned char *hmac_blake2s(
 	size_t msg_len)
 {
 	return _hmac_hash_low_generic(hash_buffer_blake2s, hash_low_blake2s_init, hash_low_blake2s_update, hash_low_blake2s_final, HASH_BLOCK_SIZE_BLAKE2S, HASH_DIGEST_SIZE_BLAKE2S, out, key, key_len, msg, msg_len);
+}
+
+unsigned char *hmac_md2(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_md2, hash_low_md2_init, hash_low_md2_update, hash_low_md2_final, HASH_BLOCK_SIZE_MD2, HASH_DIGEST_SIZE_MD2, out, key, key_len, msg, msg_len);
 }
 
 unsigned char *hmac_md4(

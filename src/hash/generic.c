@@ -31,6 +31,7 @@
 
 #include "hash/blake/generic.h"
 #include "hash/blake2/generic.h"
+#include "hash/md2/generic.h"
 #include "hash/md4/generic.h"
 #include "hash/md5/generic.h"
 #include "hash/ripemd/generic.h"
@@ -40,6 +41,14 @@
 #include "hash.h"
 
 /* MD Interface */
+unsigned char *hash_buffer_md2(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return md2_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_md2(unsigned char *out, FILE *fp) {
+	return md2_file(out, fp);
+}
+
 unsigned char *hash_buffer_md4(unsigned char *out, const unsigned char *in, size_t in_len) {
 	return md4_buffer(out, in, in_len);
 }

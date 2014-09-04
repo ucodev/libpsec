@@ -33,6 +33,7 @@ all:
 	${CC} -o hash_blake2s_buffer hash_blake2s_buffer.c ${LDFLAGS}
 	${CC} -o hash_blake2s_buffer_key hash_blake2s_buffer_key.c ${LDFLAGS}
 	${CC} -o hash_blake2s_file hash_blake2s_file.c ${LDFLAGS}
+	${CC} -o hash_md2_buffer hash_md2_buffer.c ${LDFLAGS}
 	${CC} -o hash_md4_buffer hash_md4_buffer.c ${LDFLAGS}
 	${CC} -o hash_md5_buffer hash_md5_buffer.c ${LDFLAGS}
 	${CC} -o hash_md5_buffer_alloc hash_md5_buffer_alloc.c ${LDFLAGS}
@@ -56,6 +57,7 @@ all:
 	${CC} -o hmac_blake512 hmac_blake512.c ${LDFLAGS}
 	${CC} -o hmac_blake2b hmac_blake2b.c ${LDFLAGS}
 	${CC} -o hmac_blake2s hmac_blake2s.c ${LDFLAGS}
+	${CC} -o hmac_md2 hmac_md2.c ${LDFLAGS}
 	${CC} -o hmac_md4 hmac_md4.c ${LDFLAGS}
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
 	${CC} -o hmac_ripemd128 hmac_ripemd128.c ${LDFLAGS}
