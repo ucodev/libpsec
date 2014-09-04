@@ -70,8 +70,22 @@ all:
 	${CC} -o hmac_whirlpool hmac_whirlpool.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_generic kdf_pbkdf2_generic.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_generic_alloc kdf_pbkdf2_generic_alloc.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_blake224 kdf_pbkdf2_blake224.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_blake256 kdf_pbkdf2_blake256.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_blake384 kdf_pbkdf2_blake384.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_blake512 kdf_pbkdf2_blake512.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_blake2b kdf_pbkdf2_blake2b.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_blake2s kdf_pbkdf2_blake2s.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_md2 kdf_pbkdf2_md2.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_md4 kdf_pbkdf2_md4.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_md5 kdf_pbkdf2_md5.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_ripemd128 kdf_pbkdf2_ripemd128.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_ripemd160 kdf_pbkdf2_ripemd160.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha1 kdf_pbkdf2_sha1.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha224 kdf_pbkdf2_sha224.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_sha256 kdf_pbkdf2_sha256.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_sha384 kdf_pbkdf2_sha384.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_sha512 kdf_pbkdf2_sha512.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_whirlpool kdf_pbkdf2_whirlpool.c ${LDFLAGS}
 	${CC} -o ke_dheke ke_dheke.c ${LDFLAGS}
 	${CC} -o ke_ecdh ke_ecdh.c ${LDFLAGS}
@@ -149,8 +163,22 @@ clean:
 	rm -f hmac_whirlpool
 	rm -f kdf_pbkdf2_generic_alloc
 	rm -f kdf_pbkdf2_generic
+	rm -f kdf_pbkdf2_blake224
+	rm -f kdf_pbkdf2_blake256
+	rm -f kdf_pbkdf2_blake384
+	rm -f kdf_pbkdf2_blake512
+	rm -f kdf_pbkdf2_blake2b
+	rm -f kdf_pbkdf2_blake2s
+	rm -f kdf_pbkdf2_md2
+	rm -f kdf_pbkdf2_md4
+	rm -f kdf_pbkdf2_md5
+	rm -f kdf_pbkdf2_ripemd128
+	rm -f kdf_pbkdf2_ripemd160
 	rm -f kdf_pbkdf2_sha1
 	rm -f kdf_pbkdf2_sha224
+	rm -f kdf_pbkdf2_sha256
+	rm -f kdf_pbkdf2_sha384
+	rm -f kdf_pbkdf2_sha512
 	rm -f kdf_pbkdf2_whirlpool
 	rm -f ke_dh 
 	rm -f ke_dheke
