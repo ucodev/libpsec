@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        AES Encryption/Decryption interface 
  *
- * Date: 02-09-2014
+ * Date: 05-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -45,16 +45,20 @@ static unsigned char *_aes_generic(
 {
 	int out_alloc = 0;
 
+	*out_len = 0;
+
 	/* Set key */
-	if (oaes_key_import_data(ctx, key, key_len) != OAES_RET_SUCCESS) {
-		oaes_free(&ctx);
+	if (oaes_key_import_data(ctx, key, key_len) != OAES_RET_SUCCESS)
 		return NULL;
-	}
 
 	/* Get output size */
-	if (oaes_encrypt(ctx, in, in_len, NULL, out_len) != OAES_RET_SUCCESS) {
-		oaes_free(&ctx);
-		return NULL;
+	if (encrypt) {
+		if (oaes_encrypt(ctx, in, in_len, NULL, out_len) != OAES_RET_SUCCESS) {
+			return NULL;
+		}
+	} else {
+		if (oaes_decrypt(ctx, in, in_len, NULL, out_len) != OAES_RET_SUCCESS)
+			return NULL;
 	}
 
 	/* Allocate output memory if required */
@@ -68,13 +72,11 @@ static unsigned char *_aes_generic(
 	/* Encrypt/Decrypt message */
 	if (encrypt) {
 		if (oaes_encrypt(ctx, in, in_len, out, out_len) != OAES_RET_SUCCESS) {
-			oaes_free(&ctx);
 			if (out_alloc) free(out);
 			return NULL;
 		}
 	} else {
 		if (oaes_decrypt(ctx, in, in_len, out, out_len) != OAES_RET_SUCCESS) {
-			oaes_free(&ctx);
 			if (out_alloc) free(out);
 			return NULL;
 		}
