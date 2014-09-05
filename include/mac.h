@@ -86,6 +86,15 @@ unsigned char *mac_hmac_blake2s(
 	size_t key_len,
 	const unsigned char *msg,
 	size_t msg_len);
+/***********************/
+/* HMAC GOST Interface */
+/***********************/
+unsigned char *mac_hmac_gost(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
 /*********************/
 /* HMAC MD Interface */
 /*********************/

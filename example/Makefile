@@ -33,6 +33,7 @@ all:
 	${CC} -o hash_blake2s_buffer hash_blake2s_buffer.c ${LDFLAGS}
 	${CC} -o hash_blake2s_buffer_key hash_blake2s_buffer_key.c ${LDFLAGS}
 	${CC} -o hash_blake2s_file hash_blake2s_file.c ${LDFLAGS}
+	${CC} -o hash_gost_buffer hash_gost_buffer.c ${LDFLAGS}
 	${CC} -o hash_md2_buffer hash_md2_buffer.c ${LDFLAGS}
 	${CC} -o hash_md4_buffer hash_md4_buffer.c ${LDFLAGS}
 	${CC} -o hash_md5_buffer hash_md5_buffer.c ${LDFLAGS}
@@ -57,6 +58,7 @@ all:
 	${CC} -o hmac_blake512 hmac_blake512.c ${LDFLAGS}
 	${CC} -o hmac_blake2b hmac_blake2b.c ${LDFLAGS}
 	${CC} -o hmac_blake2s hmac_blake2s.c ${LDFLAGS}
+	${CC} -o hmac_gost hmac_gost.c ${LDFLAGS}
 	${CC} -o hmac_md2 hmac_md2.c ${LDFLAGS}
 	${CC} -o hmac_md4 hmac_md4.c ${LDFLAGS}
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
@@ -76,6 +78,7 @@ all:
 	${CC} -o kdf_pbkdf2_blake512 kdf_pbkdf2_blake512.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_blake2b kdf_pbkdf2_blake2b.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_blake2s kdf_pbkdf2_blake2s.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_gost kdf_pbkdf2_gost.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_md2 kdf_pbkdf2_md2.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_md4 kdf_pbkdf2_md4.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_md5 kdf_pbkdf2_md5.c ${LDFLAGS}
@@ -126,6 +129,7 @@ clean:
 	rm -f hash_blake2s_buffer
 	rm -f hash_blake2s_buffer_key
 	rm -f hash_blake2s_file
+	rm -f hash_gost_buffer
 	rm -f hash_md2_buffer
 	rm -f hash_md4_buffer
 	rm -f hash_md5_buffer
@@ -150,6 +154,7 @@ clean:
 	rm -f hmac_blake512
 	rm -f hmac_blake2b
 	rm -f hmac_blake2s
+	rm -f hmac_gost
 	rm -f hmac_md2
 	rm -f hmac_md4
 	rm -f hmac_md5
@@ -169,6 +174,7 @@ clean:
 	rm -f kdf_pbkdf2_blake512
 	rm -f kdf_pbkdf2_blake2b
 	rm -f kdf_pbkdf2_blake2s
+	rm -f kdf_pbkdf2_gost
 	rm -f kdf_pbkdf2_md2
 	rm -f kdf_pbkdf2_md4
 	rm -f kdf_pbkdf2_md5

@@ -21,6 +21,7 @@
 
        hash/blake support:	OK
       hash/blake2 support:	OK
+        hash/gost support:	OK
          hash/md2 support:	OK
          hash/md4 support:	OK
          hash/md5 support:	OK

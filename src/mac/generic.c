@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Message Authentication Code interface 
  *
- * Date: 04-09-2014
+ * Date: 05-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -108,6 +108,17 @@ unsigned char *mac_hmac_blake2s(
 	size_t msg_len)
 {
 	return hmac_blake2s(out, key, key_len, msg, msg_len);
+}
+
+/* HMAC GOST Interface */
+unsigned char *mac_hmac_gost(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_gost(out, key, key_len, msg, msg_len);
 }
 
 /* HMAC MD Interface */

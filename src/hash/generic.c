@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH interface 
  *
- * Date: 04-09-2014
+ * Date: 05-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -31,6 +31,7 @@
 
 #include "hash/blake/generic.h"
 #include "hash/blake2/generic.h"
+#include "hash/gost/generic.h"
 #include "hash/md2/generic.h"
 #include "hash/md4/generic.h"
 #include "hash/md5/generic.h"
@@ -63,6 +64,11 @@ unsigned char *hash_buffer_md5(unsigned char *out, const unsigned char *in, size
 
 unsigned char *hash_file_md5(unsigned char *out, FILE *fp) {
 	return md5_file(out, fp);
+}
+
+/* GOST Interface */
+unsigned char *hash_buffer_gost(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return gost_buffer(out, in, in_len);
 }
 
 /* RIPEMD Interface */

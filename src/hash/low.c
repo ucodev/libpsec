@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH Low Level interface 
  *
- * Date: 04-09-2014
+ * Date: 05-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -114,6 +114,19 @@ int hash_low_blake2s_update(psec_low_hash_t *context, const unsigned char *in, s
 
 int hash_low_blake2s_final(psec_low_hash_t *context, unsigned char *out) {
 	return blake2s_low_final(&context->blake2s, out);
+}
+
+/* GOST Interface */
+int hash_low_gost_init(psec_low_hash_t *context) {
+	return gost_low_init(&context->gost);
+}
+
+int hash_low_gost_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
+	return gost_low_update(&context->gost, in, in_len);
+}
+
+int hash_low_gost_final(psec_low_hash_t *context, unsigned char *out) {
+	return gost_low_final(&context->gost, out);
 }
 
 /* MD2 Interface */

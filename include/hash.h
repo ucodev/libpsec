@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH interface header
  *
- * Date: 04-09-2014
+ * Date: 05-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -94,6 +94,14 @@ unsigned char *hash_file_sha224(unsigned char *out, FILE *fp);
 unsigned char *hash_file_sha256(unsigned char *out, FILE *fp);
 unsigned char *hash_file_sha384(unsigned char *out, FILE *fp);
 unsigned char *hash_file_sha512(unsigned char *out, FILE *fp);
+/******************/
+/* GOST Interface */
+/******************/
+/* Digest sizes */
+#define HASH_DIGEST_SIZE_GOST		32
+#define HASH_BLOCK_SIZE_GOST		32
+unsigned char *hash_buffer_gost(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_gost(unsigned char *out, FILE *fp);
 /****************/
 /* MD Interface */
 /****************/

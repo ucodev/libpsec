@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        KDF interface header
  *
- * Date: 04-09-2014
+ * Date: 05-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -98,6 +98,12 @@
 	kdf_pbkdf2_generic( \
 		out, \
 		mac_hmac_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, \
+		pw, pw_len, salt, salt_len, rounds, out_size)
+
+#define kdf_pbkdf2_gost(out, pw, pw_len, salt, salt_len, rounds, out_size) \
+	kdf_pbkdf2_generic( \
+		out, \
+		mac_hmac_gost, HASH_DIGEST_SIZE_GOST, HASH_BLOCK_SIZE_GOST, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_md2(out, pw, pw_len, salt, salt_len, rounds, out_size) \

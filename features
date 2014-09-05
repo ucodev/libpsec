@@ -54,6 +54,8 @@ fi
 /bin/echo -e \
 "      hash/blake2 support:\tOK"
 /bin/echo -e \
+"        hash/gost support:\tOK"
+/bin/echo -e \
 "         hash/md2 support:\tOK"
 /bin/echo -e \
 "         hash/md4 support:\tOK"
