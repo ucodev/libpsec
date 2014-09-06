@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH [RIPEMD] generic interface
  *
- * Date: 02-08-2014
+ * Date: 06-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -137,6 +137,114 @@ unsigned char *ripemd160_file(unsigned char *out, FILE *fp) {
 	}
 
 	ripemd160_low_final(context, digest);
+
+	return digest;
+}
+
+/* RIPEMD-256 Generic Interface */
+unsigned char *ripemd256_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
+	uint32_t context[8];
+	unsigned char *digest = NULL;
+
+	if (!out) {
+		if (!(digest = malloc(RIPEMD256_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	ripemd256_low_init(context);
+	ripemd256_low_update(context, in, in_len);
+	ripemd256_low_final(context, digest);
+
+	return digest;
+}
+
+unsigned char *ripemd256_file(unsigned char *out, FILE *fp) {
+	uint32_t context[8];
+	size_t ret = 0;
+	int errsv = 0;
+	unsigned char buf[8192], *digest = NULL;
+
+	ripemd256_low_init(context);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		ripemd256_low_update(context, buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(RIPEMD256_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	ripemd256_low_final(context, digest);
+
+	return digest;
+}
+
+/* RIPEMD-320 Generic Interface */
+unsigned char *ripemd320_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
+	uint32_t context[10];
+	unsigned char *digest = NULL;
+
+	if (!out) {
+		if (!(digest = malloc(RIPEMD320_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	ripemd320_low_init(context);
+	ripemd320_low_update(context, in, in_len);
+	ripemd320_low_final(context, digest);
+
+	return digest;
+}
+
+unsigned char *ripemd320_file(unsigned char *out, FILE *fp) {
+	uint32_t context[10];
+	size_t ret = 0;
+	int errsv = 0;
+	unsigned char buf[8192], *digest = NULL;
+
+	ripemd320_low_init(context);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		ripemd320_low_update(context, buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(RIPEMD320_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	ripemd320_low_final(context, digest);
 
 	return digest;
 }

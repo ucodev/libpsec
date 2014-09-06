@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH [RIPEMD] generic interface header
  *
- * Date: 02-09-2014
+ * Date: 06-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -36,6 +36,10 @@
 #define RIPEMD128_HASH_BLOCK_SIZE		64
 #define RIPEMD160_HASH_DIGEST_SIZE		20
 #define RIPEMD160_HASH_BLOCK_SIZE		64
+#define RIPEMD256_HASH_DIGEST_SIZE		32
+#define RIPEMD256_HASH_BLOCK_SIZE		64
+#define RIPEMD320_HASH_DIGEST_SIZE		40
+#define RIPEMD320_HASH_BLOCK_SIZE		64
 
 
 /* Prototypes */
@@ -46,6 +50,14 @@ unsigned char *ripemd128_file(unsigned char *out, FILE *fp);
 /* RIPEMD-160 Generic Interface */
 unsigned char *ripemd160_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *ripemd160_file(unsigned char *out, FILE *fp);
+/* RIPEMD-160 Generic Interface */
+unsigned char *ripemd256_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *ripemd256_file(unsigned char *out, FILE *fp);
+/* RIPEMD-320 Generic Interface */
+unsigned char *ripemd320_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *ripemd320_file(unsigned char *out, FILE *fp);
+
+
 
 #endif
 

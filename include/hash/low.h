@@ -59,6 +59,8 @@ typedef union {
 	MD5_CTX md5;
 	uint32_t ripemd128[4];
 	uint32_t ripemd160[5];
+	uint32_t ripemd256[8];
+	uint32_t ripemd320[10];
 	SHA1Context sha1;
 	SHA224Context sha224;
 	SHA256Context sha256;
@@ -145,6 +147,14 @@ int hash_low_ripemd128_final(psec_low_hash_t *context, unsigned char *out);
 int hash_low_ripemd160_init(psec_low_hash_t *context);
 int hash_low_ripemd160_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
 int hash_low_ripemd160_final(psec_low_hash_t *context, unsigned char *out);
+/* RIPEMD-256 Interface */
+int hash_low_ripemd256_init(psec_low_hash_t *context);
+int hash_low_ripemd256_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_ripemd256_final(psec_low_hash_t *context, unsigned char *out);
+/* RIPEMD-320 Interface */
+int hash_low_ripemd320_init(psec_low_hash_t *context);
+int hash_low_ripemd320_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_ripemd320_final(psec_low_hash_t *context, unsigned char *out);
 /* SHA1 Interface */
 int hash_low_sha1_init(psec_low_hash_t *context);
 int hash_low_sha1_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);

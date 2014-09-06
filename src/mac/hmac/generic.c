@@ -325,6 +325,26 @@ unsigned char *hmac_ripemd160(
 	return _hmac_hash_low_generic(hash_buffer_ripemd160, hash_low_ripemd160_init, hash_low_ripemd160_update, hash_low_ripemd160_final, HASH_BLOCK_SIZE_RIPEMD160, HASH_DIGEST_SIZE_RIPEMD160, out, key, key_len, msg, msg_len);
 }
 
+unsigned char *hmac_ripemd256(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_ripemd256, hash_low_ripemd256_init, hash_low_ripemd256_update, hash_low_ripemd256_final, HASH_BLOCK_SIZE_RIPEMD256, HASH_DIGEST_SIZE_RIPEMD256, out, key, key_len, msg, msg_len);
+}
+
+unsigned char *hmac_ripemd320(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_ripemd320, hash_low_ripemd320_init, hash_low_ripemd320_update, hash_low_ripemd320_final, HASH_BLOCK_SIZE_RIPEMD320, HASH_DIGEST_SIZE_RIPEMD320, out, key, key_len, msg, msg_len);
+}
+
 unsigned char *hmac_sha1(
 	unsigned char *out,
 	const unsigned char *key,

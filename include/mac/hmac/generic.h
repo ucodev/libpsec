@@ -165,6 +165,18 @@ unsigned char *hmac_ripemd160(
 	size_t key_len,
 	const unsigned char *msg,
 	size_t msg_len);
+unsigned char *hmac_ripemd256(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *hmac_ripemd320(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
 /**********************/
 /* HMAC SHA Interface */
 /**********************/

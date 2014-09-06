@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH [RIPEMD] low level interface header
  *
- * Date: 02-09-2014
+ * Date: 06-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -41,6 +41,16 @@ int ripemd128_low_final(uint32_t *context, unsigned char *out);
 int ripemd160_low_init(uint32_t *context);
 int ripemd160_low_update(uint32_t *context, const unsigned char *in, size_t in_len);
 int ripemd160_low_final(uint32_t *context, unsigned char *out);
+
+/* RIPEMD-256 Low Level Interface */
+int ripemd256_low_init(uint32_t *context);
+int ripemd256_low_update(uint32_t *context, const unsigned char *in, size_t in_len);
+int ripemd256_low_final(uint32_t *context, unsigned char *out);
+
+/* RIPEMD-320 Low Level Interface */
+int ripemd320_low_init(uint32_t *context);
+int ripemd320_low_update(uint32_t *context, const unsigned char *in, size_t in_len);
+int ripemd320_low_final(uint32_t *context, unsigned char *out);
 
 #endif
 

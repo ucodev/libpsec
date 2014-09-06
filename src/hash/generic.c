@@ -135,6 +135,22 @@ unsigned char *hash_file_ripemd160(unsigned char *out, FILE *fp) {
 	return ripemd160_file(out, fp);
 }
 
+unsigned char *hash_buffer_ripemd256(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return ripemd256_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_ripemd256(unsigned char *out, FILE *fp) {
+	return ripemd256_file(out, fp);
+}
+
+unsigned char *hash_buffer_ripemd320(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return ripemd320_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_ripemd320(unsigned char *out, FILE *fp) {
+	return ripemd320_file(out, fp);
+}
+
 /* SHA Interface */
 unsigned char *hash_buffer_sha1(unsigned char *out, const unsigned char *in, size_t in_len) {
 	return sha1_buffer(out, in, in_len);

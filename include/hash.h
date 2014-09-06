@@ -149,13 +149,21 @@ unsigned char *hash_file_md5(unsigned char *out, FILE *fp);
 /* Digest sizes */
 #define HASH_DIGEST_SIZE_RIPEMD128		16
 #define HASH_DIGEST_SIZE_RIPEMD160		20
+#define HASH_DIGEST_SIZE_RIPEMD256		32
+#define HASH_DIGEST_SIZE_RIPEMD320		40
 #define HASH_BLOCK_SIZE_RIPEMD128		64
 #define HASH_BLOCK_SIZE_RIPEMD160		64
+#define HASH_BLOCK_SIZE_RIPEMD256		64
+#define HASH_BLOCK_SIZE_RIPEMD320		64
 /* Prototypes */
 unsigned char *hash_buffer_ripemd128(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *hash_file_ripemd128(unsigned char *out, FILE *fp);
 unsigned char *hash_buffer_ripemd160(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *hash_file_ripemd160(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_ripemd256(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_ripemd256(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_ripemd320(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_ripemd320(unsigned char *out, FILE *fp);
 /*******************/
 /* TIGER Interface */
 /*******************/

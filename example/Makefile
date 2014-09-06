@@ -51,6 +51,10 @@ all:
 	${CC} -o hash_ripemd128_file hash_ripemd128_file.c ${LDFLAGS}
 	${CC} -o hash_ripemd160_buffer hash_ripemd160_buffer.c ${LDFLAGS}
 	${CC} -o hash_ripemd160_file hash_ripemd160_file.c ${LDFLAGS}
+	${CC} -o hash_ripemd256_buffer hash_ripemd256_buffer.c ${LDFLAGS}
+	${CC} -o hash_ripemd256_file hash_ripemd256_file.c ${LDFLAGS}
+	${CC} -o hash_ripemd320_buffer hash_ripemd320_buffer.c ${LDFLAGS}
+	${CC} -o hash_ripemd320_file hash_ripemd320_file.c ${LDFLAGS}
 	${CC} -o hash_sha1_buffer hash_sha1_buffer.c ${LDFLAGS}
 	${CC} -o hash_sha224_buffer hash_sha224_buffer.c ${LDFLAGS}
 	${CC} -o hash_sha256_buffer hash_sha256_buffer.c ${LDFLAGS}
@@ -80,6 +84,8 @@ all:
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
 	${CC} -o hmac_ripemd128 hmac_ripemd128.c ${LDFLAGS}
 	${CC} -o hmac_ripemd160 hmac_ripemd160.c ${LDFLAGS}
+	${CC} -o hmac_ripemd256 hmac_ripemd256.c ${LDFLAGS}
+	${CC} -o hmac_ripemd320 hmac_ripemd320.c ${LDFLAGS}
 	${CC} -o hmac_sha1 hmac_sha1.c ${LDFLAGS}
 	${CC} -o hmac_sha224 hmac_sha224.c ${LDFLAGS}
 	${CC} -o hmac_sha256 hmac_sha256.c ${LDFLAGS}
@@ -107,6 +113,8 @@ all:
 	${CC} -o kdf_pbkdf2_md5 kdf_pbkdf2_md5.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_ripemd128 kdf_pbkdf2_ripemd128.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_ripemd160 kdf_pbkdf2_ripemd160.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_ripemd256 kdf_pbkdf2_ripemd256.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_ripemd320 kdf_pbkdf2_ripemd320.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha1 kdf_pbkdf2_sha1.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha224 kdf_pbkdf2_sha224.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha256 kdf_pbkdf2_sha256.c ${LDFLAGS}
@@ -172,6 +180,10 @@ clean:
 	rm -f hash_ripemd128_file
 	rm -f hash_ripemd160_buffer
 	rm -f hash_ripemd160_file
+	rm -f hash_ripemd256_buffer
+	rm -f hash_ripemd256_file
+	rm -f hash_ripemd320_buffer
+	rm -f hash_ripemd320_file
 	rm -f hash_sha1_buffer
 	rm -f hash_sha224_buffer
 	rm -f hash_sha256_buffer
@@ -201,6 +213,8 @@ clean:
 	rm -f hmac_md5
 	rm -f hmac_ripemd128
 	rm -f hmac_ripemd160
+	rm -f hmac_ripemd256
+	rm -f hmac_ripemd320
 	rm -f hmac_sha1
 	rm -f hmac_sha224
 	rm -f hmac_sha256
@@ -228,6 +242,8 @@ clean:
 	rm -f kdf_pbkdf2_md5
 	rm -f kdf_pbkdf2_ripemd128
 	rm -f kdf_pbkdf2_ripemd160
+	rm -f kdf_pbkdf2_ripemd256
+	rm -f kdf_pbkdf2_ripemd320
 	rm -f kdf_pbkdf2_sha1
 	rm -f kdf_pbkdf2_sha224
 	rm -f kdf_pbkdf2_sha256

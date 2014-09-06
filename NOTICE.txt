@@ -22,7 +22,7 @@
 	- Matthew Dempsky - Curve25519
 	- Nabil S. Al Ramli, www.nalramli.com - OpenAES
 	- Samuel Neves - BLAKE2p, BLAKE2s
-	- Antoon Bosselaers & Bart Preneel - RIPEMD-128, RIPEMD-160
+	- Antoon Bosselaers & Bart Preneel - RIPEMD-128, RIPEMD-160, RIPEMD-256, RIPEMD-320
 	- Vincent Rijmen & Paulo S. L. M. Barreto - WHIRLPOOL
 	- Jean-Philippe Aumasson - BLAKE
 	- Markku-Juhani Saarinen - GOST

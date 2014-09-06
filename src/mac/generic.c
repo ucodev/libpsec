@@ -224,6 +224,26 @@ unsigned char *mac_hmac_ripemd160(
 	return hmac_ripemd160(out, key, key_len, msg, msg_len);
 }
 
+unsigned char *mac_hmac_ripemd256(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_ripemd256(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_ripemd320(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_ripemd320(out, key, key_len, msg, msg_len);
+}
+
 /* HMAC SHA Interface */
 unsigned char *mac_hmac_sha1(
 	unsigned char *out,

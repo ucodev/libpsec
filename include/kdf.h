@@ -166,6 +166,18 @@
 		mac_hmac_ripemd160, HASH_DIGEST_SIZE_RIPEMD160, HASH_BLOCK_SIZE_RIPEMD160, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
+#define kdf_pbkdf2_ripemd256(out, pw, pw_len, salt, salt_len, rounds, out_size) \
+	kdf_pbkdf2_generic( \
+		out, \
+		mac_hmac_ripemd256, HASH_DIGEST_SIZE_RIPEMD256, HASH_BLOCK_SIZE_RIPEMD256, \
+		pw, pw_len, salt, salt_len, rounds, out_size)
+
+#define kdf_pbkdf2_ripemd320(out, pw, pw_len, salt, salt_len, rounds, out_size) \
+	kdf_pbkdf2_generic( \
+		out, \
+		mac_hmac_ripemd320, HASH_DIGEST_SIZE_RIPEMD320, HASH_BLOCK_SIZE_RIPEMD320, \
+		pw, pw_len, salt, salt_len, rounds, out_size)
+
 #define kdf_pbkdf2_tiger(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
