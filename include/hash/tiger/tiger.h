@@ -6,7 +6,7 @@
  *
  * libpsec Changes (by Pedro A. Hortas on 06/09/2014):
  *
- * - Converted constants to settings of haval_state, allowing generic API access.
+ * - Converted constants to settings of tiger_state, allowing generic API access.
  * - Added a _init(), _update() and _finish() function to take full advantage of Merkle-Damgard.
  * - Detect endianness at runtime.
  * - Added configuration options for the number of passes through the *_set_passes() function.
