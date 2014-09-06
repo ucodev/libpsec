@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Hash-based Message Authentication Code interface 
  *
- * Date: 05-09-2014
+ * Date: 06-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -35,6 +35,7 @@
 #include "hash/blake/low.h"
 #include "hash/blake2/low.h"
 #include "hash/gost/low.h"
+#include "hash/haval/low.h"
 #include "hash/md2/low.h"
 #include "hash/md4/low.h"
 #include "hash/md5/low.h"
@@ -221,6 +222,16 @@ unsigned char *hmac_gost(
 	size_t msg_len)
 {
 	return _hmac_hash_low_generic(hash_buffer_gost, hash_low_gost_init, hash_low_gost_update, hash_low_gost_final, HASH_BLOCK_SIZE_GOST, HASH_DIGEST_SIZE_GOST, out, key, key_len, msg, msg_len);
+}
+
+unsigned char *hmac_haval256(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_haval256, hash_low_haval256_init, hash_low_haval256_update, hash_low_haval256_final, HASH_BLOCK_SIZE_HAVAL256, HASH_DIGEST_SIZE_HAVAL256, out, key, key_len, msg, msg_len);
 }
 
 unsigned char *hmac_md2(

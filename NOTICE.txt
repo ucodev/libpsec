@@ -26,6 +26,7 @@
 	- Vincent Rijmen & Paulo S. L. M. Barreto - WHIRLPOOL
 	- Jean-Philippe Aumasson - BLAKE
 	- Markku-Juhani Saarinen - GOST
+	- Calyptix Security Corporation, Yuliang Zheng - HAVAL
 
    There is no intention to promote the libpsec by stating the
    persons or entities described in the paragraph above, as the

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH Low Level interface 
  *
- * Date: 05-09-2014
+ * Date: 06-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -127,6 +127,19 @@ int hash_low_gost_update(psec_low_hash_t *context, const unsigned char *in, size
 
 int hash_low_gost_final(psec_low_hash_t *context, unsigned char *out) {
 	return gost_low_final(&context->gost, out);
+}
+
+/* HAVAL Interface */
+int hash_low_haval256_init(psec_low_hash_t *context) {
+	return haval256_low_init(&context->haval);
+}
+
+int hash_low_haval256_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
+	return haval256_low_update(&context->haval, in, in_len);
+}
+
+int hash_low_haval256_final(psec_low_hash_t *context, unsigned char *out) {
+	return haval256_low_final(&context->haval, out);
 }
 
 /* MD2 Interface */

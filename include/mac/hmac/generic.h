@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Hash-based Message Authentication Code interface header
  *
- * Date: 05-09-2014
+ * Date: 06-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -91,6 +91,15 @@ unsigned char *hmac_blake2s(
 /* HMAC GOST Interface */
 /***********************/
 unsigned char *hmac_gost(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+/************************/
+/* HMAC HAVAL Interface */
+/************************/
+unsigned char *hmac_haval256(
 	unsigned char *out,
 	const unsigned char *key,
 	size_t key_len,
