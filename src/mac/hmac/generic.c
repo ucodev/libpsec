@@ -41,6 +41,7 @@
 #include "hash/md5/low.h"
 #include "hash/ripemd/low.h"
 #include "hash/sha/low.h"
+#include "hash/tiger/low.h"
 #include "hash/whirlpool/low.h"
 
 #include "hash.h"
@@ -372,6 +373,16 @@ unsigned char *hmac_sha512(
 	size_t msg_len)
 {
 	return _hmac_hash_low_generic(hash_buffer_sha512, hash_low_sha512_init, hash_low_sha512_update, hash_low_sha512_final, HASH_BLOCK_SIZE_SHA512, HASH_DIGEST_SIZE_SHA512, out, key, key_len, msg, msg_len);
+}
+
+unsigned char *hmac_tiger(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_tiger, hash_low_tiger_init, hash_low_tiger_update, hash_low_tiger_final, HASH_BLOCK_SIZE_TIGER, HASH_DIGEST_SIZE_TIGER, out, key, key_len, msg, msg_len);
 }
 
 unsigned char *hmac_whirlpool(

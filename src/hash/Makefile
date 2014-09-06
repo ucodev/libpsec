@@ -3,7 +3,7 @@ DEFINES=`cat ../../.defines`
 LD=/usr/bin/ld
 CCFLAGS=-g -O2 -Wall -Werror -fPIC
 INCLUDEDIRS=-I../../include
-OBJS_COMMON=./blake/*.o ./blake2/*.o ./gost/*.o ./haval/*.o ./md2/*.o ./md4/*.o ./md5/*.o ./ripemd/*.o ./sha/*.o ./whirlpool/*.o
+OBJS_COMMON=./blake/*.o ./blake2/*.o ./gost/*.o ./haval/*.o ./md2/*.o ./md4/*.o ./md5/*.o ./ripemd/*.o ./sha/*.o ./tiger/*.o ./whirlpool/*.o
 OBJS=generic.o low.o
 TARGET=hash.o
 
@@ -17,6 +17,7 @@ all:
 	make -C md5/
 	make -C ripemd/
 	make -C sha/
+	make -C tiger/
 	make -C whirlpool/
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
 	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c low.c
@@ -32,6 +33,7 @@ clean:
 	make -C md5/ clean
 	make -C ripemd/ clean
 	make -C sha/ clean
+	make -C tiger/ clean
 	make -C whirlpool/ clean
 	rm -f ${OBJS} ${TARGET}
 

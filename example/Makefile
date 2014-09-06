@@ -56,6 +56,8 @@ all:
 	${CC} -o hash_sha256_buffer hash_sha256_buffer.c ${LDFLAGS}
 	${CC} -o hash_sha384_buffer hash_sha384_buffer.c ${LDFLAGS}
 	${CC} -o hash_sha512_buffer hash_sha512_buffer.c ${LDFLAGS}
+	${CC} -o hash_tiger_buffer hash_tiger_buffer.c ${LDFLAGS}
+	${CC} -o hash_tiger_file hash_tiger_file.c ${LDFLAGS}
 	${CC} -o hash_whirlpool_buffer hash_whirlpool_buffer.c ${LDFLAGS}
 	${CC} -o hash_whirlpool_file hash_whirlpool_file.c ${LDFLAGS}
 	${CC} -o hmac_generic hmac_generic.c ${LDFLAGS}
@@ -81,6 +83,7 @@ all:
 	${CC} -o hmac_sha256 hmac_sha256.c ${LDFLAGS}
 	${CC} -o hmac_sha384 hmac_sha384.c ${LDFLAGS}
 	${CC} -o hmac_sha512 hmac_sha512.c ${LDFLAGS}
+	${CC} -o hmac_tiger hmac_tiger.c ${LDFLAGS}
 	${CC} -o hmac_whirlpool hmac_whirlpool.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_generic kdf_pbkdf2_generic.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_generic_alloc kdf_pbkdf2_generic_alloc.c ${LDFLAGS}
@@ -106,6 +109,7 @@ all:
 	${CC} -o kdf_pbkdf2_sha256 kdf_pbkdf2_sha256.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha384 kdf_pbkdf2_sha384.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_sha512 kdf_pbkdf2_sha512.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_tiger kdf_pbkdf2_tiger.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_whirlpool kdf_pbkdf2_whirlpool.c ${LDFLAGS}
 	${CC} -o ke_dheke ke_dheke.c ${LDFLAGS}
 	${CC} -o ke_ecdh ke_ecdh.c ${LDFLAGS}
@@ -169,6 +173,8 @@ clean:
 	rm -f hash_sha256_buffer
 	rm -f hash_sha384_buffer
 	rm -f hash_sha512_buffer
+	rm -f hash_tiger_buffer
+	rm -f hash_tiger_file
 	rm -f hash_whirlpool_buffer
 	rm -f hash_whirlpool_file
 	rm -f hmac_generic
@@ -194,6 +200,7 @@ clean:
 	rm -f hmac_sha256
 	rm -f hmac_sha384
 	rm -f hmac_sha512
+	rm -f hmac_tiger
 	rm -f hmac_whirlpool
 	rm -f kdf_pbkdf2_generic_alloc
 	rm -f kdf_pbkdf2_generic
@@ -219,6 +226,7 @@ clean:
 	rm -f kdf_pbkdf2_sha256
 	rm -f kdf_pbkdf2_sha384
 	rm -f kdf_pbkdf2_sha512
+	rm -f kdf_pbkdf2_tiger
 	rm -f kdf_pbkdf2_whirlpool
 	rm -f ke_dh 
 	rm -f ke_dheke

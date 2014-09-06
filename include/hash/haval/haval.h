@@ -74,7 +74,7 @@
  * libpsec Changes by Pedro A. Hortas (06/09/2014)
  *
  * - Converted constants to settings of haval_state, allowing generic API access.
- * - Detect endianess at runtime.
+ * - Detect endianness at runtime.
  * - Added configuration options fot digest length and number of passes through hash_set_*() functions
  *
  */

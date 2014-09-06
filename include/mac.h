@@ -197,6 +197,15 @@ unsigned char *mac_hmac_sha512(
 	size_t key_len,
 	const unsigned char *msg,
 	size_t msg_len);
+/*******************/
+/* TIGER Interface */
+/*******************/
+unsigned char *mac_hmac_tiger(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
 /***********************/
 /* WHIRLPOOL Interface */
 /***********************/

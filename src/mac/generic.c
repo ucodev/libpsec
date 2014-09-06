@@ -275,6 +275,17 @@ unsigned char *mac_hmac_sha512(
 	return hmac_sha512(out, key, key_len, msg, msg_len);
 }
 
+/* HMAC TIGER Interface */
+unsigned char *mac_hmac_tiger(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_tiger(out, key, key_len, msg, msg_len);
+}
+
 /* HMAC RIPEMD Interface */
 unsigned char *mac_hmac_whirlpool(
 	unsigned char *out,

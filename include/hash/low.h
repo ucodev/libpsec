@@ -41,6 +41,7 @@
 #include "md5/low.h"
 #include "ripemd/low.h"
 #include "sha/low.h"
+#include "tiger/low.h"
 #include "whirlpool/low.h"
 
 /* Type definitions */
@@ -63,6 +64,7 @@ typedef union {
 	SHA256Context sha256;
 	SHA384Context sha384;
 	SHA512Context sha512;
+	tiger_state tiger;
 	struct NESSIEstruct whirlpool;
 } psec_low_hash_t;
 
@@ -162,6 +164,11 @@ int hash_low_sha384_final(psec_low_hash_t *context, unsigned char *out);
 int hash_low_sha512_init(psec_low_hash_t *context);
 int hash_low_sha512_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
 int hash_low_sha512_final(psec_low_hash_t *context, unsigned char *out);
+/* TIGER Interface */
+int hash_low_tiger_init(psec_low_hash_t *context);
+int hash_low_tiger_init_passes(psec_low_hash_t *context, unsigned int passes);
+int hash_low_tiger_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_tiger_final(psec_low_hash_t *context, unsigned char *out);
 /* WHIRLPOOL Interface */
 int hash_low_whirlpool_init(psec_low_hash_t *context);
 int hash_low_whirlpool_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
