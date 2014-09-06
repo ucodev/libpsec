@@ -234,6 +234,46 @@ unsigned char *hmac_haval256(
 	return _hmac_hash_low_generic(hash_buffer_haval256, hash_low_haval256_init, hash_low_haval256_update, hash_low_haval256_final, HASH_BLOCK_SIZE_HAVAL256, HASH_DIGEST_SIZE_HAVAL256, out, key, key_len, msg, msg_len);
 }
 
+unsigned char *hmac_haval224(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_haval224, hash_low_haval224_init, hash_low_haval224_update, hash_low_haval224_final, HASH_BLOCK_SIZE_HAVAL224, HASH_DIGEST_SIZE_HAVAL224, out, key, key_len, msg, msg_len);
+}
+
+unsigned char *hmac_haval192(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_haval192, hash_low_haval192_init, hash_low_haval192_update, hash_low_haval192_final, HASH_BLOCK_SIZE_HAVAL192, HASH_DIGEST_SIZE_HAVAL192, out, key, key_len, msg, msg_len);
+}
+
+unsigned char *hmac_haval160(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_haval160, hash_low_haval160_init, hash_low_haval160_update, hash_low_haval160_final, HASH_BLOCK_SIZE_HAVAL160, HASH_DIGEST_SIZE_HAVAL160, out, key, key_len, msg, msg_len);
+}
+
+unsigned char *hmac_haval128(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_haval128, hash_low_haval128_init, hash_low_haval128_update, hash_low_haval128_final, HASH_BLOCK_SIZE_HAVAL128, HASH_DIGEST_SIZE_HAVAL128, out, key, key_len, msg, msg_len);
+}
+
 unsigned char *hmac_md2(
 	unsigned char *out,
 	const unsigned char *key,

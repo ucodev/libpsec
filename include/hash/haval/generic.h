@@ -31,16 +31,36 @@
 
 #include <stdio.h>
 
-
 /* Definitions */
 #define HAVAL256_HASH_DIGEST_SIZE		32
 #define HAVAL256_HASH_BLOCK_SIZE		128
+#define HAVAL224_HASH_DIGEST_SIZE		28
+#define HAVAL224_HASH_BLOCK_SIZE		128
+#define HAVAL192_HASH_DIGEST_SIZE		24
+#define HAVAL192_HASH_BLOCK_SIZE		128
+#define HAVAL160_HASH_DIGEST_SIZE		20
+#define HAVAL160_HASH_BLOCK_SIZE		128
+#define HAVAL128_HASH_DIGEST_SIZE		16
+#define HAVAL128_HASH_BLOCK_SIZE		128
+
 
 /* Prototypes */
 
 /* HAVAL-256 Generic Interface */
 unsigned char *haval256_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *haval256_file(unsigned char *out, FILE *fp);
+/* HAVAL-224 Generic Interface */
+unsigned char *haval224_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *haval224_file(unsigned char *out, FILE *fp);
+/* HAVAL-192 Generic Interface */
+unsigned char *haval192_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *haval192_file(unsigned char *out, FILE *fp);
+/* HAVAL-160 Generic Interface */
+unsigned char *haval160_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *haval160_file(unsigned char *out, FILE *fp);
+/* HAVAL-128 Generic Interface */
+unsigned char *haval128_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *haval128_file(unsigned char *out, FILE *fp);
 
 #endif
 

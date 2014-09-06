@@ -107,9 +107,25 @@ unsigned char *hash_file_gost(unsigned char *out, FILE *fp);
 /*******************/
 /* Digest sizes */
 #define HASH_DIGEST_SIZE_HAVAL256	32
+#define HASH_DIGEST_SIZE_HAVAL224	28
+#define HASH_DIGEST_SIZE_HAVAL192	24
+#define HASH_DIGEST_SIZE_HAVAL160	20
+#define HASH_DIGEST_SIZE_HAVAL128	16
 #define HASH_BLOCK_SIZE_HAVAL256	128
+#define HASH_BLOCK_SIZE_HAVAL224	128
+#define HASH_BLOCK_SIZE_HAVAL192	128
+#define HASH_BLOCK_SIZE_HAVAL160	128
+#define HASH_BLOCK_SIZE_HAVAL128	128
 unsigned char *hash_buffer_haval256(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *hash_file_haval256(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_haval224(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_haval224(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_haval192(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_haval192(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_haval160(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_haval160(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_haval128(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_haval128(unsigned char *out, FILE *fp);
 /****************/
 /* MD Interface */
 /****************/

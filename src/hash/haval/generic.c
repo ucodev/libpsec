@@ -91,3 +91,235 @@ unsigned char *haval256_file(unsigned char *out, FILE *fp) {
 	return digest;
 }
 
+/* HAVAL-224 Generic Interface */
+unsigned char *haval224_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
+	haval_state haval224;
+	unsigned char *digest = NULL;
+
+	if (!out) {
+		if (!(digest = malloc(HAVAL224_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	haval_start(&haval224);
+	haval_set_fptlen(&haval224, 224);
+	haval_set_pass(&haval224, 5);
+	haval_hash(&haval224, in, in_len);
+	haval_end(&haval224, digest);
+
+	return digest;
+}
+
+unsigned char *haval224_file(unsigned char *out, FILE *fp) {
+	haval_state haval224;
+	size_t ret = 0;
+	int errsv = 0;
+	unsigned char buf[8192], *digest = NULL;
+
+	haval_start(&haval224);
+	haval_set_fptlen(&haval224, 224);
+	haval_set_pass(&haval224, 5);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		haval_hash(&haval224, buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(HAVAL224_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	haval_end(&haval224, digest);
+
+	return digest;
+}
+
+/* HAVAL-192 Generic Interface */
+unsigned char *haval192_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
+	haval_state haval192;
+	unsigned char *digest = NULL;
+
+	if (!out) {
+		if (!(digest = malloc(HAVAL192_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	haval_start(&haval192);
+	haval_set_fptlen(&haval192, 192);
+	haval_set_pass(&haval192, 5);
+	haval_hash(&haval192, in, in_len);
+	haval_end(&haval192, digest);
+
+	return digest;
+}
+
+unsigned char *haval192_file(unsigned char *out, FILE *fp) {
+	haval_state haval192;
+	size_t ret = 0;
+	int errsv = 0;
+	unsigned char buf[8192], *digest = NULL;
+
+	haval_start(&haval192);
+	haval_set_fptlen(&haval192, 192);
+	haval_set_pass(&haval192, 5);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		haval_hash(&haval192, buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(HAVAL192_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	haval_end(&haval192, digest);
+
+	return digest;
+}
+
+/* HAVAL-160 Generic Interface */
+unsigned char *haval160_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
+	haval_state haval160;
+	unsigned char *digest = NULL;
+
+	if (!out) {
+		if (!(digest = malloc(HAVAL160_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	haval_start(&haval160);
+	haval_set_fptlen(&haval160, 160);
+	haval_set_pass(&haval160, 5);
+	haval_hash(&haval160, in, in_len);
+	haval_end(&haval160, digest);
+
+	return digest;
+}
+
+unsigned char *haval160_file(unsigned char *out, FILE *fp) {
+	haval_state haval160;
+	size_t ret = 0;
+	int errsv = 0;
+	unsigned char buf[8192], *digest = NULL;
+
+	haval_start(&haval160);
+	haval_set_fptlen(&haval160, 160);
+	haval_set_pass(&haval160, 5);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		haval_hash(&haval160, buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(HAVAL160_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	haval_end(&haval160, digest);
+
+	return digest;
+}
+
+/* HAVAL-128 Generic Interface */
+unsigned char *haval128_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
+	haval_state haval128;
+	unsigned char *digest = NULL;
+
+	if (!out) {
+		if (!(digest = malloc(HAVAL128_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	haval_start(&haval128);
+	haval_set_fptlen(&haval128, 128);
+	haval_set_pass(&haval128, 5);
+	haval_hash(&haval128, in, in_len);
+	haval_end(&haval128, digest);
+
+	return digest;
+}
+
+unsigned char *haval128_file(unsigned char *out, FILE *fp) {
+	haval_state haval128;
+	size_t ret = 0;
+	int errsv = 0;
+	unsigned char buf[8192], *digest = NULL;
+
+	haval_start(&haval128);
+	haval_set_fptlen(&haval128, 128);
+	haval_set_pass(&haval128, 5);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		haval_hash(&haval128, buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(HAVAL128_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	haval_end(&haval128, digest);
+
+	return digest;
+}
+

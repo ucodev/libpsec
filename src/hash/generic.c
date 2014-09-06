@@ -85,6 +85,38 @@ unsigned char *hash_file_haval256(unsigned char *out, FILE *fp) {
 	return haval256_file(out, fp);
 }
 
+unsigned char *hash_buffer_haval224(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return haval224_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_haval224(unsigned char *out, FILE *fp) {
+	return haval224_file(out, fp);
+}
+
+unsigned char *hash_buffer_haval192(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return haval192_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_haval192(unsigned char *out, FILE *fp) {
+	return haval192_file(out, fp);
+}
+
+unsigned char *hash_buffer_haval160(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return haval160_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_haval160(unsigned char *out, FILE *fp) {
+	return haval160_file(out, fp);
+}
+
+unsigned char *hash_buffer_haval128(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return haval128_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_haval128(unsigned char *out, FILE *fp) {
+	return haval128_file(out, fp);
+}
+
 /* RIPEMD Interface */
 unsigned char *hash_buffer_ripemd128(unsigned char *out, const unsigned char *in, size_t in_len) {
 	return ripemd128_buffer(out, in, in_len);

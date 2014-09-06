@@ -104,6 +104,30 @@ unsigned char *mac_hmac_haval256(
 	size_t key_len,
 	const unsigned char *msg,
 	size_t msg_len);
+unsigned char *mac_hmac_haval224(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *mac_hmac_haval192(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *mac_hmac_haval160(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
+unsigned char *mac_hmac_haval128(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
 /*********************/
 /* HMAC MD Interface */
 /*********************/

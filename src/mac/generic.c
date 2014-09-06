@@ -132,6 +132,46 @@ unsigned char *mac_hmac_haval256(
 	return hmac_haval256(out, key, key_len, msg, msg_len);
 }
 
+unsigned char *mac_hmac_haval224(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_haval224(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_haval192(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_haval192(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_haval160(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_haval160(out, key, key_len, msg, msg_len);
+}
+
+unsigned char *mac_hmac_haval128(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_haval128(out, key, key_len, msg, msg_len);
+}
+
 /* HMAC MD Interface */
 unsigned char *mac_hmac_md2(
 	unsigned char *out,

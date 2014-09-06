@@ -112,6 +112,30 @@
 		mac_hmac_haval256, HASH_DIGEST_SIZE_HAVAL256, HASH_BLOCK_SIZE_HAVAL256, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
+#define kdf_pbkdf2_haval224(out, pw, pw_len, salt, salt_len, rounds, out_size) \
+	kdf_pbkdf2_generic( \
+		out, \
+		mac_hmac_haval224, HASH_DIGEST_SIZE_HAVAL224, HASH_BLOCK_SIZE_HAVAL224, \
+		pw, pw_len, salt, salt_len, rounds, out_size)
+
+#define kdf_pbkdf2_haval192(out, pw, pw_len, salt, salt_len, rounds, out_size) \
+	kdf_pbkdf2_generic( \
+		out, \
+		mac_hmac_haval192, HASH_DIGEST_SIZE_HAVAL192, HASH_BLOCK_SIZE_HAVAL192, \
+		pw, pw_len, salt, salt_len, rounds, out_size)
+
+#define kdf_pbkdf2_haval160(out, pw, pw_len, salt, salt_len, rounds, out_size) \
+	kdf_pbkdf2_generic( \
+		out, \
+		mac_hmac_haval160, HASH_DIGEST_SIZE_HAVAL160, HASH_BLOCK_SIZE_HAVAL160, \
+		pw, pw_len, salt, salt_len, rounds, out_size)
+
+#define kdf_pbkdf2_haval128(out, pw, pw_len, salt, salt_len, rounds, out_size) \
+	kdf_pbkdf2_generic( \
+		out, \
+		mac_hmac_haval128, HASH_DIGEST_SIZE_HAVAL128, HASH_BLOCK_SIZE_HAVAL128, \
+		pw, pw_len, salt, salt_len, rounds, out_size)
+
 #define kdf_pbkdf2_md2(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \

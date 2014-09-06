@@ -97,10 +97,31 @@ int hash_low_blake2s_final(psec_low_hash_t *context, unsigned char *out);
 int hash_low_gost_init(psec_low_hash_t *context);
 int hash_low_gost_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
 int hash_low_gost_final(psec_low_hash_t *context, unsigned char *out);
-/* HAVAL Interface */
+/* HAVAL-256 Interface */
 int hash_low_haval256_init(psec_low_hash_t *context);
+int hash_low_haval256_init_passes(psec_low_hash_t *context, unsigned int passes);
 int hash_low_haval256_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
 int hash_low_haval256_final(psec_low_hash_t *context, unsigned char *out);
+/* HAVAL-224 Interface */
+int hash_low_haval224_init(psec_low_hash_t *context);
+int hash_low_haval224_init_passes(psec_low_hash_t *context, unsigned int passes);
+int hash_low_haval224_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_haval224_final(psec_low_hash_t *context, unsigned char *out);
+/* HAVAL-192 Interface */
+int hash_low_haval192_init(psec_low_hash_t *context);
+int hash_low_haval192_init_passes(psec_low_hash_t *context, unsigned int passes);
+int hash_low_haval192_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_haval192_final(psec_low_hash_t *context, unsigned char *out);
+/* HAVAL-160 Interface */
+int hash_low_haval160_init(psec_low_hash_t *context);
+int hash_low_haval160_init_passes(psec_low_hash_t *context, unsigned int passes);
+int hash_low_haval160_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_haval160_final(psec_low_hash_t *context, unsigned char *out);
+/* HAVAL-128 Interface */
+int hash_low_haval128_init(psec_low_hash_t *context);
+int hash_low_haval128_init_passes(psec_low_hash_t *context, unsigned int passes);
+int hash_low_haval128_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_haval128_final(psec_low_hash_t *context, unsigned char *out);
 /* MD2 Interface */
 int hash_low_md2_init(psec_low_hash_t *context);
 int hash_low_md2_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);

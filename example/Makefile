@@ -36,6 +36,10 @@ all:
 	${CC} -o hash_gost_buffer hash_gost_buffer.c ${LDFLAGS}
 	${CC} -o hash_gost_file hash_gost_file.c ${LDFLAGS}
 	${CC} -o hash_haval256_buffer hash_haval256_buffer.c ${LDFLAGS}
+	${CC} -o hash_haval224_buffer hash_haval224_buffer.c ${LDFLAGS}
+	${CC} -o hash_haval192_buffer hash_haval192_buffer.c ${LDFLAGS}
+	${CC} -o hash_haval160_buffer hash_haval160_buffer.c ${LDFLAGS}
+	${CC} -o hash_haval128_buffer hash_haval128_buffer.c ${LDFLAGS}
 	${CC} -o hash_haval256_file hash_haval256_file.c ${LDFLAGS}
 	${CC} -o hash_md2_buffer hash_md2_buffer.c ${LDFLAGS}
 	${CC} -o hash_md4_buffer hash_md4_buffer.c ${LDFLAGS}
@@ -63,6 +67,10 @@ all:
 	${CC} -o hmac_blake2s hmac_blake2s.c ${LDFLAGS}
 	${CC} -o hmac_gost hmac_gost.c ${LDFLAGS}
 	${CC} -o hmac_haval256 hmac_haval256.c ${LDFLAGS}
+	${CC} -o hmac_haval224 hmac_haval224.c ${LDFLAGS}
+	${CC} -o hmac_haval192 hmac_haval192.c ${LDFLAGS}
+	${CC} -o hmac_haval160 hmac_haval160.c ${LDFLAGS}
+	${CC} -o hmac_haval128 hmac_haval128.c ${LDFLAGS}
 	${CC} -o hmac_md2 hmac_md2.c ${LDFLAGS}
 	${CC} -o hmac_md4 hmac_md4.c ${LDFLAGS}
 	${CC} -o hmac_md5 hmac_md5.c ${LDFLAGS}
@@ -84,6 +92,10 @@ all:
 	${CC} -o kdf_pbkdf2_blake2s kdf_pbkdf2_blake2s.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_gost kdf_pbkdf2_gost.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_haval256 kdf_pbkdf2_haval256.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_haval224 kdf_pbkdf2_haval224.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_haval192 kdf_pbkdf2_haval192.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_haval160 kdf_pbkdf2_haval160.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf2_haval128 kdf_pbkdf2_haval128.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_md2 kdf_pbkdf2_md2.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_md4 kdf_pbkdf2_md4.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_md5 kdf_pbkdf2_md5.c ${LDFLAGS}
@@ -137,6 +149,10 @@ clean:
 	rm -f hash_gost_buffer
 	rm -f hash_gost_file
 	rm -f hash_haval256_buffer
+	rm -f hash_haval224_buffer
+	rm -f hash_haval192_buffer
+	rm -f hash_haval160_buffer
+	rm -f hash_haval128_buffer
 	rm -f hash_haval256_file
 	rm -f hash_md2_buffer
 	rm -f hash_md4_buffer
@@ -164,6 +180,10 @@ clean:
 	rm -f hmac_blake2s
 	rm -f hmac_gost
 	rm -f hmac_haval256
+	rm -f hmac_haval224
+	rm -f hmac_haval192
+	rm -f hmac_haval160
+	rm -f hmac_haval128
 	rm -f hmac_md2
 	rm -f hmac_md4
 	rm -f hmac_md5
@@ -185,6 +205,10 @@ clean:
 	rm -f kdf_pbkdf2_blake2s
 	rm -f kdf_pbkdf2_gost
 	rm -f kdf_pbkdf2_haval256
+	rm -f kdf_pbkdf2_haval224
+	rm -f kdf_pbkdf2_haval192
+	rm -f kdf_pbkdf2_haval160
+	rm -f kdf_pbkdf2_haval128
 	rm -f kdf_pbkdf2_md2
 	rm -f kdf_pbkdf2_md4
 	rm -f kdf_pbkdf2_md5

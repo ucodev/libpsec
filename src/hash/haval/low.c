@@ -28,11 +28,17 @@
 
 #include "hash/haval/low.h"
 
-/* HAVAL256 Low Level Interface */
+/* HAVAL-256 Low Level Interface */
 int haval256_low_init(haval_state *context) {
 	haval_start(context);
 	haval_set_fptlen(context, 256);
 	haval_set_pass(context, 5);
+
+	return 0;
+}
+
+int haval256_low_init_passes(haval_state *context, unsigned int passes) {
+	haval_set_pass(context, passes);
 
 	return 0;
 }
@@ -44,6 +50,114 @@ int haval256_low_update(haval_state *context, const unsigned char *in, size_t in
 }
 
 int haval256_low_final(haval_state *context, unsigned char *out) {
+	haval_end(context, out);
+
+	return 0;
+}
+
+/* HAVAL-224 Low Level Interface */
+int haval224_low_init(haval_state *context) {
+	haval_start(context);
+	haval_set_fptlen(context, 224);
+	haval_set_pass(context, 5);
+
+	return 0;
+}
+
+int haval224_low_init_passes(haval_state *context, unsigned int passes) {
+	haval_set_pass(context, passes);
+
+	return 0;
+}
+
+int haval224_low_update(haval_state *context, const unsigned char *in, size_t in_len) {
+	haval_hash(context, in, in_len);
+
+	return 0;
+}
+
+int haval224_low_final(haval_state *context, unsigned char *out) {
+	haval_end(context, out);
+
+	return 0;
+}
+
+/* HAVAL-192 Low Level Interface */
+int haval192_low_init(haval_state *context) {
+	haval_start(context);
+	haval_set_fptlen(context, 192);
+	haval_set_pass(context, 5);
+
+	return 0;
+}
+
+int haval192_low_init_passes(haval_state *context, unsigned int passes) {
+	haval_set_pass(context, passes);
+
+	return 0;
+}
+
+int haval192_low_update(haval_state *context, const unsigned char *in, size_t in_len) {
+	haval_hash(context, in, in_len);
+
+	return 0;
+}
+
+int haval192_low_final(haval_state *context, unsigned char *out) {
+	haval_end(context, out);
+
+	return 0;
+}
+
+/* HAVAL-160 Low Level Interface */
+int haval160_low_init(haval_state *context) {
+	haval_start(context);
+	haval_set_fptlen(context, 160);
+	haval_set_pass(context, 5);
+
+	return 0;
+}
+
+int haval160_low_init_passes(haval_state *context, unsigned int passes) {
+	haval_set_pass(context, passes);
+
+	return 0;
+}
+
+int haval160_low_update(haval_state *context, const unsigned char *in, size_t in_len) {
+	haval_hash(context, in, in_len);
+
+	return 0;
+}
+
+int haval160_low_final(haval_state *context, unsigned char *out) {
+	haval_end(context, out);
+
+	return 0;
+}
+
+/* HAVAL-128 Low Level Interface */
+int haval128_low_init(haval_state *context) {
+	haval_start(context);
+	haval_set_fptlen(context, 128);
+	haval_set_pass(context, 5);
+
+	return 0;
+}
+
+int haval128_low_init_passes(haval_state *context, unsigned int passes) {
+	haval_set_pass(context, passes);
+
+	return 0;
+}
+
+int haval128_low_update(haval_state *context, const unsigned char *in, size_t in_len) {
+	haval_hash(context, in, in_len);
+
+	return 0;
+}
+
+int haval128_low_final(haval_state *context, unsigned char *out) {
 	haval_end(context, out);
 
 	return 0;
