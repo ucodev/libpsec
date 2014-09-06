@@ -82,6 +82,7 @@
  */
 
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 
 #include "hash/haval/haval.h"
@@ -336,7 +337,7 @@ void haval_hash (haval_state *state,
   }
   state->count[1] += (haval_word)str_len >> 29;
 
-  if ((*(unsigned char *) (unsigned int [1]) { 1 })) { /* LITTLE ENDIAN */
+  if ((*(unsigned char *) (uint32_t [1]) { 1 })) { /* LITTLE ENDIAN */
     /* hash as many blocks as possible */
     if (rmd_len + str_len >= 128) {
       memcpy (((unsigned char *)state->block)+rmd_len, str, fill_len);
