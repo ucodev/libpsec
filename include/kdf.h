@@ -172,6 +172,12 @@
 		mac_hmac_tiger, HASH_DIGEST_SIZE_TIGER, HASH_BLOCK_SIZE_TIGER, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
+#define kdf_pbkdf2_tiger2(out, pw, pw_len, salt, salt_len, rounds, out_size) \
+	kdf_pbkdf2_generic( \
+		out, \
+		mac_hmac_tiger2, HASH_DIGEST_SIZE_TIGER2, HASH_BLOCK_SIZE_TIGER2, \
+		pw, pw_len, salt, salt_len, rounds, out_size)
+
 #define kdf_pbkdf2_whirlpool(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \

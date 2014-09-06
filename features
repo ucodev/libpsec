@@ -68,7 +68,7 @@ fi
 /bin/echo -e \
 "        hash/sha* support:\tOK"
 /bin/echo -e \
-"       hash/tiger support:\tOK"
+"      hash/tiger* support:\tOK"
 /bin/echo -e \
 "   hash/whirlpool support:\tOK"
 

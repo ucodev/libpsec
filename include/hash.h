@@ -161,9 +161,13 @@ unsigned char *hash_file_ripemd160(unsigned char *out, FILE *fp);
 /*******************/
 /* Digest sizes */
 #define HASH_DIGEST_SIZE_TIGER		24
+#define HASH_DIGEST_SIZE_TIGER2		24
 #define HASH_BLOCK_SIZE_TIGER		64
+#define HASH_BLOCK_SIZE_TIGER2		64
 unsigned char *hash_buffer_tiger(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *hash_file_tiger(unsigned char *out, FILE *fp);
+unsigned char *hash_buffer_tiger2(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *hash_file_tiger2(unsigned char *out, FILE *fp);
 /***********************/
 /* WHIRLPOOL Interface */
 /***********************/

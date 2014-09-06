@@ -286,7 +286,18 @@ unsigned char *mac_hmac_tiger(
 	return hmac_tiger(out, key, key_len, msg, msg_len);
 }
 
-/* HMAC RIPEMD Interface */
+/* HMAC TIGER2 Interface */
+unsigned char *mac_hmac_tiger2(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return hmac_tiger2(out, key, key_len, msg, msg_len);
+}
+
+/* HMAC WHIRLPOOL Interface */
 unsigned char *mac_hmac_whirlpool(
 	unsigned char *out,
 	const unsigned char *key,

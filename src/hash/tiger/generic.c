@@ -47,7 +47,7 @@ unsigned char *tiger_buffer(unsigned char *out, const unsigned char *in, size_t 
 
 	tiger_init(&tiger);
 	tiger_update(&tiger, in, in_len);
-	tiger_finish(&tiger, digest);
+	tiger_finish(&tiger, digest, 0);
 
 	return digest;
 }
@@ -82,7 +82,62 @@ unsigned char *tiger_file(unsigned char *out, FILE *fp) {
 		digest = out;
 	}
 
-	tiger_finish(&tiger, digest);
+	tiger_finish(&tiger, digest, 0);
+
+	return digest;
+}
+
+
+/* TIGER2 Generic Interface */
+unsigned char *tiger2_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
+	tiger_state tiger2;
+	unsigned char *digest = NULL;
+
+	if (!out) {
+		if (!(digest = malloc(TIGER2_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	tiger_init(&tiger2);
+	tiger_update(&tiger2, in, in_len);
+	tiger_finish(&tiger2, digest, 1);
+
+	return digest;
+}
+
+unsigned char *tiger2_file(unsigned char *out, FILE *fp) {
+	tiger_state tiger2;
+	size_t ret = 0;
+	int errsv = 0;
+	unsigned char buf[8192], *digest = NULL;
+
+	tiger_init(&tiger2);
+
+	for (;;) {
+		ret = fread(buf, 1, 8192, fp);
+		errsv = errno;
+
+		if ((ret != 8192) && ferror(fp)) {
+			errno = errsv;
+			return NULL;
+		}
+
+		tiger_update(&tiger2, buf, ret);
+
+		if (feof(fp))
+			break;
+	}
+
+	if (!out) {
+		if (!(digest = malloc(TIGER2_HASH_DIGEST_SIZE)))
+			return NULL;
+	} else {
+		digest = out;
+	}
+
+	tiger_finish(&tiger2, digest, 1);
 
 	return digest;
 }

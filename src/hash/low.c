@@ -361,6 +361,23 @@ int hash_low_tiger_final(psec_low_hash_t *context, unsigned char *out) {
 	return tiger_low_final(&context->tiger, out);
 }
 
+/* TIGER2 Interface */
+int hash_low_tiger2_init(psec_low_hash_t *context) {
+	return tiger2_low_init(&context->tiger2);
+}
+
+int hash_low_tiger2_set_passes(psec_low_hash_t *context, unsigned int passes) {
+	return tiger2_low_set_passes(&context->tiger2, passes);
+}
+
+int hash_low_tiger2_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
+	return tiger2_low_update(&context->tiger2, in, in_len);
+}
+
+int hash_low_tiger2_final(psec_low_hash_t *context, unsigned char *out) {
+	return tiger2_low_final(&context->tiger2, out);
+}
+
 /* WHIRLPOOL Interface */
 int hash_low_whirlpool_init(psec_low_hash_t *context) {
 	return whirlpool_low_init(&context->whirlpool);

@@ -34,13 +34,19 @@
 
 /* Definitions */
 #define TIGER_HASH_DIGEST_SIZE		24
+#define TIGER2_HASH_DIGEST_SIZE		24
 #define TIGER_HASH_BLOCK_SIZE		64
+#define TIGER2_HASH_BLOCK_SIZE		64
 
 /* Prototypes */
 
 /* TIGER Generic Interface */
 unsigned char *tiger_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
 unsigned char *tiger_file(unsigned char *out, FILE *fp);
+/* TIGER2 Generic Interface */
+unsigned char *tiger2_buffer(unsigned char *out, const unsigned char *in, size_t in_len);
+unsigned char *tiger2_file(unsigned char *out, FILE *fp);
+
 
 #endif
 

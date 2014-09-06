@@ -38,6 +38,11 @@ int tiger_low_init(tiger_state *context);
 int tiger_low_set_passes(tiger_state *context, unsigned int passes);
 int tiger_low_update(tiger_state *context, const unsigned char *in, size_t in_len);
 int tiger_low_final(tiger_state *context, unsigned char *out);
+/* TIGER2 Low Level Interface */
+int tiger2_low_init(tiger_state *context);
+int tiger2_low_set_passes(tiger_state *context, unsigned int passes);
+int tiger2_low_update(tiger_state *context, const unsigned char *in, size_t in_len);
+int tiger2_low_final(tiger_state *context, unsigned char *out);
 
 #endif
 

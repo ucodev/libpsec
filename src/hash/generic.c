@@ -243,13 +243,22 @@ unsigned char *hash_file_blake2s(unsigned char *out, FILE *fp) {
 	return blake2s_file(out, fp, NULL, 0);
 }
 
-/* GOST Interface */
+/* TIGER Interface */
 unsigned char *hash_buffer_tiger(unsigned char *out, const unsigned char *in, size_t in_len) {
 	return tiger_buffer(out, in, in_len);
 }
 
 unsigned char *hash_file_tiger(unsigned char *out, FILE *fp) {
 	return tiger_file(out, fp);
+}
+
+/* TIGER Interface */
+unsigned char *hash_buffer_tiger2(unsigned char *out, const unsigned char *in, size_t in_len) {
+	return tiger2_buffer(out, in, in_len);
+}
+
+unsigned char *hash_file_tiger2(unsigned char *out, FILE *fp) {
+	return tiger2_file(out, fp);
 }
 
 /* WHIRLPOOL Interface */

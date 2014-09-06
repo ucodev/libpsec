@@ -49,7 +49,32 @@ int tiger_low_update(tiger_state *context, const unsigned char *in, size_t in_le
 }
 
 int tiger_low_final(tiger_state *context, unsigned char *out) {
-	tiger_finish(context, out);
+	tiger_finish(context, out, 0);
+
+	return 0;
+}
+
+/* TIGER2 Low Level Interface */
+int tiger2_low_init(tiger_state *context) {
+	tiger_init(context);
+
+	return 0;
+}
+
+int tiger2_low_set_passes(tiger_state *context, unsigned int passes) {
+	tiger_set_passes(context, passes);
+
+	return 0;
+}
+
+int tiger2_low_update(tiger_state *context, const unsigned char *in, size_t in_len) {
+	tiger_update(context, in, in_len);
+
+	return 0;
+}
+
+int tiger2_low_final(tiger_state *context, unsigned char *out) {
+	tiger_finish(context, out, 1);
 
 	return 0;
 }

@@ -65,6 +65,7 @@ typedef union {
 	SHA384Context sha384;
 	SHA512Context sha512;
 	tiger_state tiger;
+	tiger_state tiger2;
 	struct NESSIEstruct whirlpool;
 } psec_low_hash_t;
 
@@ -169,6 +170,11 @@ int hash_low_tiger_init(psec_low_hash_t *context);
 int hash_low_tiger_init_passes(psec_low_hash_t *context, unsigned int passes);
 int hash_low_tiger_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
 int hash_low_tiger_final(psec_low_hash_t *context, unsigned char *out);
+/* TIGER2 Interface */
+int hash_low_tiger2_init(psec_low_hash_t *context);
+int hash_low_tiger2_init_passes(psec_low_hash_t *context, unsigned int passes);
+int hash_low_tiger2_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);
+int hash_low_tiger2_final(psec_low_hash_t *context, unsigned char *out);
 /* WHIRLPOOL Interface */
 int hash_low_whirlpool_init(psec_low_hash_t *context);
 int hash_low_whirlpool_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len);

@@ -385,6 +385,16 @@ unsigned char *hmac_tiger(
 	return _hmac_hash_low_generic(hash_buffer_tiger, hash_low_tiger_init, hash_low_tiger_update, hash_low_tiger_final, HASH_BLOCK_SIZE_TIGER, HASH_DIGEST_SIZE_TIGER, out, key, key_len, msg, msg_len);
 }
 
+unsigned char *hmac_tiger2(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len)
+{
+	return _hmac_hash_low_generic(hash_buffer_tiger2, hash_low_tiger2_init, hash_low_tiger2_update, hash_low_tiger2_final, HASH_BLOCK_SIZE_TIGER2, HASH_DIGEST_SIZE_TIGER2, out, key, key_len, msg, msg_len);
+}
+
 unsigned char *hmac_whirlpool(
 	unsigned char *out,
 	const unsigned char *key,

@@ -28,7 +28,7 @@
          hash/md5 support:	OK
      hash/ripemd* support:	OK
         hash/sha* support:	OK
-       hash/tiger support:	OK
+      hash/tiger* support:	OK
    hash/whirlpool support:	OK
 
        kdf/pbkdf2 support:	OK

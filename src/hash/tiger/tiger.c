@@ -7,8 +7,9 @@
  * libpsec Changes (by Pedro A. Hortas on 06/09/2014):
  *
  * - Converted constants to settings of haval_state, allowing generic API access.
+ * - Added a _init(), _update() and _finish() function to take full advantage of Merkle-Damgard.
  * - Detect endianness at runtime.
- * - Added configuration options for number of passes through *_set_passes() function.
+ * - Added configuration options for the number of passes through the *_set_passes() function.
  * - Added a tiger_state type.
  *
  */
@@ -19,7 +20,7 @@
 #include "hash/tiger/tiger.h"
 
 /* Tiger S boxes */
-static word64 table[4*256] = {
+static uint64_t table[4*256] = {
     0x02AAB17CF7E90C5EULL   /*    0 */,    0xAC424B03E243A8ECULL   /*    1 */,
     0x72CD5BE30DD5FCD3ULL   /*    2 */,    0x6D019B93F6F97F3AULL   /*    3 */,
     0xCD9978FFD21F9193ULL   /*    4 */,    0x7573A1C9708029E2ULL   /*    5 */,
@@ -550,14 +551,14 @@ static word64 table[4*256] = {
 /* (but works slower on Alpha) */
 #define round(a,b,c,x,mul) \
       c ^= x; \
-      a -= t1[(byte)(c)] ^ \
-           t2[(byte)(((word32)(c))>>(2*8))] ^ \
-	   t3[(byte)((c)>>(4*8))] ^ \
-           t4[(byte)(((word32)((c)>>(4*8)))>>(2*8))] ; \
-      b += t4[(byte)(((word32)(c))>>(1*8))] ^ \
-           t3[(byte)(((word32)(c))>>(3*8))] ^ \
-	   t2[(byte)(((word32)((c)>>(4*8)))>>(1*8))] ^ \
-           t1[(byte)(((word32)((c)>>(4*8)))>>(3*8))]; \
+      a -= t1[(uint8_t)(c)] ^ \
+           t2[(uint8_t)(((uint32_t)(c))>>(2*8))] ^ \
+	   t3[(uint8_t)((c)>>(4*8))] ^ \
+           t4[(uint8_t)(((uint32_t)((c)>>(4*8)))>>(2*8))] ; \
+      b += t4[(uint8_t)(((uint32_t)(c))>>(1*8))] ^ \
+           t3[(uint8_t)(((uint32_t)(c))>>(3*8))] ^ \
+	   t2[(uint8_t)(((uint32_t)((c)>>(4*8)))>>(1*8))] ^ \
+           t1[(uint8_t)(((uint32_t)((c)>>(4*8)))>>(3*8))]; \
       b *= mul;
 
 #define pass(a,b,c,mul) \
@@ -604,9 +605,9 @@ static word64 table[4*256] = {
 
 #define tiger_compress_macro(str, state, passes) \
 { \
-  word64 a, b, c, tmpa; \
-  word64 aa, bb, cc; \
-  word64 x0, x1, x2, x3, x4, x5, x6, x7; \
+  uint64_t a, b, c, tmpa; \
+  uint64_t aa, bb, cc; \
+  uint64_t x0, x1, x2, x3, x4, x5, x6, x7; \
   unsigned int pass_no; \
 \
   a = state[0]; \
@@ -624,14 +625,17 @@ static word64 table[4*256] = {
 }
 
 /* The compress function is a function. Requires smaller cache?    */
-void tiger_compress(tiger_state *state, const word64 *str) {
-	tiger_compress_macro(((word64*)str), ((word64*)state->res), state->passes);
+void tiger_compress(tiger_state *state, const uint64_t *str) {
+	tiger_compress_macro(((uint64_t *) str), ((uint64_t *) state->res), state->passes);
 }
 
 void tiger_init(tiger_state *state) {
+	memset(state, 0, sizeof(tiger_state));
+
 	state->res[0] = 0x0123456789ABCDEFULL;
 	state->res[1] = 0xFEDCBA9876543210ULL;
 	state->res[2] = 0xF096A5B4C3B2E187ULL;
+
 	state->passes = 3; /* Defaults to 3 passes which is the recommended value.
 			    * 4 passes can be also used if stronger security is required.
 			    */
@@ -641,61 +645,91 @@ void tiger_set_passes(tiger_state *state, unsigned int passes) {
 	state->passes = passes;
 }
 
-void tiger_update(tiger_state *state, const unsigned char *in, size_t length) {
-	word64 i, j;
-	const word64 *str = (const word64 *) in;
-	unsigned char temp[64];
+void tiger_update(tiger_state *state, const unsigned char *in, uint64_t length) {
+	uint64_t i, j;
+	unsigned char t[64];
+	const uint64_t *str = (const uint64_t *) in;
+
+	state->mlen += length;
+
+	if (state->tlen && ((state->tlen + length) >= 64)) {
+		if (is_littleendian()) {
+			memcpy(&state->temp[state->tlen], in, 64 - state->tlen);
+		} else {
+			for (i = state->tlen; i < 64; i ++)
+				state->temp[state->tlen + (i ^ 7)] = in[i];
+		}
+
+		tiger_compress(state, (uint64_t *) state->temp);
+
+		length -= (64 - state->tlen);
+
+		state->tlen = 0;
+
+		if (!length)
+			return;
+	} 
+
+	if (state->tlen || (length < 64)) {
+		if (is_littleendian()) {
+			memcpy(&state->temp[state->tlen], in, length);
+		} else {
+			for (i = state->tlen; i < length; i ++)
+				state->temp[state->tlen + (i ^ 7)] = in[i];
+		}
+
+		state->tlen += length;
+
+		return;
+	}
+
+	state->tlen = 0;
 
 	for (i = length; i >= 64; i -= 64) {
 		if (is_littleendian()) { /* LITTLE ENDIAN */
 			tiger_compress(state, str);
 		} else { /* BIG ENDIAN */
 			for (j = 0; j < 64; j ++)
-				temp[j ^ 7] = ((byte *) str)[j];
+				t[j ^ 7] = ((uint8_t *) str)[j];
 
-			tiger_compress(state, ((word64 *) temp));
+			tiger_compress(state, ((uint64_t *) t));
 		}
 
 		str += 8;
 	}
 
-	if (is_littleendian()) { /* LITTLE ENDIAN */
-		for (j = 0; j < i; j ++)
-			temp[j] = ((byte *) str)[j];
+	state->tlen = i;
 
-		temp[j ++] = 0x01;
-
-		for (; j & 7; j ++)
-			temp[j] = 0;
-	} else { /* BIG ENDIAN */
-		for (j = 0; j < i; j ++)
-			temp[j ^ 7] = ((byte *) str)[j];
-
-		temp[j ^ 7] = 0x01;
-		j ++;
-
-		for (; j & 7; j ++)
-			temp[j ^ 7] = 0;
+	if (state->tlen) {
+		if (is_littleendian()) {
+			memcpy(state->temp, str, state->tlen);
+		} else {
+			for (i = state->tlen; i < length; i ++)
+				state->temp[i ^ 7] = in[i];
+		}
 	}
-
-	if (j > 56) {
-		for (; j < 64; j ++)
-			temp[j] = 0;
-
-		tiger_compress(state, ((word64 *) temp));
-
-		j = 0;
-	}
-
-	for (; j < 56; j ++)
-		temp[j] = 0;
-
-	((word64 *) (&(temp[56])))[0] = ((word64) length) << 3;
-
-	tiger_compress(state, ((word64 *) temp));
 }
 
-void tiger_finish(tiger_state *state, unsigned char *digest) {
+void tiger_finish(tiger_state *state, unsigned char *digest, int tiger2) {
+	unsigned char t[64];
+
+	memset(&state->temp[state->tlen], 0, 64 - state->tlen);
+
+	state->temp[state->tlen] = tiger2 ? 0x80 : 0x01;
+
+	if (state->tlen >= 56) {
+		memset(t, 0, sizeof(t));
+
+		((uint64_t *) &t[56])[0] = state->mlen << 3;
+
+		tiger_compress(state, (uint64_t *) state->temp);
+		tiger_compress(state, (uint64_t *) t);
+	} else {
+		((uint64_t *) &state->temp[56])[0] = state->mlen << 3;
+
+		tiger_compress(state, (uint64_t *) state->temp);
+	}
+
 	memcpy(digest, state->res, sizeof(state->res));
 }
 

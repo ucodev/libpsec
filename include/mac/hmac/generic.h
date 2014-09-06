@@ -207,6 +207,12 @@ unsigned char *hmac_tiger(
 	size_t key_len,
 	const unsigned char *msg,
 	size_t msg_len);
+unsigned char *hmac_tiger2(
+	unsigned char *out,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char *msg,
+	size_t msg_len);
 /****************************/
 /* HMAC WHIRLPOOL Interface */
 /****************************/
