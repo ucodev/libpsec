@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH Low Level interface header
  *
- * Date: 06-09-2014
+ * Date: 07-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -57,10 +57,10 @@ typedef union {
 	MD2_CTX md2;
 	MD4_CTX md4;
 	MD5_CTX md5;
-	uint32_t ripemd128[4];
-	uint32_t ripemd160[5];
-	uint32_t ripemd256[8];
-	uint32_t ripemd320[10];
+	ripemd128_state ripemd128;
+	ripemd160_state ripemd160;
+	ripemd256_state ripemd256;
+	ripemd320_state ripemd320;
 	SHA1Context sha1;
 	SHA224Context sha224;
 	SHA256Context sha256;

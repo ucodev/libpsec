@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH [RIPEMD] low level interface header
  *
- * Date: 06-09-2014
+ * Date: 07-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,25 +32,54 @@
 #include <stdio.h>
 #include <stdint.h>
 
+/* Context types */
+typedef struct ripemd128_struct {
+	uint32_t digest[4];
+	unsigned char block[64];
+	size_t blen;
+	size_t mlen;
+} ripemd128_state;
+
+typedef struct ripemd160_struct {
+	uint32_t digest[5];
+	unsigned char block[64];
+	size_t blen;
+	size_t mlen;
+} ripemd160_state;
+
+typedef struct ripemd256_struct {
+	uint32_t digest[8];
+	unsigned char block[64];
+	size_t blen;
+	size_t mlen;
+} ripemd256_state;
+
+typedef struct ripemd320_struct {
+	uint32_t digest[10];
+	unsigned char block[64];
+	size_t blen;
+	size_t mlen;
+} ripemd320_state;
+
 /* RIPEMD-128 Low Level Interface */
-int ripemd128_low_init(uint32_t *context);
-int ripemd128_low_update(uint32_t *context, const unsigned char *in, size_t in_len);
-int ripemd128_low_final(uint32_t *context, unsigned char *out);
+int ripemd128_low_init(ripemd128_state *context);
+int ripemd128_low_update(ripemd128_state *context, const unsigned char *in, size_t in_len);
+int ripemd128_low_final(ripemd128_state *context, unsigned char *out);
 
 /* RIPEMD-160 Low Level Interface */
-int ripemd160_low_init(uint32_t *context);
-int ripemd160_low_update(uint32_t *context, const unsigned char *in, size_t in_len);
-int ripemd160_low_final(uint32_t *context, unsigned char *out);
+int ripemd160_low_init(ripemd160_state *context);
+int ripemd160_low_update(ripemd160_state *context, const unsigned char *in, size_t in_len);
+int ripemd160_low_final(ripemd160_state *context, unsigned char *out);
 
 /* RIPEMD-256 Low Level Interface */
-int ripemd256_low_init(uint32_t *context);
-int ripemd256_low_update(uint32_t *context, const unsigned char *in, size_t in_len);
-int ripemd256_low_final(uint32_t *context, unsigned char *out);
+int ripemd256_low_init(ripemd256_state *context);
+int ripemd256_low_update(ripemd256_state *context, const unsigned char *in, size_t in_len);
+int ripemd256_low_final(ripemd256_state *context, unsigned char *out);
 
 /* RIPEMD-320 Low Level Interface */
-int ripemd320_low_init(uint32_t *context);
-int ripemd320_low_update(uint32_t *context, const unsigned char *in, size_t in_len);
-int ripemd320_low_final(uint32_t *context, unsigned char *out);
+int ripemd320_low_init(ripemd320_state *context);
+int ripemd320_low_update(ripemd320_state *context, const unsigned char *in, size_t in_len);
+int ripemd320_low_final(ripemd320_state *context, unsigned char *out);
 
 #endif
 

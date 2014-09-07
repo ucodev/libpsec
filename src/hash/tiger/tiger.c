@@ -663,11 +663,13 @@ void tiger_update(tiger_state *state, const unsigned char *in, uint64_t length) 
 		tiger_compress(state, (uint64_t *) state->temp);
 
 		length -= (64 - state->tlen);
+		in += (64 - state->tlen);
 
 		state->tlen = 0;
 
 		if (!length)
 			return;
+
 	} 
 
 	if (state->tlen || (length < 64)) {

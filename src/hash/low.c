@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH Low Level interface 
  *
- * Date: 06-09-2014
+ * Date: 07-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -255,54 +255,54 @@ int hash_low_md5_final(psec_low_hash_t *context, unsigned char *out) {
 
 /* RIPEMD-128 Interface */
 int hash_low_ripemd128_init(psec_low_hash_t *context) {
-	return ripemd128_low_init(context->ripemd128);
+	return ripemd128_low_init(&context->ripemd128);
 }
 
 int hash_low_ripemd128_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
-	return ripemd128_low_update(context->ripemd128, in, in_len);
+	return ripemd128_low_update(&context->ripemd128, in, in_len);
 }
 
 int hash_low_ripemd128_final(psec_low_hash_t *context, unsigned char *out) {
-	return ripemd128_low_final(context->ripemd128, out);
+	return ripemd128_low_final(&context->ripemd128, out);
 }
 
 /* RIPEMD-160 Interface */
 int hash_low_ripemd160_init(psec_low_hash_t *context) {
-	return ripemd160_low_init(context->ripemd160);
+	return ripemd160_low_init(&context->ripemd160);
 }
 
 int hash_low_ripemd160_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
-	return ripemd160_low_update(context->ripemd160, in, in_len);
+	return ripemd160_low_update(&context->ripemd160, in, in_len);
 }
 
 int hash_low_ripemd160_final(psec_low_hash_t *context, unsigned char *out) {
-	return ripemd128_low_final(context->ripemd160, out);
+	return ripemd160_low_final(&context->ripemd160, out);
 }
 
 /* RIPEMD-256 Interface */
 int hash_low_ripemd256_init(psec_low_hash_t *context) {
-	return ripemd256_low_init(context->ripemd256);
+	return ripemd256_low_init(&context->ripemd256);
 }
 
 int hash_low_ripemd256_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
-	return ripemd256_low_update(context->ripemd256, in, in_len);
+	return ripemd256_low_update(&context->ripemd256, in, in_len);
 }
 
 int hash_low_ripemd256_final(psec_low_hash_t *context, unsigned char *out) {
-	return ripemd256_low_final(context->ripemd256, out);
+	return ripemd256_low_final(&context->ripemd256, out);
 }
 
 /* RIPEMD-320 Interface */
 int hash_low_ripemd320_init(psec_low_hash_t *context) {
-	return ripemd320_low_init(context->ripemd320);
+	return ripemd320_low_init(&context->ripemd320);
 }
 
 int hash_low_ripemd320_update(psec_low_hash_t *context, const unsigned char *in, size_t in_len) {
-	return ripemd320_low_update(context->ripemd320, in, in_len);
+	return ripemd320_low_update(&context->ripemd320, in, in_len);
 }
 
 int hash_low_ripemd320_final(psec_low_hash_t *context, unsigned char *out) {
-	return ripemd320_low_final(context->ripemd320, out);
+	return ripemd320_low_final(&context->ripemd320, out);
 }
 
 /* SHA1 Interface */

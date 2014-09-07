@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH [RIPEMD] low level interface
  *
- * Date: 06-09-2014
+ * Date: 07-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,34 +32,64 @@
 #include "tc.h"
 
 /* RIPEMD-320 Low Level Interface */
-int ripemd320_low_init(uint32_t *context) {
-	RIPEMD320_init(context);
+int ripemd320_low_init(ripemd320_state *context) {
+	tc_memset(context, 0, sizeof(ripemd320_state));
+
+	RIPEMD320_init(context->digest);
 
 	return 0;
 }
 
-int ripemd320_low_update(uint32_t *context, const unsigned char *in, size_t in_len) {
+int ripemd320_low_update(ripemd320_state *context, const unsigned char *in, size_t in_len) {
 	int i = 0;
-	uint32_t X[16];
 
-	for (i = 0; in_len >= sizeof(X); i += sizeof(X), in_len -= sizeof(X)) {
-		tc_memcpy(X, in + i, sizeof(X));
-		RIPEMD320_compress(context, X);
+	context->mlen += in_len;
+
+	if (context->blen && ((context->blen + in_len) >= sizeof(context->block))) {
+		tc_memcpy(&context->block[context->blen], in, sizeof(context->block) - context->blen);
+
+		RIPEMD320_compress(context->digest, (uint32_t *) context->block);
+
+		in_len -= sizeof(context->block) - context->blen;
+		in += sizeof(context->block) - context->blen;
+
+		context->blen = 0;
+
+		if (!in_len)
+			return 0;
+
 	}
 
-	RIPEMD320_finish(context, in + i, in_len, 0);
+	if (context->blen || (in_len < sizeof(context->block))) {
+		tc_memcpy(&context->block[context->blen], in, in_len);
+		context->blen += in_len;
+
+		return 0;
+	}
+
+	for (context->blen = 0, i = in_len; i >= sizeof(context->block); i -= sizeof(context->block)) {
+		RIPEMD320_compress(context->digest, (uint32_t *) in);
+
+		in += sizeof(context->block);
+	}
+
+	context->blen = i;
+
+	tc_memcpy(context->block, in, context->blen);
 
 	return 0;
 }
 
-int ripemd320_low_final(uint32_t *context, unsigned char *out) {
+int ripemd320_low_final(ripemd320_state *context, unsigned char *out) {
 	int i = 0;
 
-	for (i = 0; i < 40; i += 4) {
-		out[i]     = context[i >> 2];
-		out[i + 1] = context[i >> 2] >> 8;
-		out[i + 2] = context[i >> 2] >> 16;
-		out[i + 3] = context[i >> 2] >> 24;
+	RIPEMD320_finish(context->digest, context->block, context->mlen, 0);
+
+	for (i = 0; i < sizeof(context->digest); i += 4) {
+		out[i]     = context->digest[i >> 2];
+		out[i + 1] = context->digest[i >> 2] >> 8;
+		out[i + 2] = context->digest[i >> 2] >> 16;
+		out[i + 3] = context->digest[i >> 2] >> 24;
 	}
 
 	return 0;

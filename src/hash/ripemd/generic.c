@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH [RIPEMD] generic interface
  *
- * Date: 06-09-2014
+ * Date: 07-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -35,7 +35,7 @@
 
 /* RIPEMD-128 Generic Interface */
 unsigned char *ripemd128_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
-	uint32_t context[4];
+	ripemd128_state context;
 	unsigned char *digest = NULL;
 
 	if (!out) {
@@ -45,20 +45,20 @@ unsigned char *ripemd128_buffer(unsigned char *out, const unsigned char *in, siz
 		digest = out;
 	}
 
-	ripemd128_low_init(context);
-	ripemd128_low_update(context, in, in_len);
-	ripemd128_low_final(context, digest);
+	ripemd128_low_init(&context);
+	ripemd128_low_update(&context, in, in_len);
+	ripemd128_low_final(&context, digest);
 
 	return digest;
 }
 
 unsigned char *ripemd128_file(unsigned char *out, FILE *fp) {
-	uint32_t context[4];
+	ripemd128_state context;
 	size_t ret = 0;
 	int errsv = 0;
 	unsigned char buf[8192], *digest = NULL;
 
-	ripemd128_low_init(context);
+	ripemd128_low_init(&context);
 
 	for (;;) {
 		ret = fread(buf, 1, 8192, fp);
@@ -69,7 +69,7 @@ unsigned char *ripemd128_file(unsigned char *out, FILE *fp) {
 			return NULL;
 		}
 
-		ripemd128_low_update(context, buf, ret);
+		ripemd128_low_update(&context, buf, ret);
 
 		if (feof(fp))
 			break;
@@ -82,14 +82,14 @@ unsigned char *ripemd128_file(unsigned char *out, FILE *fp) {
 		digest = out;
 	}
 
-	ripemd128_low_final(context, digest);
+	ripemd128_low_final(&context, digest);
 
 	return digest;
 }
 
 /* RIPEMD-160 Generic Interface */
 unsigned char *ripemd160_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
-	uint32_t context[5];
+	ripemd160_state context;
 	unsigned char *digest = NULL;
 
 	if (!out) {
@@ -99,20 +99,20 @@ unsigned char *ripemd160_buffer(unsigned char *out, const unsigned char *in, siz
 		digest = out;
 	}
 
-	ripemd160_low_init(context);
-	ripemd160_low_update(context, in, in_len);
-	ripemd160_low_final(context, digest);
+	ripemd160_low_init(&context);
+	ripemd160_low_update(&context, in, in_len);
+	ripemd160_low_final(&context, digest);
 
 	return digest;
 }
 
 unsigned char *ripemd160_file(unsigned char *out, FILE *fp) {
-	uint32_t context[5];
+	ripemd160_state context;
 	size_t ret = 0;
 	int errsv = 0;
 	unsigned char buf[8192], *digest = NULL;
 
-	ripemd160_low_init(context);
+	ripemd160_low_init(&context);
 
 	for (;;) {
 		ret = fread(buf, 1, 8192, fp);
@@ -123,7 +123,7 @@ unsigned char *ripemd160_file(unsigned char *out, FILE *fp) {
 			return NULL;
 		}
 
-		ripemd160_low_update(context, buf, ret);
+		ripemd160_low_update(&context, buf, ret);
 
 		if (feof(fp))
 			break;
@@ -136,14 +136,14 @@ unsigned char *ripemd160_file(unsigned char *out, FILE *fp) {
 		digest = out;
 	}
 
-	ripemd160_low_final(context, digest);
+	ripemd160_low_final(&context, digest);
 
 	return digest;
 }
 
 /* RIPEMD-256 Generic Interface */
 unsigned char *ripemd256_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
-	uint32_t context[8];
+	ripemd256_state context;
 	unsigned char *digest = NULL;
 
 	if (!out) {
@@ -153,20 +153,20 @@ unsigned char *ripemd256_buffer(unsigned char *out, const unsigned char *in, siz
 		digest = out;
 	}
 
-	ripemd256_low_init(context);
-	ripemd256_low_update(context, in, in_len);
-	ripemd256_low_final(context, digest);
+	ripemd256_low_init(&context);
+	ripemd256_low_update(&context, in, in_len);
+	ripemd256_low_final(&context, digest);
 
 	return digest;
 }
 
 unsigned char *ripemd256_file(unsigned char *out, FILE *fp) {
-	uint32_t context[8];
+	ripemd256_state context;
 	size_t ret = 0;
 	int errsv = 0;
 	unsigned char buf[8192], *digest = NULL;
 
-	ripemd256_low_init(context);
+	ripemd256_low_init(&context);
 
 	for (;;) {
 		ret = fread(buf, 1, 8192, fp);
@@ -177,7 +177,7 @@ unsigned char *ripemd256_file(unsigned char *out, FILE *fp) {
 			return NULL;
 		}
 
-		ripemd256_low_update(context, buf, ret);
+		ripemd256_low_update(&context, buf, ret);
 
 		if (feof(fp))
 			break;
@@ -190,14 +190,14 @@ unsigned char *ripemd256_file(unsigned char *out, FILE *fp) {
 		digest = out;
 	}
 
-	ripemd256_low_final(context, digest);
+	ripemd256_low_final(&context, digest);
 
 	return digest;
 }
 
 /* RIPEMD-320 Generic Interface */
 unsigned char *ripemd320_buffer(unsigned char *out, const unsigned char *in, size_t in_len) {
-	uint32_t context[10];
+	ripemd320_state context;
 	unsigned char *digest = NULL;
 
 	if (!out) {
@@ -207,20 +207,20 @@ unsigned char *ripemd320_buffer(unsigned char *out, const unsigned char *in, siz
 		digest = out;
 	}
 
-	ripemd320_low_init(context);
-	ripemd320_low_update(context, in, in_len);
-	ripemd320_low_final(context, digest);
+	ripemd320_low_init(&context);
+	ripemd320_low_update(&context, in, in_len);
+	ripemd320_low_final(&context, digest);
 
 	return digest;
 }
 
 unsigned char *ripemd320_file(unsigned char *out, FILE *fp) {
-	uint32_t context[10];
+	ripemd320_state context;
 	size_t ret = 0;
 	int errsv = 0;
 	unsigned char buf[8192], *digest = NULL;
 
-	ripemd320_low_init(context);
+	ripemd320_low_init(&context);
 
 	for (;;) {
 		ret = fread(buf, 1, 8192, fp);
@@ -231,7 +231,7 @@ unsigned char *ripemd320_file(unsigned char *out, FILE *fp) {
 			return NULL;
 		}
 
-		ripemd320_low_update(context, buf, ret);
+		ripemd320_low_update(&context, buf, ret);
 
 		if (feof(fp))
 			break;
@@ -244,7 +244,7 @@ unsigned char *ripemd320_file(unsigned char *out, FILE *fp) {
 		digest = out;
 	}
 
-	ripemd320_low_final(context, digest);
+	ripemd320_low_final(&context, digest);
 
 	return digest;
 }

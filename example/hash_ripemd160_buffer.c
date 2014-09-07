@@ -5,7 +5,7 @@
 #include <psec/hash.h>
 
 int main(void) {
-	unsigned char msg[] = "test";
+	unsigned char msg[] = "message digest";
 	unsigned char digest[HASH_DIGEST_SIZE_RIPEMD160], encoded_digest[(HASH_DIGEST_SIZE_RIPEMD160 * 2) + 1];
 	size_t out_len = 0;
 
