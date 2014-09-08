@@ -15,62 +15,14 @@ libpsec Changes:
 
 #include <stdint.h>
 
-#define is_littleendian() (*(unsigned char *) (unsigned int [1]) { 1 })
+#include "arch.h"
 
-#define load(x) \
-	(is_littleendian() ? _load_littleendian((x)) : _load_bigendian((x)))
-
-#define store(x,u) \
-	do { \
-		if (is_littleendian()) _store_littleendian((x),(u)); \
-		else _store_bigendian((x),(u)); \
-	} while (0)
 
 typedef uint32_t uint32;
-
-#if 0
-typedef unsigned int uint32;
-#endif
 
 static uint32 rotate(uint32 u,int c)
 {
   return (u << c) | (u >> (32 - c));
-}
-
-static uint32 _load_bigendian(const unsigned char *x)
-{
-  return
-    (((uint32) (x[0])) << 24) \
-  | (((uint32) (x[1])) << 16) \
-  | (((uint32) (x[2])) << 8)  \
-  |   (uint32) (x[3])
-  ;
-}
-
-static uint32 _load_littleendian(const unsigned char *x)
-{
-  return
-      (uint32) (x[0]) \
-  | (((uint32) (x[1])) << 8) \
-  | (((uint32) (x[2])) << 16) \
-  | (((uint32) (x[3])) << 24)
-  ;
-}
-
-static void _store_bigendian(unsigned char *x,uint32 u)
-{
-  x[3] = u; u >>= 8;
-  x[2] = u; u >>= 8;
-  x[1] = u; u >>= 8;
-  x[0] = u;
-}
-
-static void _store_littleendian(unsigned char *x,uint32 u)
-{
-  x[0] = u; u >>= 8;
-  x[1] = u; u >>= 8;
-  x[2] = u; u >>= 8;
-  x[3] = u;
 }
 
 int crypto_core_salsa20(
@@ -84,22 +36,44 @@ int crypto_core_salsa20(
   uint32 j0, j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12, j13, j14, j15;
   int i;
 
-  j0 = x0 = load(c + 0);
-  j1 = x1 = load(k + 0);
-  j2 = x2 = load(k + 4);
-  j3 = x3 = load(k + 8);
-  j4 = x4 = load(k + 12);
-  j5 = x5 = load(c + 4);
-  j6 = x6 = load(in + 0);
-  j7 = x7 = load(in + 4);
-  j8 = x8 = load(in + 8);
-  j9 = x9 = load(in + 12);
-  j10 = x10 = load(c + 8);
-  j11 = x11 = load(k + 16);
-  j12 = x12 = load(k + 20);
-  j13 = x13 = load(k + 24);
-  j14 = x14 = load(k + 28);
-  j15 = x15 = load(c + 12);
+  arch_mem_copy_vect2dword_little(&x0, c + 0);
+  j0 = x0;
+
+  arch_mem_copy_vect2dword_little(&x1, k + 0);
+  j1 = x1;
+  arch_mem_copy_vect2dword_little(&x2, k + 4);
+  j2 = x2;
+  arch_mem_copy_vect2dword_little(&x3, k + 8);
+  j3 = x3;
+  arch_mem_copy_vect2dword_little(&x4, k + 12);
+  j4 = x4;
+
+  arch_mem_copy_vect2dword_little(&x5, c + 4);
+  j5 = x5;
+
+  arch_mem_copy_vect2dword_little(&x6, in + 0);
+  j6 = x6;
+  arch_mem_copy_vect2dword_little(&x7, in + 4);
+  j7 = x7;
+  arch_mem_copy_vect2dword_little(&x8, in + 8);
+  j8 = x8;
+  arch_mem_copy_vect2dword_little(&x9, in + 12);
+  j9 = x9;
+
+  arch_mem_copy_vect2dword_little(&x10, c + 8);
+  j10 = x10;
+
+  arch_mem_copy_vect2dword_little(&x11, k + 16);
+  j11 = x11;
+  arch_mem_copy_vect2dword_little(&x12, k + 20);
+  j12 = x12;
+  arch_mem_copy_vect2dword_little(&x13, k + 24);
+  j13 = x13;
+  arch_mem_copy_vect2dword_little(&x14, k + 28);
+  j14 = x14;
+
+  arch_mem_copy_vect2dword_little(&x15, c + 12);
+  j15 = x15;
 
   for (i = ROUNDS;i > 0;i -= 2) {
      x4 ^= rotate( x0+x12, 7);
@@ -153,22 +127,22 @@ int crypto_core_salsa20(
   x14 += j14;
   x15 += j15;
 
-  store(out + 0,x0);
-  store(out + 4,x1);
-  store(out + 8,x2);
-  store(out + 12,x3);
-  store(out + 16,x4);
-  store(out + 20,x5);
-  store(out + 24,x6);
-  store(out + 28,x7);
-  store(out + 32,x8);
-  store(out + 36,x9);
-  store(out + 40,x10);
-  store(out + 44,x11);
-  store(out + 48,x12);
-  store(out + 52,x13);
-  store(out + 56,x14);
-  store(out + 60,x15);
+  arch_mem_copy_dword2vect_little(out + 0, x0);
+  arch_mem_copy_dword2vect_little(out + 4, x1);
+  arch_mem_copy_dword2vect_little(out + 8, x2);
+  arch_mem_copy_dword2vect_little(out + 12, x3);
+  arch_mem_copy_dword2vect_little(out + 16, x4);
+  arch_mem_copy_dword2vect_little(out + 20, x5);
+  arch_mem_copy_dword2vect_little(out + 24, x6);
+  arch_mem_copy_dword2vect_little(out + 28, x7);
+  arch_mem_copy_dword2vect_little(out + 32, x8);
+  arch_mem_copy_dword2vect_little(out + 36, x9);
+  arch_mem_copy_dword2vect_little(out + 40, x10);
+  arch_mem_copy_dword2vect_little(out + 44, x11);
+  arch_mem_copy_dword2vect_little(out + 48, x12);
+  arch_mem_copy_dword2vect_little(out + 52, x13);
+  arch_mem_copy_dword2vect_little(out + 56, x14);
+  arch_mem_copy_dword2vect_little(out + 60, x15);
 
   return 0;
 }
