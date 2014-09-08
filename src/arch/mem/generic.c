@@ -164,3 +164,69 @@ void mem_copy_qword2vect_big(const uint64_t *qword, unsigned char *v) {
 	}
 }
 
+/* uint to uint */
+static inline void _mem_copy_uint2uint_fwd(const void *uintf_s, void *uintf_d, size_t len) {
+	memcpy(uintf_d, uintf_s, len);
+}
+
+static inline void _mem_copy_uint2uint_rev(const void *uintr_s, void *uintr_d, size_t len) {
+	unsigned int i = 0;
+	unsigned char uintr_s_tmp[len];
+	unsigned char uintr_d_tmp[len];
+
+	memcpy(uintr_s_tmp, uintr_s, len);
+	
+	for (i = 0; i < len; i ++)
+		uintr_d_tmp[i ^ (len - 1)] = uintr_s_tmp[i];
+
+	memcpy(uintr_d, uintr_d_tmp, len);
+}
+
+void mem_copy_word2word_little(const uint16_t *word_s, uint16_t *word_d) {
+	if (_is_little()) {
+		_mem_copy_uint2uint_fwd(word_s, word_d, 2);
+	} else {
+		_mem_copy_uint2uint_rev(word_s, word_d, 2);
+	}
+}
+
+void mem_copy_word2word_big(const uint16_t *word_s, uint16_t *word_d) {
+	if (_is_little()) {
+		_mem_copy_uint2uint_rev(word_s, word_d, 2);
+	} else {
+		_mem_copy_uint2uint_fwd(word_s, word_d, 2);
+	}
+}
+
+void mem_copy_dword2dword_little(const uint32_t *dword_s, uint32_t *dword_d) {
+	if (_is_little()) {
+		_mem_copy_uint2uint_fwd(dword_s, dword_d, 4);
+	} else {
+		_mem_copy_uint2uint_rev(dword_s, dword_d, 4);
+	}
+}
+
+void mem_copy_dword2dword_big(const uint32_t *dword_s, uint32_t *dword_d) {
+	if (_is_little()) {
+		_mem_copy_uint2uint_rev(dword_s, dword_d, 4);
+	} else {
+		_mem_copy_uint2uint_fwd(dword_s, dword_d, 4);
+	}
+}
+
+void mem_copy_qword2qword_little(const uint64_t *qword_s, uint64_t *qword_d) {
+	if (_is_little()) {
+		_mem_copy_uint2uint_fwd(qword_s, qword_d, 8);
+	} else {
+		_mem_copy_uint2uint_rev(qword_s, qword_d, 8);
+	}
+}
+
+void mem_copy_qword2qword_big(const uint64_t *qword_s, uint64_t *qword_d) {
+	if (_is_little()) {
+		_mem_copy_uint2uint_rev(qword_s, qword_d, 8);
+	} else {
+		_mem_copy_uint2uint_fwd(qword_s, qword_d, 8);
+	}
+}
+

@@ -80,3 +80,28 @@ void arch_mem_copy_qword2vect_big(const uint64_t *qword, unsigned char *v) {
 	mem_copy_qword2vect_big(qword, v);
 }
 
+/* uint to uint */
+void arch_mem_copy_word2word_little(const uint16_t *word_s, uint16_t *word_d) {
+	mem_copy_word2word_little(word_s, word_d);
+}
+
+void arch_mem_copy_word2word_big(const uint16_t *word_s, uint16_t *word_d) {
+	mem_copy_word2word_big(word_s, word_d);
+}
+
+void arch_mem_copy_dword2dword_little(const uint32_t *dword_s, uint32_t *dword_d) {
+	mem_copy_dword2dword_little(dword_s, dword_d);
+}
+
+void arch_mem_copy_dword2dword_big(const uint32_t *dword_s, uint32_t *dword_d) {
+	mem_copy_dword2dword_big(dword_s, dword_d);
+}
+
+void arch_mem_copy_qword2qword_little(const uint64_t *qword_s, uint64_t *qword_d) {
+	mem_copy_qword2qword_little(qword_s, qword_d);
+}
+
+void arch_mem_copy_qword2qword_big(const uint64_t *qword_s, uint64_t *qword_d) {
+	mem_copy_qword2qword_big(qword_s, qword_d);
+}
+

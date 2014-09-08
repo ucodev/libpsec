@@ -47,5 +47,13 @@ void mem_copy_dword2vect_big(const uint32_t *dword, unsigned char *v);
 void mem_copy_qword2vect_little(const uint64_t *qword, unsigned char *v);
 void mem_copy_qword2vect_big(const uint64_t *qword, unsigned char *v);
 
+/* uint to uint */
+void mem_copy_word2word_little(const uint16_t *word_s, uint16_t *word_d);
+void mem_copy_word2word_big(const uint16_t *word_s, uint16_t *word_d);
+void mem_copy_dword2dword_little(const uint32_t *dword_s, uint32_t *dword_d);
+void mem_copy_dword2dword_big(const uint32_t *dword_s, uint32_t *dword_d);
+void mem_copy_qword2qword_little(const uint64_t *qword_s, uint64_t *qword_d);
+void mem_copy_qword2qword_big(const uint64_t *qword_s, uint64_t *qword_d);
+
 #endif
 
