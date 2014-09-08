@@ -1,10 +1,11 @@
 CC=`cat ../.compiler`
 CCFLAGS=
 LDFLAGS=-shared
-OBJS=auth/auth.o crypt/crypt.o decode/decode.o encode/encode.o generate/generate.o hash/hash.o kdf/kdf.o ke/ke.o mac/mac.o tc/tc.o
+OBJS=arch/arch.o auth/auth.o crypt/crypt.o decode/decode.o encode/encode.o generate/generate.o hash/hash.o kdf/kdf.o ke/ke.o mac/mac.o tc/tc.o
 TARGET=libpsec.so
 
 all:
+	make -C arch/
 	make -C auth/
 	make -C crypt/
 	make -C decode/
@@ -18,6 +19,7 @@ all:
 	${CC} -o ${TARGET} ${OBJS} ${LDFLAGS}
 
 clean:
+	make -C arch/ clean
 	make -C auth/ clean
 	make -C crypt/ clean
 	make -C decode/ clean

@@ -17,6 +17,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "arch.h"
+
 #include "hash/tiger/tiger.h"
 
 /* Tiger S boxes */
@@ -722,12 +724,12 @@ void tiger_finish(tiger_state *state, unsigned char *digest, int tiger2) {
 	if (state->tlen >= 56) {
 		memset(t, 0, sizeof(t));
 
-		((uint64_t *) &t[56])[0] = state->mlen << 3;
+		arch_mem_copy_qword2vect_little((uint64_t [1]) { state->mlen << 3 }, &state->temp[56]);
 
 		tiger_compress(state, (uint64_t *) state->temp);
 		tiger_compress(state, (uint64_t *) t);
 	} else {
-		((uint64_t *) &state->temp[56])[0] = state->mlen << 3;
+		arch_mem_copy_qword2vect_little((uint64_t [1]) { state->mlen << 3 }, &state->temp[56]);
 
 		tiger_compress(state, (uint64_t *) state->temp);
 	}

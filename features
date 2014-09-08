@@ -2,7 +2,12 @@
 
 /bin/echo -e "\nSupported modules:\n"
 
+# Arch support
+/bin/echo -e \
+"         arch/mem support:\tOK"
+
 # Auth support
+/bin/echo -ne "\n"
 /bin/echo -ne \
 "      auth/shadow support:\t"
 

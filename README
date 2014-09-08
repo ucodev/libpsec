@@ -4,6 +4,8 @@
 
 2. Listing of the supported modules
 
+         arch/mem support:	OK
+
       auth/shadow support:	OK
 
         crypt/aes support:	OK
