@@ -109,26 +109,66 @@ static unsigned char padding[128] = {        /* constants for padding */
    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-#define f_1(x6, x5, x4, x3, x2, x1, x0)          \
-           ((x1) & ((x0) ^ (x4)) ^ (x2) & (x5) ^ \
-            (x3) & (x6) ^ (x0))
 
-#define f_2(x6, x5, x4, x3, x2, x1, x0)                         \
-           ((x2) & ((x1) & ~(x3) ^ (x4) & (x5) ^ (x6) ^ (x0)) ^ \
-            (x4) & ((x1) ^ (x5)) ^ (x3) & (x5) ^ (x0)) 
+static inline haval_word f_1(
+	haval_word x6,
+	haval_word x5,
+	haval_word x4,
+	haval_word x3,
+	haval_word x2,
+	haval_word x1,
+	haval_word x0)
+{
+	return (x1 & (x0 ^ x4)) ^ (x2 & x5) ^ (x3 & x6) ^ x0;
+}
 
-#define f_3(x6, x5, x4, x3, x2, x1, x0)          \
-           ((x3) & ((x1) & (x2) ^ (x6) ^ (x0)) ^ \
-            (x1) & (x4) ^ (x2) & (x5) ^ (x0))
+static inline haval_word f_2(
+	haval_word x6,
+	haval_word x5,
+	haval_word x4,
+	haval_word x3,
+	haval_word x2,
+	haval_word x1,
+	haval_word x0)
+{
+	return (x2 & ((x1 & ~x3) ^ (x4 & x5) ^ x6 ^ x0)) ^ (x4 & (x1 ^ x5)) ^ (x3 & x5) ^ x0;
+}
 
-#define f_4(x6, x5, x4, x3, x2, x1, x0)                                 \
-           ((x4) & ((x5) & ~(x2) ^ (x3) & ~(x6) ^ (x1) ^ (x6) ^ (x0)) ^ \
-            (x3) & ((x1) & (x2) ^ (x5) ^ (x6)) ^                        \
-            (x2) & (x6) ^ (x0))
+static inline haval_word f_3(
+	haval_word x6,
+	haval_word x5,
+	haval_word x4,
+	haval_word x3,
+	haval_word x2,
+	haval_word x1,
+	haval_word x0)
+{
+	return (x3 & ((x1 & x2) ^ x6 ^ x0)) ^ (x1 & x4) ^ (x2 & x5) ^ x0;
+}
 
-#define f_5(x6, x5, x4, x3, x2, x1, x0)             \
-           ((x0) & ((x1) & (x2) & (x3) ^ ~(x5)) ^   \
-            (x1) & (x4) ^ (x2) & (x5) ^ (x3) & (x6))
+static inline haval_word f_4(
+	haval_word x6,
+	haval_word x5,
+	haval_word x4,
+	haval_word x3,
+	haval_word x2,
+	haval_word x1,
+	haval_word x0)
+{
+	return (x4 & ((x5 & ~x2) ^ (x3 & ~x6) ^ x1 ^ x6 ^ x0)) ^ (x3 & ((x1 & x2) ^ x5 ^ x6)) ^ (x2 & x6) ^ x0;
+}
+
+static inline haval_word f_5(
+	haval_word x6,
+	haval_word x5,
+	haval_word x4,
+	haval_word x3,
+	haval_word x2,
+	haval_word x1,
+	haval_word x0)
+{
+	return (x0 & (((x1 & x2) & x3) ^ ~x5)) ^ (x1 & x4) ^ (x2 & x5) ^ (x3 & x6);
+}
 
 /*
  * Permutations phi_{i,j}, i=3,4,5, j=1,...,i.

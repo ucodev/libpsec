@@ -1,6 +1,6 @@
 CC=`cat ../../../.compiler`
 DEFINES=`cat ../../../.defines`
-CCFLAGS=-g -pedantic -O2 -Wall -Werror -fPIC
+CCFLAGS=-g -std=c99 -pedantic -O2 -Wall -Werror -fPIC
 OBJS=generic.o low.o tiger.o
 INCLUDEDIRS=-I../../../include
 
