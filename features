@@ -5,6 +5,8 @@
 # Arch support
 /bin/echo -e \
 "         arch/mem support:\tOK"
+/bin/echo -e \
+"        arch/spec support:\tOK"
 
 # Auth support
 /bin/echo -ne "\n"

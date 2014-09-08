@@ -31,6 +31,9 @@
 
 #include <stdint.h>
 
+/*****************/
+/* MEM Interface */
+/*****************/
 /* Vector to uint */
 void arch_mem_copy_vect2word_little(uint16_t *word, const unsigned char *v);
 void arch_mem_copy_vect2word_big(uint16_t *word, const unsigned char *v);
@@ -54,6 +57,12 @@ void arch_mem_copy_dword2dword_little(uint32_t *dword_d, const uint32_t dword_s)
 void arch_mem_copy_dword2dword_big(uint32_t *dword_d, const uint32_t dword_s);
 void arch_mem_copy_qword2qword_little(uint64_t *qword_d, const uint64_t qword_s);
 void arch_mem_copy_qword2qword_big(uint64_t *qword_d, const uint64_t qword_s);
+
+/******************/
+/* SPEC Interface */
+/******************/
+int arch_spec_endianness_is_little(void);
+int arch_spec_endianness_is_big(void);
 
 #endif
 

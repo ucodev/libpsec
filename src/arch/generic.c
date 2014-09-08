@@ -29,7 +29,11 @@
 #include <stdint.h>
 
 #include "arch/mem/generic.h"
+#include "arch/spec/generic.h"
 
+/*****************/
+/* MEM Interface */
+/*****************/
 /* Vector to uint */
 void arch_mem_copy_vect2word_little(uint16_t *word, const unsigned char *v) {
 	mem_copy_vect2word_little(word, v);
@@ -103,5 +107,16 @@ void arch_mem_copy_qword2qword_little(uint64_t *qword_d, const uint64_t qword_s)
 
 void arch_mem_copy_qword2qword_big(uint64_t *qword_d, const uint64_t qword_s) {
 	mem_copy_qword2qword_big(qword_d, qword_s);
+}
+
+/******************/
+/* SPEC Interface */
+/******************/
+int arch_spec_endianness_is_little(void) {
+	return spec_endianness_is_little();
+}
+
+int arch_spec_endianness_is_big(void) {
+	return spec_endianness_is_big();
 }
 
