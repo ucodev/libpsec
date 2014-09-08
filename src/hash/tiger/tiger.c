@@ -724,12 +724,12 @@ void tiger_finish(tiger_state *state, unsigned char *digest, int tiger2) {
 	if (state->tlen >= 56) {
 		memset(t, 0, sizeof(t));
 
-		arch_mem_copy_qword2vect_little((uint64_t [1]) { state->mlen << 3 }, &state->temp[56]);
+		arch_mem_copy_qword2vect_little(&t[56], state->mlen << 3);
 
 		tiger_compress(state, (uint64_t *) state->temp);
 		tiger_compress(state, (uint64_t *) t);
 	} else {
-		arch_mem_copy_qword2vect_little((uint64_t [1]) { state->mlen << 3 }, &state->temp[56]);
+		arch_mem_copy_qword2vect_little(&state->temp[56], state->mlen << 3);
 
 		tiger_compress(state, (uint64_t *) state->temp);
 	}

@@ -5,7 +5,7 @@ Public domain.
 
 
 Changes by Pedro A. Hortas:
- - Some changes were performed to allow smooth integration with libpsec.
+ - Significant changes were performed to allow smooth integration with secretbox and libpsec.
 
 */
 
@@ -15,6 +15,7 @@ Changes by Pedro A. Hortas:
 
 #include "crypt/chacha/ecrypt-sync.h"
 
+#include "arch.h"
 #include "tc.h"
 
 #define ROTATE(v,c) (ROTL32(v,c))
@@ -38,7 +39,7 @@ static void _chacha_core(
 
   tc_memcpy(x, input, 64);
 
-  for (i = rounds;i > 0;i -= 2) {
+  for (i = rounds; i > 0; i -= 2) {
     QUARTERROUND( 0, 4, 8,12)
     QUARTERROUND( 1, 5, 9,13)
     QUARTERROUND( 2, 6,10,14)
@@ -48,51 +49,50 @@ static void _chacha_core(
     QUARTERROUND( 2, 7, 8,13)
     QUARTERROUND( 3, 4, 9,14)
   }
-  for (i = 0;i < 16;++i) x[i] = PLUS(x[i],input[i]);
-  for (i = 0;i < 16;++i) U32TO8_LITTLE(output + 4 * i,x[i]);
+
+  for (i = 0; i < 16; ++ i)
+	x[i] = PLUS(x[i], input[i]);
+
+  for (i = 0; i < 16; ++ i)
+	arch_mem_copy_dword2vect_little(output + (i * 4), x[i]);
 }
 
-static const char sigma[16] = "expand 32-byte k";
-static const char tau[16] = "expand 16-byte k";
-
 static void _crypto_core_chacha_constant(uint32_t *input, size_t kbits) {
+  const char sigma[16] = "expand 32-byte k";
+  const char tau[16] = "expand 16-byte k";
   const char *constants = ((kbits == 256) ? sigma : tau);
 
-  input[0] = U8TO32_LITTLE(constants + 0);
-  input[1] = U8TO32_LITTLE(constants + 4);
-  input[2] = U8TO32_LITTLE(constants + 8);
-  input[3] = U8TO32_LITTLE(constants + 12);
+  arch_mem_copy_vect2dword_little(&input[0], (const unsigned char *) constants + 0);
+  arch_mem_copy_vect2dword_little(&input[1], (const unsigned char *) constants + 4);
+  arch_mem_copy_vect2dword_little(&input[2], (const unsigned char *) constants + 8);
+  arch_mem_copy_vect2dword_little(&input[3], (const unsigned char *) constants + 12);
 }
 
 static void _crypto_core_chacha_key(uint32_t *input, const unsigned char *k, size_t kbits) {
-  input[4] = U8TO32_LITTLE(k + 0);
-  input[5] = U8TO32_LITTLE(k + 4);
-  input[6] = U8TO32_LITTLE(k + 8);
-  input[7] = U8TO32_LITTLE(k + 12);
+  arch_mem_copy_vect2dword_little(&input[4], k + 0);
+  arch_mem_copy_vect2dword_little(&input[5], k + 4);
+  arch_mem_copy_vect2dword_little(&input[6], k + 8);
+  arch_mem_copy_vect2dword_little(&input[7], k + 12);
 
   k += ((kbits == 256) ? 16 : 0);
 
-  input[8] = U8TO32_LITTLE(k + 0);
-  input[9] = U8TO32_LITTLE(k + 4);
-  input[10] = U8TO32_LITTLE(k + 8);
-  input[11] = U8TO32_LITTLE(k + 12);
+  arch_mem_copy_vect2dword_little(&input[8], k + 0);
+  arch_mem_copy_vect2dword_little(&input[9], k + 4);
+  arch_mem_copy_vect2dword_little(&input[10], k + 8);
+  arch_mem_copy_vect2dword_little(&input[11], k + 12);
 }
 
 static void _crypto_core_chacha_block_counter(uint32_t *input, uint32_t bc) {
-  uint8_t v[4];
-  tc_memcpy(v, &bc, 4);
-  input[12] = U8TO32_LITTLE(v);
+  arch_mem_copy_dword2dword_little(&input[12], bc);
 }
 
 static void _crypto_core_chacha_nonce_const(uint32_t *input, uint32_t nc) {
-  uint8_t v[4];
-  tc_memcpy(v, &nc, 4);
-  input[13] = U8TO32_LITTLE(v);
+  arch_mem_copy_dword2dword_little(&input[13], nc);
 }
 
 static void _crypto_core_chacha_nonce(uint32_t *input, const unsigned char *n) {
-  input[14] = U8TO32_LITTLE(n + 0);
-  input[15] = U8TO32_LITTLE(n + 4);
+  arch_mem_copy_vect2dword_little(&input[14], n + 0);
+  arch_mem_copy_vect2dword_little(&input[15], n + 4);
 }
 
 void crypto_core_chacha(

@@ -39,11 +39,11 @@ static inline int _is_little(void) {
 }
 
 /* Vector to uint */
-static inline void _mem_copy_v2uint_fwd(const unsigned char *v, void *uintf, size_t len) {
+static inline void _mem_copy_v2uint_fwd(void *uintf, const unsigned char *v, size_t len) {
 	memcpy(uintf, v, len);
 }
 
-static inline void _mem_copy_v2uint_rev(const unsigned char *v, void *uintr, size_t len) {
+static inline void _mem_copy_v2uint_rev(void *uintr, const unsigned char *v, size_t len) {
 	unsigned int i = 0;
 	unsigned char uintr_tmp[len];
 
@@ -53,60 +53,60 @@ static inline void _mem_copy_v2uint_rev(const unsigned char *v, void *uintr, siz
 	memcpy(uintr, uintr_tmp, len);
 }
 
-void mem_copy_vect2word_little(const unsigned char *v, uint16_t *word) {
+void mem_copy_vect2word_little(uint16_t *word, const unsigned char *v) {
 	if (_is_little()) {
-		_mem_copy_v2uint_fwd(v, word, 2);
+		_mem_copy_v2uint_fwd(word, v, 2);
 	} else {
-		_mem_copy_v2uint_rev(v, word, 2);
+		_mem_copy_v2uint_rev(word, v, 2);
 	}
 }
 
-void mem_copy_vect2word_big(const unsigned char *v, uint16_t *word) {
+void mem_copy_vect2word_big(uint16_t *word, const unsigned char *v) {
 	if (_is_little()) {
-		_mem_copy_v2uint_rev(v, word, 2);
+		_mem_copy_v2uint_rev(word, v, 2);
 	} else {
-		_mem_copy_v2uint_fwd(v, word, 2);
+		_mem_copy_v2uint_fwd(word, v, 2);
 	}
 }
 
-void mem_copy_vect2dword_little(const unsigned char *v, uint32_t *dword) {
+void mem_copy_vect2dword_little(uint32_t *dword, const unsigned char *v) {
 	if (_is_little()) {
-		_mem_copy_v2uint_fwd(v, dword, 4);
+		_mem_copy_v2uint_fwd(dword, v, 4);
 	} else {
-		_mem_copy_v2uint_rev(v, dword, 4);
+		_mem_copy_v2uint_rev(dword, v, 4);
 	}
 }
 
-void mem_copy_vect2dword_big(const unsigned char *v, uint32_t *dword) {
+void mem_copy_vect2dword_big(uint32_t *dword, const unsigned char *v) {
 	if (_is_little()) {
-		_mem_copy_v2uint_rev(v, dword, 4);
+		_mem_copy_v2uint_rev(dword, v, 4);
 	} else {
-		_mem_copy_v2uint_fwd(v, dword, 4);
+		_mem_copy_v2uint_fwd(dword, v, 4);
 	}
 }
 
-void mem_copy_vect2qword_little(const unsigned char *v, uint64_t *qword) {
+void mem_copy_vect2qword_little(uint64_t *qword, const unsigned char *v) {
 	if (_is_little()) {
-		_mem_copy_v2uint_fwd(v, qword, 8);
+		_mem_copy_v2uint_fwd(qword, v, 8);
 	} else {
-		_mem_copy_v2uint_rev(v, qword, 8);
+		_mem_copy_v2uint_rev(qword, v, 8);
 	}
 }
 
-void mem_copy_vect2qword_big(const unsigned char *v, uint64_t *qword) {
+void mem_copy_vect2qword_big(uint64_t *qword, const unsigned char *v) {
 	if (_is_little()) {
-		_mem_copy_v2uint_rev(v, qword, 8);
+		_mem_copy_v2uint_rev(qword, v, 8);
 	} else {
-		_mem_copy_v2uint_fwd(v, qword, 8);
+		_mem_copy_v2uint_fwd(qword, v, 8);
 	}
 }
 
 /* uint to vector */
-static inline void _mem_copy_uint2vect_fwd(const void *uintf, unsigned char *v, size_t len) {
+static inline void _mem_copy_uint2vect_fwd(unsigned char *v, const void *uintf, size_t len) {
 	memcpy(v, uintf, len);
 }
 
-static inline void _mem_copy_uint2vect_rev(const void *uintr, unsigned char *v, size_t len) {
+static inline void _mem_copy_uint2vect_rev(unsigned char *v, const void *uintr, size_t len) {
 	unsigned int i = 0;
 	unsigned char uintr_tmp[len];
 
@@ -116,60 +116,60 @@ static inline void _mem_copy_uint2vect_rev(const void *uintr, unsigned char *v, 
 		v[i ^ (len - 1)] = uintr_tmp[i];
 }
 
-void mem_copy_word2vect_little(const uint16_t *word, unsigned char *v) {
+void mem_copy_word2vect_little(unsigned char *v, const uint16_t word) {
 	if (_is_little()) {
-		_mem_copy_uint2vect_fwd(word, v, 2);
+		_mem_copy_uint2vect_fwd(v, &word, 2);
 	} else {
-		_mem_copy_uint2vect_rev(word, v, 2);
+		_mem_copy_uint2vect_rev(v, &word, 2);
 	}
 }
 
-void mem_copy_word2vect_big(const uint16_t *word, unsigned char *v) {
+void mem_copy_word2vect_big(unsigned char *v, const uint16_t word) {
 	if (_is_little()) {
-		_mem_copy_uint2vect_rev(word, v, 2);
+		_mem_copy_uint2vect_rev(v, &word, 2);
 	} else {
-		_mem_copy_uint2vect_fwd(word, v, 2);
+		_mem_copy_uint2vect_fwd(v, &word, 2);
 	}
 }
 
-void mem_copy_dword2vect_little(const uint32_t *dword, unsigned char *v) {
+void mem_copy_dword2vect_little(unsigned char *v, const uint32_t dword) {
 	if (_is_little()) {
-		_mem_copy_uint2vect_fwd(dword, v, 4);
+		_mem_copy_uint2vect_fwd(v, &dword, 4);
 	} else {
-		_mem_copy_uint2vect_rev(dword, v, 4);
+		_mem_copy_uint2vect_rev(v, &dword, 4);
 	}
 }
 
-void mem_copy_dword2vect_big(const uint32_t *dword, unsigned char *v) {
+void mem_copy_dword2vect_big(unsigned char *v, const uint32_t dword) {
 	if (_is_little()) {
-		_mem_copy_uint2vect_rev(dword, v, 4);
+		_mem_copy_uint2vect_rev(v, &dword, 4);
 	} else {
-		_mem_copy_uint2vect_fwd(dword, v, 4);
+		_mem_copy_uint2vect_fwd(v, &dword, 4);
 	}
 }
 
-void mem_copy_qword2vect_little(const uint64_t *qword, unsigned char *v) {
+void mem_copy_qword2vect_little(unsigned char *v, const uint64_t qword) {
 	if (_is_little()) {
-		_mem_copy_uint2vect_fwd(qword, v, 8);
+		_mem_copy_uint2vect_fwd(v, &qword, 8);
 	} else {
-		_mem_copy_uint2vect_rev(qword, v, 8);
+		_mem_copy_uint2vect_rev(v, &qword, 8);
 	}
 }
 
-void mem_copy_qword2vect_big(const uint64_t *qword, unsigned char *v) {
+void mem_copy_qword2vect_big(unsigned char *v, const uint64_t qword) {
 	if (_is_little()) {
-		_mem_copy_uint2vect_rev(qword, v, 8);
+		_mem_copy_uint2vect_rev(v, &qword, 8);
 	} else {
-		_mem_copy_uint2vect_fwd(qword, v, 8);
+		_mem_copy_uint2vect_fwd(v, &qword, 8);
 	}
 }
 
 /* uint to uint */
-static inline void _mem_copy_uint2uint_fwd(const void *uintf_s, void *uintf_d, size_t len) {
+static inline void _mem_copy_uint2uint_fwd(void *uintf_d, const void *uintf_s, size_t len) {
 	memcpy(uintf_d, uintf_s, len);
 }
 
-static inline void _mem_copy_uint2uint_rev(const void *uintr_s, void *uintr_d, size_t len) {
+static inline void _mem_copy_uint2uint_rev(void *uintr_d, const void *uintr_s, size_t len) {
 	unsigned int i = 0;
 	unsigned char uintr_s_tmp[len];
 	unsigned char uintr_d_tmp[len];
@@ -182,51 +182,51 @@ static inline void _mem_copy_uint2uint_rev(const void *uintr_s, void *uintr_d, s
 	memcpy(uintr_d, uintr_d_tmp, len);
 }
 
-void mem_copy_word2word_little(const uint16_t *word_s, uint16_t *word_d) {
+void mem_copy_word2word_little(uint16_t *word_d, const uint16_t word_s) {
 	if (_is_little()) {
-		_mem_copy_uint2uint_fwd(word_s, word_d, 2);
+		_mem_copy_uint2uint_fwd(word_d, &word_s, 2);
 	} else {
-		_mem_copy_uint2uint_rev(word_s, word_d, 2);
+		_mem_copy_uint2uint_rev(word_d, &word_s, 2);
 	}
 }
 
-void mem_copy_word2word_big(const uint16_t *word_s, uint16_t *word_d) {
+void mem_copy_word2word_big(uint16_t *word_d, const uint16_t word_s) {
 	if (_is_little()) {
-		_mem_copy_uint2uint_rev(word_s, word_d, 2);
+		_mem_copy_uint2uint_rev(word_d, &word_s, 2);
 	} else {
-		_mem_copy_uint2uint_fwd(word_s, word_d, 2);
+		_mem_copy_uint2uint_fwd(word_d, &word_s, 2);
 	}
 }
 
-void mem_copy_dword2dword_little(const uint32_t *dword_s, uint32_t *dword_d) {
+void mem_copy_dword2dword_little(uint32_t *dword_d, const uint32_t dword_s) {
 	if (_is_little()) {
-		_mem_copy_uint2uint_fwd(dword_s, dword_d, 4);
+		_mem_copy_uint2uint_fwd(dword_d, &dword_s, 4);
 	} else {
-		_mem_copy_uint2uint_rev(dword_s, dword_d, 4);
+		_mem_copy_uint2uint_rev(dword_d, &dword_s, 4);
 	}
 }
 
-void mem_copy_dword2dword_big(const uint32_t *dword_s, uint32_t *dword_d) {
+void mem_copy_dword2dword_big(uint32_t *dword_d, const uint32_t dword_s) {
 	if (_is_little()) {
-		_mem_copy_uint2uint_rev(dword_s, dword_d, 4);
+		_mem_copy_uint2uint_rev(dword_d, &dword_s, 4);
 	} else {
-		_mem_copy_uint2uint_fwd(dword_s, dword_d, 4);
+		_mem_copy_uint2uint_fwd(dword_d, &dword_s, 4);
 	}
 }
 
-void mem_copy_qword2qword_little(const uint64_t *qword_s, uint64_t *qword_d) {
+void mem_copy_qword2qword_little(uint64_t *qword_d, const uint64_t qword_s) {
 	if (_is_little()) {
-		_mem_copy_uint2uint_fwd(qword_s, qword_d, 8);
+		_mem_copy_uint2uint_fwd(qword_d, &qword_s, 8);
 	} else {
-		_mem_copy_uint2uint_rev(qword_s, qword_d, 8);
+		_mem_copy_uint2uint_rev(qword_d, &qword_s, 8);
 	}
 }
 
-void mem_copy_qword2qword_big(const uint64_t *qword_s, uint64_t *qword_d) {
+void mem_copy_qword2qword_big(uint64_t *qword_d, const uint64_t qword_s) {
 	if (_is_little()) {
-		_mem_copy_uint2uint_rev(qword_s, qword_d, 8);
+		_mem_copy_uint2uint_rev(qword_d, &qword_s, 8);
 	} else {
-		_mem_copy_uint2uint_fwd(qword_s, qword_d, 8);
+		_mem_copy_uint2uint_fwd(qword_d, &qword_s, 8);
 	}
 }
 

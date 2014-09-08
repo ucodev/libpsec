@@ -32,28 +32,28 @@
 #include <stdint.h>
 
 /* Vector to uint */
-void mem_copy_vect2word_little(const unsigned char *v, uint16_t *word);
-void mem_copy_vect2word_big(const unsigned char *v, uint16_t *word);
-void mem_copy_vect2dword_little(const unsigned char *v, uint32_t *dword);
-void mem_copy_vect2dword_big(const unsigned char *v, uint32_t *dword);
-void mem_copy_vect2qword_little(const unsigned char *v, uint64_t *qword);
-void mem_copy_vect2qword_big(const unsigned char *v, uint64_t *qword);
+void mem_copy_vect2word_little(uint16_t *word, const unsigned char *v);
+void mem_copy_vect2word_big(uint16_t *word, const unsigned char *v);
+void mem_copy_vect2dword_little(uint32_t *dword, const unsigned char *v);
+void mem_copy_vect2dword_big(uint32_t *dword, const unsigned char *v);
+void mem_copy_vect2qword_little(uint64_t *qword, const unsigned char *v);
+void mem_copy_vect2qword_big(uint64_t *qword, const unsigned char *v);
 
 /* uint to vector */
-void mem_copy_word2vect_little(const uint16_t *word, unsigned char *v);
-void mem_copy_word2vect_big(const uint16_t *word, unsigned char *v);
-void mem_copy_dword2vect_little(const uint32_t *dword, unsigned char *v);
-void mem_copy_dword2vect_big(const uint32_t *dword, unsigned char *v);
-void mem_copy_qword2vect_little(const uint64_t *qword, unsigned char *v);
-void mem_copy_qword2vect_big(const uint64_t *qword, unsigned char *v);
+void mem_copy_word2vect_little(unsigned char *v, const uint16_t word);
+void mem_copy_word2vect_big(unsigned char *v, const uint16_t word);
+void mem_copy_dword2vect_little(unsigned char *v, const uint32_t dword);
+void mem_copy_dword2vect_big(unsigned char *v, const uint32_t dword);
+void mem_copy_qword2vect_little(unsigned char *v, const uint64_t qword);
+void mem_copy_qword2vect_big(unsigned char *v, const uint64_t qword);
 
 /* uint to uint */
-void mem_copy_word2word_little(const uint16_t *word_s, uint16_t *word_d);
-void mem_copy_word2word_big(const uint16_t *word_s, uint16_t *word_d);
-void mem_copy_dword2dword_little(const uint32_t *dword_s, uint32_t *dword_d);
-void mem_copy_dword2dword_big(const uint32_t *dword_s, uint32_t *dword_d);
-void mem_copy_qword2qword_little(const uint64_t *qword_s, uint64_t *qword_d);
-void mem_copy_qword2qword_big(const uint64_t *qword_s, uint64_t *qword_d);
+void mem_copy_word2word_little(uint16_t *word_d, const uint16_t word_s);
+void mem_copy_word2word_big(uint16_t *word_d, const uint16_t word_s);
+void mem_copy_dword2dword_little(uint32_t *dword_d, const uint32_t dword_s);
+void mem_copy_dword2dword_big(uint32_t *dword_d, const uint32_t dword_s);
+void mem_copy_qword2qword_little(uint64_t *qword_d, const uint64_t qword_s);
+void mem_copy_qword2qword_big(uint64_t *qword_d, const uint64_t qword_s);
 
 #endif
 

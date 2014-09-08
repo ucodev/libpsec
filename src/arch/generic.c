@@ -31,77 +31,77 @@
 #include "arch/mem/generic.h"
 
 /* Vector to uint */
-void arch_mem_copy_vect2word_little(const unsigned char *v, uint16_t *word) {
-	mem_copy_vect2word_little(v, word);
+void arch_mem_copy_vect2word_little(uint16_t *word, const unsigned char *v) {
+	mem_copy_vect2word_little(word, v);
 }
 
-void arch_mem_copy_vect2word_big(const unsigned char *v, uint16_t *word) {
-	mem_copy_vect2word_big(v, word);
+void arch_mem_copy_vect2word_big(uint16_t *word, const unsigned char *v) {
+	mem_copy_vect2word_big(word, v);
 }
 
-void arch_mem_copy_vect2dword_little(const unsigned char *v, uint32_t *dword) {
-	mem_copy_vect2dword_little(v, dword);
+void arch_mem_copy_vect2dword_little(uint32_t *dword, const unsigned char *v) {
+	mem_copy_vect2dword_little(dword, v);
 }
 
-void arch_mem_copy_vect2dword_big(const unsigned char *v, uint32_t *dword) {
-	mem_copy_vect2dword_big(v, dword);
+void arch_mem_copy_vect2dword_big(uint32_t *dword, const unsigned char *v) {
+	mem_copy_vect2dword_big(dword, v);
 }
 
-void arch_mem_copy_vect2qword_little(const unsigned char *v, uint64_t *qword) {
-	mem_copy_vect2qword_little(v, qword);
+void arch_mem_copy_vect2qword_little(uint64_t *qword, const unsigned char *v) {
+	mem_copy_vect2qword_little(qword, v);
 }
 
-void arch_mem_copy_vect2qword_big(const unsigned char *v, uint64_t *qword) {
-	mem_copy_vect2qword_big(v, qword);
+void arch_mem_copy_vect2qword_big(uint64_t *qword, const unsigned char *v) {
+	mem_copy_vect2qword_big(qword, v);
 }
 
 /* uint to vector */
-void arch_mem_copy_word2vect_little(const uint16_t *word, unsigned char *v) {
-	mem_copy_word2vect_little(word, v);
+void arch_mem_copy_word2vect_little(unsigned char *v, const uint16_t word) {
+	mem_copy_word2vect_little(v, word);
 }
 
-void arch_mem_copy_word2vect_big(const uint16_t *word, unsigned char *v) {
-	mem_copy_word2vect_big(word, v);
+void arch_mem_copy_word2vect_big(unsigned char *v, const uint16_t word) {
+	mem_copy_word2vect_big(v, word);
 }
 
-void arch_mem_copy_dword2vect_little(const uint32_t *dword, unsigned char *v) {
-	mem_copy_dword2vect_little(dword, v);
+void arch_mem_copy_dword2vect_little(unsigned char *v, const uint32_t dword) {
+	mem_copy_dword2vect_little(v, dword);
 }
 
-void arch_mem_copy_dword2vect_big(const uint32_t *dword, unsigned char *v) {
-	mem_copy_dword2vect_big(dword, v);
+void arch_mem_copy_dword2vect_big(unsigned char *v, const uint32_t dword) {
+	mem_copy_dword2vect_big(v, dword);
 }
 
-void arch_mem_copy_qword2vect_little(const uint64_t *qword, unsigned char *v) {
-	mem_copy_qword2vect_little(qword, v);
+void arch_mem_copy_qword2vect_little(unsigned char *v, const uint64_t qword) {
+	mem_copy_qword2vect_little(v, qword);
 }
 
-void arch_mem_copy_qword2vect_big(const uint64_t *qword, unsigned char *v) {
-	mem_copy_qword2vect_big(qword, v);
+void arch_mem_copy_qword2vect_big(unsigned char *v, const uint64_t qword) {
+	mem_copy_qword2vect_big(v, qword);
 }
 
 /* uint to uint */
-void arch_mem_copy_word2word_little(const uint16_t *word_s, uint16_t *word_d) {
-	mem_copy_word2word_little(word_s, word_d);
+void arch_mem_copy_word2word_little(uint16_t *word_d, const uint16_t word_s) {
+	mem_copy_word2word_little(word_d, word_s);
 }
 
-void arch_mem_copy_word2word_big(const uint16_t *word_s, uint16_t *word_d) {
-	mem_copy_word2word_big(word_s, word_d);
+void arch_mem_copy_word2word_big(uint16_t *word_d, const uint16_t word_s) {
+	mem_copy_word2word_big(word_d, word_s);
 }
 
-void arch_mem_copy_dword2dword_little(const uint32_t *dword_s, uint32_t *dword_d) {
-	mem_copy_dword2dword_little(dword_s, dword_d);
+void arch_mem_copy_dword2dword_little(uint32_t *dword_d, const uint32_t dword_s) {
+	mem_copy_dword2dword_little(dword_d, dword_s);
 }
 
-void arch_mem_copy_dword2dword_big(const uint32_t *dword_s, uint32_t *dword_d) {
-	mem_copy_dword2dword_big(dword_s, dword_d);
+void arch_mem_copy_dword2dword_big(uint32_t *dword_d, const uint32_t dword_s) {
+	mem_copy_dword2dword_big(dword_d, dword_s);
 }
 
-void arch_mem_copy_qword2qword_little(const uint64_t *qword_s, uint64_t *qword_d) {
-	mem_copy_qword2qword_little(qword_s, qword_d);
+void arch_mem_copy_qword2qword_little(uint64_t *qword_d, const uint64_t qword_s) {
+	mem_copy_qword2qword_little(qword_d, qword_s);
 }
 
-void arch_mem_copy_qword2qword_big(const uint64_t *qword_s, uint64_t *qword_d) {
-	mem_copy_qword2qword_big(qword_s, qword_d);
+void arch_mem_copy_qword2qword_big(uint64_t *qword_d, const uint64_t qword_s) {
+	mem_copy_qword2qword_big(qword_d, qword_s);
 }
 
