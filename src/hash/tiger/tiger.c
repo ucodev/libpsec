@@ -655,7 +655,7 @@ void tiger_update(tiger_state *state, const unsigned char *in, uint64_t length) 
 	state->mlen += length;
 
 	if (state->tlen && ((state->tlen + length) >= 64)) {
-		if (is_littleendian()) {
+		if (arch_spec_endianness_is_little()) {
 			memcpy(&state->temp[state->tlen], in, 64 - state->tlen);
 		} else {
 			for (i = state->tlen; i < 64; i ++)
@@ -675,7 +675,7 @@ void tiger_update(tiger_state *state, const unsigned char *in, uint64_t length) 
 	} 
 
 	if (state->tlen || (length < 64)) {
-		if (is_littleendian()) {
+		if (arch_spec_endianness_is_little()) {
 			memcpy(&state->temp[state->tlen], in, length);
 		} else {
 			for (i = state->tlen; i < length; i ++)
@@ -687,10 +687,8 @@ void tiger_update(tiger_state *state, const unsigned char *in, uint64_t length) 
 		return;
 	}
 
-	state->tlen = 0;
-
-	for (i = length; i >= 64; i -= 64) {
-		if (is_littleendian()) { /* LITTLE ENDIAN */
+	for (state->tlen = 0, i = length; i >= 64; i -= 64) {
+		if (arch_spec_endianness_is_little()) { /* LITTLE ENDIAN */
 			tiger_compress(state, str);
 		} else { /* BIG ENDIAN */
 			for (j = 0; j < 64; j ++)
@@ -705,7 +703,7 @@ void tiger_update(tiger_state *state, const unsigned char *in, uint64_t length) 
 	state->tlen = i;
 
 	if (state->tlen) {
-		if (is_littleendian()) {
+		if (arch_spec_endianness_is_little()) {
 			memcpy(state->temp, str, state->tlen);
 		} else {
 			for (i = state->tlen; i < length; i ++)
@@ -719,7 +717,7 @@ void tiger_finish(tiger_state *state, unsigned char *digest, int tiger2) {
 
 	memset(&state->temp[state->tlen], 0, 64 - state->tlen);
 
-	state->temp[state->tlen] = tiger2 ? 0x80 : 0x01;
+	state->temp[state->tlen] = tiger2 ? 0x80 : 0x01 ;
 
 	if (state->tlen >= 56) {
 		memset(t, 0, sizeof(t));

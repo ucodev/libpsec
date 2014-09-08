@@ -36,44 +36,28 @@ int crypto_core_salsa20(
   uint32 j0, j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12, j13, j14, j15;
   int i;
 
-  arch_mem_copy_vect2dword_little(&x0, c + 0);
-  j0 = x0;
+  j0 = arch_mem_copy_vect2dword_little(&x0, c + 0);
 
-  arch_mem_copy_vect2dword_little(&x1, k + 0);
-  j1 = x1;
-  arch_mem_copy_vect2dword_little(&x2, k + 4);
-  j2 = x2;
-  arch_mem_copy_vect2dword_little(&x3, k + 8);
-  j3 = x3;
-  arch_mem_copy_vect2dword_little(&x4, k + 12);
-  j4 = x4;
+  j1 = arch_mem_copy_vect2dword_little(&x1, k + 0);
+  j2 = arch_mem_copy_vect2dword_little(&x2, k + 4);
+  j3 = arch_mem_copy_vect2dword_little(&x3, k + 8);
+  j4 = arch_mem_copy_vect2dword_little(&x4, k + 12);
 
-  arch_mem_copy_vect2dword_little(&x5, c + 4);
-  j5 = x5;
+  j5 = arch_mem_copy_vect2dword_little(&x5, c + 4);
 
-  arch_mem_copy_vect2dword_little(&x6, in + 0);
-  j6 = x6;
-  arch_mem_copy_vect2dword_little(&x7, in + 4);
-  j7 = x7;
-  arch_mem_copy_vect2dword_little(&x8, in + 8);
-  j8 = x8;
-  arch_mem_copy_vect2dword_little(&x9, in + 12);
-  j9 = x9;
+  j6 = arch_mem_copy_vect2dword_little(&x6, in + 0);
+  j7 = arch_mem_copy_vect2dword_little(&x7, in + 4);
+  j8 = arch_mem_copy_vect2dword_little(&x8, in + 8);
+  j9 = arch_mem_copy_vect2dword_little(&x9, in + 12);
 
-  arch_mem_copy_vect2dword_little(&x10, c + 8);
-  j10 = x10;
+  j10 = arch_mem_copy_vect2dword_little(&x10, c + 8);
 
-  arch_mem_copy_vect2dword_little(&x11, k + 16);
-  j11 = x11;
-  arch_mem_copy_vect2dword_little(&x12, k + 20);
-  j12 = x12;
-  arch_mem_copy_vect2dword_little(&x13, k + 24);
-  j13 = x13;
-  arch_mem_copy_vect2dword_little(&x14, k + 28);
-  j14 = x14;
+  j11 = arch_mem_copy_vect2dword_little(&x11, k + 16);
+  j12 = arch_mem_copy_vect2dword_little(&x12, k + 20);
+  j13 = arch_mem_copy_vect2dword_little(&x13, k + 24);
+  j14 = arch_mem_copy_vect2dword_little(&x14, k + 28);
 
-  arch_mem_copy_vect2dword_little(&x15, c + 12);
-  j15 = x15;
+  j15 = arch_mem_copy_vect2dword_little(&x15, c + 12);
 
   for (i = ROUNDS;i > 0;i -= 2) {
      x4 ^= rotate( x0+x12, 7);

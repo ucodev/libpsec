@@ -28,9 +28,6 @@ typedef struct tiger_state_struct {
 	unsigned int passes;
 } tiger_state;
 
-/* Macros */
-#define is_littleendian()	(*(unsigned char *) (uint32_t [1]) { 1 })
-
 /* Prototypes */
 void tiger_init(tiger_state *state);
 void tiger_set_passes(tiger_state *state, unsigned int passes);

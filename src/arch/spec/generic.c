@@ -29,11 +29,13 @@
 #include <string.h>
 #include <stdint.h>
 
+#include "tc.h"
+
 static inline int _is_little(void) {
 	uint16_t u = 1;
 	unsigned char v[2];
 
-	memcpy(v, &u, 2);
+	tc_memcpy(v, &u, 2);
 
 	return v[0];
 }
