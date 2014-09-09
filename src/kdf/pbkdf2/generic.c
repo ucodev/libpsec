@@ -33,8 +33,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include <arpa/inet.h>
-
+#include "arch.h"
 #include "hash.h"
 #include "mac.h"
 #include "tc.h"
@@ -61,16 +60,13 @@ static unsigned char *_f_hash(
 	unsigned char out_tmp[HASH_DIGEST_SIZE_MAX];
 
 	if (!out) {
-		if (!(out = malloc(hash_len))) {
-			errsv = errno;
-			free(u);
-			errno = errsv;
+		if (!(out = malloc(hash_len)))
 			return NULL;
-		}
 	}
 
 	tc_memcpy(u, salt, salt_len);
-	tc_memcpy(&u[salt_len], (uint32_t [1]) { htonl(iteration) }, 4);
+
+	arch_mem_copy_dword2vect_big(&u[salt_len], iteration);
 
 	hmac(out_tmp, pw, pw_len, u, salt_len + 4);
 
