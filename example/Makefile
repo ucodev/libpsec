@@ -19,10 +19,18 @@ all:
 	${CC} -o crypt_aes256cbc crypt_aes256cbc.c ${LDFLAGS}
 	${CC} -o crypt_aes256ecb crypt_aes256ecb.c ${LDFLAGS}
 	${CC} -o crypt_chacha20 crypt_chacha20.c ${LDFLAGS}
+	${CC} -o crypt_chacha12 crypt_chacha12.c ${LDFLAGS}
+	${CC} -o crypt_chacha8 crypt_chacha8.c ${LDFLAGS}
 	${CC} -o crypt_chacha20poly1305 crypt_chacha20poly1305.c ${LDFLAGS}
+	${CC} -o crypt_chacha12poly1305 crypt_chacha12poly1305.c ${LDFLAGS}
+	${CC} -o crypt_chacha8poly1305 crypt_chacha8poly1305.c ${LDFLAGS}
 	${CC} -o crypt_otp crypt_otp.c ${LDFLAGS}
 	${CC} -o crypt_xsalsa20 crypt_xsalsa20.c ${LDFLAGS}
+	${CC} -o crypt_xsalsa12 crypt_xsalsa12.c ${LDFLAGS}
+	${CC} -o crypt_xsalsa8 crypt_xsalsa8.c ${LDFLAGS}
 	${CC} -o crypt_xsalsa20poly1305 crypt_xsalsa20poly1305.c ${LDFLAGS}
+	${CC} -o crypt_xsalsa12poly1305 crypt_xsalsa12poly1305.c ${LDFLAGS}
+	${CC} -o crypt_xsalsa8poly1305 crypt_xsalsa8poly1305.c ${LDFLAGS}
 	${CC} -o generate_random generate_random.c ${LDFLAGS}
 	${CC} -o generate_random_dict generate_random_dict.c ${LDFLAGS}
 	${CC} -o hash_blake224_buffer hash_blake224_buffer.c ${LDFLAGS}
@@ -148,10 +156,18 @@ clean:
 	rm -f crypt_aes256cbc
 	rm -f crypt_aes256ecb
 	rm -f crypt_chacha20
+	rm -f crypt_chacha12
+	rm -f crypt_chacha8
 	rm -f crypt_chacha20poly1305
+	rm -f crypt_chacha12poly1305
+	rm -f crypt_chacha8poly1305
 	rm -f crypt_otp
 	rm -f crypt_xsalsa20
+	rm -f crypt_xsalsa12
+	rm -f crypt_xsalsa8
 	rm -f crypt_xsalsa20poly1305
+	rm -f crypt_xsalsa12poly1305
+	rm -f crypt_xsalsa8poly1305
 	rm -f generate_random
 	rm -f generate_random_dict
 	rm -f hash_blake224_buffer

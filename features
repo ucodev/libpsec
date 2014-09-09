@@ -29,7 +29,7 @@ fi
 /bin/echo -e \
 "        crypt/otp support:\tOK"
 /bin/echo -e \
-"   crypt/xsalsa20 support:\tOK"
+"     crypt/xsalsa support:\tOK"
 
 # Decode support
 /bin/echo -ne "\n"

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface header
  *
- * Date: 02-09-2014
+ * Date: 09-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -132,8 +132,14 @@ unsigned char *crypt_decrypt_aes128ecb(
 /* ChaCha Interface */
 /********************/
 #define CRYPT_KEY_SIZE_CHACHA20			32
+#define CRYPT_KEY_SIZE_CHACHA12			32
+#define CRYPT_KEY_SIZE_CHACHA8			32
 #define CRYPT_NONCE_SIZE_CHACHA20		8
+#define CRYPT_NONCE_SIZE_CHACHA12		8
+#define CRYPT_NONCE_SIZE_CHACHA8		8
 #define CRYPT_EXTRA_SIZE_CHACHA20POLY1305	16
+#define CRYPT_EXTRA_SIZE_CHACHA12POLY1305	16
+#define CRYPT_EXTRA_SIZE_CHACHA8POLY1305	16
 unsigned char *crypt_encrypt_chacha20(
 	unsigned char *out,
 	size_t *out_len,
@@ -162,6 +168,62 @@ unsigned char *crypt_decrypt_chacha20poly1305(
 	size_t in_len,
 	const unsigned char *nonce,
 	const unsigned char *key);
+unsigned char *crypt_encrypt_chacha12(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_chacha12(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_encrypt_chacha12poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_chacha12poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_encrypt_chacha8(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_chacha8(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_encrypt_chacha8poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_chacha8poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
 /*****************/
 /* OTP Interface */
 /*****************/
@@ -180,11 +242,17 @@ unsigned char *crypt_decrypt_otp(
 	const unsigned char *nonce,
 	const unsigned char *key);
 /**********************/
-/* Xsalsa20 Interface */
+/* Xsalsa Interface */
 /**********************/
 #define CRYPT_KEY_SIZE_XSALSA20			32
+#define CRYPT_KEY_SIZE_XSALSA12			32
+#define CRYPT_KEY_SIZE_XSALSA8			32
 #define CRYPT_NONCE_SIZE_XSALSA20		24
+#define CRYPT_NONCE_SIZE_XSALSA12		24
+#define CRYPT_NONCE_SIZE_XSALSA8		24
 #define CRYPT_EXTRA_SIZE_XSALSA20POLY1305	16
+#define CRYPT_EXTRA_SIZE_XSALSA12POLY1305	16
+#define CRYPT_EXTRA_SIZE_XSALSA8POLY1305	16
 unsigned char *crypt_encrypt_xsalsa20(
 	unsigned char *out,
 	size_t *out_len,
@@ -207,6 +275,62 @@ unsigned char *crypt_encrypt_xsalsa20poly1305(
 	const unsigned char *nonce,
 	const unsigned char *key);
 unsigned char *crypt_decrypt_xsalsa20poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_encrypt_xsalsa12(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_xsalsa12(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_encrypt_xsalsa12poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_xsalsa12poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_encrypt_xsalsa8(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_xsalsa8(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_encrypt_xsalsa8poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_xsalsa8poly1305(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,

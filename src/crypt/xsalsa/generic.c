@@ -1,7 +1,7 @@
 /*
  * @file generic.c
  * @brief PSEC Library
- *        Xsalsa20 Encryption/Decryption interface 
+ *        Xsalsa Encryption/Decryption interface 
  *
  * Date: 09-09-2014
  *
@@ -36,13 +36,14 @@
 
 #include "tc.h"
 
-unsigned char *xsalsa20_encrypt(
+static unsigned char *_xsalsa_encrypt(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,
 	size_t in_len,
 	const unsigned char *nonce,
-	const unsigned char *key)
+	const unsigned char *key,
+	unsigned int rounds)
 {
 	int errsv = 0, out_alloc = 0;
 
@@ -53,7 +54,7 @@ unsigned char *xsalsa20_encrypt(
 		out_alloc = 1;
 	}
 
-	if (crypto_stream_xsalsa_xor(out, in, in_len, nonce, key, 20) < 0) {
+	if (crypto_stream_xsalsa_xor(out, in, in_len, nonce, key, rounds) < 0) {
 		errsv = errno;
 		if (out_alloc) free(out);
 		errno = errsv;
@@ -65,24 +66,26 @@ unsigned char *xsalsa20_encrypt(
 	return out;
 }
 
-unsigned char *xsalsa20_decrypt(
+static unsigned char *_xsalsa_decrypt(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,
 	size_t in_len,
 	const unsigned char *nonce,
-	const unsigned char *key)
+	const unsigned char *key,
+	unsigned int rounds)
 {
-	return xsalsa20_encrypt(out, out_len, in, in_len, nonce, key);
+	return _xsalsa_encrypt(out, out_len, in, in_len, nonce, key, rounds);
 }
 
-unsigned char *xsalsa20poly1305_encrypt(
+static unsigned char *_xsalsapoly1305_encrypt(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,
 	size_t in_len,
 	const unsigned char *nonce,
-	const unsigned char *key)
+	const unsigned char *key,
+	unsigned int rounds)
 {
 	unsigned char *buf_tmp = NULL;
 	unsigned char *in_tmp = NULL, *out_tmp = NULL;
@@ -104,7 +107,7 @@ unsigned char *xsalsa20poly1305_encrypt(
 	/* in_tmp == | zero (32 bytes) | plaintext (in_len) | */
 
 	/* Encrypt data */
-	if (crypto_secretbox_xsalsa(out_tmp, in_tmp, in_len + CRYPTO_ZEROBYTES, nonce, key, 20) < 0) {
+	if (crypto_secretbox_xsalsa(out_tmp, in_tmp, in_len + CRYPTO_ZEROBYTES, nonce, key, rounds) < 0) {
 		free(buf_tmp);
 		errno = EINVAL;
 		return NULL;
@@ -127,13 +130,14 @@ unsigned char *xsalsa20poly1305_encrypt(
 	return out;
 }
 
-unsigned char *xsalsa20poly1305_decrypt(
+static unsigned char *_xsalsapoly1305_decrypt(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,
 	size_t in_len,
 	const unsigned char *nonce,
-	const unsigned char *key)
+	const unsigned char *key,
+	unsigned int rounds)
 {
 	unsigned char *buf_tmp = NULL;
 	unsigned char *in_tmp = NULL, *out_tmp = NULL;
@@ -155,7 +159,7 @@ unsigned char *xsalsa20poly1305_decrypt(
 	/* in_tmp == | zero (16 bytes) | poly1305 (16 bytes) | ciphertext (in_len - 16 bytes) | */
 
 	/* Decrypt data */
-	if (crypto_secretbox_xsalsa_open(out_tmp, in_tmp, in_len + CRYPTO_BOXZEROBYTES, nonce, key, 20) < 0) {
+	if (crypto_secretbox_xsalsa_open(out_tmp, in_tmp, in_len + CRYPTO_BOXZEROBYTES, nonce, key, rounds) < 0) {
 		free(buf_tmp);
 		errno = EINVAL;
 		return NULL;
@@ -177,5 +181,140 @@ unsigned char *xsalsa20poly1305_decrypt(
 
 	/* All good */
 	return out;
+}
+
+/* Xsalsa20 */
+unsigned char *xsalsa20_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsa_encrypt(out, out_len, in, in_len, nonce, key, 20);
+}
+
+unsigned char *xsalsa20_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsa_decrypt(out, out_len, in, in_len, nonce, key, 20);
+}
+
+unsigned char *xsalsa20poly1305_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsapoly1305_encrypt(out, out_len, in, in_len, nonce, key, 20);
+}
+
+unsigned char *xsalsa20poly1305_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsapoly1305_decrypt(out, out_len, in, in_len, nonce, key, 20);
+}
+
+/* Xsalsa12 */
+unsigned char *xsalsa12_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsa_encrypt(out, out_len, in, in_len, nonce, key, 12);
+}
+
+unsigned char *xsalsa12_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsa_decrypt(out, out_len, in, in_len, nonce, key, 12);
+}
+
+unsigned char *xsalsa12poly1305_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsapoly1305_encrypt(out, out_len, in, in_len, nonce, key, 12);
+}
+
+unsigned char *xsalsa12poly1305_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsapoly1305_decrypt(out, out_len, in, in_len, nonce, key, 12);
+}
+
+/* Xsalsa8 */
+unsigned char *xsalsa8_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsa_encrypt(out, out_len, in, in_len, nonce, key, 8);
+}
+
+unsigned char *xsalsa8_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsa_decrypt(out, out_len, in, in_len, nonce, key, 8);
+}
+
+unsigned char *xsalsa8poly1305_encrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsapoly1305_encrypt(out, out_len, in, in_len, nonce, key, 8);
+}
+
+unsigned char *xsalsa8poly1305_decrypt(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return _xsalsapoly1305_decrypt(out, out_len, in, in_len, nonce, key, 8);
 }
 

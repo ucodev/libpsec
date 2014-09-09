@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface 
  *
- * Date: 02-09-2014
+ * Date: 09-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -34,6 +34,7 @@
 #include "crypt/xsalsa/generic.h"
 #include "crypt/otp/generic.h"
 
+/* AES-256 */
 unsigned char *crypt_encrypt_aes256cbc(
 	unsigned char *out,
 	size_t *out_len,
@@ -78,6 +79,7 @@ unsigned char *crypt_decrypt_aes256ecb(
 	return aes256ecb_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+/* AES-192 */
 unsigned char *crypt_encrypt_aes192cbc(
 	unsigned char *out,
 	size_t *out_len,
@@ -122,6 +124,7 @@ unsigned char *crypt_decrypt_aes192ecb(
 	return aes192ecb_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+/* AES-128 */
 unsigned char *crypt_encrypt_aes128cbc(
 	unsigned char *out,
 	size_t *out_len,
@@ -166,6 +169,7 @@ unsigned char *crypt_decrypt_aes128ecb(
 	return aes128ecb_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+/* ChaCha20 */
 unsigned char *crypt_encrypt_chacha20(
 	unsigned char *out,
 	size_t *out_len,
@@ -210,6 +214,97 @@ unsigned char *crypt_decrypt_chacha20poly1305(
 	return chacha20poly1305_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+/* ChaCha12 */
+unsigned char *crypt_encrypt_chacha12(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return chacha12_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_chacha12(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return chacha12_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_encrypt_chacha12poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return chacha12poly1305_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_chacha12poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return chacha12poly1305_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+/* ChaCha8 */
+unsigned char *crypt_encrypt_chacha8(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return chacha8_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_chacha8(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return chacha8_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_encrypt_chacha8poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return chacha8poly1305_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_chacha8poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return chacha8poly1305_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+/* OTP */
 unsigned char *crypt_encrypt_otp(
 	unsigned char *out,
 	size_t *out_len,
@@ -232,6 +327,7 @@ unsigned char *crypt_decrypt_otp(
 	return otp_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+/* Xsalsa20 */
 unsigned char *crypt_encrypt_xsalsa20(
 	unsigned char *out,
 	size_t *out_len,
@@ -274,6 +370,96 @@ unsigned char *crypt_decrypt_xsalsa20poly1305(
 	const unsigned char *key)
 {
 	return xsalsa20poly1305_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+/* Xsalsa12 */
+unsigned char *crypt_encrypt_xsalsa12(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa12_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_xsalsa12(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa12_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_encrypt_xsalsa12poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa12poly1305_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_xsalsa12poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa12poly1305_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+/* Xsalsa8 */
+unsigned char *crypt_encrypt_xsalsa8(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa8_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_xsalsa8(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa8_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_encrypt_xsalsa8poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa8poly1305_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_xsalsa8poly1305(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return xsalsa8poly1305_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
 void crypt_destroy(unsigned char *crypt) {
