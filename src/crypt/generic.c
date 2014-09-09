@@ -31,7 +31,7 @@
 
 #include "crypt/aes/generic.h"
 #include "crypt/chacha/generic.h"
-#include "crypt/xsalsa20/generic.h"
+#include "crypt/xsalsa/generic.h"
 #include "crypt/otp/generic.h"
 
 unsigned char *crypt_encrypt_aes256cbc(

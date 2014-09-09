@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Xsalsa20 Encryption/Decryption interface 
  *
- * Date: 01-09-2014
+ * Date: 09-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include "crypt/xsalsa20/crypto.h"
+#include "crypt/xsalsa/crypto.h"
 #include "mac/poly1305/crypto.h"
 
 #include "tc.h"
@@ -53,7 +53,7 @@ unsigned char *xsalsa20_encrypt(
 		out_alloc = 1;
 	}
 
-	if (crypto_stream_xsalsa20_xor(out, in, in_len, nonce, key) < 0) {
+	if (crypto_stream_xsalsa_xor(out, in, in_len, nonce, key, 20) < 0) {
 		errsv = errno;
 		if (out_alloc) free(out);
 		errno = errsv;
@@ -104,7 +104,7 @@ unsigned char *xsalsa20poly1305_encrypt(
 	/* in_tmp == | zero (32 bytes) | plaintext (in_len) | */
 
 	/* Encrypt data */
-	if (crypto_secretbox_xsalsa20(out_tmp, in_tmp, in_len + CRYPTO_ZEROBYTES, nonce, key) < 0) {
+	if (crypto_secretbox_xsalsa(out_tmp, in_tmp, in_len + CRYPTO_ZEROBYTES, nonce, key, 20) < 0) {
 		free(buf_tmp);
 		errno = EINVAL;
 		return NULL;
@@ -155,7 +155,7 @@ unsigned char *xsalsa20poly1305_decrypt(
 	/* in_tmp == | zero (16 bytes) | poly1305 (16 bytes) | ciphertext (in_len - 16 bytes) | */
 
 	/* Decrypt data */
-	if (crypto_secretbox_xsalsa20_open(out_tmp, in_tmp, in_len + CRYPTO_BOXZEROBYTES, nonce, key) < 0) {
+	if (crypto_secretbox_xsalsa_open(out_tmp, in_tmp, in_len + CRYPTO_BOXZEROBYTES, nonce, key, 20) < 0) {
 		free(buf_tmp);
 		errno = EINVAL;
 		return NULL;

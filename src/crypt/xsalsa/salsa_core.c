@@ -9,14 +9,11 @@ libpsec Changes:
 
 */
 
-#include "crypt/xsalsa20/crypto.h"
-
-#define ROUNDS 20
+#include "crypt/xsalsa/crypto.h"
 
 #include <stdint.h>
 
 #include "arch.h"
-
 
 typedef uint32_t uint32;
 
@@ -25,11 +22,12 @@ static uint32 rotate(uint32 u,int c)
   return (u << c) | (u >> (32 - c));
 }
 
-int crypto_core_salsa20(
+int crypto_core_salsa(
         unsigned char *out,
   const unsigned char *in,
   const unsigned char *k,
-  const unsigned char *c
+  const unsigned char *c,
+        unsigned int  rounds
 )
 {
   uint32 x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15;
@@ -59,7 +57,7 @@ int crypto_core_salsa20(
 
   j15 = arch_mem_copy_vect2dword_little(&x15, c + 12);
 
-  for (i = ROUNDS;i > 0;i -= 2) {
+  for (i = rounds;i > 0;i -= 2) {
      x4 ^= rotate( x0+x12, 7);
      x8 ^= rotate( x4+ x0, 9);
     x12 ^= rotate( x8+ x4,13);

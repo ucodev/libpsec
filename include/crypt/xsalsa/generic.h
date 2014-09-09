@@ -1,7 +1,7 @@
 /*
  * @file generic.h
  * @brief PSEC Library
- *        Xsalsa20 Encryption/Decryption interface header
+ *        Xsalsa Encryption/Decryption interface header
  *
  * Date: 20-08-2014
  *
@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef LIBPSEC_CRYPT_XSALSA20_GENERIC_H
-#define LIBPSEC_CRYPT_XSALSA20_GENERIC_H
+#ifndef LIBPSEC_CRYPT_XSALSA_GENERIC_H
+#define LIBPSEC_CRYPT_XSALSA_GENERIC_H
 
 #include <stdio.h>
 
