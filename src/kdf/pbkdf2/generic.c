@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Password-Based Key Derivation Function 2 interface 
  *
- * Date: 03-09-2014
+ * Date: 08-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -41,7 +41,13 @@
 
 static unsigned char *_f_hash(
 	unsigned char *out,
-	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
+	unsigned char *(*hmac) (
+		unsigned char *out,
+		const unsigned char *key,
+		size_t key_len,
+		const unsigned char *msg,
+		size_t msg_len
+	),
 	size_t hash_len,
 	size_t hash_block_size,
 	const unsigned char *pw,
@@ -91,7 +97,13 @@ static unsigned char *_f_hash(
 
 unsigned char *pbkdf2_hash(
 	unsigned char *out,
-	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
+	unsigned char *(*hmac) (
+		unsigned char *out,
+		const unsigned char *key,
+		size_t key_len,
+		const unsigned char *msg,
+		size_t msg_len
+	),
 	size_t hash_len,
 	size_t hash_block_size,
 	const unsigned char *pw,
@@ -105,11 +117,8 @@ unsigned char *pbkdf2_hash(
 	unsigned char hash_tmp[HASH_DIGEST_SIZE_MAX];
 
 	if (!out) {
-		if (!(out = malloc(out_size))) {
-			errsv = errno;
-			errno = errsv;
+		if (!(out = malloc(out_size)))
 			return NULL;
-		}
 
 		out_alloc = 1;
 	}
