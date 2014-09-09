@@ -1,9 +1,9 @@
 /*
  * @file generic.c
  * @brief PSEC Library
- *        HASH [HAVAL256] generic interface
+ *        HASH [HAVAL] generic interface
  *
- * Date: 06-09-2014
+ * Date: 09-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *

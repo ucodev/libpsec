@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        KDF interface header
  *
- * Date: 06-09-2014
+ * Date: 09-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,8 +32,32 @@
 #include <stdio.h>
 
 #include "hash.h"
+#include "hash/low.h"
 
 /* Macros */
+/* PBKDF1 */
+#define kdf_pbkdf1_md2(out, pw, pw_len, salt, iterations, out_size) \
+	kdf_pbkdf1_generic( \
+		out, \
+		hash_low_md2_init, hash_low_md2_update, hash_low_md2_final, HASH_DIGEST_SIZE_MD2, \
+		pw, pw_len, salt, iterations, out_size, \
+		HASH_DIGEST_SIZE_MD2)
+
+#define kdf_pbkdf1_md5(out, pw, pw_len, salt, iterations, out_size) \
+	kdf_pbkdf1_generic( \
+		out, \
+		hash_low_md5_init, hash_low_md5_update, hash_low_md5_final, HASH_DIGEST_SIZE_MD5, \
+		pw, pw_len, salt, iterations, out_size, \
+		HASH_DIGEST_SIZE_MD5)
+
+#define kdf_pbkdf1_sha1(out, pw, pw_len, salt, iterations, out_size) \
+	kdf_pbkdf1_generic( \
+		out, \
+		hash_low_sha1_init, hash_low_sha1_update, hash_low_sha1_final, HASH_DIGEST_SIZE_SHA1, \
+		pw, pw_len, salt, iterations, out_size, \
+		HASH_DIGEST_SIZE_SHA1)
+
+/* PBKDF2 */
 #define kdf_pbkdf2_blake224(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
@@ -197,6 +221,20 @@
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 /* Prototypes */
+/* PBKDF1 */
+unsigned char *kdf_pbkdf1_generic(
+	unsigned char *out,
+	int (*hash_low_init) (psec_low_hash_t *),
+	int (*hash_low_update) (psec_low_hash_t *, const unsigned char *, size_t),
+	int (*hash_low_final) (psec_low_hash_t *, unsigned char *),
+	size_t hash_len,
+	const unsigned char *pw,
+	size_t pw_len,
+	const unsigned char salt[8],
+	int iterations,
+	size_t out_size,
+	size_t max_out_size);
+/* PBKDF2 */
 unsigned char *kdf_pbkdf2_generic(
 	unsigned char *out,
 	unsigned char *(*hmac) (

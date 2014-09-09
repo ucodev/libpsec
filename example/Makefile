@@ -102,6 +102,9 @@ all:
 	${CC} -o hmac_tiger hmac_tiger.c ${LDFLAGS}
 	${CC} -o hmac_tiger2 hmac_tiger2.c ${LDFLAGS}
 	${CC} -o hmac_whirlpool hmac_whirlpool.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf1_md2 kdf_pbkdf1_md2.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf1_md5 kdf_pbkdf1_md5.c ${LDFLAGS}
+	${CC} -o kdf_pbkdf1_sha1 kdf_pbkdf1_sha1.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_generic kdf_pbkdf2_generic.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_generic_alloc kdf_pbkdf2_generic_alloc.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_blake224 kdf_pbkdf2_blake224.c ${LDFLAGS}
@@ -239,6 +242,9 @@ clean:
 	rm -f hmac_tiger
 	rm -f hmac_tiger2
 	rm -f hmac_whirlpool
+	rm -f kdf_pbkdf1_md2
+	rm -f kdf_pbkdf1_md5
+	rm -f kdf_pbkdf1_sha1
 	rm -f kdf_pbkdf2_generic_alloc
 	rm -f kdf_pbkdf2_generic
 	rm -f kdf_pbkdf2_blake224

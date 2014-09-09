@@ -1,9 +1,9 @@
 /*
  * @file generic.h
  * @brief PSEC Library
- *        HASH [MD4] generic interface header
+ *        HASH [PBKDF2] generic interface header
  *
- * Date: 03-09-2014
+ * Date: 09-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *

@@ -1,7 +1,7 @@
 /*
- * @file low.h
+ * @file generic.h
  * @brief PSEC Library
- *        HASH [TIGER] low level interface header
+ *        HASH [PBKDF1] generic interface header
  *
  * Date: 09-09-2014
  *
@@ -26,31 +26,26 @@
  *
  */
 
-#ifndef LIBPSEC_TIGER_LOW_H
-#define LIBPSEC_TIGER_LOW_H
+#ifndef LIBPSEC_GENERIC_PBKDF1_H
+#define LIBPSEC_GENERIC_PBKDF1_H
 
 #include <stdio.h>
 
-#ifndef TIGER_H
-typedef struct tiger_state_struct {
-	unsigned char temp[64];
-	uint64_t tlen;
-	uint64_t mlen;
-	uint64_t res[3];
-	unsigned int passes;
-} tiger_state;
-#endif
+#include "hash/low.h"
 
-/* TIGER Low Level Interface */
-int tiger_low_init(tiger_state *context);
-int tiger_low_set_passes(tiger_state *context, unsigned int passes);
-int tiger_low_update(tiger_state *context, const unsigned char *in, size_t in_len);
-int tiger_low_final(tiger_state *context, unsigned char *out);
-/* TIGER2 Low Level Interface */
-int tiger2_low_init(tiger_state *context);
-int tiger2_low_set_passes(tiger_state *context, unsigned int passes);
-int tiger2_low_update(tiger_state *context, const unsigned char *in, size_t in_len);
-int tiger2_low_final(tiger_state *context, unsigned char *out);
+/* Prototypes */
+unsigned char *pbkdf1_hash(
+	unsigned char *out,
+	int (*hash_low_init) (psec_low_hash_t *),
+	int (*hash_low_update) (psec_low_hash_t *, const unsigned char *, size_t),
+	int (*hash_low_final) (psec_low_hash_t *, unsigned char *),
+	size_t hash_len,
+	const unsigned char *pw,
+	size_t pw_len,
+	const unsigned char salt[8],
+	int iterations,
+	size_t out_size,
+	size_t max_out_size);
 
 #endif
 

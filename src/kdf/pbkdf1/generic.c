@@ -1,9 +1,9 @@
 /*
  * @file generic.c
  * @brief PSEC Library
- *        Key Derivation Function interface 
+ *        Password-Based Key Derivation Function 1 interface 
  *
- * Date: 03-09-2014
+ * Date: 09-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -27,17 +27,14 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
+#include "hash.h"
 #include "hash/low.h"
 
-#include "kdf/pbkdf1/generic.h"
-#include "kdf/pbkdf2/generic.h"
-
-#include "kdf.h"
-
-/* PBKDF1 Interface */
-unsigned char *kdf_pbkdf1_generic(
+unsigned char *pbkdf1_hash(
 	unsigned char *out,
 	int (*hash_low_init) (psec_low_hash_t *),
 	int (*hash_low_update) (psec_low_hash_t *, const unsigned char *, size_t),
@@ -50,26 +47,33 @@ unsigned char *kdf_pbkdf1_generic(
 	size_t out_size,
 	size_t max_out_size)
 {
-	return pbkdf1_hash(out, hash_low_init, hash_low_update, hash_low_final, hash_len, pw, pw_len, salt, iterations, out_size, max_out_size);
-}
+	int i = 0;
+	psec_low_hash_t context;
+	unsigned char digest[hash_len];
 
-/* PBKDF2 Interface */
-unsigned char *kdf_pbkdf2_generic(
-	unsigned char *out,
-	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
-	size_t hash_len,
-	size_t hash_block_size,
-	const unsigned char *pw,
-	size_t pw_len,
-	const unsigned char *salt,
-	size_t salt_len,
-	int iterations,
-	size_t out_size)
-{
-	return pbkdf2_hash(out, hmac, hash_len, hash_block_size, pw, pw_len, salt, salt_len, iterations, out_size);
-}
+	if (out_size > max_out_size) {
+		errno = EINVAL;
+		return NULL;
+	}
 
-void kdf_destroy(unsigned char *digest) {
-	free(digest);
+	if (!out) {
+		if (!(out = malloc(out_size)))
+			return NULL;
+	}
+
+	hash_low_init(&context);
+	hash_low_update(&context, pw, pw_len);
+	hash_low_update(&context, salt, 8);
+	hash_low_final(&context, digest);
+
+	for (i = 1; i < iterations; i ++) {
+		hash_low_init(&context);
+		hash_low_update(&context, digest, hash_len);
+		hash_low_final(&context, digest);
+	}
+
+	memcpy(out, digest, out_size);
+
+	return out;
 }
 
