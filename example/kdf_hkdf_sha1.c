@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+#include <psec/encode.h>
+#include <psec/kdf.h>
+
+int main(void) {
+	unsigned char ikm[11] = { 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b };
+	unsigned char salt[13] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c };
+	unsigned char info[10] = { 0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8, 0xf9 };
+	unsigned char digest[42], encoded_digest[(42 * 2) + 1];
+	size_t out_len = 0;
+
+	kdf_hkdf_sha1(digest, ikm, sizeof(ikm), salt, sizeof(salt), info, sizeof(info), 42);
+	encode_buffer_base16(encoded_digest, &out_len, digest, 42);
+
+	puts((char *) encoded_digest);
+
+	return 0;
+}
+

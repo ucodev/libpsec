@@ -102,6 +102,18 @@ all:
 	${CC} -o hmac_tiger hmac_tiger.c ${LDFLAGS}
 	${CC} -o hmac_tiger2 hmac_tiger2.c ${LDFLAGS}
 	${CC} -o hmac_whirlpool hmac_whirlpool.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_md2 kdf_hkdf_md2.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_md4 kdf_hkdf_md4.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_md5 kdf_hkdf_md5.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_ripemd128 kdf_hkdf_ripemd128.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_ripemd160 kdf_hkdf_ripemd160.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_ripemd256 kdf_hkdf_ripemd256.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_ripemd320 kdf_hkdf_ripemd320.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_sha1 kdf_hkdf_sha1.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_sha224 kdf_hkdf_sha224.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_sha256 kdf_hkdf_sha256.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_sha384 kdf_hkdf_sha384.c ${LDFLAGS}
+	${CC} -o kdf_hkdf_sha512 kdf_hkdf_sha512.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf1_md2 kdf_pbkdf1_md2.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf1_md5 kdf_pbkdf1_md5.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf1_sha1 kdf_pbkdf1_sha1.c ${LDFLAGS}
@@ -242,6 +254,18 @@ clean:
 	rm -f hmac_tiger
 	rm -f hmac_tiger2
 	rm -f hmac_whirlpool
+	rm -f kdf_hkdf_md2
+	rm -f kdf_hkdf_md4
+	rm -f kdf_hkdf_md5
+	rm -f kdf_hkdf_ripemd128
+	rm -f kdf_hkdf_ripemd160
+	rm -f kdf_hkdf_ripemd256
+	rm -f kdf_hkdf_ripemd320
+	rm -f kdf_hkdf_sha1
+	rm -f kdf_hkdf_sha224
+	rm -f kdf_hkdf_sha256
+	rm -f kdf_hkdf_sha384
+	rm -f kdf_hkdf_sha512
 	rm -f kdf_pbkdf1_md2
 	rm -f kdf_pbkdf1_md5
 	rm -f kdf_pbkdf1_sha1

@@ -31,10 +31,33 @@
 
 #include "hash/low.h"
 
+#include "kdf/hkdf/generic.h"
 #include "kdf/pbkdf1/generic.h"
 #include "kdf/pbkdf2/generic.h"
 
 #include "kdf.h"
+
+/* HKDF */
+unsigned char *kdf_hkdf_generic(
+	unsigned char *out,
+	unsigned char *(*hmac) (
+		unsigned char *out,
+		const unsigned char *key,
+		size_t key_len,
+		const unsigned char *msg,
+		size_t msg_len
+	),
+	size_t hash_len,
+	const unsigned char *ikm,
+	size_t ikm_len,
+	const unsigned char *salt,
+	size_t salt_len,
+	const unsigned char *info,
+	size_t info_len,
+	size_t out_len)
+{
+	return hkdf_expand(out, hmac, hash_len, ikm, ikm_len, salt, salt_len, info, info_len, out_len);
+}
 
 /* PBKDF1 Interface */
 unsigned char *kdf_pbkdf1_generic(
