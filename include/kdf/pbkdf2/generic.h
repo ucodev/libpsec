@@ -37,7 +37,6 @@ unsigned char *pbkdf2_hash(
 	unsigned char *out,
 	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
 	size_t hash_len,
-	size_t hash_block_size,
 	const unsigned char *pw,
 	size_t pw_len,
 	const unsigned char *salt,

@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Password-Based Key Derivation Function 2 interface 
  *
- * Date: 08-09-2014
+ * Date: 09-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -49,7 +49,6 @@ static unsigned char *_f_hash(
 		size_t msg_len
 	),
 	size_t hash_len,
-	size_t hash_block_size,
 	const unsigned char *pw,
 	size_t pw_len,
 	const unsigned char *salt,
@@ -58,12 +57,9 @@ static unsigned char *_f_hash(
 	uint32_t iteration)
 {
 	int i = 0, j = 0, errsv = 0;
-	unsigned char *u = NULL;
+	unsigned char u[hash_len + salt_len + 4];
 	unsigned char out_tmp[HASH_DIGEST_SIZE_MAX];
 
-	if (!(u = malloc(hash_len + salt_len + 4)))
-		return NULL;
-	
 	if (!out) {
 		if (!(out = malloc(hash_len))) {
 			errsv = errno;
@@ -90,8 +86,6 @@ static unsigned char *_f_hash(
 			out[j] ^= u[j];
 	}
 
-	free(u);
-
 	return out;
 }
 
@@ -105,7 +99,6 @@ unsigned char *pbkdf2_hash(
 		size_t msg_len
 	),
 	size_t hash_len,
-	size_t hash_block_size,
 	const unsigned char *pw,
 	size_t pw_len,
 	const unsigned char *salt,
@@ -124,7 +117,7 @@ unsigned char *pbkdf2_hash(
 	}
 
 	for (i = 0, len = 0; (i * hash_len) < out_size; i ++) {
-		if (!_f_hash(hash_tmp, hmac, hash_len, hash_block_size, pw, pw_len, salt, salt_len, iterations, i + 1)) {
+		if (!_f_hash(hash_tmp, hmac, hash_len, pw, pw_len, salt, salt_len, iterations, i + 1)) {
 			errsv = errno;
 			if (out_alloc) free(out);
 			errno = errsv;

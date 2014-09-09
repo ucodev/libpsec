@@ -3,7 +3,6 @@
 #include <psec/encode.h>
 #include <psec/hash.h>
 #include <psec/kdf.h>
-#include <psec/mac.h>
 
 int main(void) {
 	unsigned char pass[] = "test";

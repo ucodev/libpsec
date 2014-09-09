@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include <psec/encode.h>
+#include <psec/hash.h>
 #include <psec/kdf.h>
 
 int main(void) {

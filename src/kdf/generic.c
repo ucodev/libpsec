@@ -81,7 +81,6 @@ unsigned char *kdf_pbkdf2_generic(
 	unsigned char *out,
 	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
 	size_t hash_len,
-	size_t hash_block_size,
 	const unsigned char *pw,
 	size_t pw_len,
 	const unsigned char *salt,
@@ -89,7 +88,7 @@ unsigned char *kdf_pbkdf2_generic(
 	int iterations,
 	size_t out_size)
 {
-	return pbkdf2_hash(out, hmac, hash_len, hash_block_size, pw, pw_len, salt, salt_len, iterations, out_size);
+	return pbkdf2_hash(out, hmac, hash_len, pw, pw_len, salt, salt_len, iterations, out_size);
 }
 
 void kdf_destroy(unsigned char *digest) {

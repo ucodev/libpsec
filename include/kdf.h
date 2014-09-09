@@ -225,163 +225,163 @@
 #define kdf_pbkdf2_blake224(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_blake224, HASH_DIGEST_SIZE_BLAKE224, HASH_BLOCK_SIZE_BLAKE224, \
+		mac_hmac_blake224, HASH_DIGEST_SIZE_BLAKE224, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_blake256(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_blake256, HASH_DIGEST_SIZE_BLAKE256, HASH_BLOCK_SIZE_BLAKE256, \
+		mac_hmac_blake256, HASH_DIGEST_SIZE_BLAKE256, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_blake384(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_blake384, HASH_DIGEST_SIZE_BLAKE384, HASH_BLOCK_SIZE_BLAKE384, \
+		mac_hmac_blake384, HASH_DIGEST_SIZE_BLAKE384, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_blake512(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_blake512, HASH_DIGEST_SIZE_BLAKE512, HASH_BLOCK_SIZE_BLAKE512, \
+		mac_hmac_blake512, HASH_DIGEST_SIZE_BLAKE512, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_blake2b(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_blake2b, HASH_DIGEST_SIZE_BLAKE2B, HASH_BLOCK_SIZE_BLAKE2B, \
+		mac_hmac_blake2b, HASH_DIGEST_SIZE_BLAKE2B, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_blake2s(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_blake2s, HASH_DIGEST_SIZE_BLAKE2S, HASH_BLOCK_SIZE_BLAKE2S, \
+		mac_hmac_blake2s, HASH_DIGEST_SIZE_BLAKE2S, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_sha1(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_sha1, HASH_DIGEST_SIZE_SHA1, HASH_BLOCK_SIZE_SHA1, \
+		mac_hmac_sha1, HASH_DIGEST_SIZE_SHA1, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_sha224(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_sha224, HASH_DIGEST_SIZE_SHA224, HASH_BLOCK_SIZE_SHA224, \
+		mac_hmac_sha224, HASH_DIGEST_SIZE_SHA224, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_sha256(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_sha256, HASH_DIGEST_SIZE_SHA256, HASH_BLOCK_SIZE_SHA256, \
+		mac_hmac_sha256, HASH_DIGEST_SIZE_SHA256, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_sha384(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_sha384, HASH_DIGEST_SIZE_SHA384, HASH_BLOCK_SIZE_SHA384, \
+		mac_hmac_sha384, HASH_DIGEST_SIZE_SHA384, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_sha512(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_sha512, HASH_DIGEST_SIZE_SHA512, HASH_BLOCK_SIZE_SHA512, \
+		mac_hmac_sha512, HASH_DIGEST_SIZE_SHA512, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_gost(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_gost, HASH_DIGEST_SIZE_GOST, HASH_BLOCK_SIZE_GOST, \
+		mac_hmac_gost, HASH_DIGEST_SIZE_GOST, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_haval256(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_haval256, HASH_DIGEST_SIZE_HAVAL256, HASH_BLOCK_SIZE_HAVAL256, \
+		mac_hmac_haval256, HASH_DIGEST_SIZE_HAVAL256, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_haval224(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_haval224, HASH_DIGEST_SIZE_HAVAL224, HASH_BLOCK_SIZE_HAVAL224, \
+		mac_hmac_haval224, HASH_DIGEST_SIZE_HAVAL224, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_haval192(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_haval192, HASH_DIGEST_SIZE_HAVAL192, HASH_BLOCK_SIZE_HAVAL192, \
+		mac_hmac_haval192, HASH_DIGEST_SIZE_HAVAL192, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_haval160(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_haval160, HASH_DIGEST_SIZE_HAVAL160, HASH_BLOCK_SIZE_HAVAL160, \
+		mac_hmac_haval160, HASH_DIGEST_SIZE_HAVAL160, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_haval128(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_haval128, HASH_DIGEST_SIZE_HAVAL128, HASH_BLOCK_SIZE_HAVAL128, \
+		mac_hmac_haval128, HASH_DIGEST_SIZE_HAVAL128, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_md2(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_md2, HASH_DIGEST_SIZE_MD2, HASH_BLOCK_SIZE_MD2, \
+		mac_hmac_md2, HASH_DIGEST_SIZE_MD2, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_md4(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_md4, HASH_DIGEST_SIZE_MD4, HASH_BLOCK_SIZE_MD4, \
+		mac_hmac_md4, HASH_DIGEST_SIZE_MD4, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_md5(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_md5, HASH_DIGEST_SIZE_MD5, HASH_BLOCK_SIZE_MD5, \
+		mac_hmac_md5, HASH_DIGEST_SIZE_MD5, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_ripemd128(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_ripemd128, HASH_DIGEST_SIZE_RIPEMD128, HASH_BLOCK_SIZE_RIPEMD128, \
+		mac_hmac_ripemd128, HASH_DIGEST_SIZE_RIPEMD128, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_ripemd160(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_ripemd160, HASH_DIGEST_SIZE_RIPEMD160, HASH_BLOCK_SIZE_RIPEMD160, \
+		mac_hmac_ripemd160, HASH_DIGEST_SIZE_RIPEMD160, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_ripemd256(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_ripemd256, HASH_DIGEST_SIZE_RIPEMD256, HASH_BLOCK_SIZE_RIPEMD256, \
+		mac_hmac_ripemd256, HASH_DIGEST_SIZE_RIPEMD256, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_ripemd320(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_ripemd320, HASH_DIGEST_SIZE_RIPEMD320, HASH_BLOCK_SIZE_RIPEMD320, \
+		mac_hmac_ripemd320, HASH_DIGEST_SIZE_RIPEMD320, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_tiger(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_tiger, HASH_DIGEST_SIZE_TIGER, HASH_BLOCK_SIZE_TIGER, \
+		mac_hmac_tiger, HASH_DIGEST_SIZE_TIGER, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_tiger2(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_tiger2, HASH_DIGEST_SIZE_TIGER2, HASH_BLOCK_SIZE_TIGER2, \
+		mac_hmac_tiger2, HASH_DIGEST_SIZE_TIGER2, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 #define kdf_pbkdf2_whirlpool(out, pw, pw_len, salt, salt_len, rounds, out_size) \
 	kdf_pbkdf2_generic( \
 		out, \
-		mac_hmac_whirlpool, HASH_DIGEST_SIZE_WHIRLPOOL, HASH_BLOCK_SIZE_WHIRLPOOL, \
+		mac_hmac_whirlpool, HASH_DIGEST_SIZE_WHIRLPOOL, \
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 /* Prototypes */
@@ -429,7 +429,6 @@ unsigned char *kdf_pbkdf2_generic(
 		size_t msg_len
 	),
 	size_t hash_len,
-	size_t hash_block_size,
 	const unsigned char *pw,
 	size_t pw_len,
 	const unsigned char *salt,
