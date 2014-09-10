@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface 
  *
- * Date: 09-09-2014
+ * Date: 10-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -30,6 +30,7 @@
 #include <stdlib.h>
 
 #include "crypt/aes/generic.h"
+#include "crypt/blowfish/generic.h"
 #include "crypt/chacha/generic.h"
 #include "crypt/xsalsa/generic.h"
 #include "crypt/otp/generic.h"
@@ -167,6 +168,29 @@ unsigned char *crypt_decrypt_aes128ecb(
 	const unsigned char *key)
 {
 	return aes128ecb_decrypt(out, out_len, in, in_len, nonce, key);
+}
+
+/* Blowfish-448 */
+unsigned char *crypt_encrypt_blowfish448ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return blowfish448ecb_encrypt(out, out_len, in, in_len, nonce, key);
+}
+
+unsigned char *crypt_decrypt_blowfish448ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key)
+{
+	return blowfish448ecb_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
 /* ChaCha20 */

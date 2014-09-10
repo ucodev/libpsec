@@ -18,6 +18,7 @@ all:
 	${CC} -o crypt_aes192ecb crypt_aes192ecb.c ${LDFLAGS}
 	${CC} -o crypt_aes256cbc crypt_aes256cbc.c ${LDFLAGS}
 	${CC} -o crypt_aes256ecb crypt_aes256ecb.c ${LDFLAGS}
+	${CC} -o crypt_blowfish448ecb crypt_blowfish448ecb.c ${LDFLAGS}
 	${CC} -o crypt_chacha20 crypt_chacha20.c ${LDFLAGS}
 	${CC} -o crypt_chacha12 crypt_chacha12.c ${LDFLAGS}
 	${CC} -o crypt_chacha8 crypt_chacha8.c ${LDFLAGS}
@@ -170,6 +171,7 @@ clean:
 	rm -f crypt_aes192ecb
 	rm -f crypt_aes256cbc
 	rm -f crypt_aes256ecb
+	rm -f crypt_blowfish448ecb
 	rm -f crypt_chacha20
 	rm -f crypt_chacha12
 	rm -f crypt_chacha8

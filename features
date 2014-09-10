@@ -25,6 +25,8 @@ fi
 /bin/echo -e \
 "        crypt/aes support:\tOK"
 /bin/echo -e \
+"   crypt/blowfish support:\tOK"
+/bin/echo -e \
 "     crypt/chacha support:\tOK"
 /bin/echo -e \
 "        crypt/otp support:\tOK"

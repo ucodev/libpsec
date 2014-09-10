@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface header
  *
- * Date: 09-09-2014
+ * Date: 10-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -122,6 +122,26 @@ unsigned char *crypt_encrypt_aes128ecb(
 	const unsigned char *nonce,
 	const unsigned char *key);
 unsigned char *crypt_decrypt_aes128ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+/**********************/
+/* Blowfish Interface */
+/**********************/
+#define CRYPT_KEY_SIZE_BLOWFISH448		56
+#define CRYPT_NONCE_SIZE_BLOWFISH448		0
+#define CRYPT_EXTRA_SIZE_BLOWFISH448		0
+unsigned char *crypt_encrypt_blowfish448ecb(
+	unsigned char *out,
+	size_t *out_len,
+	const unsigned char *in,
+	size_t in_len,
+	const unsigned char *nonce,
+	const unsigned char *key);
+unsigned char *crypt_decrypt_blowfish448ecb(
 	unsigned char *out,
 	size_t *out_len,
 	const unsigned char *in,

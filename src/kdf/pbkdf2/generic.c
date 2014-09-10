@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Password-Based Key Derivation Function 2 interface 
  *
- * Date: 09-09-2014
+ * Date: 10-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -55,7 +55,7 @@ static unsigned char *_f_hash(
 	unsigned int iterations,
 	uint32_t iteration)
 {
-	int i = 0, j = 0, errsv = 0;
+	int i = 0, j = 0;
 	unsigned char u[hash_len + salt_len + 4];
 	unsigned char out_tmp[HASH_DIGEST_SIZE_MAX];
 

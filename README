@@ -10,6 +10,7 @@
       auth/shadow support:	OK
 
         crypt/aes support:	OK
+   crypt/blowfish support:	OK
      crypt/chacha support:	OK
         crypt/otp support:	OK
      crypt/xsalsa support:	OK
