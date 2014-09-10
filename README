@@ -35,6 +35,7 @@
       hash/tiger* support:	OK
    hash/whirlpool support:	OK
 
+       kdf/bcrypt support:	OK
          kdf/hkdf support:	OK
        kdf/pbkdf1 support:	OK
        kdf/pbkdf2 support:	OK

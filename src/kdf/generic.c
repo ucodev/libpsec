@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Derivation Function interface 
  *
- * Date: 03-09-2014
+ * Date: 10-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -31,11 +31,23 @@
 
 #include "hash/low.h"
 
+#include "kdf/bcrypt/generic.h"
 #include "kdf/hkdf/generic.h"
 #include "kdf/pbkdf1/generic.h"
 #include "kdf/pbkdf2/generic.h"
 
 #include "kdf.h"
+
+/* bcrypt */
+unsigned char *kdf_bcrypt(
+	unsigned char *out,
+	unsigned int cost,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char salt[16])
+{
+	return bcrypt_low_do(out, cost, key, key_len, salt);
+}
 
 /* HKDF */
 unsigned char *kdf_hkdf_generic(

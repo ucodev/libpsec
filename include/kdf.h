@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        KDF interface header
  *
- * Date: 09-09-2014
+ * Date: 10-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -385,6 +385,13 @@
 		pw, pw_len, salt, salt_len, rounds, out_size)
 
 /* Prototypes */
+/* bcrypt */
+unsigned char *kdf_bcrypt(
+	unsigned char *out,
+	unsigned int cost,
+	const unsigned char *key,
+	size_t key_len,
+	const unsigned char salt[16]);
 /* HKDF */
 unsigned char *kdf_hkdf_generic(
 	unsigned char *out,

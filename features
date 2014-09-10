@@ -85,6 +85,8 @@ fi
 /bin/echo -ne "\n"
 
 /bin/echo -e \
+"       kdf/bcrypt support:\tOK"
+/bin/echo -e \
 "         kdf/hkdf support:\tOK"
 /bin/echo -e \
 "       kdf/pbkdf1 support:\tOK"
