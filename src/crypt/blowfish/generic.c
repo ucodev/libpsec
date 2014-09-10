@@ -28,10 +28,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include "tc.h"
 
 #include "crypt/blowfish/blowfish.h"
+
+static inline size_t _bf_outlen_pad(size_t in_len) {
+	return (8 - ((in_len - 1) % 8)) - 1;
+}
 
 unsigned char *blowfish448ecb_encrypt(
 	unsigned char *out,
@@ -46,7 +51,7 @@ unsigned char *blowfish448ecb_encrypt(
 	blowfish_context context;
 
 	if (!out) {
-		if (!(out = malloc(in_len)))
+		if (!(out = malloc(in_len + _bf_outlen_pad(in_len))))
 			return NULL;
 	}
 
@@ -61,7 +66,7 @@ unsigned char *blowfish448ecb_encrypt(
 
 	tc_memset(&context, 0, sizeof(context));
 
-	*out_len = in_len;
+	*out_len = in_len + _bf_outlen_pad(in_len);
 
 	return out;
 }
@@ -77,6 +82,11 @@ unsigned char *blowfish448ecb_decrypt(
 	int i = 0;
 	unsigned char block[8];
 	blowfish_context context;
+
+	if (in_len % 8) {
+		errno = EINVAL;
+		return NULL;
+	}
 
 	if (!out) {
 		if (!(out = malloc(in_len)))
