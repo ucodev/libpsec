@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Time Constant interface 
  *
- * Date: 01-09-2014
+ * Date: 11-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -46,4 +46,9 @@ void *tc_memmove(void *dest, const void *src, size_t n) {
 void *tc_memset(void *s, int c, size_t n) {
 	return memset_timec(s, c, n);
 }
+
+void *tc_memxor(void *dest, const void *src, size_t n) {
+	return memxor_timec(dest, src, n);
+}
+
 

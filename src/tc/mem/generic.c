@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Constant Time [Memory Operations] interface 
  *
- * Date: 01-09-2014
+ * Date: 11-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -79,5 +79,16 @@ void *memset_timec(void *s, int c, size_t n) {
 	while (n --) d[n] = (unsigned char) c;
 
 	return s;
+}
+
+void *memxor_timec(void *dest, const void *src, size_t n) {
+	unsigned char *d = dest;
+	const unsigned char *s = src;
+	unsigned int i = 0;
+
+	for (i = 0; i < n; i ++)
+		d[i] ^= s[i];
+
+	return d;
 }
 

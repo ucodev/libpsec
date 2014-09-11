@@ -1,9 +1,9 @@
 /*
- * @file hash.h
+ * @file tc.h
  * @brief PSEC Library
  *        Time Constant interface header
  *
- * Date: 24-08-2014
+ * Date: 11-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -39,5 +39,6 @@ int tc_memcmp(const void *s1, const void *s2, size_t n);
 void *tc_memcpy(void *dest, const void *src, size_t n);
 void *tc_memmove(void *dest, const void *src, size_t n);
 void *tc_memset(void *s, int c, size_t n);
+void *tc_memxor(void *dest, const void *src, size_t n);
 
 #endif

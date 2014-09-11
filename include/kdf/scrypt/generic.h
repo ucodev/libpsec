@@ -1,7 +1,7 @@
 /*
  * @file generic.h
  * @brief PSEC Library
- *        Time Constant [Memory Operations] interface header
+ *        scrypt Key Derivation Function interface header
  *
  * Date: 11-09-2014
  *
@@ -26,18 +26,22 @@
  *
  */
 
-#ifndef LIBPSEC_GENERIC_TC_MEM_H
-#define LIBPSEC_GENERIC_TC_MEM_H
+#ifndef LIBPSEC_KDF_SCRYPT_LOW_H
+#define LIBPSEC_KDF_SCRYPT_LOW_H
 
 #include <stdio.h>
-
+#include <stdint.h>
 
 /* Prototypes */
-int memcmp_timec(const void *s1, const void *s2, size_t n);
-void *memcpy_timec(void *dest, const void *src, size_t n);
-void *memmove_timec(void *dest, const void *src, size_t n);
-void *memset_timec(void *s, int c, size_t n);
-void *memxor_timec(void *dest, const void *src, size_t n);
+unsigned char *scrypt_low_do(
+	unsigned char *out,
+	const unsigned char *pw,
+	size_t pw_len,
+	const unsigned char *salt,
+	size_t salt_len,
+	uint64_t n,
+	uint32_t r,
+	uint32_t p,
+	size_t out_size);
 
 #endif
-

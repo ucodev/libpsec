@@ -28,6 +28,7 @@
 	- Markku-Juhani Saarinen - GOST
 	- Calyptix Security Corporation, Yuliang Zheng - HAVAL
 	- Eli Biham & Ross Anderson - TIGER
+	- Colin Percival - scrypt
 
    There is no intention to promote the libpsec by stating the
    persons or entities described in the paragraph above, as the

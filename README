@@ -39,6 +39,7 @@
          kdf/hkdf support:	OK
        kdf/pbkdf1 support:	OK
        kdf/pbkdf2 support:	OK
+       kdf/scrypt support:	OK
 
             ke/dh support:	OK
          ke/dheke support:	OK

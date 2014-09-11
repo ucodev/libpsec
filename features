@@ -92,6 +92,8 @@ fi
 "       kdf/pbkdf1 support:\tOK"
 /bin/echo -e \
 "       kdf/pbkdf2 support:\tOK"
+/bin/echo -e \
+"       kdf/scrypt support:\tOK"
 
 # KE support
 /bin/echo -ne "\n"
