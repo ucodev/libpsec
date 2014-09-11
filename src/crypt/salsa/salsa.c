@@ -9,20 +9,20 @@ libpsec Changes:
 
 */
 
-#include "crypt/xsalsa/crypto.h"
+#include "crypt/salsa/crypto.h"
 
 #include <stdint.h>
 
 typedef uint32_t uint32;
+
 #if 0
 typedef unsigned int uint32;
 #endif
 
-static const unsigned char sigma[17] = "expand 32-byte k";
+static const unsigned char sigma[16] = "expand 32-byte k";
 
-int crypto_stream_salsa_xor(
-        unsigned char *c,
-  const unsigned char *m,unsigned long long mlen,
+int crypto_stream_salsa(
+        unsigned char *c,unsigned long long clen,
   const unsigned char *n,
   const unsigned char *k,
         unsigned int  rounds
@@ -30,17 +30,16 @@ int crypto_stream_salsa_xor(
 {
   unsigned char in[16];
   unsigned char block[64];
-  unsigned int i;
+  int i;
   unsigned int u;
 
-  if (!mlen) return 0;
+  if (!clen) return 0;
 
   for (i = 0;i < 8;++i) in[i] = n[i];
   for (i = 8;i < 16;++i) in[i] = 0;
 
-  while (mlen >= 64) {
-    crypto_core_salsa(block,in,k,sigma,rounds);
-    for (i = 0;i < 64;++i) c[i] = m[i] ^ block[i];
+  while (clen >= 64) {
+    crypto_core_salsa(c,in,k,sigma, rounds);
 
     u = 1;
     for (i = 8;i < 16;++i) {
@@ -49,14 +48,13 @@ int crypto_stream_salsa_xor(
       u >>= 8;
     }
 
-    mlen -= 64;
+    clen -= 64;
     c += 64;
-    m += 64;
   }
 
-  if (mlen) {
+  if (clen) {
     crypto_core_salsa(block,in,k,sigma,rounds);
-    for (i = 0;i < mlen;++i) c[i] = m[i] ^ block[i];
+    for (i = 0;i < clen;++i) c[i] = block[i];
   }
   return 0;
 }

@@ -9,7 +9,7 @@ libpsec Changes:
 
 */
 
-#include "crypt/xsalsa/crypto.h"
+#include "crypt/salsa/crypto.h"
 
 #include <stdint.h>
 
@@ -22,7 +22,7 @@ static uint32 rotate(uint32 u,int c)
   return (u << c) | (u >> (32 - c));
 }
 
-int crypto_core_hsalsa(
+int crypto_core_salsa(
         unsigned char *out,
   const unsigned char *in,
   const unsigned char *k,
@@ -31,15 +31,15 @@ int crypto_core_hsalsa(
 )
 {
   uint32 x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15;
-  uint32 j0, j5, j6, j7, j8, j9, j10, j15;
+  uint32 j0, j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12, j13, j14, j15;
   int i;
 
   j0 = arch_mem_copy_vect2dword_little(&x0, c + 0);
 
-  arch_mem_copy_vect2dword_little(&x1, k + 0);
-  arch_mem_copy_vect2dword_little(&x2, k + 4);
-  arch_mem_copy_vect2dword_little(&x3, k + 8);
-  arch_mem_copy_vect2dword_little(&x4, k + 12);
+  j1 = arch_mem_copy_vect2dword_little(&x1, k + 0);
+  j2 = arch_mem_copy_vect2dword_little(&x2, k + 4);
+  j3 = arch_mem_copy_vect2dword_little(&x3, k + 8);
+  j4 = arch_mem_copy_vect2dword_little(&x4, k + 12);
 
   j5 = arch_mem_copy_vect2dword_little(&x5, c + 4);
 
@@ -50,10 +50,10 @@ int crypto_core_hsalsa(
 
   j10 = arch_mem_copy_vect2dword_little(&x10, c + 8);
 
-  arch_mem_copy_vect2dword_little(&x11, k + 16);
-  arch_mem_copy_vect2dword_little(&x12, k + 20);
-  arch_mem_copy_vect2dword_little(&x13, k + 24);
-  arch_mem_copy_vect2dword_little(&x14, k + 28);
+  j11 = arch_mem_copy_vect2dword_little(&x11, k + 16);
+  j12 = arch_mem_copy_vect2dword_little(&x12, k + 20);
+  j13 = arch_mem_copy_vect2dword_little(&x13, k + 24);
+  j14 = arch_mem_copy_vect2dword_little(&x14, k + 28);
 
   j15 = arch_mem_copy_vect2dword_little(&x15, c + 12);
 
@@ -93,35 +93,38 @@ int crypto_core_hsalsa(
   }
 
   x0 += j0;
-
+  x1 += j1;
+  x2 += j2;
+  x3 += j3;
+  x4 += j4;
   x5 += j5;
   x6 += j6;
   x7 += j7;
   x8 += j8;
   x9 += j9;
   x10 += j10;
-
+  x11 += j11;
+  x12 += j12;
+  x13 += j13;
+  x14 += j14;
   x15 += j15;
 
-  x0 -= arch_mem_copy_vect2dword_little((uint32_t [1]) { 0 }, c + 0);
-  x5 -= arch_mem_copy_vect2dword_little((uint32_t [1]) { 0 }, c + 4);
-  x10 -= arch_mem_copy_vect2dword_little((uint32_t [1]) { 0 }, c + 8);
-  x15 -= arch_mem_copy_vect2dword_little((uint32_t [1]) { 0 }, c + 12);
-
-  x6 -= arch_mem_copy_vect2dword_little((uint32_t [1]) { 0 }, in + 0);
-  x7 -= arch_mem_copy_vect2dword_little((uint32_t [1]) { 0 }, in + 4);
-  x8 -= arch_mem_copy_vect2dword_little((uint32_t [1]) { 0 }, in + 8);
-  x9 -= arch_mem_copy_vect2dword_little((uint32_t [1]) { 0 }, in + 12);
-
   arch_mem_copy_dword2vect_little(out + 0, x0);
-  arch_mem_copy_dword2vect_little(out + 4, x5);
-  arch_mem_copy_dword2vect_little(out + 8, x10);
-  arch_mem_copy_dword2vect_little(out + 12, x15);
-  arch_mem_copy_dword2vect_little(out + 16, x6);
-  arch_mem_copy_dword2vect_little(out + 20, x7);
-  arch_mem_copy_dword2vect_little(out + 24, x8);
-  arch_mem_copy_dword2vect_little(out + 28, x9);
+  arch_mem_copy_dword2vect_little(out + 4, x1);
+  arch_mem_copy_dword2vect_little(out + 8, x2);
+  arch_mem_copy_dword2vect_little(out + 12, x3);
+  arch_mem_copy_dword2vect_little(out + 16, x4);
+  arch_mem_copy_dword2vect_little(out + 20, x5);
+  arch_mem_copy_dword2vect_little(out + 24, x6);
+  arch_mem_copy_dword2vect_little(out + 28, x7);
+  arch_mem_copy_dword2vect_little(out + 32, x8);
+  arch_mem_copy_dword2vect_little(out + 36, x9);
+  arch_mem_copy_dword2vect_little(out + 40, x10);
+  arch_mem_copy_dword2vect_little(out + 44, x11);
+  arch_mem_copy_dword2vect_little(out + 48, x12);
+  arch_mem_copy_dword2vect_little(out + 52, x13);
+  arch_mem_copy_dword2vect_little(out + 56, x14);
+  arch_mem_copy_dword2vect_little(out + 60, x15);
 
   return 0;
 }
-

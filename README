@@ -13,7 +13,7 @@
    crypt/blowfish support:	OK
      crypt/chacha support:	OK
         crypt/otp support:	OK
-     crypt/xsalsa support:	OK
+      crypt/salsa support:	OK
 
     decode/base16 support:	OK
     decode/base64 support:	OK

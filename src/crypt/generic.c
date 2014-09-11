@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface 
  *
- * Date: 10-09-2014
+ * Date: 12-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,7 +32,7 @@
 #include "crypt/aes/generic.h"
 #include "crypt/blowfish/generic.h"
 #include "crypt/chacha/generic.h"
-#include "crypt/xsalsa/generic.h"
+#include "crypt/salsa/generic.h"
 #include "crypt/otp/generic.h"
 
 /* AES-256 */

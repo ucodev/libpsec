@@ -1,9 +1,9 @@
 /*
  * @file generic.c
  * @brief PSEC Library
- *        Xsalsa Encryption/Decryption interface 
+ *        Salsa Encryption/Decryption interface 
  *
- * Date: 09-09-2014
+ * Date: 12-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include "crypt/xsalsa/crypto.h"
+#include "crypt/salsa/crypto.h"
 #include "mac/poly1305/crypto.h"
 
 #include "tc.h"

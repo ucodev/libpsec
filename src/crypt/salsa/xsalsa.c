@@ -9,7 +9,7 @@ libpsec Changes:
 
 */
 
-#include "crypt/xsalsa/crypto.h"
+#include "crypt/salsa/crypto.h"
 
 static const unsigned char sigma[16] = "expand 32-byte k";
 

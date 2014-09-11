@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Xsalsa Encryption/Decryption interface header
  *
- * Date: 09-09-2014
+ * Date: 12-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef LIBPSEC_CRYPT_XSALSA_GENERIC_H
-#define LIBPSEC_CRYPT_XSALSA_GENERIC_H
+#ifndef LIBPSEC_CRYPT_SALSA_GENERIC_H
+#define LIBPSEC_CRYPT_SALSA_GENERIC_H
 
 #include <stdio.h>
 

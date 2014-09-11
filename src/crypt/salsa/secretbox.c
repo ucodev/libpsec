@@ -9,7 +9,7 @@ libpsec Changes:
 
 */
 
-#include "crypt/xsalsa/crypto.h"
+#include "crypt/salsa/crypto.h"
 #include "mac/poly1305/crypto.h"
 
 int crypto_secretbox_xsalsa(
