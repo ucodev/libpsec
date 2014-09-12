@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exchange [PANKAKE] interface header
  *
- * Date: 26-08-2014
+ * Date: 12-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -42,10 +42,7 @@ struct pankake_context {
 	unsigned char c_token[32];
 	unsigned char s_token[32];
 	unsigned char pwhash[64];
-	unsigned char pwrehash_l[32];
-	unsigned char pwrehash_h[32];
-	unsigned char secret_hash[32];
-	unsigned char shared_hash[32];
+	unsigned char ikey[32];
 	char password[256];
 };
 #pragma pack(pop)
@@ -55,10 +52,10 @@ struct pankake_context {
 #define PANKAKE_CONTEXT_SIZE		sizeof(struct pankake_context)
 #define PANKAKE_CLIENT_AUTH_SIZE	1 + 256
 					/* pw_size, password */
-#define PANKAKE_CLIENT_SESSION_SIZE	512 + 32
+#define PANKAKE_CLIENT_SESSION_SIZE	32 + 32
 					/* public key, token */
-#define PANKAKE_SERVER_SESSION_SIZE	512 + 32
-					/* public key, token */
+#define PANKAKE_SERVER_SESSION_SIZE	32 + 32 + 32
+					/* public key, ctoken, stoken */
 
 /* Prototypes */
 unsigned char *pankake_client_init(
