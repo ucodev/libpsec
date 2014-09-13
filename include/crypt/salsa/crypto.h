@@ -6,6 +6,7 @@
 #define CRYPTO_ZEROBYTES 32
 #define CRYPTO_BOXZEROBYTES 16
 
+void crypto_core_salsa_rounds(unsigned char in[64], unsigned int rounds);
 int crypto_core_salsa(unsigned char *out, const unsigned char *in, const unsigned char *k, const unsigned char *c, unsigned int rounds);
 int crypto_core_hsalsa(unsigned char *out, const unsigned char *in, const unsigned char *k, const unsigned char *c, unsigned int rounds);
 int crypto_stream_xsalsa(unsigned char *c, unsigned long long clen, const unsigned char *n, const unsigned char *k, unsigned int rounds);

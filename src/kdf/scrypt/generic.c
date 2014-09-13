@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        scrypt Key Derivation Function interface 
  *
- * Date: 11-09-2014
+ * Date: 13-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -79,55 +79,7 @@
 #include "kdf.h"
 #include "tc.h"
 
-static inline uint32_t _scrypt_rotate(uint32_t u, unsigned int c) {
-	return (u << c) | (u >> (32 - c));
-}
-
-static inline void _scrypt_salsa_core(unsigned char in[64], unsigned int rounds) {
-	unsigned int i = 0;
-	uint32_t x[16], x_orig[16];
-
-	for (i = 0; i < 16; i ++)
-		x_orig[i] = arch_mem_copy_vect2dword_little(&x[i], &in[i * 4]);
-
-	for (i = rounds; i > 0; i -= 2) {
-		x[ 4] ^= _scrypt_rotate(x[ 0] + x[12],  7);
-		x[ 8] ^= _scrypt_rotate(x[ 4] + x[ 0],  9);
-		x[12] ^= _scrypt_rotate(x[ 8] + x[ 4], 13);
-		x[ 0] ^= _scrypt_rotate(x[12] + x[ 8], 18);
-		x[ 9] ^= _scrypt_rotate(x[ 5] + x[ 1],  7);
-		x[13] ^= _scrypt_rotate(x[ 9] + x[ 5],  9);
-		x[ 1] ^= _scrypt_rotate(x[13] + x[ 9], 13);
-		x[ 5] ^= _scrypt_rotate(x[ 1] + x[13], 18);
-		x[14] ^= _scrypt_rotate(x[10] + x[ 6],  7);
-		x[ 2] ^= _scrypt_rotate(x[14] + x[10],  9);
-		x[ 6] ^= _scrypt_rotate(x[ 2] + x[14], 13);
-		x[10] ^= _scrypt_rotate(x[ 6] + x[ 2], 18);
-		x[ 3] ^= _scrypt_rotate(x[15] + x[11],  7);
-		x[ 7] ^= _scrypt_rotate(x[ 3] + x[15],  9);
-		x[11] ^= _scrypt_rotate(x[ 7] + x[ 3], 13);
-		x[15] ^= _scrypt_rotate(x[11] + x[ 7], 18);
-		x[ 1] ^= _scrypt_rotate(x[ 0] + x[ 3],  7);
-		x[ 2] ^= _scrypt_rotate(x[ 1] + x[ 0],  9);
-		x[ 3] ^= _scrypt_rotate(x[ 2] + x[ 1], 13);
-		x[ 0] ^= _scrypt_rotate(x[ 3] + x[ 2], 18);
-		x[ 6] ^= _scrypt_rotate(x[ 5] + x[ 4],  7);
-		x[ 7] ^= _scrypt_rotate(x[ 6] + x[ 5],  9);
-		x[ 4] ^= _scrypt_rotate(x[ 7] + x[ 6], 13);
-		x[ 5] ^= _scrypt_rotate(x[ 4] + x[ 7], 18);
-		x[11] ^= _scrypt_rotate(x[10] + x[ 9],  7);
-		x[ 8] ^= _scrypt_rotate(x[11] + x[10],  9);
-		x[ 9] ^= _scrypt_rotate(x[ 8] + x[11], 13);
-		x[10] ^= _scrypt_rotate(x[ 9] + x[ 8], 18);
-		x[12] ^= _scrypt_rotate(x[15] + x[14],  7);
-		x[13] ^= _scrypt_rotate(x[12] + x[15],  9);
-		x[14] ^= _scrypt_rotate(x[13] + x[12], 13);
-		x[15] ^= _scrypt_rotate(x[14] + x[13], 18);
-	}
-
-	for (i = 0; i < 16; i ++)
-		arch_mem_copy_dword2vect_little(&in[i * 4], x[i] + x_orig[i]);
-}
+#include "crypt/salsa/crypto.h"
 
 static inline uint64_t _scrypt_integerify(uint32_t *in, uint32_t r) {
 	uint32_t l = 0, h = 0;
@@ -151,11 +103,11 @@ static inline void _scrypt_bmix(
 
 	for (i = 0; i < (r * 2); i += 2) {
 		tc_memxor(vect_x, &in[i * 16], 64);
-		_scrypt_salsa_core(vect_x, 8);
+		crypto_core_salsa_rounds(vect_x, 8);
 		tc_memcpy(&out[i * 8], vect_x, 64);
 
 		tc_memxor(vect_x, &in[(i * 16) + 16], 64);
-		_scrypt_salsa_core(vect_x, 8);
+		crypto_core_salsa_rounds(vect_x, 8);
 		tc_memcpy(&out[(i * 8) + (r * 16)], vect_x, 64);
 	}
 
