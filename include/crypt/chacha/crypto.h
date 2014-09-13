@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 /* Prototypes */
+void crypto_core_chacha_rounds(unsigned char output[64], const uint32_t input[16], size_t rounds);
 int crypto_core_chacha(
 	unsigned char output[64],
 	const unsigned char k[32],

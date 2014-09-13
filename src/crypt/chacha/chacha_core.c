@@ -4,7 +4,7 @@ D. J. Bernstein
 Public domain.
 
 
-Changes by Pedro A. Hortas:
+Changes by Pedro A. Hortas (13/09/2014):
  - Significant changes were performed to allow smooth integration with secretbox and libpsec.
 
 */
@@ -29,11 +29,7 @@ Changes by Pedro A. Hortas:
   x[a] = PLUS(x[a],x[b]); x[d] = ROTATE(XOR(x[d],x[a]), 8); \
   x[c] = PLUS(x[c],x[d]); x[b] = ROTATE(XOR(x[b],x[c]), 7);
 
-static void _chacha_core(
-	unsigned char output[64],
-	const uint32_t input[16],
-	size_t rounds)
-{
+void crypto_core_chacha_rounds(unsigned char output[64], const uint32_t input[16], size_t rounds) {
   uint32_t x[16];
   int i = 0;
 
@@ -112,7 +108,7 @@ void crypto_core_chacha(
   _crypto_core_chacha_nonce_const(input, nc);
   _crypto_core_chacha_nonce(input, n);
 
-  _chacha_core(output, input, rounds);
+  crypto_core_chacha_rounds(output, input, rounds);
 }
 
 int crypto_stream_chacha_xor(
@@ -148,7 +144,7 @@ int crypto_stream_chacha_xor(
   /* Encrypt bytes */
   if (!mlen) return -1;
   for (;;) {
-    _chacha_core(output,input, rounds);
+    crypto_core_chacha_rounds(output,input, rounds);
     input[12] = PLUSONE(input[12]);
     if (!input[12]) {
       input[13] = PLUSONE(input[13]);
