@@ -1,7 +1,7 @@
 /*
  * @file generic.c
  * @brief PSEC Library
- *        Key Exhange [PANKAKE] interface 
+ *        Key Exhange [CHREKE] interface 
  *
  * Date: 14-09-2014
  *
@@ -39,9 +39,9 @@
 #include "crypt.h"
 #include "tc.h"
 
-#include "ke/pankake/generic.h"
+#include "ke/chreke/generic.h"
 
-unsigned char *pankake_client_init(
+unsigned char *chreke_client_init(
 	unsigned char *client_session,
 	unsigned char *client_context,
 	const char *password,
@@ -49,7 +49,7 @@ unsigned char *pankake_client_init(
 	size_t salt_len)
 {
 	int rounds = 5000, errsv = 0, session_alloc = 0;
-	struct pankake_context *ctx = (struct pankake_context *) client_context;
+	struct chreke_context *ctx = (struct chreke_context *) client_context;
 	size_t out_len = 0, pw_len = 0;
 
 	/* Check password length */
@@ -72,7 +72,7 @@ unsigned char *pankake_client_init(
 
 	/* Allocate session memory, if required */
 	if (!client_session) {
-		if (!(client_session = malloc(PANKAKE_CLIENT_SESSION_SIZE)))
+		if (!(client_session = malloc(CHREKE_CLIENT_SESSION_SIZE)))
 			return NULL;
 
 		session_alloc = 1;
@@ -98,14 +98,14 @@ unsigned char *pankake_client_init(
 	return client_session;
 }
 
-unsigned char *pankake_server_init(
+unsigned char *chreke_server_init(
 	unsigned char *server_session,
 	unsigned char *server_context,
 	const unsigned char *client_session,
 	const unsigned char *pwhash)
 {
 	int errsv = 0, session_alloc = 0;
-	struct pankake_context *ctx = (struct pankake_context *) server_context;
+	struct chreke_context *ctx = (struct chreke_context *) server_context;
 	size_t out_len = 0;
 
 	/* Initialize context */
@@ -129,7 +129,7 @@ unsigned char *pankake_server_init(
 
 	/* Allocate enough memory for server session, if required */
 	if (!server_session) {
-		if (!(server_session = malloc(PANKAKE_SERVER_SESSION_SIZE)))
+		if (!(server_session = malloc(CHREKE_SERVER_SESSION_SIZE)))
 			return NULL;
 
 		session_alloc = 1;
@@ -155,7 +155,7 @@ unsigned char *pankake_server_init(
 	return server_session;
 }
 
-unsigned char *pankake_client_authorize(
+unsigned char *chreke_client_authorize(
 	unsigned char *client_auth,
 	unsigned char *client_context,
 	unsigned char *key_agreed,
@@ -165,7 +165,7 @@ unsigned char *pankake_client_authorize(
 	unsigned char c_token[32];
 	unsigned char nonce[CRYPT_NONCE_SIZE_CHACHA20];
 	unsigned char pw_payload[256 + 1];
-	struct pankake_context *ctx = (struct pankake_context *) client_context;
+	struct chreke_context *ctx = (struct chreke_context *) client_context;
 	size_t out_len = 0, pw_len = 0;
 
 	/* Decrypt server public key */
@@ -228,7 +228,7 @@ unsigned char *pankake_client_authorize(
 	return client_auth;
 }
 
-int pankake_server_authorize(
+int chreke_server_authorize(
 	unsigned char *server_context,
 	unsigned char *key_agreed,
 	const unsigned char *client_auth,
@@ -240,7 +240,7 @@ int pankake_server_authorize(
 	unsigned char nonce[CRYPT_NONCE_SIZE_CHACHA20];
 	unsigned char pw_payload[256 + 1];
 	unsigned char *password = &pw_payload[1];
-	struct pankake_context *ctx = (struct pankake_context *) server_context;
+	struct chreke_context *ctx = (struct chreke_context *) server_context;
 	size_t out_len = 0, pw_len = 0;
 
 	/* Copy agreed key */

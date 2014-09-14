@@ -149,9 +149,9 @@ all:
 	${CC} -o kdf_pbkdf2_tiger2 kdf_pbkdf2_tiger2.c ${LDFLAGS}
 	${CC} -o kdf_pbkdf2_whirlpool kdf_pbkdf2_whirlpool.c ${LDFLAGS}
 	${CC} -o kdf_scrypt kdf_scrypt.c ${LDFLAGS}
+	${CC} -o ke_chreke ke_chreke.c ${LDFLAGS}
 	${CC} -o ke_dheke ke_dheke.c ${LDFLAGS}
 	${CC} -o ke_ecdh ke_ecdh.c ${LDFLAGS}
-	${CC} -o ke_pankake ke_pankake.c ${LDFLAGS}
 	${CC} -o tc_memcmp tc_memcmp.c ${LDFLAGS}
 	${CC} -o tc_memcpy tc_memcpy.c ${LDFLAGS}
 	${CC} -o tc_memmove tc_memmove.c ${LDFLAGS}
@@ -304,10 +304,10 @@ clean:
 	rm -f kdf_pbkdf2_tiger2
 	rm -f kdf_pbkdf2_whirlpool
 	rm -f kdf_scrypt
+	rm -f ke_chreke
 	rm -f ke_dh 
 	rm -f ke_dheke
 	rm -f ke_ecdh 
-	rm -f ke_pankake
 	rm -f tc_memcmp
 	rm -f tc_memcpy
 	rm -f tc_memmove

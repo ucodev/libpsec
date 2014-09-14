@@ -1,7 +1,7 @@
 /*
  * @file generic.h
  * @brief PSEC Library
- *        Key Exchange [PANKAKE] interface header
+ *        Key Exchange [CHREKE] interface header
  *
  * Date: 14-09-2014
  *
@@ -26,15 +26,15 @@
  *
  */
 
-#ifndef LIBPSEC_GENERIC_KE_PANKAKE_H
-#define LIBPSEC_GENERIC_KE_PANKAKE_H
+#ifndef LIBPSEC_GENERIC_KE_CHREKE_H
+#define LIBPSEC_GENERIC_KE_CHREKE_H
 
 #include <stdio.h>
 
 /* Structures */
 #pragma pack(push)
 #pragma pack(1)
-struct pankake_context {
+struct chreke_context {
 	unsigned char private[32];
 	unsigned char shared[32];
 	unsigned char c_public[32];
@@ -46,33 +46,33 @@ struct pankake_context {
 #pragma pack(pop)
 
 /* Sizes */
-#define PANKAKE_KEY_SIZE		32
-#define PANKAKE_CONTEXT_SIZE		sizeof(struct pankake_context)
-#define PANKAKE_CLIENT_AUTH_SIZE	1 + 256
+#define CHREKE_KEY_SIZE		32
+#define CHREKE_CONTEXT_SIZE		sizeof(struct chreke_context)
+#define CHREKE_CLIENT_AUTH_SIZE	1 + 256
 					/* pw_size, password */
-#define PANKAKE_CLIENT_SESSION_SIZE	32 + 32
+#define CHREKE_CLIENT_SESSION_SIZE	32 + 32
 					/* public key, token */
-#define PANKAKE_SERVER_SESSION_SIZE	32 + 32
+#define CHREKE_SERVER_SESSION_SIZE	32 + 32
 					/* public key, ctoken */
 
 /* Prototypes */
-unsigned char *pankake_client_init(
+unsigned char *chreke_client_init(
 	unsigned char *client_session,
 	unsigned char *client_context,
 	const char *password,
 	const unsigned char *salt,
 	size_t salt_len);
-unsigned char *pankake_server_init(
+unsigned char *chreke_server_init(
 	unsigned char *server_session,
 	unsigned char *server_context,
 	const unsigned char *client_session,
 	const unsigned char *pwhash);
-unsigned char *pankake_client_authorize(
+unsigned char *chreke_client_authorize(
 	unsigned char *client_auth,
 	unsigned char *client_context,
 	unsigned char *key_agreed,
 	const unsigned char *server_session);
-int pankake_server_authorize(
+int chreke_server_authorize(
 	unsigned char *server_context,
 	unsigned char *key_agreed,
 	const unsigned char *client_auth,

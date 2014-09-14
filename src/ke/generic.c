@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exhange interface 
  *
- * Date: 20-08-2014
+ * Date: 14-09-2014
  *
  * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,7 +32,7 @@
 #include "ke/dh/generic.h"
 #include "ke/dheke/generic.h"
 #include "ke/ecdh/generic.h"
-#include "ke/pankake/generic.h"
+#include "ke/chreke/generic.h"
 
 #include "ke.h"
 
@@ -126,42 +126,42 @@ unsigned char *ke_ecdh_shared(
 }
 
 /* PANKAKE Interface */
-unsigned char *ke_pankake_client_init(
+unsigned char *ke_chreke_client_init(
 	unsigned char *client_session,
 	unsigned char *client_context,
 	const char *password,
 	const unsigned char *salt,
 	size_t salt_len)
 {
-	return pankake_client_init(client_session, client_context, password, salt, salt_len);
+	return chreke_client_init(client_session, client_context, password, salt, salt_len);
 }
 
-unsigned char *ke_pankake_server_init(
+unsigned char *ke_chreke_server_init(
 	unsigned char *server_session,
 	unsigned char *server_context,
 	const unsigned char *client_session,
 	const unsigned char *pwhash)
 {
-	return pankake_server_init(server_session, server_context, client_session, pwhash);
+	return chreke_server_init(server_session, server_context, client_session, pwhash);
 }
 
-unsigned char *ke_pankake_client_authorize(
+unsigned char *ke_chreke_client_authorize(
 	unsigned char *client_auth,
 	unsigned char *client_context,
 	unsigned char *key_agreed,
 	const unsigned char *server_session)
 {
-	return pankake_client_authorize(client_auth, client_context, key_agreed, server_session);
+	return chreke_client_authorize(client_auth, client_context, key_agreed, server_session);
 }
 
-int ke_pankake_server_authorize(
+int ke_chreke_server_authorize(
 	unsigned char *server_session,
 	unsigned char *key_agreed,
 	const unsigned char *client_auth,
 	const unsigned char *salt,
 	size_t salt_len)
 {
-	return pankake_server_authorize(server_session, key_agreed, client_auth, salt, salt_len);
+	return chreke_server_authorize(server_session, key_agreed, client_auth, salt, salt_len);
 }
 
 /********************/

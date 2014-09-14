@@ -78,30 +78,30 @@ unsigned char *ke_ecdh_private(unsigned char *priv, size_t size);
 unsigned char *ke_ecdh_public(unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
 unsigned char *ke_ecdh_shared(unsigned char *shared, const unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
 /*********************/
-/* PANKAKE Interface */
+/* CHREKE Interface */
 /*********************/
-#define KE_KEY_SIZE_PANKAKE		32
-#define KE_CONTEXT_SIZE_PANKAKE		(5 * 32) + 64 + 256
-#define KE_CLIENT_AUTH_SIZE_PANKAKE	256 + 1
-#define KE_CLIENT_SESSION_SIZE_PANKAKE	32 + 32
-#define KE_SERVER_SESSION_SIZE_PANKAKE	32 + 32
-unsigned char *ke_pankake_client_init(
+#define KE_KEY_SIZE_CHREKE		32
+#define KE_CONTEXT_SIZE_CHREKE		(5 * 32) + 64 + 256
+#define KE_CLIENT_AUTH_SIZE_CHREKE	256 + 1
+#define KE_CLIENT_SESSION_SIZE_CHREKE	32 + 32
+#define KE_SERVER_SESSION_SIZE_CHREKE	32 + 32
+unsigned char *ke_chreke_client_init(
 	unsigned char *client_session,
 	unsigned char *client_context,
 	const char *password,
 	const unsigned char *salt,
 	size_t salt_len);
-unsigned char *ke_pankake_server_init(
+unsigned char *ke_chreke_server_init(
 	unsigned char *server_session,
 	unsigned char *server_context,
 	const unsigned char *client_session,
 	const unsigned char *pwhash);
-unsigned char *ke_pankake_client_authorize(
+unsigned char *ke_chreke_client_authorize(
 	unsigned char *client_auth,
 	unsigned char *client_context,
 	unsigned char *key_agreed,
 	const unsigned char *server_session);
-int ke_pankake_server_authorize(
+int ke_chreke_server_authorize(
 	unsigned char *server_context,
 	unsigned char *key_agreed,
 	const unsigned char *client_auth,
