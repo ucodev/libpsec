@@ -164,7 +164,7 @@ unsigned char *chreke_client_authorize(
 	int errsv = 0, auth_alloc = 0;
 	unsigned char c_token[32];
 	unsigned char nonce[CRYPT_NONCE_SIZE_CHACHA20];
-	unsigned char pw_payload[256 + 1];
+	unsigned char pw_payload[255 + 1];
 	struct chreke_context *ctx = (struct chreke_context *) client_context;
 	size_t out_len = 0, pw_len = 0;
 
@@ -238,7 +238,7 @@ int chreke_server_authorize(
 	int rounds = 5000;
 	unsigned char pwhash_c[HASH_DIGEST_SIZE_SHA512];
 	unsigned char nonce[CRYPT_NONCE_SIZE_CHACHA20];
-	unsigned char pw_payload[256 + 1];
+	unsigned char pw_payload[255 + 1];
 	unsigned char *password = &pw_payload[1];
 	struct chreke_context *ctx = (struct chreke_context *) server_context;
 	size_t out_len = 0, pw_len = 0;
