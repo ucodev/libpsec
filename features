@@ -98,6 +98,8 @@ fi
 # KE support
 /bin/echo -ne "\n"
 
+/bin/echo -e \
+"        ke/chreke support:\tOK"
 /bin/echo -ne \
 "            ke/dh support:\t"
 
@@ -118,8 +120,6 @@ fi
 
 /bin/echo -e \
 "          ke/ecdh support:\tOK"
-/bin/echo -e \
-"       ke/pankake support:\tOK"
 
 # MAC support
 /bin/echo -ne "\n"

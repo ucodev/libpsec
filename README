@@ -41,10 +41,10 @@
        kdf/pbkdf2 support:	OK
        kdf/scrypt support:	OK
 
+        ke/chreke support:	OK
             ke/dh support:	OK
          ke/dheke support:	OK
           ke/ecdh support:	OK
-       ke/pankake support:	OK
 
          mac/hmac support:	OK
      mac/poly1305 support:	OK
