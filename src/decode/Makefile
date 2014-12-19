@@ -1,7 +1,7 @@
 CC=`cat ../../.compiler`
 DEFINES=`cat ../../.defines`
 LD=/usr/bin/ld
-CCFLAGS=-g -O2 -Wall -Werror -fPIC
+CCFLAGS=-g -O2 -Wall -fPIC
 INCLUDEDIRS=-I../../include
 OBJS_COMMON=./base16/*.o ./base64/*.o
 OBJS=generic.o
