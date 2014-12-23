@@ -17,7 +17,7 @@ elif [ `uname`== "Darwin" ]; then
 	echo "-D_XOPEN_SOURCE=700" > .defines
 fi
 
-echo " -march=`uname -m`" >> .defines
+echo "" >> .defines
 
 if [ ! -e "/usr/bin/ld" ]; then
 	echo "/usr/bin/ld not found."
