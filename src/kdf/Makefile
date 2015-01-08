@@ -2,6 +2,7 @@ CC=`cat ../../.compiler`
 DEFINES=`cat ../../.defines`
 LD=/usr/bin/ld
 CCFLAGS=-g -std=c99 -O2 -Wall -Werror -fPIC
+ARCHFLAGS=`cat ../../.archflags`
 INCLUDEDIRS=-I../../include
 OBJS_COMMON=./bcrypt/*.o ./hkdf/*.o ./pbkdf1/*.o ./pbkdf2/*.o ./scrypt/*.o
 OBJS=generic.o
@@ -13,7 +14,7 @@ all:
 	make -C pbkdf1/
 	make -C pbkdf2/
 	make -C scrypt/
-	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:

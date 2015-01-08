@@ -2,6 +2,7 @@ CC=`cat ../../.compiler`
 DEFINES=`cat ../../.defines`
 LD=/usr/bin/ld
 CCFLAGS=-g -O2 -Wall -Werror -fPIC
+ARCHFLAGS=`cat ../../.archflags`
 INCLUDEDIRS=-I../../include
 OBJS_COMMON=./blake/*.o ./blake2/*.o ./gost/*.o ./haval/*.o ./md2/*.o ./md4/*.o ./md5/*.o ./ripemd/*.o ./sha/*.o ./tiger/*.o ./whirlpool/*.o
 OBJS=generic.o low.o
@@ -19,8 +20,8 @@ all:
 	make -C sha/
 	make -C tiger/
 	make -C whirlpool/
-	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
-	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c low.c
+	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c low.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:

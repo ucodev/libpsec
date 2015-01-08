@@ -2,6 +2,7 @@ CC=`cat ../../.compiler`
 DEFINES=`cat ../../.defines`
 LD=/usr/bin/ld
 CCFLAGS=-g -O0 -Wall -Werror -fPIC
+ARCHFLAGS=`cat ../../.archflags`
 INCLUDEDIRS=-I../../include
 OBJS_COMMON=./mem/*.o
 OBJS=generic.o
@@ -9,7 +10,7 @@ TARGET=tc.o
 
 all:
 	make -C mem/
-	${CC} ${DEFINES} ${CCFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:

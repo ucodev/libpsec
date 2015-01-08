@@ -5,5 +5,7 @@ make clean
 rm -f .compiler
 rm -f .defines
 rm -f .done
+rm -f .archflags
+rm -f .target
 rm -f .l*
 rm -rf build
