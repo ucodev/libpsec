@@ -1,0 +1,333 @@
+# Project: libpsec
+# Makefile created by Dev-C++ 5.8.3
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = dllmain.o ../src/arch/generic.o ../src/arch/mem/generic.o ../src/arch/spec/generic.o ../src/auth/generic.o ../src/auth/shadow/generic.o ../src/auth/shadow/nop.o ../src/crypt/generic.o ../src/crypt/aes/generic.o ../src/crypt/aes/oaes_lib.o ../src/crypt/blowfish/blowfish.o ../src/crypt/blowfish/generic.o ../src/crypt/chacha/chacha_core.o ../src/crypt/chacha/generic.o ../src/crypt/chacha/secretbox.o ../src/crypt/otp/generic.o ../src/crypt/salsa/generic.o ../src/crypt/salsa/hsalsa_core.o ../src/crypt/salsa/salsa.o ../src/crypt/salsa/salsa_core.o ../src/crypt/salsa/salsa_xor.o ../src/crypt/salsa/secretbox.o ../src/crypt/salsa/xsalsa.o ../src/crypt/salsa/xsalsa_xor.o ../src/decode/generic.o ../src/decode/base16/generic.o ../src/decode/base64/generic.o ../src/encode/generic.o ../src/encode/base16/generic.o ../src/encode/base64/generic.o ../src/generate/generic.o ../src/generate/random/generic.o ../src/hash/generic.o ../src/hash/low.o ../src/hash/blake/blake224.o ../src/hash/blake/blake256.o ../src/hash/blake/blake384.o ../src/hash/blake/blake512.o ../src/hash/blake/generic.o ../src/hash/blake/low.o ../src/hash/blake2/blake2b-ref.o ../src/hash/blake2/blake2s-ref.o ../src/hash/blake2/generic.o ../src/hash/blake2/low.o ../src/hash/gost/generic.o ../src/hash/gost/gosthash.o ../src/hash/gost/low.o ../src/hash/haval/generic.o ../src/hash/haval/haval.o ../src/hash/haval/low.o ../src/hash/md2/generic.o ../src/hash/md2/low.o ../src/hash/md2/md2c.o ../src/hash/md4/generic.o ../src/hash/md4/low.o ../src/hash/md4/md4c.o ../src/hash/md5/generic.o ../src/hash/md5/low.o ../src/hash/md5/md5c.o ../src/hash/ripemd/generic.o ../src/hash/ripemd/low_128.o ../src/hash/ripemd/low_160.o ../src/hash/ripemd/low_256.o ../src/hash/ripemd/low_320.o ../src/hash/ripemd/rmd128.o ../src/hash/ripemd/rmd160.o ../src/hash/ripemd/rmd256.o ../src/hash/ripemd/rmd320.o ../src/hash/sha/generic.o ../src/hash/sha/hmac.o ../src/hash/sha/low.o ../src/hash/sha/sha1.o ../src/hash/sha/sha224-256.o ../src/hash/sha/sha384-512.o ../src/hash/sha/usha.o ../src/hash/tiger/generic.o ../src/hash/tiger/low.o ../src/hash/tiger/tiger.o ../src/hash/whirlpool/generic.o ../src/hash/whirlpool/low.o ../src/hash/whirlpool/whirlpool.o ../src/kdf/generic.o ../src/kdf/bcrypt/generic.o ../src/kdf/hkdf/generic.o ../src/kdf/pbkdf1/generic.o ../src/kdf/pbkdf2/generic.o ../src/kdf/scrypt/generic.o ../src/ke/generic.o ../src/ke/chreke/generic.o ../src/ke/dh/generic.o ../src/ke/dh/nop.o ../src/ke/dheke/generic.o ../src/ke/ecdh/curve25519.o ../src/ke/ecdh/generic.o ../src/mac/generic.o ../src/mac/hmac/generic.o ../src/mac/poly1305/generic.o ../src/mac/poly1305/poly1305_auth.o ../src/mac/poly1305/poly1305_verify.o ../src/mac/poly1305/verify_16.o ../src/tc/generic.o ../src/tc/mem/generic.o
+LINKOBJ  = dllmain.o ../src/arch/generic.o ../src/arch/mem/generic.o ../src/arch/spec/generic.o ../src/auth/generic.o ../src/auth/shadow/generic.o ../src/auth/shadow/nop.o ../src/crypt/generic.o ../src/crypt/aes/generic.o ../src/crypt/aes/oaes_lib.o ../src/crypt/blowfish/blowfish.o ../src/crypt/blowfish/generic.o ../src/crypt/chacha/chacha_core.o ../src/crypt/chacha/generic.o ../src/crypt/chacha/secretbox.o ../src/crypt/otp/generic.o ../src/crypt/salsa/generic.o ../src/crypt/salsa/hsalsa_core.o ../src/crypt/salsa/salsa.o ../src/crypt/salsa/salsa_core.o ../src/crypt/salsa/salsa_xor.o ../src/crypt/salsa/secretbox.o ../src/crypt/salsa/xsalsa.o ../src/crypt/salsa/xsalsa_xor.o ../src/decode/generic.o ../src/decode/base16/generic.o ../src/decode/base64/generic.o ../src/encode/generic.o ../src/encode/base16/generic.o ../src/encode/base64/generic.o ../src/generate/generic.o ../src/generate/random/generic.o ../src/hash/generic.o ../src/hash/low.o ../src/hash/blake/blake224.o ../src/hash/blake/blake256.o ../src/hash/blake/blake384.o ../src/hash/blake/blake512.o ../src/hash/blake/generic.o ../src/hash/blake/low.o ../src/hash/blake2/blake2b-ref.o ../src/hash/blake2/blake2s-ref.o ../src/hash/blake2/generic.o ../src/hash/blake2/low.o ../src/hash/gost/generic.o ../src/hash/gost/gosthash.o ../src/hash/gost/low.o ../src/hash/haval/generic.o ../src/hash/haval/haval.o ../src/hash/haval/low.o ../src/hash/md2/generic.o ../src/hash/md2/low.o ../src/hash/md2/md2c.o ../src/hash/md4/generic.o ../src/hash/md4/low.o ../src/hash/md4/md4c.o ../src/hash/md5/generic.o ../src/hash/md5/low.o ../src/hash/md5/md5c.o ../src/hash/ripemd/generic.o ../src/hash/ripemd/low_128.o ../src/hash/ripemd/low_160.o ../src/hash/ripemd/low_256.o ../src/hash/ripemd/low_320.o ../src/hash/ripemd/rmd128.o ../src/hash/ripemd/rmd160.o ../src/hash/ripemd/rmd256.o ../src/hash/ripemd/rmd320.o ../src/hash/sha/generic.o ../src/hash/sha/hmac.o ../src/hash/sha/low.o ../src/hash/sha/sha1.o ../src/hash/sha/sha224-256.o ../src/hash/sha/sha384-512.o ../src/hash/sha/usha.o ../src/hash/tiger/generic.o ../src/hash/tiger/low.o ../src/hash/tiger/tiger.o ../src/hash/whirlpool/generic.o ../src/hash/whirlpool/low.o ../src/hash/whirlpool/whirlpool.o ../src/kdf/generic.o ../src/kdf/bcrypt/generic.o ../src/kdf/hkdf/generic.o ../src/kdf/pbkdf1/generic.o ../src/kdf/pbkdf2/generic.o ../src/kdf/scrypt/generic.o ../src/ke/generic.o ../src/ke/chreke/generic.o ../src/ke/dh/generic.o ../src/ke/dh/nop.o ../src/ke/dheke/generic.o ../src/ke/ecdh/curve25519.o ../src/ke/ecdh/generic.o ../src/mac/generic.o ../src/mac/hmac/generic.o ../src/mac/poly1305/generic.o ../src/mac/poly1305/poly1305_auth.o ../src/mac/poly1305/poly1305_verify.o ../src/mac/poly1305/verify_16.o ../src/tc/generic.o ../src/tc/mem/generic.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include" -I"../include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++" -I"../include"
+BIN      = libpsec.dll
+CXXFLAGS = $(CXXINCS) -DBUILDING_DLL=1 -DCOMPILE_WIN32=1
+CFLAGS   = $(INCS) -DBUILDING_DLL=1 -DCOMPILE_WIN32=1
+RM       = rm.exe -f
+DEF      = liblibpsec.def
+STATIC   = liblibpsec.a
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN) $(DEF) $(STATIC)
+
+$(BIN): $(LINKOBJ)
+	$(CC) -shared $(LINKOBJ) -o $(BIN) $(LIBS) -Wl,--output-def,$(DEF),--out-implib,$(STATIC),--add-stdcall-alias
+
+dllmain.o: dllmain.c
+	$(CC) -c dllmain.c -o dllmain.o $(CFLAGS)
+
+../src/arch/generic.o: ../src/arch/generic.c
+	$(CC) -c ../src/arch/generic.c -o ../src/arch/generic.o $(CFLAGS)
+
+../src/arch/mem/generic.o: ../src/arch/mem/generic.c
+	$(CC) -c ../src/arch/mem/generic.c -o ../src/arch/mem/generic.o $(CFLAGS)
+
+../src/arch/spec/generic.o: ../src/arch/spec/generic.c
+	$(CC) -c ../src/arch/spec/generic.c -o ../src/arch/spec/generic.o $(CFLAGS)
+
+../src/auth/generic.o: ../src/auth/generic.c
+	$(CC) -c ../src/auth/generic.c -o ../src/auth/generic.o $(CFLAGS)
+
+../src/auth/shadow/generic.o: ../src/auth/shadow/generic.c
+	$(CC) -c ../src/auth/shadow/generic.c -o ../src/auth/shadow/generic.o $(CFLAGS)
+
+../src/auth/shadow/nop.o: ../src/auth/shadow/nop.c
+	$(CC) -c ../src/auth/shadow/nop.c -o ../src/auth/shadow/nop.o $(CFLAGS)
+
+../src/crypt/generic.o: ../src/crypt/generic.c
+	$(CC) -c ../src/crypt/generic.c -o ../src/crypt/generic.o $(CFLAGS)
+
+../src/crypt/aes/generic.o: ../src/crypt/aes/generic.c
+	$(CC) -c ../src/crypt/aes/generic.c -o ../src/crypt/aes/generic.o $(CFLAGS)
+
+../src/crypt/aes/oaes_lib.o: ../src/crypt/aes/oaes_lib.c
+	$(CC) -c ../src/crypt/aes/oaes_lib.c -o ../src/crypt/aes/oaes_lib.o $(CFLAGS)
+
+../src/crypt/blowfish/blowfish.o: ../src/crypt/blowfish/blowfish.c
+	$(CC) -c ../src/crypt/blowfish/blowfish.c -o ../src/crypt/blowfish/blowfish.o $(CFLAGS)
+
+../src/crypt/blowfish/generic.o: ../src/crypt/blowfish/generic.c
+	$(CC) -c ../src/crypt/blowfish/generic.c -o ../src/crypt/blowfish/generic.o $(CFLAGS)
+
+../src/crypt/chacha/chacha_core.o: ../src/crypt/chacha/chacha_core.c
+	$(CC) -c ../src/crypt/chacha/chacha_core.c -o ../src/crypt/chacha/chacha_core.o $(CFLAGS)
+
+../src/crypt/chacha/generic.o: ../src/crypt/chacha/generic.c
+	$(CC) -c ../src/crypt/chacha/generic.c -o ../src/crypt/chacha/generic.o $(CFLAGS)
+
+../src/crypt/chacha/secretbox.o: ../src/crypt/chacha/secretbox.c
+	$(CC) -c ../src/crypt/chacha/secretbox.c -o ../src/crypt/chacha/secretbox.o $(CFLAGS)
+
+../src/crypt/otp/generic.o: ../src/crypt/otp/generic.c
+	$(CC) -c ../src/crypt/otp/generic.c -o ../src/crypt/otp/generic.o $(CFLAGS)
+
+../src/crypt/salsa/generic.o: ../src/crypt/salsa/generic.c
+	$(CC) -c ../src/crypt/salsa/generic.c -o ../src/crypt/salsa/generic.o $(CFLAGS)
+
+../src/crypt/salsa/hsalsa_core.o: ../src/crypt/salsa/hsalsa_core.c
+	$(CC) -c ../src/crypt/salsa/hsalsa_core.c -o ../src/crypt/salsa/hsalsa_core.o $(CFLAGS)
+
+../src/crypt/salsa/salsa.o: ../src/crypt/salsa/salsa.c
+	$(CC) -c ../src/crypt/salsa/salsa.c -o ../src/crypt/salsa/salsa.o $(CFLAGS)
+
+../src/crypt/salsa/salsa_core.o: ../src/crypt/salsa/salsa_core.c
+	$(CC) -c ../src/crypt/salsa/salsa_core.c -o ../src/crypt/salsa/salsa_core.o $(CFLAGS)
+
+../src/crypt/salsa/salsa_xor.o: ../src/crypt/salsa/salsa_xor.c
+	$(CC) -c ../src/crypt/salsa/salsa_xor.c -o ../src/crypt/salsa/salsa_xor.o $(CFLAGS)
+
+../src/crypt/salsa/secretbox.o: ../src/crypt/salsa/secretbox.c
+	$(CC) -c ../src/crypt/salsa/secretbox.c -o ../src/crypt/salsa/secretbox.o $(CFLAGS)
+
+../src/crypt/salsa/xsalsa.o: ../src/crypt/salsa/xsalsa.c
+	$(CC) -c ../src/crypt/salsa/xsalsa.c -o ../src/crypt/salsa/xsalsa.o $(CFLAGS)
+
+../src/crypt/salsa/xsalsa_xor.o: ../src/crypt/salsa/xsalsa_xor.c
+	$(CC) -c ../src/crypt/salsa/xsalsa_xor.c -o ../src/crypt/salsa/xsalsa_xor.o $(CFLAGS)
+
+../src/decode/generic.o: ../src/decode/generic.c
+	$(CC) -c ../src/decode/generic.c -o ../src/decode/generic.o $(CFLAGS)
+
+../src/decode/base16/generic.o: ../src/decode/base16/generic.c
+	$(CC) -c ../src/decode/base16/generic.c -o ../src/decode/base16/generic.o $(CFLAGS)
+
+../src/decode/base64/generic.o: ../src/decode/base64/generic.c
+	$(CC) -c ../src/decode/base64/generic.c -o ../src/decode/base64/generic.o $(CFLAGS)
+
+../src/encode/generic.o: ../src/encode/generic.c
+	$(CC) -c ../src/encode/generic.c -o ../src/encode/generic.o $(CFLAGS)
+
+../src/encode/base16/generic.o: ../src/encode/base16/generic.c
+	$(CC) -c ../src/encode/base16/generic.c -o ../src/encode/base16/generic.o $(CFLAGS)
+
+../src/encode/base64/generic.o: ../src/encode/base64/generic.c
+	$(CC) -c ../src/encode/base64/generic.c -o ../src/encode/base64/generic.o $(CFLAGS)
+
+../src/generate/generic.o: ../src/generate/generic.c
+	$(CC) -c ../src/generate/generic.c -o ../src/generate/generic.o $(CFLAGS)
+
+../src/generate/random/generic.o: ../src/generate/random/generic.c
+	$(CC) -c ../src/generate/random/generic.c -o ../src/generate/random/generic.o $(CFLAGS)
+
+../src/hash/generic.o: ../src/hash/generic.c
+	$(CC) -c ../src/hash/generic.c -o ../src/hash/generic.o $(CFLAGS)
+
+../src/hash/low.o: ../src/hash/low.c
+	$(CC) -c ../src/hash/low.c -o ../src/hash/low.o $(CFLAGS)
+
+../src/hash/blake/blake224.o: ../src/hash/blake/blake224.c
+	$(CC) -c ../src/hash/blake/blake224.c -o ../src/hash/blake/blake224.o $(CFLAGS)
+
+../src/hash/blake/blake256.o: ../src/hash/blake/blake256.c
+	$(CC) -c ../src/hash/blake/blake256.c -o ../src/hash/blake/blake256.o $(CFLAGS)
+
+../src/hash/blake/blake384.o: ../src/hash/blake/blake384.c
+	$(CC) -c ../src/hash/blake/blake384.c -o ../src/hash/blake/blake384.o $(CFLAGS)
+
+../src/hash/blake/blake512.o: ../src/hash/blake/blake512.c
+	$(CC) -c ../src/hash/blake/blake512.c -o ../src/hash/blake/blake512.o $(CFLAGS)
+
+../src/hash/blake/generic.o: ../src/hash/blake/generic.c
+	$(CC) -c ../src/hash/blake/generic.c -o ../src/hash/blake/generic.o $(CFLAGS)
+
+../src/hash/blake/low.o: ../src/hash/blake/low.c
+	$(CC) -c ../src/hash/blake/low.c -o ../src/hash/blake/low.o $(CFLAGS)
+
+../src/hash/blake2/blake2b-ref.o: ../src/hash/blake2/blake2b-ref.c
+	$(CC) -c ../src/hash/blake2/blake2b-ref.c -o ../src/hash/blake2/blake2b-ref.o $(CFLAGS)
+
+../src/hash/blake2/blake2s-ref.o: ../src/hash/blake2/blake2s-ref.c
+	$(CC) -c ../src/hash/blake2/blake2s-ref.c -o ../src/hash/blake2/blake2s-ref.o $(CFLAGS)
+
+../src/hash/blake2/generic.o: ../src/hash/blake2/generic.c
+	$(CC) -c ../src/hash/blake2/generic.c -o ../src/hash/blake2/generic.o $(CFLAGS)
+
+../src/hash/blake2/low.o: ../src/hash/blake2/low.c
+	$(CC) -c ../src/hash/blake2/low.c -o ../src/hash/blake2/low.o $(CFLAGS)
+
+../src/hash/gost/generic.o: ../src/hash/gost/generic.c
+	$(CC) -c ../src/hash/gost/generic.c -o ../src/hash/gost/generic.o $(CFLAGS)
+
+../src/hash/gost/gosthash.o: ../src/hash/gost/gosthash.c
+	$(CC) -c ../src/hash/gost/gosthash.c -o ../src/hash/gost/gosthash.o $(CFLAGS)
+
+../src/hash/gost/low.o: ../src/hash/gost/low.c
+	$(CC) -c ../src/hash/gost/low.c -o ../src/hash/gost/low.o $(CFLAGS)
+
+../src/hash/haval/generic.o: ../src/hash/haval/generic.c
+	$(CC) -c ../src/hash/haval/generic.c -o ../src/hash/haval/generic.o $(CFLAGS)
+
+../src/hash/haval/haval.o: ../src/hash/haval/haval.c
+	$(CC) -c ../src/hash/haval/haval.c -o ../src/hash/haval/haval.o $(CFLAGS)
+
+../src/hash/haval/low.o: ../src/hash/haval/low.c
+	$(CC) -c ../src/hash/haval/low.c -o ../src/hash/haval/low.o $(CFLAGS)
+
+../src/hash/md2/generic.o: ../src/hash/md2/generic.c
+	$(CC) -c ../src/hash/md2/generic.c -o ../src/hash/md2/generic.o $(CFLAGS)
+
+../src/hash/md2/low.o: ../src/hash/md2/low.c
+	$(CC) -c ../src/hash/md2/low.c -o ../src/hash/md2/low.o $(CFLAGS)
+
+../src/hash/md2/md2c.o: ../src/hash/md2/md2c.c
+	$(CC) -c ../src/hash/md2/md2c.c -o ../src/hash/md2/md2c.o $(CFLAGS)
+
+../src/hash/md4/generic.o: ../src/hash/md4/generic.c
+	$(CC) -c ../src/hash/md4/generic.c -o ../src/hash/md4/generic.o $(CFLAGS)
+
+../src/hash/md4/low.o: ../src/hash/md4/low.c
+	$(CC) -c ../src/hash/md4/low.c -o ../src/hash/md4/low.o $(CFLAGS)
+
+../src/hash/md4/md4c.o: ../src/hash/md4/md4c.c
+	$(CC) -c ../src/hash/md4/md4c.c -o ../src/hash/md4/md4c.o $(CFLAGS)
+
+../src/hash/md5/generic.o: ../src/hash/md5/generic.c
+	$(CC) -c ../src/hash/md5/generic.c -o ../src/hash/md5/generic.o $(CFLAGS)
+
+../src/hash/md5/low.o: ../src/hash/md5/low.c
+	$(CC) -c ../src/hash/md5/low.c -o ../src/hash/md5/low.o $(CFLAGS)
+
+../src/hash/md5/md5c.o: ../src/hash/md5/md5c.c
+	$(CC) -c ../src/hash/md5/md5c.c -o ../src/hash/md5/md5c.o $(CFLAGS)
+
+../src/hash/ripemd/generic.o: ../src/hash/ripemd/generic.c
+	$(CC) -c ../src/hash/ripemd/generic.c -o ../src/hash/ripemd/generic.o $(CFLAGS)
+
+../src/hash/ripemd/low_128.o: ../src/hash/ripemd/low_128.c
+	$(CC) -c ../src/hash/ripemd/low_128.c -o ../src/hash/ripemd/low_128.o $(CFLAGS)
+
+../src/hash/ripemd/low_160.o: ../src/hash/ripemd/low_160.c
+	$(CC) -c ../src/hash/ripemd/low_160.c -o ../src/hash/ripemd/low_160.o $(CFLAGS)
+
+../src/hash/ripemd/low_256.o: ../src/hash/ripemd/low_256.c
+	$(CC) -c ../src/hash/ripemd/low_256.c -o ../src/hash/ripemd/low_256.o $(CFLAGS)
+
+../src/hash/ripemd/low_320.o: ../src/hash/ripemd/low_320.c
+	$(CC) -c ../src/hash/ripemd/low_320.c -o ../src/hash/ripemd/low_320.o $(CFLAGS)
+
+../src/hash/ripemd/rmd128.o: ../src/hash/ripemd/rmd128.c
+	$(CC) -c ../src/hash/ripemd/rmd128.c -o ../src/hash/ripemd/rmd128.o $(CFLAGS)
+
+../src/hash/ripemd/rmd160.o: ../src/hash/ripemd/rmd160.c
+	$(CC) -c ../src/hash/ripemd/rmd160.c -o ../src/hash/ripemd/rmd160.o $(CFLAGS)
+
+../src/hash/ripemd/rmd256.o: ../src/hash/ripemd/rmd256.c
+	$(CC) -c ../src/hash/ripemd/rmd256.c -o ../src/hash/ripemd/rmd256.o $(CFLAGS)
+
+../src/hash/ripemd/rmd320.o: ../src/hash/ripemd/rmd320.c
+	$(CC) -c ../src/hash/ripemd/rmd320.c -o ../src/hash/ripemd/rmd320.o $(CFLAGS)
+
+../src/hash/sha/generic.o: ../src/hash/sha/generic.c
+	$(CC) -c ../src/hash/sha/generic.c -o ../src/hash/sha/generic.o $(CFLAGS)
+
+../src/hash/sha/hmac.o: ../src/hash/sha/hmac.c
+	$(CC) -c ../src/hash/sha/hmac.c -o ../src/hash/sha/hmac.o $(CFLAGS)
+
+../src/hash/sha/low.o: ../src/hash/sha/low.c
+	$(CC) -c ../src/hash/sha/low.c -o ../src/hash/sha/low.o $(CFLAGS)
+
+../src/hash/sha/sha1.o: ../src/hash/sha/sha1.c
+	$(CC) -c ../src/hash/sha/sha1.c -o ../src/hash/sha/sha1.o $(CFLAGS)
+
+../src/hash/sha/sha224-256.o: ../src/hash/sha/sha224-256.c
+	$(CC) -c ../src/hash/sha/sha224-256.c -o ../src/hash/sha/sha224-256.o $(CFLAGS)
+
+../src/hash/sha/sha384-512.o: ../src/hash/sha/sha384-512.c
+	$(CC) -c ../src/hash/sha/sha384-512.c -o ../src/hash/sha/sha384-512.o $(CFLAGS)
+
+../src/hash/sha/usha.o: ../src/hash/sha/usha.c
+	$(CC) -c ../src/hash/sha/usha.c -o ../src/hash/sha/usha.o $(CFLAGS)
+
+../src/hash/tiger/generic.o: ../src/hash/tiger/generic.c
+	$(CC) -c ../src/hash/tiger/generic.c -o ../src/hash/tiger/generic.o $(CFLAGS)
+
+../src/hash/tiger/low.o: ../src/hash/tiger/low.c
+	$(CC) -c ../src/hash/tiger/low.c -o ../src/hash/tiger/low.o $(CFLAGS)
+
+../src/hash/tiger/tiger.o: ../src/hash/tiger/tiger.c
+	$(CC) -c ../src/hash/tiger/tiger.c -o ../src/hash/tiger/tiger.o $(CFLAGS)
+
+../src/hash/whirlpool/generic.o: ../src/hash/whirlpool/generic.c
+	$(CC) -c ../src/hash/whirlpool/generic.c -o ../src/hash/whirlpool/generic.o $(CFLAGS)
+
+../src/hash/whirlpool/low.o: ../src/hash/whirlpool/low.c
+	$(CC) -c ../src/hash/whirlpool/low.c -o ../src/hash/whirlpool/low.o $(CFLAGS)
+
+../src/hash/whirlpool/whirlpool.o: ../src/hash/whirlpool/whirlpool.c
+	$(CC) -c ../src/hash/whirlpool/whirlpool.c -o ../src/hash/whirlpool/whirlpool.o $(CFLAGS)
+
+../src/kdf/generic.o: ../src/kdf/generic.c
+	$(CC) -c ../src/kdf/generic.c -o ../src/kdf/generic.o $(CFLAGS)
+
+../src/kdf/bcrypt/generic.o: ../src/kdf/bcrypt/generic.c
+	$(CC) -c ../src/kdf/bcrypt/generic.c -o ../src/kdf/bcrypt/generic.o $(CFLAGS)
+
+../src/kdf/hkdf/generic.o: ../src/kdf/hkdf/generic.c
+	$(CC) -c ../src/kdf/hkdf/generic.c -o ../src/kdf/hkdf/generic.o $(CFLAGS)
+
+../src/kdf/pbkdf1/generic.o: ../src/kdf/pbkdf1/generic.c
+	$(CC) -c ../src/kdf/pbkdf1/generic.c -o ../src/kdf/pbkdf1/generic.o $(CFLAGS)
+
+../src/kdf/pbkdf2/generic.o: ../src/kdf/pbkdf2/generic.c
+	$(CC) -c ../src/kdf/pbkdf2/generic.c -o ../src/kdf/pbkdf2/generic.o $(CFLAGS)
+
+../src/kdf/scrypt/generic.o: ../src/kdf/scrypt/generic.c
+	$(CC) -c ../src/kdf/scrypt/generic.c -o ../src/kdf/scrypt/generic.o $(CFLAGS)
+
+../src/ke/generic.o: ../src/ke/generic.c
+	$(CC) -c ../src/ke/generic.c -o ../src/ke/generic.o $(CFLAGS)
+
+../src/ke/chreke/generic.o: ../src/ke/chreke/generic.c
+	$(CC) -c ../src/ke/chreke/generic.c -o ../src/ke/chreke/generic.o $(CFLAGS)
+
+../src/ke/dh/generic.o: ../src/ke/dh/generic.c
+	$(CC) -c ../src/ke/dh/generic.c -o ../src/ke/dh/generic.o $(CFLAGS)
+
+../src/ke/dh/nop.o: ../src/ke/dh/nop.c
+	$(CC) -c ../src/ke/dh/nop.c -o ../src/ke/dh/nop.o $(CFLAGS)
+
+../src/ke/dheke/generic.o: ../src/ke/dheke/generic.c
+	$(CC) -c ../src/ke/dheke/generic.c -o ../src/ke/dheke/generic.o $(CFLAGS)
+
+../src/ke/ecdh/curve25519.o: ../src/ke/ecdh/curve25519.c
+	$(CC) -c ../src/ke/ecdh/curve25519.c -o ../src/ke/ecdh/curve25519.o $(CFLAGS)
+
+../src/ke/ecdh/generic.o: ../src/ke/ecdh/generic.c
+	$(CC) -c ../src/ke/ecdh/generic.c -o ../src/ke/ecdh/generic.o $(CFLAGS)
+
+../src/mac/generic.o: ../src/mac/generic.c
+	$(CC) -c ../src/mac/generic.c -o ../src/mac/generic.o $(CFLAGS)
+
+../src/mac/hmac/generic.o: ../src/mac/hmac/generic.c
+	$(CC) -c ../src/mac/hmac/generic.c -o ../src/mac/hmac/generic.o $(CFLAGS)
+
+../src/mac/poly1305/generic.o: ../src/mac/poly1305/generic.c
+	$(CC) -c ../src/mac/poly1305/generic.c -o ../src/mac/poly1305/generic.o $(CFLAGS)
+
+../src/mac/poly1305/poly1305_auth.o: ../src/mac/poly1305/poly1305_auth.c
+	$(CC) -c ../src/mac/poly1305/poly1305_auth.c -o ../src/mac/poly1305/poly1305_auth.o $(CFLAGS)
+
+../src/mac/poly1305/poly1305_verify.o: ../src/mac/poly1305/poly1305_verify.c
+	$(CC) -c ../src/mac/poly1305/poly1305_verify.c -o ../src/mac/poly1305/poly1305_verify.o $(CFLAGS)
+
+../src/mac/poly1305/verify_16.o: ../src/mac/poly1305/verify_16.c
+	$(CC) -c ../src/mac/poly1305/verify_16.c -o ../src/mac/poly1305/verify_16.o $(CFLAGS)
+
+../src/tc/generic.o: ../src/tc/generic.c
+	$(CC) -c ../src/tc/generic.c -o ../src/tc/generic.o $(CFLAGS)
+
+../src/tc/mem/generic.o: ../src/tc/mem/generic.c
+	$(CC) -c ../src/tc/mem/generic.c -o ../src/tc/mem/generic.o $(CFLAGS)
