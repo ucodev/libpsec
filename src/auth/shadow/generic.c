@@ -49,7 +49,6 @@
 
 #ifndef _GNU_SOURCE
 /* Use static mutexes for systems not supporting reentrant versions of the API */
-#define _REENTRANT
 #include <pthread.h>
 
 

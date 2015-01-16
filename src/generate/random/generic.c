@@ -38,6 +38,9 @@
 #include "tc.h"
 
 unsigned char *random_bytes(unsigned char *out, size_t len) {
+#ifdef COMPILE_WIN32
+	return NULL;
+#else
 	int i = 0, errsv = 0;
 	FILE *fp = NULL;
 	struct timespec tp;
@@ -97,6 +100,7 @@ unsigned char *random_bytes(unsigned char *out, size_t len) {
 	}
 
 	return out;
+#endif
 }
 
 unsigned char *random_dict(
