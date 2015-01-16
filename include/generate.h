@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Generate interface header
  *
- * Date: 13-08-2014
+ * Date: 16-01-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -31,15 +31,26 @@
 
 #include <stdio.h>
 
+#include "config.h"
+
 /* Prototypes */
 /********************/
 /* Random Interface */
 /********************/
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *generate_bytes_random(unsigned char *out, size_t len);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *generate_dict_random(unsigned char *out, size_t out_len, unsigned char *dict, size_t dict_len);
 /********************/
 /* Common Interface */
 /********************/
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 void generate_destroy(unsigned char *bytes);
 
 #endif

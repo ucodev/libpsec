@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Key Exchange interface header
  *
- * Date: 14-09-2014
+ * Date: 16-01-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -31,18 +31,32 @@
 
 #include <stdio.h>
 
+#include "config.h"
+
 /* Prototypes */
 /****************/
 /* DH Interface */
 /****************/
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_dh_private(unsigned char *priv, size_t size);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_dh_public(unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_dh_shared(unsigned char *shared, const unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
 /********************/
 /* DH-EKE Interface */
 /********************/
 #define KE_CONTEXT_SIZE_DHEKE		((sizeof(unsigned char *) * 8) + (sizeof(size_t) * 5) + sizeof(unsigned int))
 #define KE_EXTRA_SESSION_SIZE_DHEKE	16 /* Poly1305 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_dheke_client_init(
 	unsigned char *client_session,
 	unsigned char *context,
@@ -54,6 +68,9 @@ unsigned char *ke_dheke_client_init(
 	size_t pub_len,
 	unsigned int pbkdf2_rounds,
 	unsigned int use_mac);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_dheke_server_init(
 	unsigned char *server_session,
 	unsigned char *key,
@@ -67,6 +84,9 @@ unsigned char *ke_dheke_server_init(
 	size_t pub_len,
 	unsigned int pbkdf2_rounds,
 	unsigned int use_mac);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_dheke_client_process(
 	unsigned char *key,
 	unsigned char *context,
@@ -74,8 +94,17 @@ unsigned char *ke_dheke_client_process(
 /****************/
 /* ECDH Interface */
 /****************/
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_ecdh_private(unsigned char *priv, size_t size);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_ecdh_public(unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_ecdh_shared(unsigned char *shared, const unsigned char *pub, size_t pub_size, const unsigned char *priv, size_t priv_size);
 /*********************/
 /* CHREKE Interface */
@@ -85,22 +114,34 @@ unsigned char *ke_ecdh_shared(unsigned char *shared, const unsigned char *pub, s
 #define KE_CLIENT_AUTH_SIZE_CHREKE	256 + 1
 #define KE_CLIENT_SESSION_SIZE_CHREKE	32 + 32
 #define KE_SERVER_SESSION_SIZE_CHREKE	32 + 32
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_chreke_client_init(
 	unsigned char *client_session,
 	unsigned char *client_context,
 	const char *password,
 	const unsigned char *salt,
 	size_t salt_len);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_chreke_server_init(
 	unsigned char *server_session,
 	unsigned char *server_context,
 	const unsigned char *client_session,
 	const unsigned char *pwhash);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *ke_chreke_client_authorize(
 	unsigned char *client_auth,
 	unsigned char *client_context,
 	unsigned char *key_agreed,
 	const unsigned char *server_session);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 int ke_chreke_server_authorize(
 	unsigned char *server_context,
 	unsigned char *key_agreed,
@@ -110,6 +151,9 @@ int ke_chreke_server_authorize(
 /********************/
 /* Common Interface */
 /********************/
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 void ke_destroy(unsigned char *key);
 
 #endif

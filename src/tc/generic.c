@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Time Constant interface 
  *
- * Date: 11-09-2014
+ * Date: 16-01-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -28,25 +28,42 @@
 
 #include <stdio.h>
 
+#include "config.h"
+
 #include "tc/mem/generic.h"
 
 /* Memory Operations Interface */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 int tc_memcmp(const void *s1, const void *s2, size_t n) {
 	return memcmp_timec(s1, s2, n);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 void *tc_memcpy(void *dest, const void *src, size_t n) {
 	return memcpy_timec(dest, src, n);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 void *tc_memmove(void *dest, const void *src, size_t n) {
 	return memmove_timec(dest, src, n);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 void *tc_memset(void *s, int c, size_t n) {
 	return memset_timec(s, c, n);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 void *tc_memxor(void *dest, const void *src, size_t n) {
 	return memxor_timec(dest, src, n);
 }

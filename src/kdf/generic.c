@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Key Derivation Function interface 
  *
- * Date: 11-09-2014
+ * Date: 16-01-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -29,6 +29,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "config.h"
+
 #include "hash/low.h"
 
 #include "kdf/bcrypt/generic.h"
@@ -40,6 +42,9 @@
 #include "kdf.h"
 
 /* bcrypt */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *kdf_bcrypt(
 	unsigned char *out,
 	unsigned int cost,
@@ -51,6 +56,9 @@ unsigned char *kdf_bcrypt(
 }
 
 /* HKDF */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *kdf_hkdf_generic(
 	unsigned char *out,
 	unsigned char *(*hmac) (
@@ -73,6 +81,9 @@ unsigned char *kdf_hkdf_generic(
 }
 
 /* PBKDF1 Interface */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *kdf_pbkdf1_generic(
 	unsigned char *out,
 	int (*hash_low_init) (psec_low_hash_t *),
@@ -90,6 +101,9 @@ unsigned char *kdf_pbkdf1_generic(
 }
 
 /* PBKDF2 Interface */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *kdf_pbkdf2_generic(
 	unsigned char *out,
 	unsigned char *(*hmac) (unsigned char *out, const unsigned char *key, size_t key_len, const unsigned char *msg, size_t msg_len),
@@ -105,6 +119,9 @@ unsigned char *kdf_pbkdf2_generic(
 }
 
 /* scrypt */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *kdf_scrypt(
 	unsigned char *out,
 	const unsigned char *pw,
@@ -120,6 +137,9 @@ unsigned char *kdf_scrypt(
 }
 
 /* Common */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 void kdf_destroy(unsigned char *digest) {
 	free(digest);
 }

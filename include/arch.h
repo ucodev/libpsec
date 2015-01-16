@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Architecture Specific portable interface header
  *
- * Date: 08-09-2014
+ * Date: 16-01-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -31,37 +31,99 @@
 
 #include <stdint.h>
 
+#include "config.h"
+
 /*****************/
 /* MEM Interface */
 /*****************/
 /* Vector to uint */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint16_t arch_mem_copy_vect2word_little(uint16_t *word, const unsigned char *v);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint16_t arch_mem_copy_vect2word_big(uint16_t *word, const unsigned char *v);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint32_t arch_mem_copy_vect2dword_little(uint32_t *dword, const unsigned char *v);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint32_t arch_mem_copy_vect2dword_big(uint32_t *dword, const unsigned char *v);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint64_t arch_mem_copy_vect2qword_little(uint64_t *qword, const unsigned char *v);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint64_t arch_mem_copy_vect2qword_big(uint64_t *qword, const unsigned char *v);
 
 /* uint to vector */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *arch_mem_copy_word2vect_little(unsigned char *v, const uint16_t word);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *arch_mem_copy_word2vect_big(unsigned char *v, const uint16_t word);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *arch_mem_copy_dword2vect_little(unsigned char *v, const uint32_t dword);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *arch_mem_copy_dword2vect_big(unsigned char *v, const uint32_t dword);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *arch_mem_copy_qword2vect_little(unsigned char *v, const uint64_t qword);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *arch_mem_copy_qword2vect_big(unsigned char *v, const uint64_t qword);
 
 /* uint to uint */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint16_t arch_mem_copy_word2word_little(uint16_t *word_d, const uint16_t word_s);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint16_t arch_mem_copy_word2word_big(uint16_t *word_d, const uint16_t word_s);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint32_t arch_mem_copy_dword2dword_little(uint32_t *dword_d, const uint32_t dword_s);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint32_t arch_mem_copy_dword2dword_big(uint32_t *dword_d, const uint32_t dword_s);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint64_t arch_mem_copy_qword2qword_little(uint64_t *qword_d, const uint64_t qword_s);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 uint64_t arch_mem_copy_qword2qword_big(uint64_t *qword_d, const uint64_t qword_s);
 
 /******************/
 /* SPEC Interface */
 /******************/
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 int arch_spec_endianness_is_little(void);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 int arch_spec_endianness_is_big(void);
 
 #endif

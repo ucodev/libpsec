@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Encryption/Decryption interface 
  *
- * Date: 12-09-2014
+ * Date: 16-01-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -29,6 +29,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "config.h"
+
 #include "crypt/aes/generic.h"
 #include "crypt/blowfish/generic.h"
 #include "crypt/chacha/generic.h"
@@ -36,6 +38,9 @@
 #include "crypt/otp/generic.h"
 
 /* AES-256 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_aes256cbc(
 	unsigned char *out,
 	size_t *out_len,
@@ -47,6 +52,9 @@ unsigned char *crypt_encrypt_aes256cbc(
 	return aes256cbc_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_aes256cbc(
 	unsigned char *out,
 	size_t *out_len,
@@ -58,6 +66,9 @@ unsigned char *crypt_decrypt_aes256cbc(
 	return aes256cbc_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_aes256ecb(
 	unsigned char *out,
 	size_t *out_len,
@@ -69,6 +80,9 @@ unsigned char *crypt_encrypt_aes256ecb(
 	return aes256ecb_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_aes256ecb(
 	unsigned char *out,
 	size_t *out_len,
@@ -81,6 +95,9 @@ unsigned char *crypt_decrypt_aes256ecb(
 }
 
 /* AES-192 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_aes192cbc(
 	unsigned char *out,
 	size_t *out_len,
@@ -92,6 +109,9 @@ unsigned char *crypt_encrypt_aes192cbc(
 	return aes192cbc_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_aes192cbc(
 	unsigned char *out,
 	size_t *out_len,
@@ -103,6 +123,9 @@ unsigned char *crypt_decrypt_aes192cbc(
 	return aes192cbc_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_aes192ecb(
 	unsigned char *out,
 	size_t *out_len,
@@ -114,6 +137,9 @@ unsigned char *crypt_encrypt_aes192ecb(
 	return aes192ecb_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_aes192ecb(
 	unsigned char *out,
 	size_t *out_len,
@@ -126,6 +152,9 @@ unsigned char *crypt_decrypt_aes192ecb(
 }
 
 /* AES-128 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_aes128cbc(
 	unsigned char *out,
 	size_t *out_len,
@@ -137,6 +166,9 @@ unsigned char *crypt_encrypt_aes128cbc(
 	return aes128cbc_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_aes128cbc(
 	unsigned char *out,
 	size_t *out_len,
@@ -148,6 +180,9 @@ unsigned char *crypt_decrypt_aes128cbc(
 	return aes128cbc_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_aes128ecb(
 	unsigned char *out,
 	size_t *out_len,
@@ -159,6 +194,9 @@ unsigned char *crypt_encrypt_aes128ecb(
 	return aes128ecb_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_aes128ecb(
 	unsigned char *out,
 	size_t *out_len,
@@ -171,6 +209,9 @@ unsigned char *crypt_decrypt_aes128ecb(
 }
 
 /* Blowfish-448 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_blowfish448ecb(
 	unsigned char *out,
 	size_t *out_len,
@@ -182,6 +223,9 @@ unsigned char *crypt_encrypt_blowfish448ecb(
 	return blowfish448ecb_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_blowfish448ecb(
 	unsigned char *out,
 	size_t *out_len,
@@ -194,6 +238,9 @@ unsigned char *crypt_decrypt_blowfish448ecb(
 }
 
 /* ChaCha20 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_chacha20(
 	unsigned char *out,
 	size_t *out_len,
@@ -205,6 +252,9 @@ unsigned char *crypt_encrypt_chacha20(
 	return chacha20_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_chacha20(
 	unsigned char *out,
 	size_t *out_len,
@@ -216,6 +266,9 @@ unsigned char *crypt_decrypt_chacha20(
 	return chacha20_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_chacha20poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -227,6 +280,9 @@ unsigned char *crypt_encrypt_chacha20poly1305(
 	return chacha20poly1305_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_chacha20poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -239,6 +295,9 @@ unsigned char *crypt_decrypt_chacha20poly1305(
 }
 
 /* ChaCha12 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_chacha12(
 	unsigned char *out,
 	size_t *out_len,
@@ -250,6 +309,9 @@ unsigned char *crypt_encrypt_chacha12(
 	return chacha12_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_chacha12(
 	unsigned char *out,
 	size_t *out_len,
@@ -261,6 +323,9 @@ unsigned char *crypt_decrypt_chacha12(
 	return chacha12_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_chacha12poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -272,6 +337,9 @@ unsigned char *crypt_encrypt_chacha12poly1305(
 	return chacha12poly1305_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_chacha12poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -284,6 +352,9 @@ unsigned char *crypt_decrypt_chacha12poly1305(
 }
 
 /* ChaCha8 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_chacha8(
 	unsigned char *out,
 	size_t *out_len,
@@ -295,6 +366,9 @@ unsigned char *crypt_encrypt_chacha8(
 	return chacha8_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_chacha8(
 	unsigned char *out,
 	size_t *out_len,
@@ -306,6 +380,9 @@ unsigned char *crypt_decrypt_chacha8(
 	return chacha8_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_chacha8poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -317,6 +394,9 @@ unsigned char *crypt_encrypt_chacha8poly1305(
 	return chacha8poly1305_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_chacha8poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -329,6 +409,9 @@ unsigned char *crypt_decrypt_chacha8poly1305(
 }
 
 /* OTP */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_otp(
 	unsigned char *out,
 	size_t *out_len,
@@ -340,6 +423,9 @@ unsigned char *crypt_encrypt_otp(
 	return otp_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_otp(
 	unsigned char *out,
 	size_t *out_len,
@@ -352,6 +438,9 @@ unsigned char *crypt_decrypt_otp(
 }
 
 /* Xsalsa20 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_xsalsa20(
 	unsigned char *out,
 	size_t *out_len,
@@ -363,6 +452,9 @@ unsigned char *crypt_encrypt_xsalsa20(
 	return xsalsa20_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_xsalsa20(
 	unsigned char *out,
 	size_t *out_len,
@@ -374,6 +466,9 @@ unsigned char *crypt_decrypt_xsalsa20(
 	return xsalsa20_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_xsalsa20poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -385,6 +480,9 @@ unsigned char *crypt_encrypt_xsalsa20poly1305(
 	return xsalsa20poly1305_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_xsalsa20poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -397,6 +495,9 @@ unsigned char *crypt_decrypt_xsalsa20poly1305(
 }
 
 /* Xsalsa12 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_xsalsa12(
 	unsigned char *out,
 	size_t *out_len,
@@ -408,6 +509,9 @@ unsigned char *crypt_encrypt_xsalsa12(
 	return xsalsa12_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_xsalsa12(
 	unsigned char *out,
 	size_t *out_len,
@@ -419,6 +523,9 @@ unsigned char *crypt_decrypt_xsalsa12(
 	return xsalsa12_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_xsalsa12poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -430,6 +537,9 @@ unsigned char *crypt_encrypt_xsalsa12poly1305(
 	return xsalsa12poly1305_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_xsalsa12poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -442,6 +552,9 @@ unsigned char *crypt_decrypt_xsalsa12poly1305(
 }
 
 /* Xsalsa8 */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_xsalsa8(
 	unsigned char *out,
 	size_t *out_len,
@@ -453,6 +566,9 @@ unsigned char *crypt_encrypt_xsalsa8(
 	return xsalsa8_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_xsalsa8(
 	unsigned char *out,
 	size_t *out_len,
@@ -464,6 +580,9 @@ unsigned char *crypt_decrypt_xsalsa8(
 	return xsalsa8_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_encrypt_xsalsa8poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -475,6 +594,9 @@ unsigned char *crypt_encrypt_xsalsa8poly1305(
 	return xsalsa8poly1305_encrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *crypt_decrypt_xsalsa8poly1305(
 	unsigned char *out,
 	size_t *out_len,
@@ -486,6 +608,9 @@ unsigned char *crypt_decrypt_xsalsa8poly1305(
 	return xsalsa8poly1305_decrypt(out, out_len, in, in_len, nonce, key);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 void crypt_destroy(unsigned char *crypt) {
 	free(crypt);
 }

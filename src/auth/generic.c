@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Authentication interface 
  *
- * Date: 14-08-2014
+ * Date: 16-01-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -26,11 +26,16 @@
  *
  */
 
+#include "config.h"
+
 #include "auth/shadow/generic.h"
 
 #include "auth.h"
 
 /* Shadow Interface */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 int auth_shadow_verify(const char *username, const char *password) {
 	return shadow_user_pass_verify(username, password);
 }

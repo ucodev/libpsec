@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Encoding interface header
  *
- * Date: 04-08-2014
+ * Date: 16-01-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -31,20 +31,37 @@
 
 #include <stdio.h>
 
+#include "config.h"
+
 /* Prototypes */
 /********************/
 /* Base16 Interface */
 /********************/
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *encode_buffer_base16(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 size_t encode_size_base16(size_t in_len);
 /********************/
 /* Base64 Interface */
 /********************/
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *encode_buffer_base64(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len);
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 size_t encode_size_base64(size_t in_len);
 /********************/
 /* Common Interface */
 /********************/
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 void encode_destroy(unsigned char *encode);
 
 #endif

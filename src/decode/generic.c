@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Decoding interface 
  *
- * Date: 04-08-2014
+ * Date: 16-01-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -29,30 +29,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "config.h"
+
 #include "decode/base16/generic.h"
 #include "decode/base64/generic.h"
 
 #include "decode.h"
 
 /* Base16 Interface */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *decode_buffer_base16(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
 	return base16_decode(out, out_len, in, in_len);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 size_t decode_size_base16(size_t in_len) {
 	return base16_decode_size(in_len);
 }
 
 /* Base64 Interface */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 unsigned char *decode_buffer_base64(unsigned char *out, size_t *out_len, const unsigned char *in, size_t in_len) {
 	return base64_decode(out, out_len, in, in_len);
 }
 
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 size_t decode_size_base64(size_t in_len) {
 	return base64_decode_size(in_len);
 }
 
 /* Generic */
+#ifdef COMPILE_WIN32
+DLLIMPORT
+#endif
 void decode_destroy(unsigned char *decode) {
 	free(decode);
 }
