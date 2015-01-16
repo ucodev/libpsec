@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Generate [Random] generic interface header
  *
- * Date: 01-09-2014
+ * Date: 16-01-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -35,11 +35,29 @@
 
 #include <sys/types.h>
 
+#include "config.h"
+
+#ifdef COMPILE_WIN32
+#include <wincrypt.h>
+#endif
+
 #include "tc.h"
 
 unsigned char *random_bytes(unsigned char *out, size_t len) {
 #ifdef COMPILE_WIN32
-	return NULL;
+	HCRYPTPROV p = NULL;
+	
+	if (!CryptAcquireContext(&p, "psec_random_bytes", NULL, PROV_RSA_FULL, 0)) {
+		if (!CryptAcquireContext(&p, "psec_random_bytes", NULL, PROV_RSA_FULL, CRYPT_NEWKEYSET))
+			return NULL;
+	}
+
+	if (!CryptGenRandom(p, len, out))
+		out = NULL;
+
+	CryptReleaseContext(p, 0);
+
+	return out;
 #else
 	int i = 0, errsv = 0;
 	FILE *fp = NULL;
