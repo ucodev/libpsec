@@ -151,9 +151,11 @@ static inline int blake2b_param_set_personal( blake2b_param *P, const uint8_t pe
 
 static inline int blake2b_init0( blake2b_state *S )
 {
+  int i = 0;
+
   tc_memset( S, 0, sizeof( blake2b_state ) );
 
-  for( int i = 0; i < 8; ++i ) S->h[i] = blake2b_IV[i];
+  for(i = 0; i < 8; ++i ) S->h[i] = blake2b_IV[i];
 
   return 0;
 }
@@ -161,11 +163,14 @@ static inline int blake2b_init0( blake2b_state *S )
 /* init xors IV with input parameter block */
 int blake2b_init_param( blake2b_state *S, const blake2b_param *P )
 {
+  size_t i = 0;
+  uint8_t *p = NULL;
+
   blake2b_init0( S );
-  uint8_t *p = ( uint8_t * )( P );
+  p = ( uint8_t * )( P );
 
   /* IV XOR ParamBlock */
-  for( size_t i = 0; i < 8; ++i )
+  for(i = 0; i < 8; ++i )
     S->h[i] ^= load64( p + sizeof( S->h[i] ) * i );
 
   return 0;
@@ -323,6 +328,7 @@ int blake2b_update( blake2b_state *S, const uint8_t *in, uint64_t inlen )
 /* Is this correct? */
 int blake2b_final( blake2b_state *S, uint8_t *out, uint8_t outlen )
 {
+  int i = 0;
   uint8_t buffer[BLAKE2B_OUTBYTES];
 
   if( S->buflen > BLAKE2B_BLOCKBYTES )
@@ -338,7 +344,7 @@ int blake2b_final( blake2b_state *S, uint8_t *out, uint8_t outlen )
   tc_memset( S->buf + S->buflen, 0, 2 * BLAKE2B_BLOCKBYTES - S->buflen ); /* Padding */
   blake2b_compress( S, S->buf );
 
-  for( int i = 0; i < 8; ++i ) /* Output full hash to temp buffer */
+  for(i = 0; i < 8; ++i ) /* Output full hash to temp buffer */
     store64( buffer + sizeof( S->h[i] ) * i, S->h[i] );
 
   tc_memcpy( out, buffer, outlen );

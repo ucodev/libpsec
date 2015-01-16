@@ -256,15 +256,21 @@
 /* --- check __int64 --- */
 
 #ifdef _UI64_MAX
-
-#if (_UI64_MAX / 0xFFFFFFFFui64 > 0xFFFFFFFFui64)
-#ifndef I64T
-#define I64T __int64
-#define U64C(v) (v##ui64)
-#endif
-
-#endif
-
+ #ifdef COMPILE_WIN32
+  #if (_UI64_MAX / 0xFFFFFFFF > 0xFFFFFFFF)
+   #ifndef I64T
+    #define I64T __int64
+    #define U64C(v) (v##ui64)
+   #endif
+  #endif
+ #else
+  #if (_UI64_MAX / 0xFFFFFFFFui64 > 0xFFFFFFFFui64)
+   #ifndef I64T
+    #define I64T __int64
+    #define U64C(v) (v##ui64)
+   #endif
+  #endif
+ #endif
 #endif
 
 /* ------------------------------------------------------------------------- */

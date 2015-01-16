@@ -30,7 +30,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+
+#include "../../../include/config.h"
+
+#ifndef COMPILE_WIN32
 #include <shadow.h>
+#endif
 
 #include "../../../include/tc.h"
 
@@ -47,20 +52,25 @@
 #define _REENTRANT
 #include <pthread.h>
 
+
 static pthread_mutex_t _auth_shadow_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 #endif
 
 int shadow_user_pass_verify(const char *username, const char *password) {
+#ifdef COMPILE_WIN32
+	errno = ENOSYS;
+	return -1;
+#else
 	int errsv = 0;
 	struct spwd *spentp = NULL;
 	size_t salt_len = 0;
 	char *salt = NULL, *local_hash = NULL, *user_hash = NULL;
-#ifdef _GNU_SOURCE
+ #ifdef _GNU_SOURCE
 	char sp_buf[8192];
 	struct spwd spent;
 	struct crypt_data cd;
-#endif
+ #endif
 
 	/* Pre-check */
 	if (!username || !password) {
@@ -68,11 +78,11 @@ int shadow_user_pass_verify(const char *username, const char *password) {
 		return -1;
 	}
 
-#if defined(_GNU_SOURCE)
+ #if defined(_GNU_SOURCE)
 	/* GNU implementations support native reentrant functions */
 	if (getspnam_r(username, &spent, sp_buf, sizeof(sp_buf), &spentp) < 0)
 		return -1;
-#else
+ #else
 	pthread_mutex_lock(&_auth_shadow_mutex);
 
 	spentp = getspnam(username);
@@ -80,7 +90,7 @@ int shadow_user_pass_verify(const char *username, const char *password) {
 	errsv = errno;
 
 	pthread_mutex_unlock(&_auth_shadow_mutex);
-#endif
+ #endif
 
 	/* Validate that spentp is valid */
 	if (!spentp) {
@@ -111,7 +121,7 @@ int shadow_user_pass_verify(const char *username, const char *password) {
 	memcpy(salt, spentp->sp_pwdp, salt_len);
 	salt[salt_len] = 0;
 
-#ifdef _GNU_SOURCE
+ #ifdef _GNU_SOURCE
 	/* cd.initialized = 0; */
 	tc_memset(&cd, 0, sizeof(struct crypt_data));
 
@@ -123,7 +133,7 @@ int shadow_user_pass_verify(const char *username, const char *password) {
 		return -1;
 	}
 
-#else
+ #else
 	pthread_mutex_lock(&_auth_shadow_mutex);
 
 	/* Generate password hash (non-reentrant) */
@@ -135,7 +145,7 @@ int shadow_user_pass_verify(const char *username, const char *password) {
 	}
 
 	pthread_mutex_unlock(&_auth_shadow_mutex);
-#endif
+ #endif
 
 	/* Free unused memory */
 	free(salt);
@@ -147,5 +157,6 @@ int shadow_user_pass_verify(const char *username, const char *password) {
 	}
 
 	return 0;
+#endif
 }
 
