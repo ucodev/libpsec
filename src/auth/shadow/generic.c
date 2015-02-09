@@ -48,12 +48,13 @@
 #endif
 
 #ifndef _GNU_SOURCE
-/* Use static mutexes for systems not supporting reentrant versions of the API */
-#include <pthread.h>
+ #if defined(COMPILE_WIN32) || defined(NO_SHADOW_H)
+  /* Use static mutexes for systems not supporting reentrant versions of the API */
+  #include <pthread.h>
 
 
-static pthread_mutex_t _auth_shadow_mutex = PTHREAD_MUTEX_INITIALIZER;
-
+  static pthread_mutex_t _auth_shadow_mutex = PTHREAD_MUTEX_INITIALIZER;
+ #endif
 #endif
 
 int shadow_user_pass_verify(const char *username, const char *password) {
