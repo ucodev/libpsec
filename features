@@ -1,141 +1,141 @@
 #!/bin/sh
 
-/bin/echo -e "\nSupported modules:\n"
+printf "\nSupported modules:\n\n"
 
 # Arch support
-/bin/echo -e \
-"         arch/mem support:\tOK"
-/bin/echo -e \
-"        arch/spec support:\tOK"
+printf \
+"         arch/mem support:\tOK\n"
+printf \
+"        arch/spec support:\tOK\n"
 
 # Auth support
-/bin/echo -ne "\n"
-/bin/echo -ne \
+echo
+printf \
 "      auth/shadow support:\t"
 
 if [ -e .lcrypt ]; then
-	/bin/echo "OK"
+	echo "OK"
 else
-	/bin/echo "Unsupported"
+	echo "Unsupported"
 fi
 
 # Crypt support
-/bin/echo -ne "\n"
+echo
 
-/bin/echo -e \
-"        crypt/aes support:\tOK"
-/bin/echo -e \
-"   crypt/blowfish support:\tOK"
-/bin/echo -e \
-"     crypt/chacha support:\tOK"
-/bin/echo -e \
-"        crypt/otp support:\tOK"
-/bin/echo -e \
-"      crypt/salsa support:\tOK"
+printf \
+"        crypt/aes support:\tOK\n"
+printf \
+"   crypt/blowfish support:\tOK\n"
+printf \
+"     crypt/chacha support:\tOK\n"
+printf \
+"        crypt/otp support:\tOK\n"
+printf \
+"      crypt/salsa support:\tOK\n"
 
 # Decode support
-/bin/echo -ne "\n"
+echo
 
-/bin/echo -e \
-"    decode/base16 support:\tOK"
-/bin/echo -e \
-"    decode/base64 support:\tOK"
+printf \
+"    decode/base16 support:\tOK\n"
+printf \
+"    decode/base64 support:\tOK\n"
 
 # Encode support
-/bin/echo -ne "\n"
+echo
 
-/bin/echo -e \
-"    encode/base16 support:\tOK"
-/bin/echo -e \
-"    encode/base64 support:\tOK"
+printf \
+"    encode/base16 support:\tOK\n"
+printf \
+"    encode/base64 support:\tOK\n"
 
 # Generate support
-/bin/echo -ne "\n"
+echo
 
-/bin/echo -e \
-"  generate/random support:\tOK"
+printf \
+"  generate/random support:\tOK\n"
 
 # Hash support
-/bin/echo -ne "\n"
+echo
 
-/bin/echo -e \
-"       hash/blake support:\tOK"
-/bin/echo -e \
-"      hash/blake2 support:\tOK"
-/bin/echo -e \
-"        hash/gost support:\tOK"
-/bin/echo -e \
-"      hash/haval* support:\tOK"
-/bin/echo -e \
-"         hash/md2 support:\tOK"
-/bin/echo -e \
-"         hash/md4 support:\tOK"
-/bin/echo -e \
-"         hash/md5 support:\tOK"
-/bin/echo -e \
-"     hash/ripemd* support:\tOK"
-/bin/echo -e \
-"        hash/sha* support:\tOK"
-/bin/echo -e \
-"      hash/tiger* support:\tOK"
-/bin/echo -e \
-"   hash/whirlpool support:\tOK"
+printf \
+"       hash/blake support:\tOK\n"
+printf \
+"      hash/blake2 support:\tOK\n"
+printf \
+"        hash/gost support:\tOK\n"
+printf \
+"      hash/haval* support:\tOK\n"
+printf \
+"         hash/md2 support:\tOK\n"
+printf \
+"         hash/md4 support:\tOK\n"
+printf \
+"         hash/md5 support:\tOK\n"
+printf \
+"     hash/ripemd* support:\tOK\n"
+printf \
+"        hash/sha* support:\tOK\n"
+printf \
+"      hash/tiger* support:\tOK\n"
+printf \
+"   hash/whirlpool support:\tOK\n"
 
 # KDF support
-/bin/echo -ne "\n"
+echo
 
-/bin/echo -e \
-"       kdf/bcrypt support:\tOK"
-/bin/echo -e \
-"         kdf/hkdf support:\tOK"
-/bin/echo -e \
-"       kdf/pbkdf1 support:\tOK"
-/bin/echo -e \
-"       kdf/pbkdf2 support:\tOK"
-/bin/echo -e \
-"       kdf/scrypt support:\tOK"
+printf \
+"       kdf/bcrypt support:\tOK\n"
+printf \
+"         kdf/hkdf support:\tOK\n"
+printf \
+"       kdf/pbkdf1 support:\tOK\n"
+printf \
+"       kdf/pbkdf2 support:\tOK\n"
+printf \
+"       kdf/scrypt support:\tOK\n"
 
 # KE support
-/bin/echo -ne "\n"
+echo
 
-/bin/echo -e \
-"        ke/chreke support:\tOK"
-/bin/echo -ne \
+printf \
+"        ke/chreke support:\tOK\n"
+printf \
 "            ke/dh support:\t"
 
 if [ -e .lgmp ]; then
-	/bin/echo "OK"
+	echo "OK"
 else
-	/bin/echo "Unsupported"
+	echo "Unsupported"
 fi
 
-/bin/echo -ne \
+printf \
 "         ke/dheke support:\t"
 
 if [ -e .lgmp ]; then
-	/bin/echo "OK"
+	echo "OK"
 else
-	/bin/echo "Unsupported"
+	echo "Unsupported"
 fi
 
-/bin/echo -e \
-"          ke/ecdh support:\tOK"
+printf \
+"          ke/ecdh support:\tOK\n"
 
 # MAC support
-/bin/echo -ne "\n"
+echo
 
-/bin/echo -e \
-"         mac/hmac support:\tOK"
-/bin/echo -e \
-"     mac/poly1305 support:\tOK"
+printf \
+"         mac/hmac support:\tOK\n"
+printf \
+"     mac/poly1305 support:\tOK\n"
 
 
 # TC support
-/bin/echo -ne "\n"
+echo
 
-/bin/echo -e \
-"           tc/mem support:\tOK"
+printf \
+"           tc/mem support:\tOK\n"
 
 ## DONE ##
-/bin/echo -ne "\n"
+echo
 

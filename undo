@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
 make clean
 
 rm -f .compiler
-rm -f .defines
-rm -f .done
 rm -f .archflags
 rm -f .target
+rm -f .defines
+rm -f .done
 rm -f .l*
 rm -rf build
