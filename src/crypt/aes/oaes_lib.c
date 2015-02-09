@@ -40,7 +40,6 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <time.h> 
-#include <sys/timeb.h>
 #include <string.h>
 
 #include "crypt/aes/oaes_lib.h"
