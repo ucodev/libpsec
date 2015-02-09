@@ -10,11 +10,11 @@
 if [ `uname` = "Linux" ]; then
 	echo "-D_GNU_SOURCE -D_XOPEN_SOURCE=700" > .defines
 elif [ `uname` = "Darwin" ]; then
-	echo "-D_XOPEN_SOURCE=700" > .defines
+	echo "-D_XOPEN_SOURCE=700 -DNO_SHADOW_H=1" > .defines
 elif [ `uname` = "FreeBSD" ]; then
-	echo "-D_XOPEN_SOURCE=700" > .defines
+	echo "-D_XOPEN_SOURCE=700 -DNO_SHADOW_H=1" > .defines
 elif [ `uname` = "OpenBSD" ]; then
-	echo "-D_XOPEN_SOURCE=700" > .defines
+	echo "-D_XOPEN_SOURCE=700 -DNO_SHADOW_H=1" > .defines
 fi
 
 echo "" >> .defines

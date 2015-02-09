@@ -33,7 +33,7 @@
 
 #include "../../../include/config.h"
 
-#ifndef COMPILE_WIN32
+#if !defined(COMPILE_WIN32) && !defined(NO_SHADOW_H)
 #include <shadow.h>
 #endif
 
@@ -57,7 +57,7 @@ static pthread_mutex_t _auth_shadow_mutex = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
 int shadow_user_pass_verify(const char *username, const char *password) {
-#ifdef COMPILE_WIN32
+#if defined(COMPILE_WIN32) || defined(NO_SHADOW_H)
 	errno = ENOSYS;
 	return -1;
 #else
