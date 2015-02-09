@@ -48,10 +48,9 @@
 #endif
 
 #ifndef _GNU_SOURCE
- #if defined(COMPILE_WIN32) || defined(NO_SHADOW_H)
+ #if !defined(COMPILE_WIN32) && !defined(NO_SHADOW_H)
   /* Use static mutexes for systems not supporting reentrant versions of the API */
   #include <pthread.h>
-
 
   static pthread_mutex_t _auth_shadow_mutex = PTHREAD_MUTEX_INITIALIZER;
  #endif
