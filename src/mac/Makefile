@@ -9,12 +9,12 @@ OBJS=generic.o
 TARGET=mac.o
 
 all:
-	make -C hmac/
-	make -C poly1305/ 
+	cd hmac && make && cd ..
+	cd poly1305 && make && cd ..
 	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
-	make -C hmac/ clean
-	make -C poly1305/ clean
+	cd hmac && make clean && cd ..
+	cd poly1305 && make clean && cd ..
 	rm -f ${OBJS} ${TARGET}

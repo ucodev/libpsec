@@ -9,18 +9,18 @@ OBJS=generic.o
 TARGET=kdf.o
 
 all:
-	make -C bcrypt/
-	make -C hkdf/
-	make -C pbkdf1/
-	make -C pbkdf2/
-	make -C scrypt/
+	cd bcrypt && make && cd ..
+	cd hkdf && make && cd ..
+	cd pbkdf1 && make && cd ..
+	cd pbkdf2 && make && cd ..
+	cd scrypt && make && cd ..
 	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
-	make -C bcrypt/ clean
-	make -C hkdf/ clean
-	make -C pbkdf1/ clean
-	make -C pbkdf2/ clean
-	make -C scrypt/ clean
+	cd bcrypt && make clean && cd ..
+	cd hkdf && make clean && cd ..
+	cd pbkdf1 && make clean && cd ..
+	cd pbkdf2 && make clean && cd ..
+	cd scrypt && make clean && cd ..
 	rm -f ${OBJS} ${TARGET}

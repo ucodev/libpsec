@@ -9,10 +9,10 @@ OBJS=generic.o
 TARGET=tc.o
 
 all:
-	make -C mem/
+	cd mem && make && cd ..
 	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
-	make -C mem/ clean
+	cd mem && make clean && cd ..
 	rm -f ${OBJS} ${TARGET}

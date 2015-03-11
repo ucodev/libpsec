@@ -9,12 +9,12 @@ OBJS=generic.o
 TARGET=arch.o
 
 all:
-	make -C mem/
-	make -C spec/
+	cd mem && make && cd ..
+	cd spec && make && cd ..
 	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
-	make -C mem/ clean
-	make -C spec/ clean
+	cd mem && make clean && cd ..
+	cd spec && make clean && cd ..
 	rm -f ${OBJS} ${TARGET}

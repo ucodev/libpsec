@@ -9,10 +9,10 @@ OBJS=generic.o
 TARGET=generate.o
 
 all:
-	make -C random/
+	cd random && make && cd ..
 	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
-	make -C random/ clean
+	cd random && make clean && cd ..
 	rm -f ${OBJS} ${TARGET}

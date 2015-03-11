@@ -9,32 +9,32 @@ OBJS=generic.o low.o
 TARGET=hash.o
 
 all:
-	make -C blake/
-	make -C blake2/
-	make -C gost/
-	make -C haval/
-	make -C md2/
-	make -C md4/
-	make -C md5/
-	make -C ripemd/
-	make -C sha/
-	make -C tiger/
-	make -C whirlpool/
+	cd blake && make && cd ..
+	cd blake2 && make && cd ..
+	cd gost && make && cd ..
+	cd haval && make && cd ..
+	cd md2 && make && cd ..
+	cd md4 && make && cd ..
+	cd md5 && make && cd ..
+	cd ripemd && make && cd ..
+	cd sha && make && cd ..
+	cd tiger && make && cd ..
+	cd whirlpool && make && cd ..
 	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c low.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
-	make -C blake/ clean
-	make -C blake2/ clean
-	make -C gost/ clean
-	make -C haval/ clean
-	make -C md2/ clean
-	make -C md4/ clean
-	make -C md5/ clean
-	make -C ripemd/ clean
-	make -C sha/ clean
-	make -C tiger/ clean
-	make -C whirlpool/ clean
+	cd blake && make clean && cd ..
+	cd blake2 && make clean && cd ..
+	cd gost && make clean && cd ..
+	cd haval && make clean && cd ..
+	cd md2 && make clean && cd ..
+	cd md4 && make clean && cd ..
+	cd md5 && make clean && cd ..
+	cd ripemd && make clean && cd ..
+	cd sha && make clean && cd ..
+	cd tiger && make clean && cd ..
+	cd whirlpool && make clean && cd ..
 	rm -f ${OBJS} ${TARGET}
 

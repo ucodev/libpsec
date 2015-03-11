@@ -5,30 +5,30 @@ OBJS=arch/arch.o auth/auth.o crypt/crypt.o decode/decode.o encode/encode.o gener
 TARGET=libpsec.so
 
 all:
-	make -C arch/
-	make -C auth/
-	make -C crypt/
-	make -C decode/
-	make -C encode/
-	make -C generate/
-	make -C hash/
-	make -C kdf/
-	make -C ke/
-	make -C mac/
-	make -C tc/
+	cd arch && make && cd ..
+	cd auth && make && cd ..
+	cd crypt && make && cd ..
+	cd decode && make && cd ..
+	cd encode && make && cd ..
+	cd generate && make && cd ..
+	cd hash && make && cd ..
+	cd kdf && make && cd ..
+	cd ke && make && cd ..
+	cd mac && make && cd ..
+	cd tc && make && cd ..
 	${CC} -o ${TARGET} ${OBJS} ${LDFLAGS}
 
 clean:
-	make -C arch/ clean
-	make -C auth/ clean
-	make -C crypt/ clean
-	make -C decode/ clean
-	make -C encode/ clean
-	make -C generate/ clean
-	make -C hash/ clean
-	make -C kdf/ clean
-	make -C ke/ clean
-	make -C mac/ clean
-	make -C tc/ clean
+	cd arch && make clean && cd ..
+	cd auth && make clean && cd ..
+	cd crypt && make clean && cd ..
+	cd decode && make clean && cd ..
+	cd encode && make clean && cd ..
+	cd generate && make clean && cd ..
+	cd hash && make clean && cd ..
+	cd kdf && make clean && cd ..
+	cd ke && make clean && cd ..
+	cd mac && make clean && cd ..
+	cd tc && make clean && cd ..
 	rm -f ${TARGET}
 

@@ -9,16 +9,16 @@ OBJS=generic.o
 TARGET=ke.o
 
 all:
-	make -C chreke/
-	make -C dh/
-	make -C dheke/
-	make -C ecdh/
+	cd chreke && make && cd ..
+	cd dh && make && cd ..
+	cd dheke && make && cd ..
+	cd ecdh && make && cd ..
 	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
-	make -C chreke/ clean
-	make -C dh/ clean
-	make -C dheke/ clean
-	make -C ecdh/ clean
+	cd chreke && make clean && cd ..
+	cd dh && make clean && cd ..
+	cd dheke && make clean && cd ..
+	cd ecdh && make clean && cd ..
 	rm -f ${OBJS} ${TARGET}

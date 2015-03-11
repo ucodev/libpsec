@@ -9,10 +9,10 @@ OBJS=generic.o
 TARGET=auth.o
 
 all:
-	make -C shadow/
+	cd shadow && make && cd ..
 	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
-	make -C shadow/ clean
+	cd shadow && make clean && cd ..
 	rm -f ${OBJS} ${TARGET}

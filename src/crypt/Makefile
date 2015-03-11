@@ -9,18 +9,18 @@ OBJS=generic.o
 TARGET=crypt.o
 
 all:
-	make -C aes/
-	make -C blowfish/
-	make -C chacha/
-	make -C otp/
-	make -C salsa/
+	cd aes && make && cd ..
+	cd blowfish && make && cd ..
+	cd chacha && make && cd ..
+	cd otp && make && cd ..
+	cd salsa && make && cd ..
 	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
-	make -C aes/ clean
-	make -C blowfish/ clean
-	make -C chacha/ clean
-	make -C otp/ clean
-	make -C salsa/ clean
+	cd aes && make clean && cd ..
+	cd blowfish && make clean && cd ..
+	cd chacha && make clean && cd ..
+	cd otp && make clean && cd ..
+	cd salsa && make clean && cd ..
 	rm -f ${OBJS} ${TARGET}
