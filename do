@@ -15,6 +15,8 @@ elif [ `uname` = "FreeBSD" ]; then
 	echo "-D_XOPEN_SOURCE=700 -DNO_SHADOW_H=1" > .defines
 elif [ `uname` = "OpenBSD" ]; then
 	echo "-D_XOPEN_SOURCE=700 -DNO_SHADOW_H=1" > .defines
+elif [ `uname` = "Minix" ]; then
+	echo "-D_XOPEN_SOURCE=700 -DNO_SHADOW_H=1" > .defines
 fi
 
 echo "" >> .defines
