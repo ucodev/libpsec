@@ -1,6 +1,6 @@
 CC=`cat ../../.compiler`
 DEFINES=`cat ../../.defines`
-LD=/usr/bin/ld
+LD=ld
 CCFLAGS=-g -std=c99 -O2 -Wall -Werror -fPIC
 ARCHFLAGS=`cat ../../.archflags`
 INCLUDEDIRS=-I../../include
