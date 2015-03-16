@@ -1,14 +1,14 @@
 CC=`cat ../../../.compiler`
-DEFINES=`cat ../../../.defines`
-CCFLAGS=-g -O2 -Wall -Werror -fPIC
+CCFLAGS=
+ECFLAGS=`cat ../../../.ecflags`
 ARCHFLAGS=`cat ../../../.archflags`
 OBJS=generic.o low.o whirlpool.o
 INCLUDEDIRS=-I../../../include
 
 all:
-	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
-	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c low.c
-	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c whirlpool.c
+	${CC} ${ECFLAGS} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${ECFLAGS} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c low.c
+	${CC} ${ECFLAGS} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c whirlpool.c
 
 clean:
 	rm -f ${OBJS}

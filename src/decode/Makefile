@@ -1,7 +1,7 @@
 CC=`cat ../../.compiler`
-DEFINES=`cat ../../.defines`
-LD=ld
-CCFLAGS=-g -O2 -Wall -fPIC
+LD=`cat ../../.olinker`
+CCFLAGS=
+ECFLAGS=`cat ../../.ecflags`
 ARCHFLAGS=`cat ../../.archflags`
 INCLUDEDIRS=-I../../include
 OBJS_COMMON=./base16/*.o ./base64/*.o
@@ -11,7 +11,7 @@ TARGET=decode.o
 all:
 	cd base16 && make && cd ..
 	cd base64 && make && cd ..
-	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${ECFLAGS} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:

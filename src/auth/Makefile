@@ -1,7 +1,7 @@
 CC=`cat ../../.compiler`
-DEFINES=`cat ../../.defines`
-LD=ld
-CCFLAGS=-g -O2 -Wall -Werror -fPIC
+LD=`cat ../../.olinker`
+CCFLAGS=
+ECFLAGS=`cat ../../.ecflags`
 ARCHFLAGS=`cat ../../.archflags`
 INCLUDEDIRS=-I../../include
 OBJS_COMMON=./shadow/*.o
@@ -10,7 +10,7 @@ TARGET=auth.o
 
 all:
 	cd shadow && make && cd ..
-	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${ECFLAGS} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:

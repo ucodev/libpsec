@@ -1,7 +1,7 @@
 CC=`cat ../../.compiler`
-DEFINES=`cat ../../.defines`
-LD=ld
-CCFLAGS=-g -O2 -Wall -Werror -fPIC
+LD=`cat ../../.olinker`
+CCFLAGS=
+ECFLAGS=`cat ../../.ecflags`
 ARCHFLAGS=`cat ../../.archflags`
 INCLUDEDIRS=-I../../include
 OBJS_COMMON=./hmac/*.o ./poly1305/*.o
@@ -11,7 +11,7 @@ TARGET=mac.o
 all:
 	cd hmac && make && cd ..
 	cd poly1305 && make && cd ..
-	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${ECFLAGS} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:

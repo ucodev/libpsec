@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        HASH Low Level interface header
  *
- * Date: 16-01-2015
+ * Date: 16-03-2015
  *
  * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -32,7 +32,7 @@
 
 #include <stdint.h>
 
-#include "config.h"
+#include "../config.h"
 
 #include "blake/low.h"
 #include "blake2/low.h"

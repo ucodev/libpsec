@@ -1,6 +1,7 @@
 CC=`cat ../.compiler`
 CCFLAGS=
 LDFLAGS=-shared
+ELFLAGS=`cat ../.elflags`
 OBJS=arch/arch.o auth/auth.o crypt/crypt.o decode/decode.o encode/encode.o generate/generate.o hash/hash.o kdf/kdf.o ke/ke.o mac/mac.o tc/tc.o
 TARGET=libpsec.so
 
@@ -16,7 +17,7 @@ all:
 	cd ke && make && cd ..
 	cd mac && make && cd ..
 	cd tc && make && cd ..
-	${CC} -o ${TARGET} ${OBJS} ${LDFLAGS}
+	${CC} -o ${TARGET} ${OBJS} ${LDFLAGS} ${ELFLAGS}
 
 clean:
 	cd arch && make clean && cd ..

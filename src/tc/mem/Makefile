@@ -1,12 +1,12 @@
 CC=`cat ../../../.compiler`
-DEFINES=`cat ../../../.defines`
-CCFLAGS=-g -O0 -Wall -Werror -fPIC
+CCFLAGS=-O0
+ECFLAGS=`cat ../../../.ecflags`
 ARCHFLAGS=`cat ../../../.archflags`
 OBJS=generic.o
 INCLUDEDIRS=-I../../../include
 
 all:
-	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${ECFLAGS} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 
 clean:
 	rm -f ${OBJS}

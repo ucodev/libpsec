@@ -1,7 +1,7 @@
 CC=`cat ../../.compiler`
-DEFINES=`cat ../../.defines`
-LD=ld
-CCFLAGS=-g -O2 -Wall -Werror -fPIC
+LD=`cat ../../.olinker`
+CCFLAGS=
+ECFLAGS=`cat ../../.ecflags`
 ARCHFLAGS=`cat ../../.archflags`
 INCLUDEDIRS=-I../../include
 OBJS_COMMON=./aes/*.o ./blowfish/*.o ./chacha/*.o ./otp/*.o ./salsa/*.o
@@ -14,7 +14,7 @@ all:
 	cd chacha && make && cd ..
 	cd otp && make && cd ..
 	cd salsa && make && cd ..
-	${CC} ${DEFINES} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
+	${CC} ${ECFLAGS} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c
 	${LD} -r ${OBJS_COMMON} ${OBJS} -o ${TARGET}
 
 clean:
@@ -24,3 +24,4 @@ clean:
 	cd otp && make clean && cd ..
 	cd salsa && make clean && cd ..
 	rm -f ${OBJS} ${TARGET}
+

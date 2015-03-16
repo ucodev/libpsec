@@ -1,0 +1,1 @@
+-std=c99 -fPIC -fstrict-aliasing -pedantic -O2 -Wall -Werror -g
