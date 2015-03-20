@@ -67,3 +67,4 @@ if [ -e ./uconf/params/`cat .osname`/optlibs ]; then
 	echo ""
 fi
 
+touch .libs
