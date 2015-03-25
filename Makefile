@@ -16,7 +16,7 @@ all:
 install_all:
 	mkdir -p ${SYSLIBDIR}
 	mkdir -p ${SYSINCLUDEDIR}/psec
-	cp src/libpsec.`cat .extlib` ${SYSLIBDIR}/
+	cp src/libpsec.* ${SYSLIBDIR}/
 	cp -r include/* ${SYSINCLUDEDIR}/psec/
 
 clean:
