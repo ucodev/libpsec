@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Encrypted Key Exchange [DH-EKE] interface header
  *
- * Date: 24-08-2014
+ * Date: 26-03-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -32,9 +32,15 @@
 #include <stdio.h>
 
 /* Structures */
-#pragma pack(push)
-#pragma pack(1)
-struct dheke_context {
+#ifndef PSEC_NO_PRAGMA_PACK
+ #pragma pack(push)
+ #pragma pack(1)
+#endif
+struct
+#ifdef PSEC_NO_PRAGMA_PACK
+__attribute__ ((packed, aligned(1)))
+#endif
+dheke_context {
 	unsigned char *pwd;
 	size_t pwd_len;
 	unsigned char *salt;
@@ -50,7 +56,9 @@ struct dheke_context {
 	size_t pub_len;
 	unsigned int use_mac;
 };
-#pragma pack(pop)
+#ifndef PSEC_NO_PRAGMA_PACK
+ #pragma pack(pop)
+#endif
 
 /* Sizes */
 #define DHEKE_CONTEXT_SIZE		sizeof(struct dheke_context)

@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Key Exchange [CHREKE] interface header
  *
- * Date: 14-09-2014
+ * Date: 26-03-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -32,9 +32,15 @@
 #include <stdio.h>
 
 /* Structures */
-#pragma pack(push)
-#pragma pack(1)
-struct chreke_context {
+#ifndef PSEC_NO_PRAGMA_PACK
+ #pragma pack(push)
+ #pragma pack(1)
+#endif
+struct
+#ifdef PSEC_NO_PRAGMA_PACK
+__attribute__ ((packed, aligned(1)))
+#endif
+chreke_context {
 	unsigned char private[32];
 	unsigned char shared[32];
 	unsigned char c_public[32];
@@ -43,7 +49,9 @@ struct chreke_context {
 	unsigned char pwhash[64];
 	char password[256];
 };
-#pragma pack(pop)
+#ifndef PSEC_NO_PRAGMA_PACK
+ #pragma pack(pop)
+#endif
 
 /* Sizes */
 #define CHREKE_KEY_SIZE		32

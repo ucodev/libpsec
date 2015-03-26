@@ -50,7 +50,7 @@ extern "C" {
 #endif
   typedef struct 
 #ifdef PSEC_NO_PRAGMA_PACK
-  __attribute__ ((__packed__))
+  __attribute__ ((packed, aligned(1)))
 #endif
   __blake2s_param
   {
@@ -69,7 +69,7 @@ extern "C" {
 
   ALIGN( 64 ) typedef struct 
 #ifdef PSEC_NO_PRAGMA_PACK
-  __attribute__ ((__packed__))
+  __attribute__ ((packed, aligned(1)))
 #endif
   __blake2s_state
   {
@@ -83,7 +83,7 @@ extern "C" {
 
   typedef struct
 #ifdef PSEC_NO_PRAGMA_PACK
-  __attribute__ ((__packed__))
+  __attribute__ ((packed, aligned(1)))
 #endif
   __blake2b_param
   {
@@ -102,7 +102,7 @@ extern "C" {
 
   ALIGN( 64 ) typedef struct
 #ifdef PSEC_NO_PRAGMA_PACK
-  __attribute__ ((__packed__))
+  __attribute__ ((packed, aligned(1)))
 #endif
   __blake2b_state
   {
@@ -116,7 +116,7 @@ extern "C" {
 
   typedef struct
 #ifdef PSEC_NO_PRAGMA_PACK
-  __attribute__ ((__packed__))
+  __attribute__ ((packed, aligned(1)))
 #endif
   __blake2sp_state
   {
@@ -128,7 +128,7 @@ extern "C" {
 
   typedef struct
 #ifdef PSEC_NO_PRAGMA_PACK
-  __attribute__ ((__packed__))
+  __attribute__ ((packed, aligned(1)))
 #endif
   __blake2bp_state
   {
