@@ -45,8 +45,14 @@ extern "C" {
     BLAKE2B_PERSONALBYTES = 16
   };
 
-#pragma pack(push, 1)
-  typedef struct __blake2s_param
+#ifndef PSEC_NO_PRAGMA_PACK
+ #pragma pack(push, 1)
+#endif
+  typedef struct 
+#ifdef PSEC_NO_PRAGMA_PACK
+  __attribute__ ((__packed__))
+#endif
+  __blake2s_param
   {
     uint8_t  digest_length; // 1
     uint8_t  key_length;    // 2
@@ -61,7 +67,11 @@ extern "C" {
     uint8_t  personal[BLAKE2S_PERSONALBYTES];  // 32
   } blake2s_param;
 
-  ALIGN( 64 ) typedef struct __blake2s_state
+  ALIGN( 64 ) typedef struct 
+#ifdef PSEC_NO_PRAGMA_PACK
+  __attribute__ ((__packed__))
+#endif
+  __blake2s_state
   {
     uint32_t h[8];
     uint32_t t[2];
@@ -71,7 +81,11 @@ extern "C" {
     uint8_t  last_node;
   } blake2s_state ;
 
-  typedef struct __blake2b_param
+  typedef struct
+#ifdef PSEC_NO_PRAGMA_PACK
+  __attribute__ ((__packed__))
+#endif
+  __blake2b_param
   {
     uint8_t  digest_length; // 1
     uint8_t  key_length;    // 2
@@ -86,7 +100,11 @@ extern "C" {
     uint8_t  personal[BLAKE2B_PERSONALBYTES];  // 64
   } blake2b_param;
 
-  ALIGN( 64 ) typedef struct __blake2b_state
+  ALIGN( 64 ) typedef struct
+#ifdef PSEC_NO_PRAGMA_PACK
+  __attribute__ ((__packed__))
+#endif
+  __blake2b_state
   {
     uint64_t h[8];
     uint64_t t[2];
@@ -96,7 +114,11 @@ extern "C" {
     uint8_t  last_node;
   } blake2b_state;
 
-  typedef struct __blake2sp_state
+  typedef struct
+#ifdef PSEC_NO_PRAGMA_PACK
+  __attribute__ ((__packed__))
+#endif
+  __blake2sp_state
   {
     blake2s_state S[8][1];
     blake2s_state R[1];
@@ -104,14 +126,20 @@ extern "C" {
     size_t  buflen;
   } blake2sp_state;
 
-  typedef struct __blake2bp_state
+  typedef struct
+#ifdef PSEC_NO_PRAGMA_PACK
+  __attribute__ ((__packed__))
+#endif
+  __blake2bp_state
   {
     blake2b_state S[4][1];
     blake2b_state R[1];
     uint8_t buf[4 * BLAKE2B_BLOCKBYTES];
     size_t  buflen;
   } blake2bp_state;
-#pragma pack(pop)
+#ifndef PSEC_NO_PRAGMA_PACK
+ #pragma pack(pop)
+#endif
 
   // Streaming API
   int blake2s_init( blake2s_state *S, const uint8_t outlen );
