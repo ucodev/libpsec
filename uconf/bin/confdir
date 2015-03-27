@@ -25,11 +25,11 @@
 #
 
 ## Preload ##
-if [ -e ./uconf/params/default/preload ]; then
+if [ -e "./uconf/params/default/preload" ]; then
 	. ./uconf/params/default/preload
 fi
 
-if [ -e ./uconf/params/`uname`/preload ]; then
+if [ -e "./uconf/params/`uname`/preload" ]; then
 	. ./uconf/params/`uname`/preload
 fi
 
@@ -39,7 +39,7 @@ if [ ${#} -ne 2 ]; then
 	exit 1;
 fi
 
-if [ ! -e uconf/params/user/dir ]; then
+if [ ! -e "./uconf/params/user/dir" ]; then
 	mkdir -p uconf/params/user/dir
 fi
 

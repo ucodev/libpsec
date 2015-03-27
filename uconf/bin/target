@@ -25,11 +25,11 @@
 #
 
 ## Preload ##
-if [ -e ./uconf/params/default/preload ]; then
+if [ -e "./uconf/params/default/preload" ]; then
 	. ./uconf/params/default/preload
 fi
 
-if [ -e ./uconf/params/`uname`/preload ]; then
+if [ -e "./uconf/params/`uname`/preload" ]; then
 	. ./uconf/params/`uname`/preload
 fi
 
