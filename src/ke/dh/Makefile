@@ -6,7 +6,7 @@ OBJS=generic.o nop.o
 INCLUDEDIRS=-I../../../include
 
 all:
-	@/bin/sh -c 'if [ -e ../../../.lgmp ]; then make all_good; else make all_nop; fi'
+	@/tmp/uconfsh -c 'if [ -e ../../../.lgmp ]; then make all_good; else make all_nop; fi'
 
 all_good:
 	${CC} ${ECFLAGS} ${CCFLAGS} ${ARCHFLAGS} ${INCLUDEDIRS} -c generic.c

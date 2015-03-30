@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/tmp/uconfsh
 
 printf "\nSupported modules:\n\n"
 

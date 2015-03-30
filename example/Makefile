@@ -2,8 +2,8 @@ CC=`cat ../.compiler`
 LDFLAGS=-lpsec `cat ../.libs`
 
 all:
-	/bin/sh -c 'if [ -e ../.lgmp ]; then ${CC} -o ke_dh ke_dh.c ${LDFLAGS}; fi'
-	/bin/sh -c 'if [ -e ../.lcrypt ]; then ${CC} -o auth_shadow auth_shadow.c ${LDFLAGS}; fi'
+	/tmp/uconfsh -c 'if [ -e ../.lgmp ]; then ${CC} -o ke_dh ke_dh.c ${LDFLAGS}; fi'
+	/tmp/uconfsh -c 'if [ -e ../.lcrypt ]; then ${CC} -o auth_shadow auth_shadow.c ${LDFLAGS}; fi'
 	${CC} -o encode_base16 encode_base16.c ${LDFLAGS}
 	${CC} -o encode_base16_small_buf encode_base16_small_buf.c ${LDFLAGS}
 	${CC} -o encode_base64 encode_base64.c ${LDFLAGS}
