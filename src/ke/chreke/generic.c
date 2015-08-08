@@ -3,9 +3,9 @@
  * @brief PSEC Library
  *        Key Exhange [CHREKE] interface 
  *
- * Date: 14-09-2014
+ * Date: 08-08-2015
  *
- * Copyright 2014 Pedro A. Hortas (pah@ucodev.org)
+ * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -63,7 +63,7 @@ unsigned char *chreke_client_init(
 	ke_ecdh_public(ctx->c_public, sizeof(ctx->c_public), ctx->private, sizeof(ctx->private));
 
 	/* Generate the password hash */
-	if (!kdf_pbkdf2_sha512(ctx->pwhash, (unsigned char *) password, strlen(password), salt, salt_len, rounds, HASH_DIGEST_SIZE_SHA512) < 0)
+	if (!kdf_pbkdf2_sha512(ctx->pwhash, (unsigned char *) password, strlen(password), salt, salt_len, rounds, HASH_DIGEST_SIZE_SHA512))
 		return NULL;
 
 	/* Generate a pseudo random token */
@@ -257,7 +257,7 @@ int chreke_server_authorize(
 	pw_len = pw_payload[0];
 	
 	/* Generate the password hash */
-	if (!kdf_pbkdf2_sha512(pwhash_c, (unsigned char *) password, pw_len, salt, salt_len, rounds, HASH_DIGEST_SIZE_SHA512) < 0)
+	if (!kdf_pbkdf2_sha512(pwhash_c, (unsigned char *) password, pw_len, salt, salt_len, rounds, HASH_DIGEST_SIZE_SHA512))
 		return -1;
 
 	/* Compare hashes */
