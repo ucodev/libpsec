@@ -3,7 +3,7 @@
  * @brief PSEC Library
  *        Key Exhange [CHREKE] interface 
  *
- * Date: 08-08-2015
+ * Date: 15-12-2015
  *
  * Copyright 2014-2015 Pedro A. Hortas (pah@ucodev.org)
  *
@@ -144,7 +144,7 @@ unsigned char *chreke_server_init(
 	}
 
 	/* Encrypt client token with shared key */
-	if (!crypt_encrypt_otp(server_session + sizeof(ctx->s_public), &out_len, ctx->c_token, sizeof(ctx->s_public), NULL, ctx->shared)) {
+	if (!crypt_encrypt_otp(server_session + sizeof(ctx->s_public), &out_len, ctx->c_token, sizeof(ctx->s_public), NULL, ctx->s_public)) {
 		errsv = errno;
 		if (session_alloc) free(server_session);
 		errno = errsv;
@@ -177,7 +177,7 @@ unsigned char *chreke_client_authorize(
 		return NULL;
 
 	/* Decrypt client token */
-	if (!crypt_decrypt_otp(c_token, &out_len, server_session + sizeof(ctx->c_public), sizeof(ctx->c_token), NULL, ctx->shared))
+	if (!crypt_decrypt_otp(c_token, &out_len, server_session + sizeof(ctx->c_public), sizeof(ctx->c_token), NULL, ctx->s_public))
 		return NULL;
 
 	/* Compare the received token with the locally generated token */
