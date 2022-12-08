@@ -1,8 +1,13 @@
-1. Notes
+## Summary
+
+The main purpose of this project was to integrate a series of cryptographic modules into a simplified and portable library to be used in embedded devices with limited resources.
+Some modules are modified versions from third party projects, others were developed from scratch.
+
+## Notes
 
  - This project is on its alpha stage of development.
 
-2. Listing of the supported modules
+## Listing of the supported modules
 
          arch/mem support:	OK
         arch/spec support:	OK
