@@ -1,6 +1,4 @@
 
-README
-
 ## Summary
 
 The main purpose of this project was to integrate a series of cryptographic modules into a simplified and portable library to be used in embedded devices with limited resources.
